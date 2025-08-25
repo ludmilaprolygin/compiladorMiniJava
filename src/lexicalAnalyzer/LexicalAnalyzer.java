@@ -1,10 +1,12 @@
 package lexicalAnalyzer;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import sourceManager.SourceManager;
 
 import utils.Token;
+import utils.TokenType;
 import utils.messages.LexicalErrorMessage;
 import utils.messages.GenericErrorMessage;
 
@@ -49,11 +51,11 @@ public class LexicalAnalyzer {
     }
 
     private Token e0() throws LexicalException {
-        if (Character.isWhitespace(currentChar)){
+        if (Character.isWhitespace(currentChar)) {
             updateCurrentChar();
             return e0();
         }
-        else if (Character.isLetter(currentChar)){
+        else if (Character.isLetter(currentChar)) {
             if (Character.isUpperCase(currentChar)) {
                 updateLexeme();
                 updateCurrentChar();
@@ -65,29 +67,103 @@ public class LexicalAnalyzer {
                 return idMetVar();
             }
         }
-        else if (Character.isDigit(currentChar)){
+        else if (Character.isDigit(currentChar)) {
             updateLexeme();
             updateCurrentChar();
             return intLiteral();
         }
-        else if (currentChar == '\''){
+        else if (currentChar == '\'') {
             updateLexeme();
             updateCurrentChar();
             return charLiteral();
         }
-        else if (currentChar == '"'){
+        else if (currentChar == '"') {
             updateLexeme();
             updateCurrentChar();
             return stringLiteral();
         }
-        else if (currentChar == '/'){
+        else if (currentChar == '/') {
             updateLexeme();
             updateCurrentChar();
             return slashSymbol();
         }
+        else if (currentChar == '>') {
+            updateLexeme();
+            updateCurrentChar();
+            return greaterSymbol();
+        }
+        else if (currentChar == '<') {
+            updateLexeme();
+            updateCurrentChar();
+            return lesserSymbol();
+        }
+        else if (currentChar == '!') {
+            updateLexeme();
+            updateCurrentChar();
+            return notSymbol();
+        }
+        else if (currentChar == '=') {
+            updateLexeme();
+            updateCurrentChar();
+            return equalSymbol();
+        }
+//        else if (currentChar == '&') {}
+//        else if (currentChar == '|') {}
+
+        else if (currentChar == '%') {
+            updateLexeme();
+            return new Token(modOp, lexeme, row);
+        }
+        else if (currentChar == '+') {
+            updateLexeme();
+            updateCurrentChar();
+            return plusSymbol();
+        }
+        else if (currentChar == '-') {
+            updateLexeme();
+            updateCurrentChar();
+            return minusSymbol();
+        }
+
+        else if (currentChar == '*') {
+            updateLexeme();
+            return new Token(multOp, lexeme, row);
+        }
+        else if (currentChar == '(') {
+            updateLexeme();
+            return new Token(openParenthesis, lexeme, row);
+        }
+        else if (currentChar == ')') {
+            updateLexeme();
+            return new Token(closeParenthesis, lexeme, row);
+        }
+        else if (currentChar == '{') {
+            updateLexeme();
+            return new Token(openBracket, lexeme, row);
+        }
+        else if (currentChar == '}') {
+            updateLexeme();
+            return new Token(closeBracket, lexeme, row);
+        }
+        else if (currentChar == ';') {
+            updateLexeme();
+            return new Token(semicolon, lexeme, row);
+        }
+        else if (currentChar == ',') {
+            updateLexeme();
+            return new Token(comma, lexeme, row);
+        }
+        else if (currentChar == '.') {
+            updateLexeme();
+            return new Token(dot, lexeme, row);
+        }
+        else if (currentChar == ':') {
+            updateLexeme();
+            return new Token(colon, lexeme, row);
+        }
         else if (SourceManager.END_OF_FILE == currentChar){
             updateLexeme();
-            return new Token(END_OF_FILE, lexeme, row);
+            return new Token(END_OF_FILE, "EOF", row);
         }
         else {
             updateLexeme();
@@ -96,7 +172,7 @@ public class LexicalAnalyzer {
     }
 
     private Token idClase() {
-        if (Character.isLetter(currentChar) || Character.isDigit(currentChar) || currentChar == '_'){
+        if (Character.isLetter(currentChar) || Character.isDigit(currentChar) || currentChar == '_') {
             updateLexeme();
             updateCurrentChar();
             return idClase();
@@ -107,13 +183,19 @@ public class LexicalAnalyzer {
     }
 
     private Token idMetVar() {
-        if (Character.isLetter(currentChar) || Character.isDigit(currentChar) || currentChar == '_'){
+        if (Character.isLetter(currentChar) || Character.isDigit(currentChar) || currentChar == '_') {
             updateLexeme();
             updateCurrentChar();
             return idMetVar();
         }
         else {
-            return new Token(idMetVar, lexeme, row);
+            TokenType tokenType = TokenType.fromExplanation(lexeme);
+            if (tokenType != null) {
+                return new Token(tokenType, lexeme, row);
+            }
+            else {
+                return new Token(idMetVar, lexeme, row);
+            }
         }
     }
 
@@ -298,6 +380,72 @@ public class LexicalAnalyzer {
         else {
             updateCurrentChar();
             return singleLineComment();
+        }
+    }
+
+    private Token greaterSymbol() throws LexicalException {
+        if (currentChar == '=') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(greaterEqualOp, lexeme, row);
+        }
+        else {
+            return new Token(greaterOp, lexeme, row);
+        }
+    }
+
+    private Token lesserSymbol() throws LexicalException {
+        if (currentChar == '=') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(lesserEqualOp, lexeme, row);
+        }
+        else {
+            return new Token(lesserOp, lexeme, row);
+        }
+    }
+
+    private Token notSymbol() throws LexicalException {
+        if (currentChar == '=') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(notEqualOp, lexeme, row);
+        }
+        else {
+            return new Token(notOp, lexeme, row);
+        }
+    }
+
+    private Token equalSymbol() throws LexicalException {
+        if (currentChar == '=') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(equalsOp, lexeme, row);
+        }
+        else {
+            return new Token(assignOp, lexeme, row);
+        }
+    }
+
+    private Token plusSymbol() throws LexicalException {
+        if (currentChar == '+') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(incrementOp, lexeme, row);
+        }
+        else {
+            return new Token(plusOp, lexeme, row);
+        }
+    }
+
+    private Token minusSymbol() throws LexicalException {
+        if (currentChar == '-') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(decrementOp, lexeme, row);
+        }
+        else {
+            return new Token(minusOp, lexeme, row);
         }
     }
 }

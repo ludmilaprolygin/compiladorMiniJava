@@ -20,10 +20,10 @@ public class Main {
 
         //TODO: ES ESTRICTAMENTE 1!!!!!!!!!!!!!!!!!!!!!1
         if (args.length <= 1) {
-            String fileName ; //= args[0];
+            String fileName = args[0];
 
             //TODO: BORRAR ESTO QUE SIGUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            fileName = "resources/conErrores/lexConErrores01.java";
+            //fileName = "resources/conErrores/lexConErrores01.java";
 
             openFile(fileName);
             //TODO manipular archivo
