@@ -29,6 +29,7 @@ public class LexicalAnalyzer {
 
     public Token nextToken() throws LexicalException {
         lexeme = "";
+        updateCurrentChar();
         return e0();
     }
 
