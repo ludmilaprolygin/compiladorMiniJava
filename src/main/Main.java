@@ -1,3 +1,5 @@
+package main;
+
 import lexicalAnalyzer.LexicalAnalyzer;
 import sourceManager.*;
 import utils.messages.GenericErrorMessage;
