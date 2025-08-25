@@ -3,16 +3,19 @@ package utils;
 //TODO: relocate
 
 public class Token {
-    private final String tokenType;
+    private final TokenType tokenType;
     private final String lexeme;
     private final int row;
-    public Token (String tokenType, String lexeme, int row) {
+
+    public Token (TokenType tokenType, String lexeme, int row) {
         this.tokenType = tokenType;
         this.lexeme = lexeme;
         this.row = row;
     }
 
+    public TokenType getTokenType () { return tokenType; }
+
     public String format() {
-        return "(" + tokenType + ","  + lexeme + "," + row + ")";
+        return "(" + tokenType.getTypeExplanation() + ","  + lexeme + "," + row + ")";
     }
 }

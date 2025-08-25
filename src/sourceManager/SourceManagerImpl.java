@@ -9,7 +9,6 @@ public class SourceManagerImpl implements SourceManager{
     private String currentLine;
     private int lineNumber;
     private int lineIndexNumber;
-    private int columnNumber;
     private boolean mustReadNextLine;
 
 
@@ -17,7 +16,6 @@ public class SourceManagerImpl implements SourceManager{
         currentLine = "";
         lineNumber = 0;
         lineIndexNumber = 0;
-        columnNumber = 0;
         mustReadNextLine = true;
     }
 
@@ -65,7 +63,7 @@ public class SourceManagerImpl implements SourceManager{
 
     @Override
     public int getColumnNumber() {
-        return columnNumber;
+        return lineIndexNumber;
     }
 
     @Override

@@ -3,8 +3,10 @@ package main;
 import lexicalAnalyzer.LexicalAnalyzer;
 import sourceManager.*;
 import utils.Token;
+import utils.TokenType;
 import utils.exceptions.LexicalException;
 import utils.messages.GenericErrorMessage;
+import utils.messages.LexicalConsoleMessage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,10 +20,10 @@ public class Main {
 
         //TODO: ES ESTRICTAMENTE 1!!!!!!!!!!!!!!!!!!!!!1
         if (args.length <= 1) {
-            String fileName; //= args[0];
+            String fileName = args[0];
 
             //TODO: BORRAR ESTO QUE SIGUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            fileName = "resources/conErrores/lexConErrores01.java";
+            //fileName = "resources/conErrores/lexConErrores02.java";
 
             openFile(fileName);
             //TODO manipular archivo
@@ -57,13 +59,19 @@ public class Main {
     }
 
     private static void lexicalAnalysis() {
-        Token token;
-        try {
-            token = lexicalAnalyzer.nextToken();
-            System.out.println(token.format());
+        Token token = null;
+        LexicalConsoleMessage lexicalConsoleMessage = new LexicalConsoleMessage();
+        do  {
+            try {
+                token = lexicalAnalyzer.nextToken();
+                lexicalConsoleMessage.appendSuccessMessage(token.format());
+            }
+            catch (LexicalException e) {
+                lexicalConsoleMessage.appendErrorMessage(e.getMessage());
+            }
         }
-        catch (LexicalException e) {
-            System.out.println("ERROR");
-        }
+        while (token != null && token.getTokenType() != TokenType.END_OF_FILE);
+        System.out.println(lexicalConsoleMessage.getSuccessMessage());
+        System.out.println(lexicalConsoleMessage.getErrorMessage());
     }
 }

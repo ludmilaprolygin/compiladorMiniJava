@@ -17,7 +17,7 @@ public class LexicalErrorMessage {
         int row = sourceManager.getLineNumber();
         
         String message = "Error lexico en linea " + row + ": " + lexeme + " es un literal entero demasiado largo." + '\n';
-        message = message + formatGeneralError(lexeme.charAt(0), sourceManager);
+        message = message + formatGeneralError(lexeme, sourceManager);
         
         //TODO: si el error es nro muy largo, deberia poner el digito que lo rompe o el lexema entero?
 
@@ -55,7 +55,7 @@ public class LexicalErrorMessage {
         int row = sourceManager.getLineNumber();
         
         String message = "Error lexico en linea " + row + ": " + lexeme + " no se encontro un cierre de cadena de caracter previo al retorno de carro." + '\n';
-        message = message + formatGeneralError(lexeme.charAt(0), sourceManager);
+        message = message + formatGeneralError(lexeme, sourceManager);
         
         return message;
     }
@@ -70,17 +70,33 @@ public class LexicalErrorMessage {
     }
 
     private static String formatGeneralError(char invalidChar, SourceManager sourceManager) {
+         return formatGeneralError(""+invalidChar, sourceManager);
+//        String message = "";
+//        int row = sourceManager.getLineNumber();
+//        int column = sourceManager.getColumnNumber();
+//
+//        message = message + "Detalle: " + sourceManager.getCurrentLine() + '\n';
+//        for (int i = 0; i <= column; i++) {
+//            message = message + " ";
+//        }
+//        message = message + "^" + '\n';
+//        message = message + "[Error:" + invalidChar + "|" + row + "]";
+//
+//        return message;
+    }
+
+    private static String formatGeneralError(String invalidChar, SourceManager sourceManager) {
         String message = "";
         int row = sourceManager.getLineNumber();
         int column = sourceManager.getColumnNumber();
-        
+
         message = message + "Detalle: " + sourceManager.getCurrentLine() + '\n';
-        for (int i = 0; i <= column; i++) {
+        for (int i = 0; i <= column + 7; i++) {
             message = message + " ";
         }
         message = message + "^" + '\n';
         message = message + "[Error:" + invalidChar + "|" + row + "]";
-        
+
         return message;
     }
 }

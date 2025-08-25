@@ -10,6 +10,8 @@ import utils.messages.GenericErrorMessage;
 
 import utils.exceptions.LexicalException;
 
+import static utils.TokenType.*;
+
 public class LexicalAnalyzer {
     private static final int MAX_DIGITS = 9; 
     private static final int MAX_UNICODE_DIGITS = 4;
@@ -85,7 +87,7 @@ public class LexicalAnalyzer {
         }
         else if (SourceManager.END_OF_FILE == currentChar){
             updateLexeme();
-            return new Token("END_OF_FILE", lexeme, row);
+            return new Token(END_OF_FILE, lexeme, row);
         }
         else {
             updateLexeme();
@@ -100,7 +102,7 @@ public class LexicalAnalyzer {
             return idClase();
         }
         else {
-            return new Token("idClase", lexeme, row);
+            return new Token(idClase, lexeme, row);
         }
     }
 
@@ -108,10 +110,10 @@ public class LexicalAnalyzer {
         if (Character.isLetter(currentChar) || Character.isDigit(currentChar) || currentChar == '_'){
             updateLexeme();
             updateCurrentChar();
-            return idClase();
+            return idMetVar();
         }
         else {
-            return new Token("idMetVar", lexeme, row);
+            return new Token(idMetVar, lexeme, row);
         }
     }
 
@@ -128,7 +130,7 @@ public class LexicalAnalyzer {
             }
         }
         else {
-            return new Token("intLiteral", lexeme, row);
+            return new Token(intLiteral, lexeme, row);
         }
     }
 
@@ -177,7 +179,7 @@ public class LexicalAnalyzer {
         else if (currentChar == '\'' && lexeme.length() == MAX_UNICODE_DIGITS + 2) {
             updateLexeme();
             updateCurrentChar();
-            return new Token("charLiteral", lexeme, row);
+            return new Token(charLiteral, lexeme, row);
         }
         else {
             updateLexeme();
@@ -189,7 +191,7 @@ public class LexicalAnalyzer {
         if (currentChar == '\'') {
             updateLexeme();
             updateCurrentChar();
-            return new Token("charLiteral", lexeme, row);
+            return new Token(charLiteral, lexeme, row);
         }
         else {
             updateLexeme();
@@ -199,7 +201,7 @@ public class LexicalAnalyzer {
 
     private Token stringLiteral() throws LexicalException {
         if (currentChar == ENTER || currentChar == NEW_LINE || currentChar == SourceManager.END_OF_FILE) {
-            updateLexeme();
+            //updateLexeme();
             throw new LexicalException(LexicalErrorMessage.invalidCarriageReturn(lexeme, sourceManager));
         }
         else if (currentChar == '\\') {
@@ -232,7 +234,7 @@ public class LexicalAnalyzer {
     }
 
     private Token closeStringLiteral() {
-        return new Token("stringLiteral", lexeme, row);
+        return new Token(stringLiteral, lexeme, row);
     }
 
     private Token slashSymbol() throws LexicalException {
@@ -247,7 +249,7 @@ public class LexicalAnalyzer {
             return singleLineComment();
         }
         else {
-            return new Token("divOp", lexeme, row);
+            return new Token(divOp, lexeme, row);
         }
     }
 
@@ -272,7 +274,6 @@ public class LexicalAnalyzer {
             throw new LexicalException(LexicalErrorMessage.invalidEndOfFile(lexeme, sourceManager));
         }
         else if (currentChar == '/') {
-            updateCurrentChar();
             return nextToken();
         }
         else if (currentChar == '*') {
@@ -292,7 +293,6 @@ public class LexicalAnalyzer {
             return nextToken();
         }
         else if (currentChar == NEW_LINE) {
-            updateCurrentChar();
             return nextToken();
         }
         else {
