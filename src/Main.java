@@ -1,5 +1,6 @@
+import lexicalAnalyzer.LexicalAnalyzer;
 import sourceManager.*;
-import utils.Messages;
+import utils.messages.GenericErrorMessage;
 
 public class Main {
     protected static SourceManager sourceManager;
@@ -12,12 +13,12 @@ public class Main {
             //TODO manipular archivo
         }
         else {
-            System.out.println(Messages.MISUSE_ERROR);
+            System.out.println(GenericErrorMessage.MISUSE_ERROR);
         }
     }
 
     protected static void initialize() {
         sourceManager = new SourceManagerImpl();
-        lexicalAnalyzer = new LexicalAnalyzer();
+        lexicalAnalyzer = new LexicalAnalyzer(sourceManager);
     }
 }

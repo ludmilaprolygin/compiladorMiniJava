@@ -60,6 +60,15 @@ public class LexicalErrorMessage {
         return message;
     }
 
+    public static String invalidEndOfFile(String lexeme, SourceManager sourceManager) {
+        int row = sourceManager.getLineNumber();
+
+        String message = "Error lexico en linea " + row + ": " + lexeme + " no se encontro un cierre de cadena de caracter previo al final del archivo." + '\n';
+        message = message + formatGeneralError(lexeme.charAt(0), sourceManager);
+
+        return message;
+    }
+
     private static String formatGeneralError(char invalidChar, SourceManager sourceManager) {
         String message = "";
         int row = sourceManager.getLineNumber();

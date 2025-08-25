@@ -1,7 +1,10 @@
+package lexicalAnalyzer;
+
 import java.io.IOException;
 
 import sourceManager.SourceManager;
 
+import utils.Token;
 import utils.messages.LexicalErrorMessage;
 import utils.messages.GenericErrorMessage;
 
