@@ -1,5 +1,7 @@
 package utils.messages;
 
+import java.util.Objects;
+
 public class LexicalConsoleMessage {
     private String errorMessage;
     private String successMessage;
@@ -10,7 +12,12 @@ public class LexicalConsoleMessage {
     }
 
     public String getErrorMessage() { return errorMessage; }
-    public String getSuccessMessage() { return successMessage + "\n" + "[SinErrores]"; }
+    public String getSuccessMessage() {
+        if (errorMessage.isEmpty()) {
+            appendSuccessMessage("\n" + "[SinErrores]");
+        }
+        return successMessage;
+    }
 
     public void appendErrorMessage(String errorMessage) {
         this.errorMessage = this.errorMessage + errorMessage + '\n';
