@@ -21,8 +21,6 @@ public class LexicalErrorMessage {
     public static String invalidCharacter(String lexeme, SourceManager sourceManager) {
         String message = basicError(sourceManager) + " " + lexeme + " no es un literal char valido." + '\n';
         message = message + errorEleganteFormatting(lexeme, sourceManager);
-
-        message = message + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + lexeme.length();
         
         return message;
     }

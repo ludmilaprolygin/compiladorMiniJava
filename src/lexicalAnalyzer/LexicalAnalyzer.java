@@ -267,7 +267,8 @@ public class LexicalAnalyzer {
         else if (currentChar == '\'' && lexeme.length() == MAX_UNICODE_DIGITS + 3) {
             updateLexeme();
             updateCurrentChar();
-            return new Token(charLiteral, lexeme, row);
+            String unicodeChar = (char) Integer.parseInt(lexeme.substring(3,7), 16) + "";
+            return new Token(charLiteral, unicodeChar, row);
         }
         else {
             throw new LexicalException(LexicalErrorMessage.invalidCharacter(lexeme, sourceManager));
