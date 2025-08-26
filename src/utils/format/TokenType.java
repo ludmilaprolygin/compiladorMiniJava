@@ -1,4 +1,4 @@
-package utils;
+package utils.format;
 
 // https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
 
@@ -33,36 +33,39 @@ public enum TokenType {
     reservedThis    ("this"),
     reservedNew     ("new"),
 
-    greaterOp       ("greaterOp"),
-    lesserOp        ("lesserOp"),
-    notOp           ("notOp"),
-    assignOp        ("assignOp"),
+    greaterOp       ("> greaterOp"),
+    lesserOp        ("< lesserOp"),
+    notOp           ("! notOp"),
+    assignOp        ("= assignOp"),
 
-    equalsOp        ("equalsOp"),
-    greaterEqualOp  ("greaterEqualOp"),
-    lesserEqualOp   ("lesserEqualOp"),
-    notEqualOp      ("notEqualOp"),
+    equalsOp        ("== equalsOp"),
+    greaterEqualOp  (">= greaterEqualOp"),
+    lesserEqualOp   ("<= lesserEqualOp"),
+    notEqualOp      ("!= notEqualOp"),
 
-    andOp           ("andOp"),
-    orOp            ("orOp"),
+    andOp           ("&& andOp"),
+    orOp            ("|| orOp"),
 
-    modOp           ("modOp"),
-    divOp           ("divOp"),
-    plusOp          ("plusOp"),
-    minusOp         ("minusOp"),
-    multOp          ("multOp"),
+    modOp           ("% modOp"),
+    divOp           ("/ divOp"),
+    plusOp          ("+ plusOp"),
+    minusOp         ("- minusOp"),
+    multOp          ("* multOp"),
 
-    incrementOp     ("incOp"),
-    decrementOp     ("decOp"),
+    incrementOp     ("++ incOp"),
+    decrementOp     ("-- decOp"),
 
-    openParenthesis ("openParenthesis"),
-    closeParenthesis("closeParenthesis"),
-    openBracket     ("openBracket"),
-    closeBracket    ("closeBracket"),
-    semicolon       ("semicolon"),
-    comma           ("comma"),
-    dot             ("dot"),
-    colon           ("colon"),
+    openParenthesis ("( openParenthesis"),
+    closeParenthesis(") closeParenthesis"),
+    openBracket     ("{ openBracket"),
+    closeBracket    ("} closeBracket"),
+    semicolon       ("; semicolon"),
+    comma           (", comma"),
+    dot             (". dot"),
+    colon           (": colon"),
+
+    quote           ("\" quote"),
+    apostrophe      ("' apostrophe")
     ;
 
     private final String typeExplanation;

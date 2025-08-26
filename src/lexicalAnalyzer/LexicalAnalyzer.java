@@ -1,18 +1,17 @@
 package lexicalAnalyzer;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import sourceManager.SourceManager;
 
-import utils.Token;
-import utils.TokenType;
+import utils.format.Token;
+import utils.format.TokenType;
 import utils.messages.LexicalErrorMessage;
 import utils.messages.GenericErrorMessage;
 
 import utils.exceptions.LexicalException;
 
-import static utils.TokenType.*;
+import static utils.format.TokenType.*;
 
 public class LexicalAnalyzer {
     private static final int MAX_DIGITS = 9; 
@@ -107,9 +106,16 @@ public class LexicalAnalyzer {
             updateCurrentChar();
             return equalSymbol();
         }
-//        else if (currentChar == '&') {}
-//        else if (currentChar == '|') {}
-
+        else if (currentChar == '&') {
+            updateLexeme();
+            updateCurrentChar();
+            return ampersandSymbol();
+        }
+        else if (currentChar == '|') {
+            updateLexeme();
+            updateCurrentChar();
+            return pipeSymbol();
+        }
         else if (currentChar == '%') {
             updateLexeme();
             return new Token(modOp, lexeme, row);
@@ -124,7 +130,6 @@ public class LexicalAnalyzer {
             updateCurrentChar();
             return minusSymbol();
         }
-
         else if (currentChar == '*') {
             updateLexeme();
             return new Token(multOp, lexeme, row);
@@ -201,7 +206,7 @@ public class LexicalAnalyzer {
 
     private Token intLiteral() throws LexicalException {
         if (Character.isDigit(currentChar)){
-            if (lexeme.length() <= MAX_DIGITS) {
+            if (lexeme.length() < MAX_DIGITS) {
                 updateLexeme();
                 updateCurrentChar();
                 return intLiteral();
@@ -218,8 +223,10 @@ public class LexicalAnalyzer {
 
     private Token charLiteral() throws LexicalException {
         if (currentChar == '\'') {
-            updateLexeme();
             throw new LexicalException(LexicalErrorMessage.invalidCharacter(lexeme, sourceManager));
+        }
+        else if (currentChar == ENTER || currentChar == NEW_LINE || currentChar == SourceManager.END_OF_FILE) {
+            throw new LexicalException(LexicalErrorMessage.invalidCarriageReturn(lexeme, sourceManager));
         }
         else if (currentChar == '\\') {
             updateLexeme();
@@ -254,17 +261,15 @@ public class LexicalAnalyzer {
                 return unicodeChar();
             }
             else {
-                updateLexeme();
                 throw new LexicalException(LexicalErrorMessage.invalidCharacter(lexeme, sourceManager));
             }
         }
-        else if (currentChar == '\'' && lexeme.length() == MAX_UNICODE_DIGITS + 2) {
+        else if (currentChar == '\'' && lexeme.length() == MAX_UNICODE_DIGITS + 3) {
             updateLexeme();
             updateCurrentChar();
             return new Token(charLiteral, lexeme, row);
         }
         else {
-            updateLexeme();
             throw new LexicalException(LexicalErrorMessage.invalidCharacter(lexeme, sourceManager));
         }
     }
@@ -276,14 +281,12 @@ public class LexicalAnalyzer {
             return new Token(charLiteral, lexeme, row);
         }
         else {
-            updateLexeme();
             throw new LexicalException(LexicalErrorMessage.invalidCharacter(lexeme, sourceManager));
         }
     }
 
     private Token stringLiteral() throws LexicalException {
         if (currentChar == ENTER || currentChar == NEW_LINE || currentChar == SourceManager.END_OF_FILE) {
-            //updateLexeme();
             throw new LexicalException(LexicalErrorMessage.invalidCarriageReturn(lexeme, sourceManager));
         }
         else if (currentChar == '\\') {
@@ -305,7 +308,6 @@ public class LexicalAnalyzer {
 
     private Token specialString() throws LexicalException {
         if (currentChar == NEW_LINE || currentChar == ENTER || currentChar == SourceManager.END_OF_FILE) {
-            updateLexeme();
             throw new LexicalException(LexicalErrorMessage.invalidCarriageReturn(lexeme, sourceManager));
         }
         else {
@@ -337,7 +339,6 @@ public class LexicalAnalyzer {
 
     private Token multiLineComment() throws LexicalException {
         if (currentChar == SourceManager.END_OF_FILE) {
-            updateLexeme();
             throw new LexicalException(LexicalErrorMessage.invalidEndOfFile(lexeme, sourceManager));
         }
         else if (currentChar == '*') {
@@ -352,8 +353,7 @@ public class LexicalAnalyzer {
 
     private Token closeMultiLineComment() throws LexicalException {
         if (currentChar == SourceManager.END_OF_FILE) {
-            updateLexeme();
-            throw new LexicalException(LexicalErrorMessage.invalidEndOfFile(lexeme, sourceManager));
+            throw new LexicalException(LexicalErrorMessage.invalidMultilineComment(lexeme, sourceManager));
         }
         else if (currentChar == '/') {
             return nextToken();
@@ -383,7 +383,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private Token greaterSymbol() throws LexicalException {
+    private Token greaterSymbol() {
         if (currentChar == '=') {
             updateLexeme();
             updateCurrentChar();
@@ -394,7 +394,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private Token lesserSymbol() throws LexicalException {
+    private Token lesserSymbol() {
         if (currentChar == '=') {
             updateLexeme();
             updateCurrentChar();
@@ -405,7 +405,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private Token notSymbol() throws LexicalException {
+    private Token notSymbol() {
         if (currentChar == '=') {
             updateLexeme();
             updateCurrentChar();
@@ -416,7 +416,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private Token equalSymbol() throws LexicalException {
+    private Token equalSymbol() {
         if (currentChar == '=') {
             updateLexeme();
             updateCurrentChar();
@@ -427,7 +427,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private Token plusSymbol() throws LexicalException {
+    private Token plusSymbol() {
         if (currentChar == '+') {
             updateLexeme();
             updateCurrentChar();
@@ -438,7 +438,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private Token minusSymbol() throws LexicalException {
+    private Token minusSymbol() {
         if (currentChar == '-') {
             updateLexeme();
             updateCurrentChar();
@@ -446,6 +446,28 @@ public class LexicalAnalyzer {
         }
         else {
             return new Token(minusOp, lexeme, row);
+        }
+    }
+
+    private Token ampersandSymbol() throws LexicalException {
+        if (currentChar == '&') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(andOp, lexeme, row);
+        }
+        else {
+            throw new LexicalException(LexicalErrorMessage.invalidAmpersandUsage(lexeme, sourceManager));
+        }
+    }
+
+    private Token pipeSymbol() throws LexicalException {
+        if (currentChar == '|') {
+            updateLexeme();
+            updateCurrentChar();
+            return new Token(orOp, lexeme, row);
+        }
+        else {
+            throw new LexicalException(LexicalErrorMessage.invalidPipeUsage(lexeme, sourceManager));
         }
     }
 }

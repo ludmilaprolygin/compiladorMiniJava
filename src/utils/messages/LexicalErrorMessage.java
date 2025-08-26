@@ -20,7 +20,9 @@ public class LexicalErrorMessage {
 
     public static String invalidCharacter(String lexeme, SourceManager sourceManager) {
         String message = basicError(sourceManager) + " " + lexeme + " no es un literal char valido." + '\n';
-        message = message + errorEleganteFormatting(lexeme.charAt(0), sourceManager);
+        message = message + errorEleganteFormatting(lexeme, sourceManager);
+
+        message = message + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + lexeme.length();
         
         return message;
     }
@@ -32,9 +34,9 @@ public class LexicalErrorMessage {
         return message;
     }
 
-    public static String invalidStringLiteral(String lexeme, SourceManager sourceManager) {
-        String message = basicError(sourceManager) + " " + lexeme + " no es un string valido." + '\n';
-        message = message + errorEleganteFormatting(lexeme.charAt(0), sourceManager);
+    public static String invalidMultilineComment(String lexeme, SourceManager sourceManager) {
+        String message = basicError(sourceManager) + "no se encontro el cierre de comentario multilinea." + '\n';
+        message = message + errorEleganteFormatting(lexeme, sourceManager);
         
         return message;
     }
@@ -48,13 +50,23 @@ public class LexicalErrorMessage {
 
     public static String invalidEndOfFile(String lexeme, SourceManager sourceManager) {
         String message = basicError(sourceManager) + "no se encontro un cierre de cadena de caracteres previo al final del archivo." + '\n';
-        message = message + errorEleganteFormatting(lexeme.charAt(0), sourceManager);
+        message = message + errorEleganteFormatting(lexeme, sourceManager);
 
         return message;
     }
 
-    private static String errorEleganteFormatting(char invalidChar, SourceManager sourceManager) {
-         return errorEleganteFormatting(""+invalidChar, sourceManager);
+    public static String invalidAmpersandUsage(String lexeme, SourceManager sourceManager) {
+        String message = basicError(sourceManager) + "uso incorrecto del caracter & - considerar &&." + '\n';
+        message = message + errorEleganteFormatting(lexeme, sourceManager);
+
+        return message;
+    }
+
+    public static String invalidPipeUsage(String lexeme, SourceManager sourceManager) {
+        String message = basicError(sourceManager) + "uso incorrecto del caracter | - considerar ||." + '\n';
+        message = message + errorEleganteFormatting(lexeme, sourceManager);
+
+        return message;
     }
 
     private static String basicError(SourceManager sourceManager) {
@@ -62,6 +74,11 @@ public class LexicalErrorMessage {
         int column = sourceManager.getColumnNumber();
 
         return "Error lexico en linea " + row + ", columna " + column + ": ";
+    }
+
+
+    private static String errorEleganteFormatting(char invalidChar, SourceManager sourceManager) {
+         return errorEleganteFormatting(""+invalidChar, sourceManager);
     }
 
     private static String errorEleganteFormatting(String invalidLexeme, SourceManager sourceManager) {

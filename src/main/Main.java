@@ -2,8 +2,8 @@ package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
 import sourceManager.*;
-import utils.Token;
-import utils.TokenType;
+import utils.format.Token;
+import utils.format.TokenType;
 import utils.exceptions.LexicalException;
 import utils.messages.GenericErrorMessage;
 import utils.messages.LexicalConsoleMessage;
