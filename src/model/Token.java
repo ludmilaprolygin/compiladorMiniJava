@@ -1,4 +1,4 @@
-package utils.format;
+package model;
 
 //TODO: relocate
 

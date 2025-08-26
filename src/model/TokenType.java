@@ -1,4 +1,4 @@
-package utils.format;
+package model;
 
 // https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
 

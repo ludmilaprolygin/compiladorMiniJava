@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import sourceManager.SourceManager;
 
-import utils.format.Token;
-import utils.format.TokenType;
+import model.Token;
+import model.TokenType;
 import utils.messages.LexicalErrorMessage;
 import utils.messages.GenericErrorMessage;
 
 import utils.exceptions.LexicalException;
 
-import static utils.format.TokenType.*;
+import static model.TokenType.*;
 
 public class LexicalAnalyzer {
     private static final int MAX_DIGITS = 9; 

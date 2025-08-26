@@ -2,8 +2,8 @@ package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
 import sourceManager.*;
-import utils.format.Token;
-import utils.format.TokenType;
+import model.Token;
+import model.TokenType;
 import utils.exceptions.LexicalException;
 import utils.messages.GenericErrorMessage;
 import utils.messages.LexicalConsoleMessage;
@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
         initialize();
 
-        if (args.length <= 1) {
+        if (args.length == 1) {
             String fileName = args[0];
             openFile(fileName);
             lexicalAnalysis();
