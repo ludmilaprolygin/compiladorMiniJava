@@ -32,9 +32,9 @@ public class LexicalErrorMessage {
         return message;
     }
 
-    public static String invalidMultilineComment(String lexeme, SourceManager sourceManager) {
+    public static String invalidMultilineComment(String lexeme, int row, SourceManager sourceManager) {
         String message = basicError(sourceManager) + "no se encontro el cierre de comentario multilinea." + '\n';
-        message = message + errorEleganteFormatting(lexeme, sourceManager);
+        message = message + errorEleganteMultilineCommentFormatting(lexeme, sourceManager, row);
         
         return message;
     }
@@ -77,6 +77,22 @@ public class LexicalErrorMessage {
 
     private static String errorEleganteFormatting(char invalidChar, SourceManager sourceManager) {
          return errorEleganteFormatting(""+invalidChar, sourceManager);
+    }
+
+    private static String errorEleganteMultilineCommentFormatting(String invalidLexeme, SourceManager sourceManager, int row) {
+        String message = "Detalle: ";
+        int lineHeaderSize = message.length();
+        int column = sourceManager.getColumnNumber();
+
+        message = message + sourceManager.getCurrentLine() + '\n';
+
+        for (int i = 0; i <= column + lineHeaderSize - 2; i++) {
+            message = message + " ";
+        }
+        message = message + "^" + '\n';
+        message = message + "[Error:" + invalidLexeme + "|" + row + "]" + '\n';
+
+        return message;
     }
 
     private static String errorEleganteFormatting(String invalidLexeme, SourceManager sourceManager) {

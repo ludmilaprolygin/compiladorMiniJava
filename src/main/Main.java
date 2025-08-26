@@ -29,11 +29,10 @@ public class Main {
         }
     }
 
-    private static void initialize() {
+    public static void initialize(){
         sourceManager = new SourceManagerImpl();
-        lexicalAnalyzer = new LexicalAnalyzer(sourceManager);
+        lexicalAnalyzer = new LexicalAnalyzer();
     }
-
     private static void openFile (String fileName) {
         try {
             sourceManager.open(fileName);
@@ -54,6 +53,8 @@ public class Main {
 
     private static void lexicalAnalysis() {
         Token token = null;
+        lexicalAnalyzer.init(sourceManager);
+
         LexicalConsoleMessage lexicalConsoleMessage = new LexicalConsoleMessage();
         do  {
             try {
