@@ -180,17 +180,17 @@ public class LexicalAnalyzer {
 
     private Token idMetVar() throws LexicalException {
         if (Character.isLetter(currentChar) || Character.isDigit(currentChar) || currentChar == '_') {
+            updateLexemeAndCurrentChar();
+            return idMetVar();
+        }
+        else {
             TokenType tokenType = TokenType.fromExplanation(lexeme);
             if (tokenType != null) {
                 return new Token(tokenType, lexeme, row);
             }
             else {
-                updateLexemeAndCurrentChar();
-                return idMetVar();
+                return new Token(idMetVar, lexeme, row);
             }
-        }
-        else {
-            return new Token(idMetVar, lexeme, row);
         }
     }
 
