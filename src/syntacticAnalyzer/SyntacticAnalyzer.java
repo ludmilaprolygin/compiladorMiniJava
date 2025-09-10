@@ -241,7 +241,7 @@ public class SyntacticAnalyzer {
             throw new SyntacticException(currentToken, "if");
         }
     }
-    
+
     private void _restoIfStatement() throws Exception {
         String currentTokenName = getCurrentTokenName();
         if (currentTokenName.equals("reservedElse")) {
