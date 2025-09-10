@@ -1,7 +1,5 @@
 package model;
 
-//TODO: relocate
-
 public class Token {
     private final TokenType tokenType;
     private final String lexeme;
