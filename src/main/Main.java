@@ -4,6 +4,7 @@ import lexicalAnalyzer.LexicalAnalyzer;
 import sourceManager.*;
 import model.Token;
 import model.TokenType;
+import syntacticAnalyzer.SyntacticAnalyzer;
 import utils.exceptions.LexicalException;
 import utils.messages.GenericErrorMessage;
 import utils.messages.LexicalConsoleMessage;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class Main {
     private static SourceManager sourceManager;
     private static LexicalAnalyzer lexicalAnalyzer;
+    private static SyntacticAnalyzer syntacticAnalyzer;
 
     public static void main(String[] args) {
         initialize();
@@ -21,7 +23,7 @@ public class Main {
         if (args.length == 1) {
             String fileName = args[0];
             openFile(fileName);
-            lexicalAnalysis();
+            //lexicalAnalysis();
             closeFile();
         }
         else {
@@ -30,8 +32,14 @@ public class Main {
     }
 
     public static void initialize(){
-        sourceManager = new SourceManagerImpl();
-        lexicalAnalyzer = new LexicalAnalyzer();
+        try {
+            sourceManager = new SourceManagerImpl();
+            lexicalAnalyzer = new LexicalAnalyzer();
+            syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+        }
+        catch (Exception e) {
+            //TODO - corregir esto
+        }
     }
     private static void openFile (String fileName) {
         try {
