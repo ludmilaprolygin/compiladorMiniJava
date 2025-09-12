@@ -65,7 +65,9 @@ public enum TokenType {
     colon           (": colon"),
 
     quote           ("\" quote"),
-    apostrophe      ("' apostrophe")
+    apostrophe      ("' apostrophe"),
+
+    questionMark    ("? questionMark")
     ;
 
     private final String typeExplanation;

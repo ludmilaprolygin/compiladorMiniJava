@@ -1,12 +1,10 @@
 package model;
 
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import model.TokenType;
 import static model.SyntacticMethod.*;
 import static model.TokenType.*;
 
@@ -61,6 +59,8 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(_RestoListaExps, comma);
         initEntry(HerenciaOpcional, reservedExtends);
         initEntry(_RestoMiembro, semicolon, openParenthesis);
+        initEntry(BloqueOpcional, semicolon);
+        initEntry(_RestoVarLocal, questionMark);
     }
 
     private void noTerminales() {

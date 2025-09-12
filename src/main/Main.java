@@ -35,7 +35,6 @@ public class Main {
     public static void initialize(){
         sourceManager = new SourceManagerImplEficiente();
         lexicalAnalyzer = new LexicalAnalyzer();
-        //syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
     }
     private static void openFile (String fileName) {
         try {
@@ -79,6 +78,7 @@ public class Main {
         try {
             lexicalAnalyzer.init(sourceManager);
             syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+
             System.out.println("[SinErrores]");
         }
         catch (Exception e) {

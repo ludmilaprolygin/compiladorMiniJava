@@ -53,6 +53,7 @@ public enum SyntacticMethod {
     _RestoMiembro,
     _Modificador,
     _RestoLlamadaMetodo,
-    _RestoEncadenado
+    _RestoEncadenado,
+    _RestoVarLocal
     ;
 }

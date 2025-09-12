@@ -214,7 +214,12 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(Bloque, currentTokenType)) {
             bloque();
         }
-        else { /* epsilon */ }
+        else if (currentTokenType.equals(semicolon)) {
+            match(semicolon);
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(BloqueOpcional).toString()));
+        }
     }
 
     private void bloque() throws Exception {
@@ -268,6 +273,18 @@ public class SyntacticAnalyzer {
         match(idMetVar);
         match(assignOp);
         expresionCompuesta();
+        _restoVarLocal();
+    }
+
+    private void _restoVarLocal() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(currentTokenType.equals(questionMark)) {
+            match(questionMark);
+            expresion();
+            match(colon);
+            expresion();
+        }
+        else { /* epsilon */ }
     }
 
     private void returnStatement() throws Exception {
@@ -326,14 +343,6 @@ public class SyntacticAnalyzer {
     private void operadorAsignacion() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (currentTokenType.equals(assignOp)) {
-            match(assignOp);
-        }
-        else if (currentTokenType.equals(plusOp)) {
-            match(plusOp);
-            match(assignOp);
-        }
-        else if (currentTokenType.equals(minusOp)) {
-            match(minusOp);
             match(assignOp);
         }
         else {
@@ -398,12 +407,18 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(Referencia, currentTokenType)) {
             referencia();
         }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Operando).toString()));
+        }
     }
 
     private void primitivo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Primitivo, currentTokenType)) {
             match(currentTokenType);
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primitivo).toString()));
         }
     }
 

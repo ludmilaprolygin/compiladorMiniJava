@@ -156,6 +156,10 @@ public class LexicalAnalyzer {
             updateLexemeAndCurrentChar();
             toReturn = new Token(colon, lexeme, row);
         }
+        else if (currentChar == '?') {
+            updateLexemeAndCurrentChar();
+            toReturn = new Token(questionMark, lexeme, row);
+        }
         else if (SourceManager.END_OF_FILE == currentChar){
             updateLexemeAndCurrentChar();
             toReturn = new Token(END_OF_FILE, "EOF", row);
