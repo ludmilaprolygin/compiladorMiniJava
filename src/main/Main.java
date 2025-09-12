@@ -23,7 +23,7 @@ public class Main {
         if (args.length == 1) {
             String fileName = args[0];
             openFile(fileName);
-            //lexicalAnalysis();
+            lexicalAnalysis();
             closeFile();
         }
         else {
@@ -35,7 +35,7 @@ public class Main {
         try {
             sourceManager = new SourceManagerImpl();
             lexicalAnalyzer = new LexicalAnalyzer();
-            syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+            //syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
         }
         catch (Exception e) {
             //TODO - corregir esto
