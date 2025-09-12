@@ -111,4 +111,13 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
     private void initEntry(SyntacticMethod key, List<TokenType> tokens) {
         get(key).addAll(tokens);
     }
+
+    public boolean containsToken(SyntacticMethod key, TokenType token) {
+        ArrayList<TokenType> tokens = get(key);
+        if (tokens == null) {
+            return false;
+        }
+        return tokens.contains(token);
+    }
+
 }

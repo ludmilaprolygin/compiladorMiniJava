@@ -9,6 +9,7 @@ public class TempMain {
         for(var entry : firsts.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
+
     }
 
 }

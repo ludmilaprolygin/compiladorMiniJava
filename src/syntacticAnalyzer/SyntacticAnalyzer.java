@@ -1,12 +1,18 @@
 package syntacticAnalyzer;
 
 import lexicalAnalyzer.LexicalAnalyzer;
+import model.Firsts;
 import model.Token;
+import model.TokenType;
 import utils.exceptions.SyntacticException;
+
+import static model.SyntacticMethod.*;
+import static model.TokenType.*;
 
 public class SyntacticAnalyzer {
     private Token currentToken;
-    private LexicalAnalyzer lexicalAnalyzer;
+    private final LexicalAnalyzer lexicalAnalyzer;
+    private static final Firsts firsts = new Firsts();
 
     public SyntacticAnalyzer(LexicalAnalyzer lexicalAnalyzer) throws Exception {
         this.lexicalAnalyzer = lexicalAnalyzer;
@@ -14,26 +20,26 @@ public class SyntacticAnalyzer {
         inicial();
     }
 
-    public void match (String tokenName) throws Exception {
-        if (tokenName.equals(getCurrentTokenName())) {
+    public void match (TokenType tokenType) throws Exception {
+        if (tokenType.equals(getCurrentTokenType())) {
             currentToken = lexicalAnalyzer.nextToken();
         } else {
-            throw new SyntacticException(currentToken, tokenName);
+            throw new SyntacticException(currentToken, tokenType.toString());
         }
     }
 
-    private String getCurrentTokenName() {
-        return currentToken.getTokenType().toString();
+    private TokenType getCurrentTokenType() {
+        return currentToken.getTokenType();
     }
 
     private void inicial() throws Exception {
         listaClases();
-        match("END_OF_FILE");
+        match(END_OF_FILE);
     }
 
     private void listaClases() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (!currentTokenName.equals("END_OF_FILE")) {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Clase, currentToken)) {
             clase();
             listaClases();
         }
@@ -42,148 +48,183 @@ public class SyntacticAnalyzer {
 
     private void clase() throws Exception {
         modificadorOpcional();
-        match("reservedClass");
-        match("idClase");
+        match(reservedClass);
+        match(idClase);
         herenciaOpcional();
-        match("openBracket");
+        match(openBracket);
         listaMiembros();
-        match("closeBracket");
+        match(closeBracket);
     }
 
     private void modificadorOpcional() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedAbstract")) {
-            match("reservedAbstract");
-        } else if (currentTokenName.equals("reservedFinal")) {
-            match("reservedFinal");
-        } else if (currentTokenName.equals("reservedStatic")) {
-            match("reservedStatic");
-        } else { /* epsilon */ }
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(ModificadorOpcional, currentToken)) {
+            match(currentToken);
+        }
+        else { /* epsilon */ }
     }
 
     private void herenciaOpcional() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedExtends")) {
-            match("reservedExtends");
-            match("idClase");
-        } else { /* epsilon */ }
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(HerenciaOpcional, currentToken)) {
+            match(reservedExtends);
+            match(idClase);
+        }
+        else { /* epsilon */ }
     }
 
     private void listaMiembros() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        //TODO
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Miembro, currentToken)) {
+            miembro();
+            listaMiembros();
+        } else { /* epsilon */ }
     }
 
     private void miembro() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("idClase") || currentTokenName.equals("reservedBoolean") ||
-                currentTokenName.equals("reservedChar") || currentTokenName.equals("reservedInt")) {
-            atributo();
-        } else if (currentTokenName.equals("reservedAbstract") ||
-                currentTokenName.equals("reservedFinal") ||
-                currentTokenName.equals("reservedStatic")) {
-            metodo();
-        } else if (currentTokenName.equals("reservedPublic")) {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Tipo, currentToken)) {
+            tipo();
+            match(idMetVar);
+            _restoMiembro();
+        }
+        else if (currentToken.equals(reservedVoid)) {
+            match(reservedVoid);
+            match(idMetVar);
+            argsFormales();
+            bloqueOpcional();
+        }
+        else if (firsts.containsToken(_Modificador, currentToken)) {
+            _modificador();
+            tipoMetodo();
+            match(idMetVar);
+            argsFormales();
+            bloqueOpcional();
+        }
+        else if (firsts.containsToken(Constructor, currentToken)) {
             constructor();
-        } else {
-            throw new SyntacticException(currentToken, "idClase, boolean, char, int, abstract, final, static, public");
-
+        }
+        else {
+            //TODO - error
         }
     }
 
-    private void atributo() throws Exception {
-        tipo();
-        match("idMetVar");
+    private void _restoMiembro() throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(semicolon)) {
+            match(semicolon);
+        }
+        else if (firsts.containsToken(ArgsFormales, currentToken)) {
+            argsFormales();
+            bloqueOpcional();
+        }
+        else {
+            //TODO - error
+        }
     }
 
-    private void metodo() throws Exception {
-        modificadorOpcional();
-        tipoMetodo();
-        match("idMetVar");
-        argsFormales();
-        bloqueOpcional();
+    private void _modificador() throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(_Modificador, currentToken)) {
+            match(currentToken);
+        }
+        else {
+            //TODO - error
+        }
     }
 
     private void constructor() throws Exception {
-        match("reservedPublic");
-        match("idClase");
+        match(reservedPublic);
+        match(idClase);
         argsFormales();
         bloque();
     }
 
     private void tipoMetodo() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("void")) {
-            match("reservedVoid");
-        } else {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Tipo, currentToken)) {
             tipo();
+        }
+        else if (currentToken.equals(reservedVoid)) {
+            match(reservedVoid);
+        }
+        else {
+            //TODO - error
         }
     }
 
     private void tipo() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("idClase")) {
-            match("idClase");
-        } else {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(TipoPrimitivo, currentToken)) {
             tipoPrimitivo();
+        }
+        else if (currentToken.equals(idClase)) {
+            match(idClase);
+        }
+        else {
+            //TODO - error
         }
     }
 
     private void tipoPrimitivo() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedBoolean")) {
-            match("reservedBoolean");
-        } else if (currentTokenName.equals("reservedChar")) {
-            match("reservedChar");
-        } else if (currentTokenName.equals("reservedInt")) {
-            match("reservedInt");
-        } else {
-            throw new SyntacticException(currentToken, "boolean, char, int");
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(TipoPrimitivo, currentToken)) {
+            match(currentToken);
         }
+        else { /* epsilon */ }
     }
 
     private void argsFormales() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("openParenthesis")) {
-            match("openParenthesis");
-            listaArgsFormalesOpcional();
-            match("closeParenthesis");
-        } else {
-            throw new SyntacticException(currentToken, "(");
-        }
+        match(openParenthesis);
+        listaArgsFormalesOpcional();
+        match(closeParenthesis);
     }
 
     private void listaArgsFormalesOpcional() throws Exception {
-        //TODO
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(ListaArgsFormales, currentToken)) {
+            listaArgsFormales();
+        }
+        else { /* epsilon */ }
     }
 
     private void listaArgsFormales() throws Exception {
-        //TODO
+        argFormal();
+        _restoListaArgsFormales();
+    }
+
+    private void _restoListaArgsFormales() throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(comma)) {
+            match(comma);
+            argFormal();
+            _restoListaArgsFormales();
+        }
+        else { /* epsilon */ }
     }
 
     private void argFormal() throws Exception {
         tipo();
-        match("idMetVar");
+        match(idMetVar);
     }
 
     private void bloqueOpcional() throws Exception {
-        //TODO
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Bloque, currentToken)) {
+            bloque();
+        }
+        else { /* epsilon */ }
     }
 
     private void bloque() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("openBracket")) {
-            match("openBracket");
-            listaSentencias();
-            match("closeBracket");
-        } else {
-            throw new SyntacticException(currentToken, "{");
-        }
+        match(openBracket);
+        listaSentencias();
+        match(closeBracket);
     }
 
     private void listaSentencias() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (!currentTokenName.equals("closeParenthesis")) {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Sentencia, currentToken)) {
             sentencia();
             listaSentencias();
         }
@@ -191,278 +232,275 @@ public class SyntacticAnalyzer {
     }
 
     private void sentencia() throws Exception {
-        //TODO
-    }
-
-    private void asignacion() throws Exception {
-        expresion();
-    }
-
-    private void llamada() throws Exception {
-        expresion();
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(semicolon)) {
+            match(semicolon);
+        }
+        else if (firsts.containsToken(Expresion, currentToken)) {
+            expresion();
+            match(semicolon);
+        }
+        else if (firsts.containsToken(VarLocal, currentToken)) {
+            varLocal();
+            match(semicolon);
+        }
+        else if (firsts.containsToken(Return, currentToken)) {
+            returnStatement();
+            match(semicolon);
+        }
+        else if (firsts.containsToken(Bloque, currentToken)) {
+            bloque();
+        }
+        else if (firsts.containsToken(If, currentToken)) {
+            ifStatement();
+        }
+        else if (firsts.containsToken(While, currentToken)) {
+            whileStatement();
+        }
+        else {
+            //TODO - error
+        }
     }
 
     private void varLocal() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedVar")) {
-            match("reservedVar");
-            match("idMetVar");
-            match("assignOp");
-            expresionCompuesta();
-        } else {
-            throw new SyntacticException(currentToken, "var");
-        }
+        match(reservedVar);
+        match(idMetVar);
+        match(assignOp);
+        expresionCompuesta();
     }
 
     private void returnStatement() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedReturn")) {
-            match("reservedReturn");
-            expresionOpcional();
-        } else {
-            throw new SyntacticException(currentToken, "return");
-        }
+        match(reservedReturn);
+        expresionOpcional();
     }
 
     private void expresionOpcional() throws Exception {
-        expresion();
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Expresion, currentToken)) {
+            expresion();
+        }
+        else { /* epsilon */ }
     }
 
     private void ifStatement() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedIf")) {
-            match("reservedIf");
-            match("openParenthesis");
-            expresion();
-            match("closeParenthesis");
-            sentencia();
-            _restoIfStatement();
-        } else {
-            throw new SyntacticException(currentToken, "if");
-        }
+        match(reservedIf);
+        match(openParenthesis);
+        expresion();
+        match(closeParenthesis);
+        sentencia();
+        _restoIfStatement();
     }
 
     private void _restoIfStatement() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedElse")) {
-            match("reservedElse");
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(reservedElse)) {
+            match(reservedElse);
             sentencia();
-        } else { /* epsilon */ }
+        }
+        else { /* epsilon */ }
     }
 
     private void whileStatement() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedWhile")) {
-            match("reservedWhile");
-            match("openParenthesis");
-            expresion();
-            match("closeParenthesis");
-            sentencia();
-        } else {
-            throw new SyntacticException(currentToken, "while");
-        }
+        match(reservedWhile);
+        match(openParenthesis);
+        expresion();
+        match(closeParenthesis);
+        sentencia();
     }
 
     private void expresion() throws Exception {
-        expresion();
+        expresionCompuesta();
         _restoExpresion();
     }
 
     private void _restoExpresion() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("assignOp") || currentTokenName.equals("plusOp") ||
-                currentTokenName.equals("minusOp")) {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(OperadorAsignacion, currentToken)) {
             operadorAsignacion();
             expresionCompuesta();
-        } else { /* epsilon */ }
+        }
+        else { /* epsilon */ }
     }
 
     private void operadorAsignacion() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("assignOp")) {
-            match("assignOp");
-        } else if (currentTokenName.equals("plusOp")) {
-            match("plusOp");
-            match("assignOp");
-        } else if (currentTokenName.equals("minusOp")) {
-            match("minusOp");
-            match("assignOp");
-        } else {
-            throw new SyntacticException(currentToken, "=, +=, -=");
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(assignOp)) {
+            match(assignOp);
+        }
+        else if (currentToken.equals(plusOp)) {
+            match(plusOp);
+            match(assignOp);
+        }
+        else if (currentToken.equals(minusOp)) {
+            match(minusOp);
+            match(assignOp);
+        }
+        else {
+            //TODO - error
         }
     }
 
     private void expresionCompuesta() throws Exception {
-        //TODO
+        expresionBasica();
+        _restoExpresionCompuesta();
+    }
+
+    private void _restoExpresionCompuesta() throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(OperadorBinario, currentToken)) {
+            operadorBinario();
+            expresionBasica();
+            _restoExpresionCompuesta();
+        }
+        else { /* epsilon */ }
     }
 
     private void operadorBinario() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("orOp")) {
-            match("orOp");
-        } else if (currentTokenName.equals("andOp")) {
-            match("andOp");
-        } else if (currentTokenName.equals("equalsOp")) {
-            match("equalsOp");
-        } else if (currentTokenName.equals("notEqualOp")) {
-            match("notEqualOp");
-        } else if (currentTokenName.equals("lesserOp")) {
-            match("lesserOp");
-        } else if (currentTokenName.equals("greaterOp")) {
-            match("greaterOp");
-        } else if (currentTokenName.equals("lesserEqualOp")) {
-            match("lesserEqualOp");
-        } else if (currentTokenName.equals("greaterEqualOp")) {
-            match("greaterEqualOp");
-        } else if (currentTokenName.equals("plusOp")) {
-            match("plusOp");
-        } else if (currentTokenName.equals("minusOp")) {
-            match("minusOp");
-        } else if (currentTokenName.equals("multOp")) {
-            match("multOp");
-        } else if (currentTokenName.equals("divOp")) {
-            match("divOp");
-        } else if (currentTokenName.equals("modOp")) {
-            match("modOp");
-        } else {
-            throw new SyntacticException(currentToken, "||, &&, ==, !=, <, >, <=, >=, +, -, *, /, %");
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(OperadorBinario, currentToken)) {
+            match(currentToken);
+        }
+        else {
+            //TODO - error
         }
     }
 
     private void expresionBasica() throws Exception {
-        operando();
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(OperadorUnario, currentToken)) {
+            operadorUnario();
+            operando();
+        }
+        else if (firsts.containsToken(Operando, currentToken)) {
+            operando();
+        }
+        else {
+            //TODO - error
+        }
     }
 
     private void operadorUnario() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("plusOp")) {
-            match("plusOp");
-        } else if (currentTokenName.equals("incOp")) {
-            match("incOp");
-        } else if (currentTokenName.equals("minusOp")) {
-            match("minusOp");
-        } else if (currentTokenName.equals("decOp")) {
-            match("decOp");
-        } else if (currentTokenName.equals("notOp")) {
-            match("notOp");
-        } else {
-            throw new SyntacticException(currentToken, "+, ++, -, --, !");
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(OperadorUnario, currentToken)) {
+            match(currentToken);
+        }
+        else {
+            //TODO - error
         }
     }
 
     private void operando() throws Exception {
-        //TODO
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Primitivo, currentToken)) {
+            primitivo();
+        }
+        else if (firsts.containsToken(Referencia, currentToken)) {
+            referencia();
+        }
     }
 
     private void primitivo() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("boolTrue")) {
-            match("boolTrue");
-        } else if (currentTokenName.equals("boolFalse")) {
-            match("boolFalse");
-        } else if (currentTokenName.equals("intLiteral")) {
-            match("intLiteral");
-        } else if (currentTokenName.equals("charLiteral")) {
-            match("charLiteral");
-        } else if (currentTokenName.equals("reservedNull")) {
-            match("reservedNull");
-        } else {
-            throw new SyntacticException(currentToken, "true, false, intLiteral, charLiteral, null");
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(Primitivo, currentToken)) {
+            match(currentToken);
         }
     }
 
     private void referencia() throws Exception {
-        //TODO
+        primario();
+        _restoReferencia();
+    }
+
+    private void _restoReferencia() throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(_Encadenado, currentToken)) {
+            _encadenado();
+            _restoReferencia();
+        }
+        else { /* epsilon */ }
+    }
+
+    private void _encadenado () throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(dot)) {
+            match(dot);
+            match(idMetVar);
+            _restoEncadenado();
+        }
+        else {
+            //TODO - error
+        }
+    }
+
+    private void _restoEncadenado () throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(ArgsActuales, currentToken)) {
+            argsActuales();
+        }
+        else { /* epsilon */ }
     }
 
     private void primario() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedThis")) {
-            match("reservedThis");
-        } else if (currentTokenName.equals("stringLiteral")) {
-            match("stringLiteral");
-            //TODO - Factorizacion con accesoVar y llamadaMetodo
-        } else if (currentTokenName.equals("idMetVar")) {
-            accesoVar();
-        } else if (currentTokenName.equals("new")) {
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(reservedThis) || currentToken.equals(stringLiteral)) {
+            match(currentToken);
+        }
+        else if (firsts.containsToken(LlamadaConstructor, currentToken)) {
             llamadaConstructor();
-        } else if (currentTokenName.equals("idMetVar")) {
-            llamadaMetodo();
-        } else if (currentTokenName.equals("idClase")) {
+        }
+        else if (currentToken.equals(idMetVar)) {
+            match(idMetVar);
+            _restoLlamadaMetodo();
+        }
+        else if (firsts.containsToken(LlamadaMetodoEstatico, currentToken)) {
             llamadaMetodoEstatico();
-        } else if (currentTokenName.equals("openParenthesis")) {
+        }
+        else if (firsts.containsToken(ExpresionParentizada, currentToken)) {
             expresionParentizada();
-        } else {
-            throw new SyntacticException(currentToken, "this, stringLiteral, idMetVar, new, idClase, (");
+        }
+        else {
+            //TODO - error
         }
     }
 
-    private void accesoVar() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("idMetVar")) {
-            match("idMetVar");
-        } else {
-            throw new SyntacticException(currentToken, "idMetVar");
+    private void _restoLlamadaMetodo() throws Exception {
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(ArgsActuales, currentToken)) {
+            argsActuales();
         }
+        else { /* epsilon */ }
     }
 
     private void llamadaConstructor() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("reservedNew")) {
-            match("reservedNew");
-            match("idClase");
-            argsActuales();
-        } else {
-            throw new SyntacticException(currentToken, "new");
-        }
+        match(reservedNew);
+        match(idClase);
+        argsActuales();
+    }
+    private void llamadaMetodoEstatico() throws Exception {
+        match(idClase);
+        match(dot);
+        match(idMetVar);
+        argsActuales();
     }
 
     private void expresionParentizada() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("openParenthesis")) {
-            match("openParenthesis");
-            expresion();
-            match("closeParenthesis");
-        } else {
-            throw new SyntacticException(currentToken, "(");
-        }
-    }
-
-    private void llamadaMetodo() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("idMetVar")) {
-            match("idMetVar");
-            argsActuales();
-        } else {
-            throw new SyntacticException(currentToken, "idMetVar");
-        }
-    }
-
-    private void llamadaMetodoEstatico() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("idClase")) {
-            match("idClase");
-            match("dot");
-            match("idMetVar");
-            argsActuales();
-        } else {
-            throw new SyntacticException(currentToken, "idClase");
-        }
+        match(openParenthesis);
+        expresion();
+        match(closeParenthesis);
     }
 
     private void argsActuales() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("openParenthesis")) {
-            match("openParenthesis");
-            listaExpsOpcional();
-            match("closeParenthesis");
-        } else {
-            throw new SyntacticException(currentToken, "(");
-        }
+        match(openParenthesis);
+        listaExpsOpcional();
+        match(closeParenthesis);
     }
 
     private void listaExpsOpcional() throws Exception {
-        //TODO
+        TokenType currentToken = getCurrentTokenType();
+        if (firsts.containsToken(ListaExps, currentToken)) {
+            listaExps();
+        }
+        else { /* epsilon */ }
     }
 
     private void listaExps() throws Exception {
@@ -471,31 +509,11 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoListaExps() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("comma")) {
-            match("comma");
+        TokenType currentToken = getCurrentTokenType();
+        if (currentToken.equals(comma)) {
+            match(comma);
             listaExps();
-        } else { /* epsilon */ }
-    }
-
-    private void varEncadenada() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("dot")) {
-            match("dot");
-            match("idMetVar");
-        } else {
-            throw new SyntacticException(currentToken, ". idMetVar");
         }
-    }
-
-    private void metodoEncadenado() throws Exception {
-        String currentTokenName = getCurrentTokenName();
-        if (currentTokenName.equals("dot")) {
-            match("dot");
-            match("idMetVar");
-            argsActuales();
-        } else {
-            throw new SyntacticException(currentToken, ". idMetVar");
-        }
+        else { /* epsilon */ }
     }
 }
