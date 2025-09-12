@@ -52,7 +52,6 @@ public enum SyntacticMethod {
     _RestoListaExps,
     _RestoMiembro,
     _Modificador,
-    _InicioMiembro,
     _RestoLlamadaMetodo,
     _RestoEncadenado
     ;
