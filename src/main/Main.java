@@ -23,7 +23,8 @@ public class Main {
         if (args.length == 1) {
             String fileName = args[0];
             openFile(fileName);
-            lexicalAnalysis();
+            //lexicalAnalysis();
+            syntacticAnalysis();
             closeFile();
         }
         else {
@@ -32,14 +33,9 @@ public class Main {
     }
 
     public static void initialize(){
-        try {
-            sourceManager = new SourceManagerImplEficiente();
-            lexicalAnalyzer = new LexicalAnalyzer();
-            //syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
-        }
-        catch (Exception e) {
-            //TODO - corregir esto
-        }
+        sourceManager = new SourceManagerImplEficiente();
+        lexicalAnalyzer = new LexicalAnalyzer();
+        //syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
     }
     private static void openFile (String fileName) {
         try {
@@ -77,5 +73,16 @@ public class Main {
 
         System.out.println(lexicalConsoleMessage.getSuccessMessage());
         System.out.println(lexicalConsoleMessage.getErrorMessage());
+    }
+
+    private static void syntacticAnalysis() {
+        try {
+            lexicalAnalyzer.init(sourceManager);
+            syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+            System.out.println("[SinErrores]");
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

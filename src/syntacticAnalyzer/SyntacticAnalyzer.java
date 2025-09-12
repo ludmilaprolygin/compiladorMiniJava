@@ -5,6 +5,7 @@ import model.Firsts;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SyntacticException;
+import utils.messages.SyntacticErrorMessage;
 
 import static model.SyntacticMethod.*;
 import static model.TokenType.*;
@@ -24,7 +25,7 @@ public class SyntacticAnalyzer {
         if (tokenType.equals(getCurrentTokenType())) {
             currentToken = lexicalAnalyzer.nextToken();
         } else {
-            throw new SyntacticException(currentToken, tokenType.toString());
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, tokenType.toString()));
         }
     }
 
@@ -38,8 +39,8 @@ public class SyntacticAnalyzer {
     }
 
     private void listaClases() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Clase, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Clase, currentTokenType)) {
             clase();
             listaClases();
         }
@@ -57,16 +58,16 @@ public class SyntacticAnalyzer {
     }
 
     private void modificadorOpcional() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(ModificadorOpcional, currentToken)) {
-            match(currentToken);
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(ModificadorOpcional, currentTokenType)) {
+            match(currentTokenType);
         }
         else { /* epsilon */ }
     }
 
     private void herenciaOpcional() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(HerenciaOpcional, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             match(reservedExtends);
             match(idClase);
         }
@@ -74,62 +75,62 @@ public class SyntacticAnalyzer {
     }
 
     private void listaMiembros() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Miembro, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Miembro, currentTokenType)) {
             miembro();
             listaMiembros();
         } else { /* epsilon */ }
     }
 
     private void miembro() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Tipo, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Tipo, currentTokenType)) {
             tipo();
             match(idMetVar);
             _restoMiembro();
         }
-        else if (currentToken.equals(reservedVoid)) {
+        else if (currentTokenType.equals(reservedVoid)) {
             match(reservedVoid);
             match(idMetVar);
             argsFormales();
             bloqueOpcional();
         }
-        else if (firsts.containsToken(_Modificador, currentToken)) {
+        else if (firsts.containsToken(_Modificador, currentTokenType)) {
             _modificador();
             tipoMetodo();
             match(idMetVar);
             argsFormales();
             bloqueOpcional();
         }
-        else if (firsts.containsToken(Constructor, currentToken)) {
+        else if (firsts.containsToken(Constructor, currentTokenType)) {
             constructor();
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString()));
         }
     }
 
     private void _restoMiembro() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(semicolon)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(semicolon)) {
             match(semicolon);
         }
-        else if (firsts.containsToken(ArgsFormales, currentToken)) {
+        else if (firsts.containsToken(ArgsFormales, currentTokenType)) {
             argsFormales();
             bloqueOpcional();
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_RestoMiembro).toString()));
         }
     }
 
     private void _modificador() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(_Modificador, currentToken)) {
-            match(currentToken);
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_Modificador, currentTokenType)) {
+            match(currentTokenType);
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Modificador).toString()));
         }
     }
 
@@ -141,35 +142,35 @@ public class SyntacticAnalyzer {
     }
 
     private void tipoMetodo() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Tipo, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Tipo, currentTokenType)) {
             tipo();
         }
-        else if (currentToken.equals(reservedVoid)) {
+        else if (currentTokenType.equals(reservedVoid)) {
             match(reservedVoid);
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(TipoMetodo).toString()));
         }
     }
 
     private void tipo() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(TipoPrimitivo, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             tipoPrimitivo();
         }
-        else if (currentToken.equals(idClase)) {
+        else if (currentTokenType.equals(idClase)) {
             match(idClase);
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString()));
         }
     }
 
     private void tipoPrimitivo() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(TipoPrimitivo, currentToken)) {
-            match(currentToken);
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
+            match(currentTokenType);
         }
         else { /* epsilon */ }
     }
@@ -181,8 +182,8 @@ public class SyntacticAnalyzer {
     }
 
     private void listaArgsFormalesOpcional() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(ListaArgsFormales, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(ListaArgsFormales, currentTokenType)) {
             listaArgsFormales();
         }
         else { /* epsilon */ }
@@ -194,8 +195,8 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoListaArgsFormales() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(comma)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(comma)) {
             match(comma);
             argFormal();
             _restoListaArgsFormales();
@@ -209,8 +210,8 @@ public class SyntacticAnalyzer {
     }
 
     private void bloqueOpcional() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Bloque, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Bloque, currentTokenType)) {
             bloque();
         }
         else { /* epsilon */ }
@@ -223,8 +224,8 @@ public class SyntacticAnalyzer {
     }
 
     private void listaSentencias() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Sentencia, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Sentencia, currentTokenType)) {
             sentencia();
             listaSentencias();
         }
@@ -232,33 +233,33 @@ public class SyntacticAnalyzer {
     }
 
     private void sentencia() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(semicolon)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(semicolon)) {
             match(semicolon);
         }
-        else if (firsts.containsToken(Expresion, currentToken)) {
+        else if (firsts.containsToken(Expresion, currentTokenType)) {
             expresion();
             match(semicolon);
         }
-        else if (firsts.containsToken(VarLocal, currentToken)) {
+        else if (firsts.containsToken(VarLocal, currentTokenType)) {
             varLocal();
             match(semicolon);
         }
-        else if (firsts.containsToken(Return, currentToken)) {
+        else if (firsts.containsToken(Return, currentTokenType)) {
             returnStatement();
             match(semicolon);
         }
-        else if (firsts.containsToken(Bloque, currentToken)) {
+        else if (firsts.containsToken(Bloque, currentTokenType)) {
             bloque();
         }
-        else if (firsts.containsToken(If, currentToken)) {
+        else if (firsts.containsToken(If, currentTokenType)) {
             ifStatement();
         }
-        else if (firsts.containsToken(While, currentToken)) {
+        else if (firsts.containsToken(While, currentTokenType)) {
             whileStatement();
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Sentencia).toString()));
         }
     }
 
@@ -275,8 +276,8 @@ public class SyntacticAnalyzer {
     }
 
     private void expresionOpcional() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Expresion, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Expresion, currentTokenType)) {
             expresion();
         }
         else { /* epsilon */ }
@@ -292,8 +293,8 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoIfStatement() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(reservedElse)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(reservedElse)) {
             match(reservedElse);
             sentencia();
         }
@@ -314,8 +315,8 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoExpresion() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(OperadorAsignacion, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
             operadorAsignacion();
             expresionCompuesta();
         }
@@ -323,20 +324,20 @@ public class SyntacticAnalyzer {
     }
 
     private void operadorAsignacion() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(assignOp)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(assignOp)) {
             match(assignOp);
         }
-        else if (currentToken.equals(plusOp)) {
+        else if (currentTokenType.equals(plusOp)) {
             match(plusOp);
             match(assignOp);
         }
-        else if (currentToken.equals(minusOp)) {
+        else if (currentTokenType.equals(minusOp)) {
             match(minusOp);
             match(assignOp);
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorAsignacion).toString()));
         }
     }
 
@@ -346,8 +347,8 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoExpresionCompuesta() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(OperadorBinario, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(OperadorBinario, currentTokenType)) {
             operadorBinario();
             expresionBasica();
             _restoExpresionCompuesta();
@@ -356,53 +357,53 @@ public class SyntacticAnalyzer {
     }
 
     private void operadorBinario() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(OperadorBinario, currentToken)) {
-            match(currentToken);
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(OperadorBinario, currentTokenType)) {
+            match(currentTokenType);
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorBinario).toString()));
         }
     }
 
     private void expresionBasica() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(OperadorUnario, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(OperadorUnario, currentTokenType)) {
             operadorUnario();
             operando();
         }
-        else if (firsts.containsToken(Operando, currentToken)) {
+        else if (firsts.containsToken(Operando, currentTokenType)) {
             operando();
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(ExpresionBasica).toString()));
         }
     }
 
     private void operadorUnario() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(OperadorUnario, currentToken)) {
-            match(currentToken);
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(OperadorUnario, currentTokenType)) {
+            match(currentTokenType);
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorUnario).toString()));
         }
     }
 
     private void operando() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Primitivo, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Primitivo, currentTokenType)) {
             primitivo();
         }
-        else if (firsts.containsToken(Referencia, currentToken)) {
+        else if (firsts.containsToken(Referencia, currentTokenType)) {
             referencia();
         }
     }
 
     private void primitivo() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(Primitivo, currentToken)) {
-            match(currentToken);
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Primitivo, currentTokenType)) {
+            match(currentTokenType);
         }
     }
 
@@ -412,8 +413,8 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoReferencia() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(_Encadenado, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_Encadenado, currentTokenType)) {
             _encadenado();
             _restoReferencia();
         }
@@ -421,51 +422,51 @@ public class SyntacticAnalyzer {
     }
 
     private void _encadenado () throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(dot)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(dot)) {
             match(dot);
             match(idMetVar);
             _restoEncadenado();
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Encadenado).toString()));
         }
     }
 
     private void _restoEncadenado () throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(ArgsActuales, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(ArgsActuales, currentTokenType)) {
             argsActuales();
         }
         else { /* epsilon */ }
     }
 
     private void primario() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(reservedThis) || currentToken.equals(stringLiteral)) {
-            match(currentToken);
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(reservedThis) || currentTokenType.equals(stringLiteral)) {
+            match(currentTokenType);
         }
-        else if (firsts.containsToken(LlamadaConstructor, currentToken)) {
+        else if (firsts.containsToken(LlamadaConstructor, currentTokenType)) {
             llamadaConstructor();
         }
-        else if (currentToken.equals(idMetVar)) {
+        else if (currentTokenType.equals(idMetVar)) {
             match(idMetVar);
             _restoLlamadaMetodo();
         }
-        else if (firsts.containsToken(LlamadaMetodoEstatico, currentToken)) {
+        else if (firsts.containsToken(LlamadaMetodoEstatico, currentTokenType)) {
             llamadaMetodoEstatico();
         }
-        else if (firsts.containsToken(ExpresionParentizada, currentToken)) {
+        else if (firsts.containsToken(ExpresionParentizada, currentTokenType)) {
             expresionParentizada();
         }
         else {
-            //TODO - error
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString()));
         }
     }
 
     private void _restoLlamadaMetodo() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(ArgsActuales, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(ArgsActuales, currentTokenType)) {
             argsActuales();
         }
         else { /* epsilon */ }
@@ -496,8 +497,8 @@ public class SyntacticAnalyzer {
     }
 
     private void listaExpsOpcional() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (firsts.containsToken(ListaExps, currentToken)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(ListaExps, currentTokenType)) {
             listaExps();
         }
         else { /* epsilon */ }
@@ -509,8 +510,8 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoListaExps() throws Exception {
-        TokenType currentToken = getCurrentTokenType();
-        if (currentToken.equals(comma)) {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(comma)) {
             match(comma);
             listaExps();
         }

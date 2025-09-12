@@ -14,6 +14,7 @@ public class Token {
     public TokenType getTokenType () { return tokenType; }
 
     public int getRow() { return row; }
+    public String getLexeme() { return lexeme; }
 
     public String format() {
         return "(" + tokenType.getTypeExplanation() + ","  + lexeme + "," + row + ")";
