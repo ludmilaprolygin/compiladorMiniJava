@@ -33,7 +33,7 @@ public class Main {
 
     public static void initialize(){
         try {
-            sourceManager = new SourceManagerImpl();
+            sourceManager = new SourceManagerImplEficiente();
             lexicalAnalyzer = new LexicalAnalyzer();
             //syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
         }

@@ -5,12 +5,11 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class SourceManagerImpl implements SourceManager{
-    private BufferedReader reader;
-    private String currentLine;
-    private int lineNumber;
-    private int lineIndexNumber;
-    private boolean mustReadNextLine;
-
+    protected BufferedReader reader;
+    protected String currentLine;
+    protected int lineNumber;
+    protected int lineIndexNumber;
+    protected boolean mustReadNextLine;
 
     public SourceManagerImpl() {
         currentLine = "";
