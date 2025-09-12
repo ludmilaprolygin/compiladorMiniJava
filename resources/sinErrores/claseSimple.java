@@ -1,5 +1,5 @@
 ///[SinErrores]
 
 class Simple {
-    int count;
+    int count = 2;
 }

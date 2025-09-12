@@ -115,6 +115,10 @@ public class SyntacticAnalyzer {
         if (currentTokenType.equals(semicolon)) {
             match(semicolon);
         }
+        else if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
+            _inicializacionAtributoOpcional();
+            match(semicolon);
+        }
         else if (firsts.containsToken(ArgsFormales, currentTokenType)) {
             argsFormales();
             bloqueOpcional();
@@ -122,6 +126,15 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_RestoMiembro).toString()));
         }
+    }
+
+    private void _inicializacionAtributoOpcional() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
+            match(currentTokenType);
+            operando();
+        }
+        else { /* epsilon */ }
     }
 
     private void _modificador() throws Exception {
