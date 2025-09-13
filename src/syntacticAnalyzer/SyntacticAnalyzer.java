@@ -529,8 +529,43 @@ public class SyntacticAnalyzer {
     private void llamadaConstructor() throws Exception {
         match(reservedNew);
         match(idClase);
+        _genericidad();
         argsActuales();
     }
+
+    private void _genericidad() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(currentTokenType.equals(lesserOp)) {
+            match(lesserOp);
+            _inicioGenericidad();
+        }
+        else { /* epsilon */ }
+    }
+
+    private void _inicioGenericidad() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(currentTokenType.equals(greaterOp)) {
+            match(greaterOp);
+        }
+        else if (firsts.containsToken(Tipo, currentTokenType)) {
+            tipo();
+            match(greaterOp);
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioGenericidad).toString(), _InicioGenericidad));
+        }
+    }
+
+    private void _tipoOpcional() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
+            match(lesserOp);
+            tipo();
+            match(greaterOp);
+        }
+        else { /* epsilon */ }
+    }
+
     private void llamadaMetodoEstatico() throws Exception {
         match(idClase);
         match(dot);

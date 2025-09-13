@@ -61,6 +61,7 @@ public enum SyntacticMethod {
     _VarLocalClasica,
     _RestoVarLocalClasica,
     _AsignacionOpcional,
-    _TipoParametricoOpcional
+    _TipoParametricoOpcional,
+    _InicioGenericidad
     ;
 }

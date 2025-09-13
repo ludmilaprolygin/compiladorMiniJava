@@ -66,6 +66,7 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(_RestoVarLocalClasica, comma);
         initEntry(_Valor, stringLiteral, intLiteral, charLiteral);
         initEntry(_TipoParametricoOpcional, lesserOp);
+        initEntry(_InicioGenericidad, lesserOp);
     }
 
     private void noTerminales() {
