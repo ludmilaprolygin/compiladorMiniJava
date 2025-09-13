@@ -556,16 +556,6 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _tipoOpcional() throws Exception {
-        TokenType currentTokenType = getCurrentTokenType();
-        if(firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
-            match(lesserOp);
-            tipo();
-            match(greaterOp);
-        }
-        else { /* epsilon */ }
-    }
-
     private void llamadaMetodoEstatico() throws Exception {
         match(idClase);
         match(dot);
@@ -621,6 +611,7 @@ public class SyntacticAnalyzer {
     // Opcional Variables Locales Clásicas E2
     private void _varLocalClasica() throws Exception {
         tipo();
+        _tipoParametricoOpcional();
         match(idMetVar);
         _restoVarLocalClasica();
         _asignacionOpcional();
