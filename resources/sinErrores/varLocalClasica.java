@@ -6,5 +6,6 @@ class VarLocal {
         int x,y,z = 10;
         int x,y,z;
         int x = 10;
+        int x,y,z = 1 + 2;
     }
 }
