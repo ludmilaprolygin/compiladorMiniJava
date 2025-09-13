@@ -62,6 +62,9 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(BloqueOpcional, semicolon);
         initEntry(_RestoVarLocal, questionMark);
         initEntry(_InicializacionAtributoOpcional, assignOp);
+        initEntry(_InterfaceOpcional, reservedImplements);
+        initEntry(_RestoVarLocalClasica, comma);
+        initEntry(_Valor, stringLiteral, intLiteral, charLiteral);
     }
 
     private void noTerminales() {
@@ -73,7 +76,10 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(Miembro, get(_Modificador));
         initEntry(Miembro, get(Constructor));
         initEntry(Miembro, get(Tipo));
+        initEntry(_VarLocalClasica, get(Tipo));
         initEntry(ArgFormal, get(Tipo));
+        initEntry(_AsignacionOpcional, get(OperadorAsignacion));
+        initEntry(Sentencia, get(_VarLocalClasica));
         initEntry(Sentencia, get(VarLocal));
         initEntry(Sentencia, get(Return));
         initEntry(Sentencia, get(If));

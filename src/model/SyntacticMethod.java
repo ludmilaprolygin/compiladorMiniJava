@@ -55,6 +55,11 @@ public enum SyntacticMethod {
     _RestoLlamadaMetodo,
     _RestoEncadenado,
     _RestoVarLocal,
-    _InicializacionAtributoOpcional
+    _InicializacionAtributoOpcional,
+    _InterfaceOpcional,
+    _Valor,
+    _VarLocalClasica,
+    _RestoVarLocalClasica,
+    _AsignacionOpcional
     ;
 }

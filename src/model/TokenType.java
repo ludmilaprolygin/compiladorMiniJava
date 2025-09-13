@@ -67,7 +67,10 @@ public enum TokenType {
     quote           ("\" quote"),
     apostrophe      ("' apostrophe"),
 
-    questionMark    ("? questionMark")
+    // Agregados para opcional de la Etapa 2
+    questionMark    ("? questionMark"),
+    reservedImplements ("implements"),
+    reservedFor     ("for")
     ;
 
     private final String typeExplanation;

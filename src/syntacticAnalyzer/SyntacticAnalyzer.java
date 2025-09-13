@@ -52,6 +52,7 @@ public class SyntacticAnalyzer {
         match(reservedClass);
         match(idClase);
         herenciaOpcional();
+        _interfaceOpcional();
         match(openBracket);
         listaMiembros();
         match(closeBracket);
@@ -69,6 +70,15 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             match(reservedExtends);
+            match(idClase);
+        }
+        else { /* epsilon */ }
+    }
+
+    private void _interfaceOpcional() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
+            match(reservedImplements);
             match(idClase);
         }
         else { /* epsilon */ }
@@ -257,6 +267,10 @@ public class SyntacticAnalyzer {
         }
         else if (firsts.containsToken(Expresion, currentTokenType)) {
             expresion();
+            match(semicolon);
+        }
+        else if (firsts.containsToken(_VarLocalClasica, currentTokenType)) {
+            _varLocalClasica();
             match(semicolon);
         }
         else if (firsts.containsToken(VarLocal, currentTokenType)) {
@@ -544,5 +558,53 @@ public class SyntacticAnalyzer {
             listaExps();
         }
         else { /* epsilon */ }
+    }
+
+    // Opcional Fors! E2
+    private void _inicioFor() throws Exception {
+        match(reservedFor);
+        match(openParenthesis);
+        _restoFor();
+    }
+
+    private void _restoFor() throws Exception {
+
+    }
+
+    // Opcional Variables Locales Clásicas E2
+    private void _varLocalClasica() throws Exception {
+        tipo();
+        match(idMetVar);
+        _restoVarLocalClasica();
+        _asignacionOpcional();
+    }
+
+    private void _restoVarLocalClasica() throws Exception{
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(comma)) {
+            match(comma);
+            match(idMetVar);
+            _restoVarLocalClasica();
+        }
+        else { /* epsilon */ }
+    }
+
+    private void _asignacionOpcional() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
+            operadorAsignacion();
+            _valor();
+        }
+        else { /* epsilon */ }
+    }
+
+    private void _valor() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_Valor, currentTokenType)) {
+            match(currentTokenType);
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Valor).toString()));
+        }
     }
 }
