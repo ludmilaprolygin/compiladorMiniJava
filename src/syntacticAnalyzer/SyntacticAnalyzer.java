@@ -284,6 +284,10 @@ public class SyntacticAnalyzer {
         if (currentTokenType.equals(semicolon)) {
             match(semicolon);
         }
+        else if (currentTokenType.equals(idClase)) {
+            match(idClase);
+            _decisorExpresionIdClase();
+        }
         else if (firsts.containsToken(Expresion, currentTokenType)) {
             expresion();
             match(semicolon);
@@ -317,25 +321,31 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _tipoClase() throws Exception {
-        match(idClase);
-    }
-
-    private void _restoTipoClasePrimario() throws Exception {
+    private void _decisorExpresionIdClase() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (currentTokenType.equals(dot)) {
             match(dot);
             match(idMetVar);
             argsActuales();
         }
-        else if (firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
-            _tipoParametricoOpcional();
+        else if (currentTokenType.equals(comma)) {
             _restoVarLocalClasica();
-            _asignacionOpcional();
+        }
+        else if (firsts.containsToken(ExpresionCompuesta, currentTokenType)) {
+            expresionCompuesta();
+            _restoVarLocalClasica();
+            _restoExpresion();
+            _operadorTernario();
+            System.out.println(currentToken.getTokenType());
+            match(semicolon);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString(), Primario));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorAsignacion).toString(), OperadorAsignacion));
         }
+    }
+
+    private void _tipoClase() throws Exception {
+        match(idClase);
     }
 
     private void varLocal() throws Exception {
@@ -719,14 +729,6 @@ public class SyntacticAnalyzer {
         bloqueOpcional();
     }
 
-    private void _restoForIteradores() throws Exception {
-        match(idMetVar);
-        match(colon);
-        match(idMetVar);
-        match(closeParenthesis);
-        bloqueOpcional();
-    }
-
     private void _restoIdMetVarForEstandar() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(assignOp)) {
@@ -781,10 +783,6 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void _restoTipoFor() throws Exception{
-
-    }
-
     // Opcional Variables Locales Clásicas E2
     private void _varLocalClasica() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
@@ -822,7 +820,9 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
             operadorAsignacion();
-            expresion();
+            //expresion();
+            expresionCompuesta();
+            _operadorTernario();
         }
         else { /* epsilon */ }
     }
