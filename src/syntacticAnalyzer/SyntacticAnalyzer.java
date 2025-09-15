@@ -7,8 +7,6 @@ import model.TokenType;
 import utils.exceptions.SyntacticException;
 import utils.messages.SyntacticErrorMessage;
 
-import java.util.ArrayList;
-
 import static model.SyntacticMethod.*;
 import static model.TokenType.*;
 
@@ -102,18 +100,28 @@ public class SyntacticAnalyzer {
     private void listaMiembros() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Miembro, currentTokenType)) {
-            miembro();
+            _miembroCompleto();
             listaMiembros();
         } else { /* epsilon */ }
+    }
+
+    private void _miembroCompleto() throws Exception {
+        _visibilidadOpcional();
+        miembro();
+    }
+
+    private void _visibilidadOpcional() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_Visibilidad, currentTokenType)) {
+            match(currentTokenType);
+        }
+        else { /* epsilon */ }
     }
 
     private void miembro() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Tipo, currentTokenType)) {
-            tipo();
-            _tipoParametricoOpcional();
-            match(idMetVar);
-            _restoMiembro();
+            _decisorMiembroTipo();
         }
         else if (currentTokenType.equals(reservedVoid)) {
             match(reservedVoid);
@@ -133,7 +141,34 @@ public class SyntacticAnalyzer {
             constructor();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString(), Miembro));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString()));
+        }
+    }
+
+    private void _decisorMiembroTipo() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(currentTokenType.equals(idClase)) {
+            match(idClase);
+            _decisorMiembroIdClase();
+        }
+        else {
+            tipoPrimitivo();
+            _tipoParametricoOpcional();
+            match(idMetVar);
+            _restoMiembro();
+        }
+    }
+
+    private void _decisorMiembroIdClase() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(firsts.containsToken(ArgsFormales, currentTokenType)) {
+            argsFormales();
+            bloque();
+        }
+        else {
+            _tipoParametricoOpcional();
+            match(idMetVar);
+            _restoMiembro();
         }
     }
 
@@ -151,7 +186,7 @@ public class SyntacticAnalyzer {
             bloqueOpcional();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_RestoMiembro).toString(), Miembro));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_RestoMiembro).toString()));
         }
     }
 
@@ -170,12 +205,12 @@ public class SyntacticAnalyzer {
             match(currentTokenType);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Modificador).toString(), Miembro));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Modificador).toString()));
         }
     }
 
     private void constructor() throws Exception {
-        match(reservedPublic);
+        //match(reservedPublic);
         match(idClase);
         argsFormales();
         bloque();
@@ -190,7 +225,7 @@ public class SyntacticAnalyzer {
             match(reservedVoid);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(TipoMetodo).toString(), TipoMetodo));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(TipoMetodo).toString()));
         }
     }
 
@@ -203,7 +238,7 @@ public class SyntacticAnalyzer {
             match(idClase);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString(), Tipo));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString()));
         }
     }
 
@@ -213,7 +248,7 @@ public class SyntacticAnalyzer {
             match(currentTokenType);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString(), Tipo));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString()));
         }
     }
 
@@ -260,7 +295,7 @@ public class SyntacticAnalyzer {
             match(semicolon);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(BloqueOpcional).toString(), BloqueOpcional));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(BloqueOpcional).toString()));
         }
     }
 
@@ -317,7 +352,7 @@ public class SyntacticAnalyzer {
             _inicioFor();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Sentencia).toString(), Sentencia));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Sentencia).toString()));
         }
     }
 
@@ -336,11 +371,10 @@ public class SyntacticAnalyzer {
             _restoVarLocalClasica();
             _restoExpresion();
             _operadorTernario();
-            System.out.println(currentToken.getTokenType());
             match(semicolon);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorAsignacion).toString(), OperadorAsignacion));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorAsignacion).toString()));
         }
     }
 
@@ -429,13 +463,7 @@ public class SyntacticAnalyzer {
     }
 
     private void operadorAsignacion() throws Exception {
-        TokenType currentTokenType = getCurrentTokenType();
-        if (currentTokenType.equals(assignOp)) {
-            match(assignOp);
-        }
-        else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorAsignacion).toString(), OperadorAsignacion));
-        }
+        match(assignOp);
     }
 
     private void expresionCompuesta() throws Exception {
@@ -459,7 +487,7 @@ public class SyntacticAnalyzer {
             match(currentTokenType);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorBinario).toString(), OperadorBinario));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorBinario).toString()));
         }
     }
 
@@ -473,7 +501,7 @@ public class SyntacticAnalyzer {
             operando();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(ExpresionBasica).toString(), ExpresionBasica));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(ExpresionBasica).toString()));
         }
     }
 
@@ -483,7 +511,7 @@ public class SyntacticAnalyzer {
             match(currentTokenType);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorUnario).toString(), OperadorUnario));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorUnario).toString()));
         }
     }
 
@@ -496,7 +524,7 @@ public class SyntacticAnalyzer {
             referencia();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Operando).toString(), Operando));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Operando).toString()));
         }
     }
 
@@ -506,7 +534,7 @@ public class SyntacticAnalyzer {
             match(currentTokenType);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primitivo).toString(), Primitivo));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primitivo).toString()));
         }
     }
 
@@ -532,7 +560,7 @@ public class SyntacticAnalyzer {
             _restoEncadenado();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Encadenado).toString(), Referencia));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Encadenado).toString()));
         }
     }
 
@@ -563,7 +591,7 @@ public class SyntacticAnalyzer {
             expresionParentizada();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString(), Primario));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString()));
         }
     }
 
@@ -601,7 +629,7 @@ public class SyntacticAnalyzer {
             match(greaterOp);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioGenericidad).toString(), _InicioGenericidad));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioGenericidad).toString()));
         }
     }
 
@@ -715,7 +743,7 @@ public class SyntacticAnalyzer {
             bloqueOpcional();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioFor).toString(), _InicioFor));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioFor).toString()));
         }
     }
 
@@ -739,7 +767,7 @@ public class SyntacticAnalyzer {
             _operadorUnarioModificador();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_ForEstandar).toString(), _ForEstandar));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_ForEstandar).toString()));
         }
     }
 
@@ -801,7 +829,7 @@ public class SyntacticAnalyzer {
             _asignacionOpcional();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(VarLocal).toString(),VarLocal));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(VarLocal).toString()));
         }
 
     }
@@ -825,15 +853,5 @@ public class SyntacticAnalyzer {
             _operadorTernario();
         }
         else { /* epsilon */ }
-    }
-
-    private void _valor() throws Exception {
-        TokenType currentTokenType = getCurrentTokenType();
-        if (firsts.containsToken(_Valor, currentTokenType)) {
-            match(currentTokenType);
-        }
-        else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Valor).toString(), _Valor));
-        }
     }
 }

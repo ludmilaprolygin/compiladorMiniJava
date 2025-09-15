@@ -70,7 +70,8 @@ public enum TokenType {
     // Agregados para opcional de la Etapa 2
     questionMark    ("? questionMark"),
     reservedImplements ("implements"),
-    reservedFor     ("for")
+    reservedFor     ("for"),
+    reservedPrivate ("private")
     ;
 
     private final String typeExplanation;

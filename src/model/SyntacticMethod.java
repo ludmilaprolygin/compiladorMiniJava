@@ -67,6 +67,7 @@ public enum SyntacticMethod {
     _ForEstandar,
     _InicioFor,
     _OperadorUnarioModificador,
-    _DeclaracionOpcional
+    _DeclaracionOpcional,
+    _Visibilidad
     ;
 }

@@ -31,7 +31,8 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(Clase, reservedClass);
         initEntry(_Modificador, reservedAbstract, reservedStatic, reservedFinal);
         initEntry(Miembro, reservedVoid);
-        initEntry(Constructor, reservedPublic);
+        initEntry(Constructor, idClase);
+        initEntry(_Visibilidad, reservedPublic, reservedPrivate);
         initEntry(TipoMetodo, reservedVoid);
         initEntry(Tipo, idClase);
         initEntry(TipoPrimitivo, reservedBoolean, reservedChar, reservedInt);
@@ -85,6 +86,7 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(Miembro, get(_Modificador));
         initEntry(Miembro, get(Constructor));
         initEntry(Miembro, get(Tipo));
+        initEntry(Miembro, get(_Visibilidad));
         initEntry(_VarLocalClasica, get(Tipo));
         initEntry(ArgFormal, get(Tipo));
         initEntry(_AsignacionOpcional, get(OperadorAsignacion));
