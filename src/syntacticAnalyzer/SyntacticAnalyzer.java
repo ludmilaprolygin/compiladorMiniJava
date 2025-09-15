@@ -635,6 +635,7 @@ public class SyntacticAnalyzer {
 
     private void _restoFor() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        /*
         if (firsts.containsToken(_ForIteradores, currentTokenType)) {
             tipo();
             match(idMetVar);
@@ -643,6 +644,71 @@ public class SyntacticAnalyzer {
             match(closeParenthesis);
             bloqueOpcional();
         }
+        */
+        if (firsts.containsToken(_ForEstandar, currentTokenType)) {
+            _declaracionOpcional();
+            match(semicolon);
+            expresion();
+            match(semicolon);
+            _incremento();
+            match(closeParenthesis);
+            bloqueOpcional();
+        }
+    }
+
+    private void _restoIdMetVarForEstandar() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(currentTokenType.equals(assignOp)) {
+            match(assignOp);
+            expresionCompuesta();
+        }
+        else if (firsts.containsToken(_OperadorUnarioModificador, currentTokenType)) {
+            _operadorUnarioModificador();
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_ForEstandar).toString(), _ForEstandar));
+        }
+    }
+
+    private void _incremento() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(currentTokenType.equals(idMetVar)) {
+            match(idMetVar);
+            _restoIdMetVarForEstandar();
+        }
+        else if (firsts.containsToken(_OperadorUnarioModificador, currentTokenType)) {
+            _operadorUnarioModificador();
+            match(idMetVar);
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_ForEstandar).toString(), _ForEstandar));
+        }
+    }
+
+    private void _operadorUnarioModificador() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_OperadorUnarioModificador, currentTokenType)) {
+            match(currentTokenType);
+        }
+    }
+
+    private void _declaracionTipoOpcional() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(Tipo, currentTokenType)) {
+            tipo();
+        }
+        else { /* epsilon */ }
+    }
+
+    private void _declaracionOpcional() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_DeclaracionOpcional, currentTokenType)) {
+            _declaracionTipoOpcional();
+            match(idMetVar);
+            match(assignOp);
+            expresion();
+        }
+        else { /* epsilon */ }
     }
 
     // Opcional Variables Locales Clásicas E2

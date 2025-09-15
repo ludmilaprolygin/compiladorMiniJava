@@ -65,6 +65,8 @@ public enum SyntacticMethod {
     _InicioGenericidad,
     _ForIteradores,
     _ForEstandar,
-    _InicioFor
+    _InicioFor,
+    _OperadorUnarioModificador,
+    _DeclaracionOpcional
     ;
 }
