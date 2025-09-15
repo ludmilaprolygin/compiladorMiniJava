@@ -82,7 +82,6 @@ public class Main {
             System.out.println("[SinErrores]");
         }
         catch (Exception e) {
-            e.printStackTrace();
             System.out.println(e.getMessage());
         }
     }

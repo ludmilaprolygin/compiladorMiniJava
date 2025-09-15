@@ -137,9 +137,6 @@ public class SyntacticAnalyzer {
             argsFormales();
             bloqueOpcional();
         }
-        else if (firsts.containsToken(Constructor, currentTokenType)) {
-            constructor();
-        }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString()));
         }
@@ -186,7 +183,7 @@ public class SyntacticAnalyzer {
             bloqueOpcional();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_RestoMiembro).toString()));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString()));
         }
     }
 
@@ -207,13 +204,6 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Modificador).toString()));
         }
-    }
-
-    private void constructor() throws Exception {
-        //match(reservedPublic);
-        match(idClase);
-        argsFormales();
-        bloque();
     }
 
     private void tipoMetodo() throws Exception {
@@ -248,7 +238,7 @@ public class SyntacticAnalyzer {
             match(currentTokenType);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString()));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(TipoPrimitivo).toString()));
         }
     }
 
@@ -348,8 +338,8 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(While, currentTokenType)) {
             whileStatement();
         }
-        else if (firsts.containsToken(_InicioFor, currentTokenType)) {
-            _inicioFor();
+        else if (firsts.containsToken(_ForStatement, currentTokenType)) {
+            _forStatement();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Sentencia).toString()));
@@ -374,7 +364,7 @@ public class SyntacticAnalyzer {
             match(semicolon);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorAsignacion).toString()));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorExpresionIdClase).toString()));
         }
     }
 
@@ -606,20 +596,20 @@ public class SyntacticAnalyzer {
     private void llamadaConstructor() throws Exception {
         match(reservedNew);
         match(idClase);
-        _genericidad();
+        _tipoParametricoInstanciacion();
         argsActuales();
     }
 
-    private void _genericidad() throws Exception {
+    private void _tipoParametricoInstanciacion() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(lesserOp)) {
             match(lesserOp);
-            _inicioGenericidad();
+            _parametrosGenericidad();
         }
         else { /* epsilon */ }
     }
 
-    private void _inicioGenericidad() throws Exception {
+    private void _parametrosGenericidad() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(greaterOp)) {
             match(greaterOp);
@@ -629,7 +619,7 @@ public class SyntacticAnalyzer {
             match(greaterOp);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioGenericidad).toString()));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_ParametrosGenericidad).toString()));
         }
     }
 
@@ -675,7 +665,7 @@ public class SyntacticAnalyzer {
     }
 
     // Opcional Fors! E2
-    private void _inicioFor() throws Exception {
+    private void _forStatement() throws Exception {
         match(reservedFor);
         match(openParenthesis);
         _restoFor();
@@ -743,7 +733,7 @@ public class SyntacticAnalyzer {
             bloqueOpcional();
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioFor).toString()));
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorForVarLocal).toString()));
         }
     }
 
@@ -848,7 +838,6 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
             operadorAsignacion();
-            //expresion();
             expresionCompuesta();
             _operadorTernario();
         }

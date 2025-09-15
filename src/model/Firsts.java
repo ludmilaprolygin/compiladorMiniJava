@@ -24,6 +24,10 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
     private void firstsInit(){
         terminales();
         noTerminales();
+        addEpsilon(ListaClases, _TipoParametricoOpcional, ModificadorOpcional, HerenciaOpcional, _InterfaceOpcional, ListaMiembros, _Visibilidad, _InicializacionAtributoOpcional);
+        addEpsilon(ListaArgsFormalesOpcional, _RestoListaArgsFormales, ListaSentencias, _OperadorTernario, ExpresionOpcional, _RestoIf, _RestoExpresion, _RestoExpresionCompuesta);
+        addEpsilon(_RestoReferencia, _RestoEncadenado, _RestoLlamadaMetodo, ListaExpsOpcional, _RestoListaExps, _DeclaracionOpcional, _AsignacionOpcional, _RestoVarLocalClasica);
+        addEpsilon(_IncrementoOpcional, _DeclaracionTipoOpcional, _TipoParametricoInstanciacion);
     }
 
     private void terminales() {
@@ -67,18 +71,25 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(_RestoVarLocalClasica, comma);
         initEntry(_Valor, stringLiteral, intLiteral, charLiteral);
         initEntry(_TipoParametricoOpcional, lesserOp);
-        initEntry(_InicioGenericidad, lesserOp);
-        initEntry(_InicioFor, reservedFor);
+        initEntry(_ParametrosGenericidad, lesserOp);
+        initEntry(_ForStatement, reservedFor);
         initEntry(_OperadorUnarioModificador, incrementOp, decrementOp);
         initEntry(_ForEstandar, semicolon);
         initEntry(_DeclaracionOpcional, idMetVar);
+        initEntry(_DecisorExpresionIdClase, comma, dot);
+        initEntry(_DecisorForVarLocal, colon, assignOp);
+        initEntry(_OperadorTernario, questionMark);
+        initEntry(_TipoParametricoInstanciacion, lesserOp);
+        initEntry(_IncrementoOpcional, idMetVar);
     }
 
     private void noTerminales() {
+        initEntry(_IncrementoOpcional, get(_OperadorUnarioModificador));
         initEntry(_RestoMiembro, get(_InicializacionAtributoOpcional));
         initEntry(ModificadorOpcional, get(_Modificador));
         initEntry(ExpresionBasica, get(OperadorUnario));
         initEntry(Tipo, get(TipoPrimitivo));
+        initEntry(_DeclaracionTipoOpcional, get(Tipo));
         initEntry(_ForIteradores, get(Tipo));
         initEntry(TipoMetodo, get(Tipo));
         initEntry(_DeclaracionOpcional, get(Tipo));
@@ -95,7 +106,7 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(Sentencia, get(Return));
         initEntry(Sentencia, get(If));
         initEntry(Sentencia, get(While));
-        initEntry(Sentencia, get(_InicioFor));
+        initEntry(Sentencia, get(_ForStatement));
         initEntry(ListaArgsFormales, get(ArgFormal));
         initEntry(_RestoExpresion, get(OperadorAsignacion));
         initEntry(_RestoExpresionCompuesta, get(OperadorBinario));
@@ -112,6 +123,7 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(Operando, get(Referencia));
         initEntry(ExpresionBasica, get(Operando));
         initEntry(ExpresionCompuesta, get(ExpresionBasica));
+        initEntry(_DecisorExpresionIdClase, get(ExpresionCompuesta));
         initEntry(Expresion, get(ExpresionCompuesta));
         initEntry(Sentencia, get(Expresion));
         initEntry(ExpresionOpcional, get(Expresion));
@@ -124,6 +136,12 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(ListaClases, get(Clase));
         initEntry(Inicial, get(ListaClases));
     }
+
+    private void addEpsilon(SyntacticMethod... methods) {
+        for(SyntacticMethod m : methods)
+            initEntry(m, EPSILON);
+    }
+
     private void initEntry(SyntacticMethod key, TokenType... firsts){
         get(key).addAll(Arrays.asList(firsts));
     }

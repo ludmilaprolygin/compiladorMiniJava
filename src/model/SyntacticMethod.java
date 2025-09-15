@@ -62,12 +62,18 @@ public enum SyntacticMethod {
     _RestoVarLocalClasica,
     _AsignacionOpcional,
     _TipoParametricoOpcional,
-    _InicioGenericidad,
+    _ParametrosGenericidad,
     _ForIteradores,
     _ForEstandar,
-    _InicioFor,
+    _ForStatement,
     _OperadorUnarioModificador,
     _DeclaracionOpcional,
-    _Visibilidad
+    _Visibilidad,
+    _DecisorExpresionIdClase,
+    _DecisorForVarLocal,
+    _OperadorTernario,
+    _TipoParametricoInstanciacion,
+    _IncrementoOpcional,
+    _DeclaracionTipoOpcional
     ;
 }

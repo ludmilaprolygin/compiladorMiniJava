@@ -71,7 +71,8 @@ public enum TokenType {
     questionMark    ("? questionMark"),
     reservedImplements ("implements"),
     reservedFor     ("for"),
-    reservedPrivate ("private")
+    reservedPrivate ("private"),
+    EPSILON         ("epsilon")
     ;
 
     private final String typeExplanation;
