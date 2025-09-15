@@ -212,7 +212,9 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             match(currentTokenType);
         }
-        else { /* epsilon */ }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString(), Tipo));
+        }
     }
 
     private void argsFormales() throws Exception {
@@ -337,14 +339,22 @@ public class SyntacticAnalyzer {
     }
 
     private void varLocal() throws Exception {
-        match(reservedVar);
-        match(idMetVar);
-        match(assignOp);
-        expresionCompuesta();
+        _inicioVarLocal();
         _restoVarLocal();
     }
 
+    private void _inicioVarLocal() throws Exception {
+        match(reservedVar);
+        match(idMetVar);
+    }
+
     private void _restoVarLocal() throws Exception {
+        match(assignOp);
+        expresionCompuesta();
+        _operadorTernario();
+    }
+
+    private void _operadorTernario() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(questionMark)) {
             match(questionMark);
@@ -635,25 +645,58 @@ public class SyntacticAnalyzer {
 
     private void _restoFor() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        /*
+
         if (firsts.containsToken(_ForIteradores, currentTokenType)) {
             tipo();
-            match(idMetVar);
+            _restoForIteradores();
+        }
+        else if (currentTokenType.equals(reservedVar)) {
+            _inicioVarLocal();
+            _decisorForVarLocal();
+        }
+        else if (firsts.containsToken(_ForEstandar, currentTokenType)) {
+            _forEstandar();
+        }
+    }
+
+    private void _decisorForVarLocal() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if(currentTokenType.equals(colon)) {
             match(colon);
             match(idMetVar);
             match(closeParenthesis);
             bloqueOpcional();
         }
-        */
-        if (firsts.containsToken(_ForEstandar, currentTokenType)) {
-            _declaracionOpcional();
+        else if(currentTokenType.equals(assignOp)) {
+            _restoVarLocal();
             match(semicolon);
-            expresion();
+            expresionOpcional();
             match(semicolon);
-            _incremento();
+            _incrementoOpcional();
             match(closeParenthesis);
             bloqueOpcional();
         }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_InicioFor).toString(), _InicioFor));
+        }
+    }
+
+    private void _forEstandar() throws Exception {
+        _declaracionOpcional();
+        match(semicolon);
+        expresionOpcional();
+        match(semicolon);
+        _incrementoOpcional();
+        match(closeParenthesis);
+        bloqueOpcional();
+    }
+
+    private void _restoForIteradores() throws Exception {
+        match(idMetVar);
+        match(colon);
+        match(idMetVar);
+        match(closeParenthesis);
+        bloqueOpcional();
     }
 
     private void _restoIdMetVarForEstandar() throws Exception {
@@ -670,7 +713,7 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _incremento() throws Exception {
+    private void _incrementoOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(idMetVar)) {
             match(idMetVar);
@@ -681,7 +724,7 @@ public class SyntacticAnalyzer {
             match(idMetVar);
         }
         else {
-            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_ForEstandar).toString(), _ForEstandar));
+            /* epsilon */
         }
     }
 
@@ -709,6 +752,10 @@ public class SyntacticAnalyzer {
             expresion();
         }
         else { /* epsilon */ }
+    }
+
+    private void _restoTipoFor() throws Exception{
+
     }
 
     // Opcional Variables Locales Clásicas E2
