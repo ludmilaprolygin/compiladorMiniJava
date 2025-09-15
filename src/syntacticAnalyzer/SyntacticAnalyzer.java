@@ -646,9 +646,10 @@ public class SyntacticAnalyzer {
     private void _restoFor() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
 
-        if (firsts.containsToken(_ForIteradores, currentTokenType)) {
+        if (firsts.containsToken(Tipo, currentTokenType)) {
             tipo();
-            _restoForIteradores();
+            match(idMetVar);
+            _decisorForTipo();
         }
         else if (currentTokenType.equals(reservedVar)) {
             _inicioVarLocal();
@@ -656,6 +657,33 @@ public class SyntacticAnalyzer {
         }
         else if (firsts.containsToken(_ForEstandar, currentTokenType)) {
             _forEstandar();
+        }
+    }
+
+    private void _decisorForTipo() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(colon)) {
+            match(colon);
+            match(idMetVar);
+            match(closeParenthesis);
+            bloqueOpcional();
+        }
+        else if (currentTokenType.equals(semicolon)) {
+            match(semicolon);
+            expresionOpcional();
+            match(semicolon);
+            _incrementoOpcional();
+            match(closeParenthesis);
+            bloqueOpcional();
+        }
+        else if (currentTokenType.equals(assignOp)) {
+            _restoVarLocal();
+            match(semicolon);
+            expresionOpcional();
+            match(semicolon);
+            _incrementoOpcional();
+            match(closeParenthesis);
+            bloqueOpcional();
         }
     }
 
