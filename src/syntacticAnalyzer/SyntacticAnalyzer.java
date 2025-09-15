@@ -748,8 +748,7 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(_DeclaracionOpcional, currentTokenType)) {
             _declaracionTipoOpcional();
             match(idMetVar);
-            match(assignOp);
-            expresion();
+            _asignacionOpcional();
         }
         else { /* epsilon */ }
     }
