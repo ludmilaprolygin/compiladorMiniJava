@@ -3,7 +3,6 @@
 class MiClase {
     public MiClase() {
         int miClase = new MiClase<>();
-        int miClase = new MiClase<int>();
         int miClase = new MiClase<MiClase>();
     }
 }

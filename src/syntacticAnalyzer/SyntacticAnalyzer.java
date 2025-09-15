@@ -7,6 +7,8 @@ import model.TokenType;
 import utils.exceptions.SyntacticException;
 import utils.messages.SyntacticErrorMessage;
 
+import java.util.ArrayList;
+
 import static model.SyntacticMethod.*;
 import static model.TokenType.*;
 
@@ -63,7 +65,7 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if(firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
             match(lesserOp);
-            tipo();
+            match(idClase);
             match(greaterOp);
         }
         else { /* epsilon */ }
@@ -92,6 +94,7 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
             match(reservedImplements);
             match(idClase);
+            _tipoParametricoOpcional();
         }
         else { /* epsilon */ }
     }
@@ -108,6 +111,7 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Tipo, currentTokenType)) {
             tipo();
+            _tipoParametricoOpcional();
             match(idMetVar);
             _restoMiembro();
         }
@@ -120,6 +124,7 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(_Modificador, currentTokenType)) {
             _modificador();
             tipoMetodo();
+            _tipoParametricoOpcional();
             match(idMetVar);
             argsFormales();
             bloqueOpcional();
@@ -302,8 +307,32 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(While, currentTokenType)) {
             whileStatement();
         }
+        else if (firsts.containsToken(_InicioFor, currentTokenType)) {
+            _inicioFor();
+        }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Sentencia).toString(), Sentencia));
+        }
+    }
+
+    private void _tipoClase() throws Exception {
+        match(idClase);
+    }
+
+    private void _restoTipoClasePrimario() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(dot)) {
+            match(dot);
+            match(idMetVar);
+            argsActuales();
+        }
+        else if (firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
+            _tipoParametricoOpcional();
+            _restoVarLocalClasica();
+            _asignacionOpcional();
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString(), Primario));
         }
     }
 
@@ -547,8 +576,8 @@ public class SyntacticAnalyzer {
         if(currentTokenType.equals(greaterOp)) {
             match(greaterOp);
         }
-        else if (firsts.containsToken(Tipo, currentTokenType)) {
-            tipo();
+        else if (currentTokenType.equals(idClase)) {
+            match(idClase);
             match(greaterOp);
         }
         else {
@@ -605,16 +634,38 @@ public class SyntacticAnalyzer {
     }
 
     private void _restoFor() throws Exception {
-
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_ForIteradores, currentTokenType)) {
+            tipo();
+            match(idMetVar);
+            match(colon);
+            match(idMetVar);
+            match(closeParenthesis);
+            bloqueOpcional();
+        }
     }
 
     // Opcional Variables Locales Clásicas E2
     private void _varLocalClasica() throws Exception {
-        tipo();
-        _tipoParametricoOpcional();
-        match(idMetVar);
-        _restoVarLocalClasica();
-        _asignacionOpcional();
+        TokenType currentTokenType = getCurrentTokenType();
+        if (currentTokenType.equals(idClase)) {
+            _tipoClase();
+            _tipoParametricoOpcional();
+            match(idMetVar);
+            _restoVarLocalClasica();
+            _asignacionOpcional();
+        }
+        else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
+            tipoPrimitivo();
+            _tipoParametricoOpcional();
+            match(idMetVar);
+            _restoVarLocalClasica();
+            _asignacionOpcional();
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(VarLocal).toString(),VarLocal));
+        }
+
     }
 
     private void _restoVarLocalClasica() throws Exception{
