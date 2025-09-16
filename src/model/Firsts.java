@@ -1,24 +1,12 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 import static model.SyntacticMethod.*;
 import static model.TokenType.*;
 
-public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>> {
+public final class Firsts extends NonTerminals {
     public Firsts(){
         super();
-        mapInit();
         firstsInit();
-    }
-
-    private void mapInit(){
-        for (SyntacticMethod syntaticMethod: SyntacticMethod.values() ) {
-            put(syntaticMethod, new ArrayList<TokenType>());
-        }
     }
 
     private void firstsInit(){
@@ -136,26 +124,4 @@ public final class Firsts extends HashMap<SyntacticMethod, ArrayList<TokenType>>
         initEntry(ListaClases, get(Clase));
         initEntry(Inicial, get(ListaClases));
     }
-
-    private void addEpsilon(SyntacticMethod... methods) {
-        for(SyntacticMethod m : methods)
-            initEntry(m, EPSILON);
-    }
-
-    private void initEntry(SyntacticMethod key, TokenType... firsts){
-        get(key).addAll(Arrays.asList(firsts));
-    }
-
-    private void initEntry(SyntacticMethod key, List<TokenType> tokens) {
-        get(key).addAll(tokens);
-    }
-
-    public boolean containsToken(SyntacticMethod key, TokenType token) {
-        ArrayList<TokenType> tokens = get(key);
-        if (tokens == null) {
-            return false;
-        }
-        return tokens.contains(token);
-    }
-
 }

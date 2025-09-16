@@ -2,6 +2,7 @@ package syntacticAnalyzer;
 
 import lexicalAnalyzer.LexicalAnalyzer;
 import model.Firsts;
+import model.Following;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SyntacticException;
@@ -14,6 +15,7 @@ public class SyntacticAnalyzer {
     private Token currentToken;
     private final LexicalAnalyzer lexicalAnalyzer;
     private static final Firsts firsts = new Firsts();
+    private static final Following following = new Following(firsts);
 
     public SyntacticAnalyzer(LexicalAnalyzer lexicalAnalyzer) throws Exception {
         this.lexicalAnalyzer = lexicalAnalyzer;
