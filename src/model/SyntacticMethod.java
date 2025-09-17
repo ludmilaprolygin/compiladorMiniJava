@@ -74,6 +74,10 @@ public enum SyntacticMethod {
     _OperadorTernario,
     _TipoParametricoInstanciacion,
     _IncrementoOpcional,
-    _DeclaracionTipoOpcional
+    _DeclaracionTipoOpcional,
+    _DecisorMiembroTipo,
+    _DecisorMiembroIdClase,
+    _RestoFor,
+    _DecisorForTipo
     ;
 }

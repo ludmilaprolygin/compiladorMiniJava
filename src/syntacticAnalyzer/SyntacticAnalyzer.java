@@ -164,11 +164,14 @@ public class SyntacticAnalyzer {
             match(idClase);
             _decisorMiembroIdClase();
         }
-        else {
+        else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             tipoPrimitivo();
             _tipoParametricoOpcional();
             match(idMetVar);
             _restoMiembro();
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroTipo).toString()));
         }
     }
 
@@ -178,10 +181,17 @@ public class SyntacticAnalyzer {
             argsFormales();
             bloque();
         }
-        else {
+        else if (firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
             _tipoParametricoOpcional();
             match(idMetVar);
             _restoMiembro();
+        }
+        else if (currentTokenType.equals(idMetVar)) {
+            match(idMetVar);
+            _restoMiembro();
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroIdClase).toString()));
         }
     }
 
@@ -702,6 +712,9 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(_ForEstandar, currentTokenType)) {
             _forEstandar();
         }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_RestoFor).toString()));
+        }
     }
 
     private void _decisorForTipo() throws Exception {
@@ -728,6 +741,9 @@ public class SyntacticAnalyzer {
             _incrementoOpcional();
             match(closeParenthesis);
             bloqueOpcional();
+        }
+        else {
+            throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorForTipo).toString()));
         }
     }
 

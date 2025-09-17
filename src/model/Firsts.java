@@ -69,6 +69,10 @@ public final class Firsts extends NonTerminals {
         initEntry(_OperadorTernario, questionMark);
         initEntry(_TipoParametricoInstanciacion, lesserOp);
         initEntry(_IncrementoOpcional, idMetVar);
+        initEntry(_DecisorMiembroTipo, idClase);
+        initEntry(_DecisorMiembroIdClase, idMetVar);
+        initEntry(_RestoFor, idMetVar);
+        initEntry(_DecisorForTipo, assignOp, semicolon, colon);
     }
 
     private void noTerminales() {
@@ -114,14 +118,19 @@ public final class Firsts extends NonTerminals {
         initEntry(_DecisorExpresionIdClase, get(ExpresionCompuesta));
         initEntry(Expresion, get(ExpresionCompuesta));
         initEntry(Sentencia, get(Expresion));
+        initEntry(_DecisorMiembroTipo, get(TipoPrimitivo));
         initEntry(ExpresionOpcional, get(Expresion));
         initEntry(ListaExps, get(Expresion));
         initEntry(ListaSentencias, get(Sentencia));
         initEntry(ListaExpsOpcional, get(ListaExps));
         initEntry(BloqueOpcional, get(Bloque));
         initEntry(ListaMiembros, get(Miembro));
+        initEntry(_DecisorMiembroIdClase, get(_TipoParametricoOpcional));
+        initEntry(_DecisorMiembroIdClase, get(ArgsFormales));
         initEntry(Clase, get(ModificadorOpcional));
         initEntry(ListaClases, get(Clase));
         initEntry(Inicial, get(ListaClases));
+        initEntry(_RestoFor, get(Tipo));
+        initEntry(_RestoFor, get(_ForEstandar));
     }
 }
