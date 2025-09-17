@@ -54,11 +54,25 @@ public class SyntacticAnalyzer {
         match(reservedClass);
         match(idClase);
         _tipoParametricoOpcional();
+        _optionalParent();
+        /*
         herenciaOpcional();
         _interfaceOpcional();
+         */
         match(openBracket);
         listaMiembros();
         match(closeBracket);
+    }
+
+    private void _optionalParent() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
+            herenciaOpcional();
+        }
+        else if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
+            _interfaceOpcional();
+        }
+        else { /* epsilon */ }
     }
 
     private void _tipoParametricoOpcional() throws Exception {

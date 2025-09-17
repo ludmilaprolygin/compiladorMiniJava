@@ -1,3 +1,3 @@
 ///[SinErrores]
 
-class A extends B implements C {}
+class A implements C {}
