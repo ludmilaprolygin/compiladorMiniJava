@@ -21,6 +21,11 @@ public abstract class NonTerminals extends HashMap<SyntacticMethod, HashSet<Toke
             initEntry(m, EPSILON);
     }
 
+    protected void removeEpsilon(SyntacticMethod... methods) {
+        for(SyntacticMethod m : methods)
+            get(m).remove(EPSILON);
+    }
+
     protected void initEntry(SyntacticMethod key, TokenType... firsts){
         get(key).addAll(Arrays.asList(firsts));
     }

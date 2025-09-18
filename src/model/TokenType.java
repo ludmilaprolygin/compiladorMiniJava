@@ -72,7 +72,7 @@ public enum TokenType {
     reservedImplements ("implements"),
     reservedFor     ("for"),
     reservedPrivate ("private"),
-    EPSILON         ("epsilon")
+    EPSILON("epsilon")
     ;
 
     private final String typeExplanation;

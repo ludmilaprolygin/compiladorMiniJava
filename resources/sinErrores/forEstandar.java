@@ -11,5 +11,6 @@ class Estandar {
         for(var i = 10;;) {}
         for(int i;;) {}
         for(i;;) {}
+        for(i;; i=i+1) {}
     }
 }

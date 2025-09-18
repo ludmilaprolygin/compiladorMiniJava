@@ -125,6 +125,8 @@ public final class Firsts extends NonTerminals {
         initEntry(ListaExpsOpcional, get(ListaExps));
         initEntry(BloqueOpcional, get(Bloque));
         initEntry(ListaMiembros, get(Miembro));
+        initEntry(_MiembroCompleto, get(Miembro));
+        initEntry(_MiembroCompleto, get(_Visibilidad));
         initEntry(_DecisorMiembroIdClase, get(_TipoParametricoOpcional));
         initEntry(_DecisorMiembroIdClase, get(ArgsFormales));
         initEntry(Clase, get(ModificadorOpcional));
