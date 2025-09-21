@@ -68,7 +68,7 @@ public class Main {
                 lexicalConsoleMessage.appendErrorMessage(e.getMessage());
             }
         }
-        while (token != null && token.getTokenType() != TokenType.END_OF_FILE);
+        while (token == null || (token != null && token.getTokenType() != TokenType.END_OF_FILE));
 
         System.out.println(lexicalConsoleMessage.getSuccessMessage());
         System.out.println(lexicalConsoleMessage.getErrorMessage());
@@ -83,7 +83,6 @@ public class Main {
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 }
