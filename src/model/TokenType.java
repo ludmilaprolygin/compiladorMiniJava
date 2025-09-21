@@ -72,7 +72,8 @@ public enum TokenType {
     reservedImplements ("implements"),
     reservedFor     ("for"),
     reservedPrivate ("private"),
-    EPSILON("epsilon")
+    EPSILON("epsilon / void"),
+    reservedInterface ("interface"),
     ;
 
     private final String typeExplanation;

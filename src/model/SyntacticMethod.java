@@ -82,6 +82,9 @@ public enum SyntacticMethod {
     _MiembroCompleto,
     _TipoClase,
     _InicioVarLocal,
-    _RestoIdMetVarForEstandar
+    _RestoIdMetVarForEstandar,
+    _ComportamientoInterface,
+    _SignaturaMetodo,
+    _Interface
     ;
 }

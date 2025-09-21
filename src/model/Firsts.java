@@ -15,7 +15,7 @@ public final class Firsts extends NonTerminals {
         addEpsilon(ListaClases, _TipoParametricoOpcional, ModificadorOpcional, HerenciaOpcional, _InterfaceOpcional, ListaMiembros, _Visibilidad, _InicializacionAtributoOpcional);
         addEpsilon(ListaArgsFormalesOpcional, _RestoListaArgsFormales, ListaSentencias, _OperadorTernario, ExpresionOpcional, _RestoIf, _RestoExpresion, _RestoExpresionCompuesta);
         addEpsilon(_RestoReferencia, _RestoEncadenado, _RestoLlamadaMetodo, ListaExpsOpcional, _RestoListaExps, _DeclaracionOpcional, _AsignacionOpcional, _RestoVarLocalClasica);
-        addEpsilon(_IncrementoOpcional, _DeclaracionTipoOpcional, _TipoParametricoInstanciacion);
+        addEpsilon(_IncrementoOpcional, _DeclaracionTipoOpcional, _TipoParametricoInstanciacion, _ComportamientoInterface);
     }
 
     private void terminales() {
@@ -75,6 +75,7 @@ public final class Firsts extends NonTerminals {
         initEntry(_DecisorForTipo, assignOp, semicolon, colon);
         initEntry(_TipoClase, idClase);
         initEntry(_InicioVarLocal, reservedVar);
+        initEntry(_Interface, reservedInterface);
     }
 
     private void noTerminales() {
@@ -138,5 +139,8 @@ public final class Firsts extends NonTerminals {
         initEntry(_RestoFor, get(_ForEstandar));
         initEntry(_RestoIdMetVarForEstandar, get(ExpresionCompuesta));
         initEntry(_RestoIdMetVarForEstandar, get(_OperadorUnarioModificador));
+        initEntry(_SignaturaMetodo, get(TipoMetodo));
+        initEntry(_ComportamientoInterface, get(_SignaturaMetodo));
+        initEntry(_ComportamientoInterface, get(_Visibilidad));
     }
 }

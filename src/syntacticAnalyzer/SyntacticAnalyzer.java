@@ -46,7 +46,40 @@ public class SyntacticAnalyzer {
             clase();
             listaClases();
         }
+        else if (firsts.containsToken(_Interface, currentTokenType)) {
+            _interface();
+            listaClases();
+        }
         else { /* epsilon */ }
+    }
+
+    private void _interface() throws Exception {
+        modificadorOpcional();
+        match(reservedInterface);
+        match(idClase);
+        _tipoParametricoOpcional();
+        _optionalParent();
+        match(openBracket);
+        _comportamientoInterface();
+        match(closeBracket);
+    }
+
+    private void _comportamientoInterface() throws Exception {
+        TokenType currentTokenType = getCurrentTokenType();
+        if (firsts.containsToken(_ComportamientoInterface, currentTokenType)) {
+            _signaturaMetodo();
+            _comportamientoInterface();
+        }
+        else { /* epsilon */ }
+    }
+
+    private void _signaturaMetodo() throws Exception{
+        _visibilidadOpcional();
+        tipoMetodo();
+        _tipoParametricoOpcional();
+        match(idMetVar);
+        argsFormales();
+        match(semicolon);
     }
 
     private void clase() throws Exception {
@@ -55,10 +88,6 @@ public class SyntacticAnalyzer {
         match(idClase);
         _tipoParametricoOpcional();
         _optionalParent();
-        /*
-        herenciaOpcional();
-        _interfaceOpcional();
-         */
         match(openBracket);
         listaMiembros();
         match(closeBracket);
@@ -217,7 +246,8 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
             match(currentTokenType);
-            operando();
+            expresionCompuesta();
+            _operadorTernario();
         }
         else { /* epsilon */ }
     }
@@ -299,6 +329,7 @@ public class SyntacticAnalyzer {
 
     private void argFormal() throws Exception {
         tipo();
+        _tipoParametricoOpcional();
         match(idMetVar);
     }
 
@@ -388,6 +419,13 @@ public class SyntacticAnalyzer {
             _restoExpresion();
             _operadorTernario();
             match(semicolon);
+        }
+        else if (currentTokenType.equals(lesserOp)) {
+            _tipoParametricoOpcional();
+            match(idMetVar);
+            _restoVarLocalClasica();
+            _asignacionOpcional();
+
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorExpresionIdClase).toString()));
@@ -606,6 +644,9 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(ExpresionParentizada, currentTokenType)) {
             expresionParentizada();
         }
+        else if (firsts.containsToken(_OperadorTernario, currentTokenType)) {
+            _operadorTernario();
+        }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString()));
         }
@@ -819,6 +860,7 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Tipo, currentTokenType)) {
             tipo();
+            _tipoParametricoOpcional();
         }
         else { /* epsilon */ }
     }

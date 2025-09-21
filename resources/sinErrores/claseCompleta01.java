@@ -6,7 +6,6 @@ abstract class Prueba1 extends Prueba2 {
     }
     public Prueba1(int y) {
         List<String> lista = new ArrayList<>();
-        System.out("hola mundo") && null += 1;
         return (a + ((this.x().y.z == null) * 5 + false + (new Object<Nothing>()) / Numbers.pi()));
         if (x > 0) {
             break;
@@ -15,12 +14,12 @@ abstract class Prueba1 extends Prueba2 {
     }
     abstract void prueba2();
     public void probarExpresionesMixtas() {
-        int a = (5 -= (b += ("Hola"/0)));
+        int a = (5 = (b = ("Hola"/0)));
         boolean resultado;
         Persona persona = new Persona("Juan", 30);
         resultado = (a + b * c > 20) && (persona.getEdad() < c);
         resultado = (b / c == 3) || (a % persona.getEdad() != 0);
-        a += (b - c) * (a / b) % persona.getEdad();
+        a = (b - c) * (a / b) % persona.getEdad();
         resultado = !(a > b) && (c <= a + persona.getEdad());
         var local = new Ejemplo(3);
         int resultado = (this.x + local.metodo()) * (metodoEstatico() - 1);
@@ -34,6 +33,6 @@ abstract class Prueba1 extends Prueba2 {
         var e = this.getCiudad().nombre;
         var f = (this.getCiudad()).getNombre();
 
-        return (a + (true || (x && 1.0)) - (this.x().y.z == null) * 5 + ('c' * "ChAU") / 2);
+        return (a + (true || (x && 10)) - (this.x().y.z == null) * 5 + ('c' * "ChAU") / 2);
     }
 }
