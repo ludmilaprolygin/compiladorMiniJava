@@ -27,8 +27,6 @@ class Prueba1<T> extends Prueba2 {
         }
         return x;
     }
-
-    // a function that aproximates a function with a Taylor polynomial
     Float taylor(Float x, int n) {
         Float sum = 0;
         for (int i = 0; i < n; i=i+1) {

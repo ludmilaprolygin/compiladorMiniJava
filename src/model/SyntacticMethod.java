@@ -79,6 +79,9 @@ public enum SyntacticMethod {
     _DecisorMiembroIdClase,
     _RestoFor,
     _DecisorForTipo,
-    _MiembroCompleto
+    _MiembroCompleto,
+    _TipoClase,
+    _InicioVarLocal,
+    _RestoIdMetVarForEstandar
     ;
 }

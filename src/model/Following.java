@@ -39,6 +39,36 @@ public final class Following extends NonTerminals {
         followingBloqueOpcional();
         followingBloque();
         followingListaSentencias();
+        followingIf();
+        followingSentencia();
+        followingDecisorExpresionIdClase();
+        followingTipoClase();
+        followingVarLocal();
+        followingInicioVarLocal();
+        followingRestoVarLocal();
+        followingOperadorTernario();
+        followingReturnStatement();
+        followingExpresionOpcional();
+        followingIfStatement();
+        followingRestoIfStatement();
+        followingWhileStatement();
+        followingExpresion();
+        followingRestoExpresion();
+        followingOperadorAsignacion();
+        followingOperadorBinario();
+        followingOperadorUnario();
+        followingTipoParametricoInstanciacion();
+        followingParametrosGenericidad();
+        followingListaExpsOpcional();
+        followingForStatement();
+        followingRestoFor();
+        followingDecisorForTipo();
+        followingDecisorForVarLocal();
+        followingForEstandar();
+        followingIncrementoOpcional();
+        followingRestoIdMetVarForEstandar();
+        followingOperadorUnarioModificador();
+        followingDeclaracionOpcional();
 
         removeEpsilon();
     }
@@ -79,7 +109,7 @@ public final class Following extends NonTerminals {
     private void followingInterfaceOpcional() {
         initEntry(_InterfaceOpcional, openBracket);
     }
-    private void followingListaMiembros() {  //TODO - preguntar ; initEntry(ListaMiembros, firsts.get(ListaMiembros));
+    private void followingListaMiembros() {
         initEntry(ListaMiembros, closeBracket);
     }
     private void followingMiembroCompleto() {
@@ -156,10 +186,9 @@ public final class Following extends NonTerminals {
         manageEpsilon(BloqueOpcional, Bloque);
         manageEpsilon(Sentencia, Bloque);
     }
-    private void followingListaSentencias() { //TODO - preguntar ; initEntry(ListaSentencias, firsts.get(ListaSentencias));
+    private void followingListaSentencias() {
         initEntry(ListaSentencias, closeBracket);
-        //manageEpsilon(ListaSentencias, ListaSentencias); //TODO - preguntar ; no tiene sentido hacer esto
-    }
+  }
     private void followingIf() {
         manageEpsilon(Sentencia, If);
     }
@@ -171,4 +200,117 @@ public final class Following extends NonTerminals {
         manageEpsilon(_RestoIf, Sentencia);
         manageEpsilon(While, Sentencia);
     }
+    private void followingDecisorExpresionIdClase() {
+        manageEpsilon(Sentencia, _DecisorExpresionIdClase);
+    }
+    private void followingTipoClase() {
+        manageEpsilon(_VarLocalClasica, _TipoClase, _TipoParametricoOpcional);
+        initEntry(_TipoClase, idMetVar);
+    }
+    private void followingVarLocal() {
+        initEntry(VarLocal, semicolon);
+    }
+    private void followingInicioVarLocal() {
+        initEntry(_InicioVarLocal, firsts.get(_RestoVarLocal));
+        manageEpsilon(VarLocal, _InicioVarLocal, _RestoVarLocal);
+    }
+    private void followingRestoVarLocal() {
+        manageEpsilon(VarLocal, _RestoVarLocal);
+        initEntry(_RestoVarLocal, semicolon);
+    }
+    private void followingOperadorTernario() {
+        initEntry(_OperadorTernario, semicolon);
+        manageEpsilon(_RestoVarLocal, _OperadorTernario);
+        manageEpsilon(_AsignacionOpcional, _OperadorTernario);
+    }
+    private void followingReturnStatement() {
+        initEntry(Return, semicolon);
+    }
+    private void followingExpresionOpcional() {
+        manageEpsilon(Return, ExpresionOpcional);
+        initEntry(ExpresionOpcional, semicolon);
+    }
+    private void followingIfStatement() {
+        manageEpsilon(Sentencia, If);
+    }
+    private void followingRestoIfStatement() {
+        manageEpsilon(If, _RestoIf);
+    }
+    private void followingWhileStatement() {
+        manageEpsilon(Sentencia, While);
+    }
+    private void followingExpresion() {
+        initEntry(Expresion, semicolon);
+        initEntry(Expresion, colon);
+        manageEpsilon(_OperadorTernario, Expresion);
+        manageEpsilon(ExpresionOpcional, Expresion);
+        initEntry(Expresion, closeParenthesis);
+        initEntry(Expresion, firsts.get(_RestoListaExps));
+        manageEpsilon(ListaExps, Expresion);
+    }
+    private void followingRestoExpresion() {
+        initEntry(_RestoExpresion, firsts.get(_OperadorTernario));
+        initEntry(_RestoExpresion, semicolon);
+        manageEpsilon(Expresion, _RestoExpresion);
+    }
+    private void followingOperadorAsignacion() {
+        initEntry(OperadorAsignacion, firsts.get(ExpresionCompuesta));
+        manageEpsilon(_RestoExpresion, OperadorAsignacion, ExpresionCompuesta);
+        initEntry(OperadorAsignacion, firsts.get(ExpresionCompuesta));
+    }
+    private void followingExpresionCompuesta() {
+        initEntry(ExpresionCompuesta, firsts.get(_RestoVarLocalClasica));
+        initEntry(ExpresionCompuesta, firsts.get(_RestoExpresion));
+        initEntry(ExpresionCompuesta, firsts.get(_OperadorTernario));
+        initEntry(ExpresionCompuesta, semicolon);
+        manageEpsilon(Expresion, ExpresionCompuesta, _RestoExpresion);
+        manageEpsilon(_RestoExpresion, ExpresionCompuesta);
+    }
+    private void followingOperadorBinario() {
+        initEntry(OperadorBinario, firsts.get(ExpresionBasica));
+    }
+    private void followingOperadorUnario() {
+        initEntry(OperadorUnario, firsts.get(Operando));
+    }
+    private void followingOperando(){
+        manageEpsilon(_InicializacionAtributoOpcional, Operando);
+    }
+    private void followingTipoParametricoInstanciacion() {
+        initEntry(_TipoParametricoInstanciacion, firsts.get(ArgsActuales));
+    }
+    private void followingParametrosGenericidad() {
+        manageEpsilon(_TipoParametricoInstanciacion, _ParametrosGenericidad);
+    }
+    private void followingListaExpsOpcional() {
+        initEntry(ListaExpsOpcional, closeParenthesis);
+    }
+    private void followingForStatement() {
+        manageEpsilon(Sentencia, _ForStatement);
+    }
+    private void followingRestoFor(){
+        manageEpsilon(_ForStatement, _RestoFor);
+    }
+    private void followingDecisorForTipo() {
+        manageEpsilon(_RestoFor, _DecisorForTipo);
+    }
+    private void followingDecisorForVarLocal() {
+        manageEpsilon(_RestoFor, _DecisorForVarLocal);
+    }
+    private void followingForEstandar() {
+        manageEpsilon(_RestoFor, _ForEstandar);
+    }
+    private void followingIncrementoOpcional() {
+        initEntry(_IncrementoOpcional, closeParenthesis);
+    }
+    private void followingRestoIdMetVarForEstandar() {
+        manageEpsilon(_IncrementoOpcional, _RestoIdMetVarForEstandar);
+    }
+    private void followingOperadorUnarioModificador() {
+        initEntry(_OperadorUnarioModificador, idMetVar);
+        manageEpsilon(_RestoIdMetVarForEstandar, _OperadorUnarioModificador);
+    }
+    private void followingDeclaracionOpcional() {
+        initEntry(_DeclaracionOpcional, semicolon);
+    }
+
 }

@@ -73,6 +73,8 @@ public final class Firsts extends NonTerminals {
         initEntry(_DecisorMiembroIdClase, idMetVar);
         initEntry(_RestoFor, idMetVar);
         initEntry(_DecisorForTipo, assignOp, semicolon, colon);
+        initEntry(_TipoClase, idClase);
+        initEntry(_InicioVarLocal, reservedVar);
     }
 
     private void noTerminales() {
@@ -134,5 +136,7 @@ public final class Firsts extends NonTerminals {
         initEntry(Inicial, get(ListaClases));
         initEntry(_RestoFor, get(Tipo));
         initEntry(_RestoFor, get(_ForEstandar));
+        initEntry(_RestoIdMetVarForEstandar, get(ExpresionCompuesta));
+        initEntry(_RestoIdMetVarForEstandar, get(_OperadorUnarioModificador));
     }
 }

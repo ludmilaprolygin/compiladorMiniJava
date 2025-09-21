@@ -15,7 +15,7 @@ abstract class Prueba1 extends Prueba2 {
     }
     abstract void prueba2();
     public void probarExpresionesMixtas() {
-        int a = (5 -= (b += ("HOla"/0)));
+        int a = (5 -= (b += ("Hola"/0)));
         boolean resultado;
         Persona persona = new Persona("Juan", 30);
         resultado = (a + b * c > 20) && (persona.getEdad() < c);
