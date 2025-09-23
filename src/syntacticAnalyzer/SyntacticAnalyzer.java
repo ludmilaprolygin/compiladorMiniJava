@@ -432,10 +432,6 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _tipoClase() throws Exception {
-        match(idClase);
-    }
-
     private void varLocal() throws Exception {
         _inicioVarLocal();
         _restoVarLocal();
@@ -841,8 +837,7 @@ public class SyntacticAnalyzer {
             _restoIdMetVarForEstandar();
         }
         else if (firsts.containsToken(_OperadorUnarioModificador, currentTokenType)) {
-            _operadorUnarioModificador();
-            match(idMetVar);
+            expresionBasica();
         }
         else {
             /* epsilon */
@@ -878,15 +873,8 @@ public class SyntacticAnalyzer {
     // Opcional Variables Locales Clásicas E2
     private void _varLocalClasica() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        if (currentTokenType.equals(idClase)) {
-            _tipoClase();
-            _tipoParametricoOpcional();
-            match(idMetVar);
-            _restoVarLocalClasica();
-            _asignacionOpcional();
-        }
-        else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
-            tipoPrimitivo();
+        if(firsts.containsToken(Tipo, currentTokenType)) {
+            tipo();
             _tipoParametricoOpcional();
             match(idMetVar);
             _restoVarLocalClasica();
