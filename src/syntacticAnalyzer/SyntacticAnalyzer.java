@@ -5,17 +5,20 @@ import model.Firsts;
 import model.Following;
 import model.Token;
 import model.TokenType;
+import model.symbolTable.SymbolTable;
 import utils.exceptions.SyntacticException;
 import utils.messages.SyntacticErrorMessage;
 
 import static model.SyntacticMethod.*;
 import static model.TokenType.*;
+import model.symbolTable.Class;
 
 public class SyntacticAnalyzer {
     private Token currentToken;
     private final LexicalAnalyzer lexicalAnalyzer;
     private static final Firsts firsts = new Firsts();
     private static final Following following = new Following(firsts);
+    private final SymbolTable symbolTable = SymbolTable.symbolTable();
 
     public SyntacticAnalyzer(LexicalAnalyzer lexicalAnalyzer) throws Exception {
         this.lexicalAnalyzer = lexicalAnalyzer;
@@ -43,7 +46,8 @@ public class SyntacticAnalyzer {
     private void listaClases() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Clase, currentTokenType)) {
-            clase();
+            Class c = clase();
+            symbolTable.addClass(c.getName(), c);
             listaClases();
         }
         else if (firsts.containsToken(_Interface, currentTokenType)) {
@@ -82,26 +86,38 @@ public class SyntacticAnalyzer {
         match(semicolon);
     }
 
-    private void clase() throws Exception {
-        modificadorOpcional();
+    private Class clase() throws Exception {
+        Class toReturn;
+        Token modifier, name, parent;
+
+        modifier = modificadorOpcional();
         match(reservedClass);
+        name = currentToken;
         match(idClase);
         _tipoParametricoOpcional();
-        _optionalParent();
+        parent = _optionalParent();
+
+        toReturn = new Class(modifier, name, parent);
+        symbolTable.setCurrentClass(toReturn);
+
         match(openBracket);
         listaMiembros();
         match(closeBracket);
+
+        return toReturn;
     }
 
-    private void _optionalParent() throws Exception {
+    private Token _optionalParent() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn = null;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
-            herenciaOpcional();
+            toReturn = herenciaOpcional();
         }
         else if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
-            _interfaceOpcional();
+            toReturn = _interfaceOpcional();
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
     private void _tipoParametricoOpcional() throws Exception {
@@ -114,32 +130,41 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void modificadorOpcional() throws Exception {
+    private Token modificadorOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn = null;
         if (firsts.containsToken(ModificadorOpcional, currentTokenType)) {
+            toReturn = currentToken;
             match(currentTokenType);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
-    private void herenciaOpcional() throws Exception {
+    private Token herenciaOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn = null;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             match(reservedExtends);
+            toReturn = currentToken;
             match(idClase);
             _tipoParametricoOpcional();
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
-    private void _interfaceOpcional() throws Exception {
+    private Token _interfaceOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn = null;
         if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
             match(reservedImplements);
+            toReturn = currentToken;
             match(idClase);
             _tipoParametricoOpcional();
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
     private void listaMiembros() throws Exception {

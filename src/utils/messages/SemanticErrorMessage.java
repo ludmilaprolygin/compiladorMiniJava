@@ -1,7 +1,6 @@
 package utils.messages;
 
 import model.Token;
-import sourceManager.SourceManager;
 
 public class SemanticErrorMessage {
     public static String attributeAlreadyExists(Token t) {
@@ -16,7 +15,6 @@ public class SemanticErrorMessage {
     }
 
     public static String classAlreadyExists(Token t) {
-
         return basicErrorInit(t) + ": Class " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
     }
 

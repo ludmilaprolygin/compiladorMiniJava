@@ -35,7 +35,7 @@ public class SymbolTable extends Element {
     }
 
     public void addClass(Token t, Class c) throws SemanticException {
-        if(t!=null && !classes.contains(t.getLexeme()))
+        if(!classes.contains(t.getLexeme()))
             classes.put(t, c);
         else {
             throw new SemanticException(SemanticErrorMessage.classAlreadyExists(t));

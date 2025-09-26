@@ -3,7 +3,7 @@ package model.symbolTable;
 import model.Token;
 
 public abstract class Element {
-    private Token name;
+    protected Token name;
 
     public Element() {}
 

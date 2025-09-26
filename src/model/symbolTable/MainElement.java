@@ -6,7 +6,6 @@ import utils.messages.SemanticErrorMessage;
 
 public abstract class MainElement extends Element {
     private Token modifier;
-    private Token name;
     private Token inheritance;
     private Table<Attribute> attributes;
     private Table<Method> methods;
