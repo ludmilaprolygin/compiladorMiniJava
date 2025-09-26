@@ -1,9 +1,13 @@
 package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
+import model.symbolTable.MainElement;
+import model.symbolTable.SymbolTable;
+import model.symbolTable.Table;
 import sourceManager.*;
 import model.Token;
 import model.TokenType;
+import model.symbolTable.Class;
 import syntacticAnalyzer.SyntacticAnalyzer;
 import utils.exceptions.LexicalException;
 import utils.messages.GenericErrorMessage;
@@ -16,6 +20,7 @@ public class Main {
     private static SourceManager sourceManager;
     private static LexicalAnalyzer lexicalAnalyzer;
     private static SyntacticAnalyzer syntacticAnalyzer;
+    private static final SymbolTable symbolTable = SymbolTable.symbolTable();
 
     public static void main(String[] args) {
         initialize();
@@ -30,11 +35,15 @@ public class Main {
         else {
             System.out.println(GenericErrorMessage.MISUSE_ERROR);
         }
+
+        Table<Class> t = symbolTable.getClasses();
+        System.out.println(t.toString());
     }
 
     public static void initialize(){
         sourceManager = new SourceManagerImplEficiente();
         lexicalAnalyzer = new LexicalAnalyzer();
+        symbolTable.reset();
     }
     private static void openFile (String fileName) {
         try {
