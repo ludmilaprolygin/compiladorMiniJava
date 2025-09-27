@@ -4,6 +4,8 @@ import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
+import static model.TokenType.*;
+
 public class SymbolTable extends Element {
     private Table<Class> classes;
     private Table<Interface> interfaces;
@@ -79,10 +81,21 @@ public class SymbolTable extends Element {
     }
 
     private void createObject() {
-        Token t = new Token(null, "Object", -1);
-        Class c = new Class(null, t, null);
-        classes.put(t, c);
-        //TODO - add debugPrint
+        Token tk = new Token(null, "Object", -1);
+        Class c = new Class(null, tk, null);
+        classes.put(tk, c);
+
+        Token n, v, m;
+        MethodType t;
+        n = new Token(idMetVar, "debugPrint", -1);
+        v = new Token(reservedPublic, "public", -1);
+        m = new Token(reservedStatic, "static", -1);
+        t = new MethodType(new Token(reservedVoid, "void", -1));
+
+        Method debugPrint = new Method(n, v, m, t);
+        c.getMethods().put(n, debugPrint);
+
+        //TODO - add debugPrint parameters
     }
 
     private void createString() {
