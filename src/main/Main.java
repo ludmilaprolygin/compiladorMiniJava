@@ -96,9 +96,6 @@ public class Main {
 
     private static void semanticAnalysis() {
         try {
-            Table<Class> t = symbolTable.getClasses();
-            System.out.println(t.toString());
-
             symbolTable.correctDeclaration();
         }
         catch (SemanticException e) {

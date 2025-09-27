@@ -23,6 +23,10 @@ public class SemanticErrorMessage {
         return basicErrorInit(t) + ": Class " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
     }
 
+    public static String interfaceAlreadyExists(Token t) {
+        return basicErrorInit(t) + ": Interface " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
+    }
+
     public static String parentClassDoesNotExist(Token t) {
         return basicErrorInit(t) + ": The identifier of the parent " + t.getLexeme() + " could not be found \n" + basicErrorEnd(t);
     }

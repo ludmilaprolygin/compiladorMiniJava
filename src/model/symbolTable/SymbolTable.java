@@ -8,7 +8,8 @@ public class SymbolTable extends Element {
     private Table<Class> classes;
     private Table<Interface> interfaces;
     private static SymbolTable symbolTable;
-    private MainElement current;
+    private MainElement currentClass;
+    private Method currentMethod;
 
     private SymbolTable() {
         reset();
@@ -33,18 +34,38 @@ public class SymbolTable extends Element {
     }
 
     public void setCurrentClass(MainElement c) {
-        current = c;
+        currentClass = c;
     }
 
     public MainElement getCurrentClass() {
-        return current;
+        return currentClass;
+    }
+
+    public void setCurrentMethod(Method m) {
+        currentMethod = m;
+    }
+
+    public Method getCurrentMethod() {
+        return currentMethod;
     }
 
     public void addClass(Token t, Class c) throws SemanticException {
-        if(!classes.contains(t.getLexeme()))
+        if(interfaces.contains(t.getLexeme()))
+            throw new SemanticException(SemanticErrorMessage.interfaceAlreadyExists(t));
+        else if(!classes.contains(t.getLexeme()))
             classes.put(t, c);
         else {
             throw new SemanticException(SemanticErrorMessage.classAlreadyExists(t));
+        }
+    }
+
+    public void addInterface(Token t, Interface i) throws SemanticException {
+        if(classes.contains(t.getLexeme()))
+            throw new SemanticException(SemanticErrorMessage.classAlreadyExists(t));
+        else if(!interfaces.contains(t.getLexeme()))
+            interfaces.put(t, i);
+        else {
+            throw new SemanticException(SemanticErrorMessage.interfaceAlreadyExists(t));
         }
     }
 

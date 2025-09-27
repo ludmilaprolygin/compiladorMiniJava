@@ -5,6 +5,7 @@ import model.Firsts;
 import model.Following;
 import model.Token;
 import model.TokenType;
+import model.symbolTable.Interface;
 import model.symbolTable.SymbolTable;
 import utils.exceptions.SyntacticException;
 import utils.messages.SyntacticErrorMessage;
@@ -51,21 +52,32 @@ public class SyntacticAnalyzer {
             listaClases();
         }
         else if (firsts.containsToken(_Interface, currentTokenType)) {
-            _interface();
+            Interface i = _interface();
+            symbolTable.addInterface(i.getName(), i);
             listaClases();
         }
         else { /* epsilon */ }
     }
 
-    private void _interface() throws Exception {
-        modificadorOpcional();
+    private Interface _interface() throws Exception {
+        Interface toReturn;
+        Token modifier, name, parent;
+
+        modifier = modificadorOpcional();
         match(reservedInterface);
+        name = currentToken;
         match(idClase);
         _tipoParametricoOpcional();
-        _optionalParent();
+        parent = _optionalParent();
+
+        toReturn = new Interface(modifier, name, parent);
+        symbolTable.setCurrentClass(toReturn);
+
         match(openBracket);
         _comportamientoInterface();
         match(closeBracket);
+
+        return toReturn;
     }
 
     private void _comportamientoInterface() throws Exception {
