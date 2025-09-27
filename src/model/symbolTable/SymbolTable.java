@@ -21,6 +21,8 @@ public class SymbolTable extends Element {
     public void correctDeclaration() throws SemanticException {
         for(Class c : classes.values())
             c.correctDeclaration();
+        for(Interface i : interfaces.values())
+            i.correctDeclaration();
     }
 
     public static SymbolTable symbolTable() {

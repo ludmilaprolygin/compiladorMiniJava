@@ -27,8 +27,12 @@ public class SemanticErrorMessage {
         return basicErrorInit(t) + ": Interface " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
     }
 
-    public static String parentClassDoesNotExist(Token t) {
+    public static String parentDoesNotExist(Token t) {
         return basicErrorInit(t) + ": The identifier of the parent " + t.getLexeme() + " could not be found \n" + basicErrorEnd(t);
+    }
+
+    public static String interfaceExtendingAClass(Token t) {
+        return basicErrorInit(t) + ": An interface cannot extend a class, but " + t.getLexeme() + " is a class \n" + basicErrorEnd(t);
     }
 
     private static String basicErrorInit(Token t) {

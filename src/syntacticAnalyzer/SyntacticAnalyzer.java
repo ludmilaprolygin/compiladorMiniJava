@@ -47,19 +47,17 @@ public class SyntacticAnalyzer {
     private void listaClases() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Clase, currentTokenType)) {
-            Class c = clase();
-            symbolTable.addClass(c.getName(), c);
+            clase();
             listaClases();
         }
         else if (firsts.containsToken(_Interface, currentTokenType)) {
-            Interface i = _interface();
-            symbolTable.addInterface(i.getName(), i);
+            _interface();
             listaClases();
         }
         else { /* epsilon */ }
     }
 
-    private Interface _interface() throws Exception {
+    private void _interface() throws Exception { //TODO - TipoParametrico
         Interface toReturn;
         Token modifier, name, parent;
 
@@ -70,14 +68,16 @@ public class SyntacticAnalyzer {
         _tipoParametricoOpcional();
         parent = _optionalParent();
 
+        if(parent.getLexeme().equals("Object"))
+            parent = null;
+
         toReturn = new Interface(modifier, name, parent);
+        symbolTable.addInterface(toReturn.getName(), toReturn);
         symbolTable.setCurrentClass(toReturn);
 
         match(openBracket);
         _comportamientoInterface();
         match(closeBracket);
-
-        return toReturn;
     }
 
     private void _comportamientoInterface() throws Exception {
@@ -98,8 +98,8 @@ public class SyntacticAnalyzer {
         match(semicolon);
     }
 
-    private Class clase() throws Exception {
-        Class toReturn;
+    private void clase() throws Exception {
+        Class newClass;
         Token modifier, name, parent;
 
         modifier = modificadorOpcional();
@@ -109,26 +109,25 @@ public class SyntacticAnalyzer {
         _tipoParametricoOpcional();
         parent = _optionalParent();
 
-        toReturn = new Class(modifier, name, parent);
-        symbolTable.setCurrentClass(toReturn);
+        newClass = new Class(modifier, name, parent);
+        symbolTable.addClass(newClass.getName(), newClass);
+        symbolTable.setCurrentClass(newClass);
 
         match(openBracket);
         listaMiembros();
         match(closeBracket);
-
-        return toReturn;
     }
 
     private Token _optionalParent() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Token toReturn = new Token(null, "Object", -1);
+        Token toReturn;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             toReturn = herenciaOpcional();
         }
         else if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
             toReturn = _interfaceOpcional();
         }
-        else { /* epsilon */ }
+        else { toReturn = new Token(null, "Object", -1); }
         return toReturn;
     }
 
@@ -144,25 +143,25 @@ public class SyntacticAnalyzer {
 
     private Token modificadorOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Token toReturn = null;
+        Token toReturn;
         if (firsts.containsToken(ModificadorOpcional, currentTokenType)) {
             toReturn = currentToken;
             match(currentTokenType);
         }
-        else { /* epsilon */ }
+        else { toReturn = null; }
         return toReturn;
     }
 
     private Token herenciaOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Token toReturn = null;
+        Token toReturn;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             match(reservedExtends);
             toReturn = currentToken;
             match(idClase);
             _tipoParametricoOpcional();
         }
-        else { /* epsilon */ }
+        else { toReturn = null; }
         return toReturn;
     }
 

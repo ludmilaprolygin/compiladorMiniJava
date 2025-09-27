@@ -24,7 +24,7 @@ public class Class extends MainElement {
     @Override
     public void correctDeclaration() throws SemanticException {
         if(inheritance != null && !symbolTable().getClasses().contains(inheritance.getLexeme()))
-            throw new SemanticException(SemanticErrorMessage.parentClassDoesNotExist(inheritance));
+            throw new SemanticException(SemanticErrorMessage.parentDoesNotExist(inheritance));
         for (Attribute a : attributes.values())
             a.correctDeclaration();
         for (Method m : methods.values())
