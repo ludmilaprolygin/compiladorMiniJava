@@ -5,10 +5,10 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
 public abstract class MainElement extends Element {
-    private Token modifier;
-    private Token inheritance;
-    private Table<Attribute> attributes;
-    private Table<Method> methods;
+    protected Token modifier;
+    protected Token inheritance;
+    protected Table<Attribute> attributes;
+    protected Table<Method> methods;
 
     public MainElement(Token m, Token n, Token i) {
         super(n);
@@ -34,12 +34,16 @@ public abstract class MainElement extends Element {
         }
     }
 
-    public Token getModifier() {
-        return modifier;
+    public Table<Attribute> getAttributes() {
+        return attributes;
     }
 
-    public Token getName() {
-        return name;
+    public Table<Method> getMethods() {
+        return methods;
+    }
+
+    public Token getModifier() {
+        return modifier;
     }
 
     public Token getInheritance() {

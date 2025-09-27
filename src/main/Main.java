@@ -10,6 +10,7 @@ import model.TokenType;
 import model.symbolTable.Class;
 import syntacticAnalyzer.SyntacticAnalyzer;
 import utils.exceptions.LexicalException;
+import utils.exceptions.SemanticException;
 import utils.messages.GenericErrorMessage;
 import utils.messages.LexicalConsoleMessage;
 
@@ -31,13 +32,11 @@ public class Main {
             //lexicalAnalysis();
             syntacticAnalysis();
             closeFile();
+            semanticAnalysis();
         }
         else {
             System.out.println(GenericErrorMessage.MISUSE_ERROR);
         }
-
-        Table<Class> t = symbolTable.getClasses();
-        System.out.println(t.toString());
     }
 
     public static void initialize(){
@@ -91,6 +90,18 @@ public class Main {
             System.out.println("[SinErrores]");
         }
         catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void semanticAnalysis() {
+        try {
+            Table<Class> t = symbolTable.getClasses();
+            System.out.println(t.toString());
+
+            symbolTable.correctDeclaration();
+        }
+        catch (SemanticException e) {
             System.out.println(e.getMessage());
         }
     }

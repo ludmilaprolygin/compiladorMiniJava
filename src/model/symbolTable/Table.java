@@ -13,6 +13,14 @@ public class Table<Element> extends HashMap<Token, Element> {
         return false;
     }
 
+    public Token getTokenByName(String name) {
+        for(Token key : this.keySet()) {
+            if(key.getLexeme().equals(name))
+                return key;
+        }
+        return null;
+    }
+
     public String toString() {
         String s = "";
         for(Token key : this.keySet()) {

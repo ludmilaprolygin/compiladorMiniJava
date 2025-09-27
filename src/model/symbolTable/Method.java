@@ -1,6 +1,7 @@
 package model.symbolTable;
 
 import model.Token;
+import utils.exceptions.SemanticException;
 
 public class Method extends Element {
     private Token visibility;
@@ -12,5 +13,10 @@ public class Method extends Element {
         visibility = v;
         returnType = t;
         parameters = new Table<>();
+    }
+
+    @Override
+    public void correctDeclaration() throws SemanticException {
+        ;
     }
 }

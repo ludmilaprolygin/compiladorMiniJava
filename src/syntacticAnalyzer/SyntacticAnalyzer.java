@@ -109,7 +109,7 @@ public class SyntacticAnalyzer {
 
     private Token _optionalParent() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Token toReturn = null;
+        Token toReturn = new Token(null, "Object", -1);
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             toReturn = herenciaOpcional();
         }

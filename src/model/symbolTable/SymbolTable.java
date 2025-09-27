@@ -14,6 +14,12 @@ public class SymbolTable extends Element {
         reset();
     }
 
+    @Override
+    public void correctDeclaration() throws SemanticException {
+        for(Class c : classes.values())
+            c.correctDeclaration();
+    }
+
     public static SymbolTable symbolTable() {
         if(symbolTable == null)
             symbolTable  = new SymbolTable();
@@ -60,13 +66,17 @@ public class SymbolTable extends Element {
 
     private void createString() {
         Token t = new Token(null, "String", -1);
-        Class c = new Class(null, t, null);
+
+        Token tParent = classes.getTokenByName("Object");
+        Class c = new Class(null, t, tParent);
         classes.put(t, c);
     }
 
     private void createSystem() {
         Token t = new Token(null, "System", -1);
-        Class c = new Class(null, t, null);
+
+        Token tParent = classes.getTokenByName("Object");
+        Class c = new Class(null, t, tParent);
         classes.put(t, c);
         //TODO - add methods
     }

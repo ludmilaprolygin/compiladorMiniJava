@@ -6,6 +6,11 @@ public class SemanticErrorMessage {
     public static String attributeAlreadyExists(Token t) {
         return basicErrorInit(t) + ": Attribute " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
     }
+
+    public static String undeclaredType(Token t) {
+        return basicErrorInit(t) + ": Type " + t.getLexeme() + " is not declared \n" + basicErrorEnd(t);
+    }
+
     public static String methodAlreadyExists(Token t) {
         return basicErrorInit(t) + ": Method " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
     }
@@ -16,6 +21,10 @@ public class SemanticErrorMessage {
 
     public static String classAlreadyExists(Token t) {
         return basicErrorInit(t) + ": Class " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
+    }
+
+    public static String parentClassDoesNotExist(Token t) {
+        return basicErrorInit(t) + ": The identifier of the parent " + t.getLexeme() + " could not be found \n" + basicErrorEnd(t);
     }
 
     private static String basicErrorInit(Token t) {
