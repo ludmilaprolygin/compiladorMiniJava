@@ -6,18 +6,14 @@ import utils.messages.SemanticErrorMessage;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 
-public class Method extends Element {
-    private Token visibility;
+public class Method extends Service {
     private MethodType returnType;
     private Token modifier;
-    private Table<Parameter> parameters;
 
     public Method (Token n, Token v, Token m, MethodType t) {
-        super(n);
-        visibility = v;
+        super(n, v);
         returnType = t;
         modifier = m;
-        parameters = new Table<>();
     }
 
     @Override

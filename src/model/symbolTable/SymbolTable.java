@@ -11,7 +11,7 @@ public class SymbolTable extends Element {
     private Table<Interface> interfaces;
     private static SymbolTable symbolTable;
     private MainElement currentClass;
-    private Method currentMethod;
+    private Service currentService;
 
     private SymbolTable() {
         reset();
@@ -45,12 +45,12 @@ public class SymbolTable extends Element {
         return currentClass;
     }
 
-    public void setCurrentMethod(Method m) {
-        currentMethod = m;
+    public void setCurrentService(Service s) {
+        currentService = s;
     }
 
-    public Method getCurrentMethod() {
-        return currentMethod;
+    public Service getCurrentService() {
+        return currentService;
     }
 
     public void addClass(Token t, Class c) throws SemanticException {

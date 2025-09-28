@@ -13,13 +13,16 @@ public class Class extends MainElement {
         constructors = new Table<>();
     }
 
-    public void addConstructor(Token t, Constructor c) throws SemanticException {
+    public void addConstructor(Token t, Service s) throws SemanticException {
+        Constructor c = (Constructor) s;
         if(!constructors.contains(t.getLexeme()))
             constructors.put(t, c);
         else {
             throw new SemanticException(SemanticErrorMessage.constructorAlreadyExists(t));
         }
     }
+
+    public Table<Constructor> getConstructors() {return constructors;}
 
     @Override
     public void correctDeclaration() throws SemanticException {
@@ -31,5 +34,11 @@ public class Class extends MainElement {
             m.correctDeclaration();
         for (Constructor c : constructors.values())
             c.correctDeclaration();
+    }
+
+    public String toString() {
+        String toReturn = super.toString() + "\n" +
+                "   Constructors: " + constructors.toString() + "\n";
+        return toReturn;
     }
 }

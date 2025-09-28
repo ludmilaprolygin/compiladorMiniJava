@@ -50,4 +50,8 @@ public class SemanticErrorMessage {
     public static String parametricTypeNotAllowed(Token name) {
         return basicErrorInit(name) + ": Parametric types are only allowed for user-defined types, but " + name.getLexeme() + " is a primitive type \n" + basicErrorEnd(name);
     }
+
+    public static String constructorDoesNotExist(Token name) {
+        return basicErrorInit(name) + ": Constructor " + name.getLexeme() + " incorrect; class does not exist in this scope \n" + basicErrorEnd(name);
+    }
 }

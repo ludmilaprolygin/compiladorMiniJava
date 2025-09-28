@@ -122,7 +122,7 @@ public class SyntacticAnalyzer {
         parent = _optionalParent();
 
         newClass = new Class(modifier, name, parametricType, parent);
-        symbolTable.addClass(newClass.getName(), newClass);
+        symbolTable.addClass(name, newClass);
         symbolTable.setCurrentClass(newClass);
 
         match(openBracket);
@@ -202,8 +202,8 @@ public class SyntacticAnalyzer {
     }
 
     private void _miembroCompleto() throws Exception {
-        _visibilidadOpcional();
-        miembro();
+        Token v = _visibilidadOpcional();
+        miembro(v);
     }
 
     private Token _visibilidadOpcional() throws Exception {
@@ -217,22 +217,36 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void miembro() throws Exception {
+    private void miembro(Token v) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Tipo, currentTokenType)) {
-            _decisorMiembroTipo();
+            _decisorMiembroTipo(v);
         }
         else if (currentTokenType.equals(reservedVoid)) {
+            MethodType t = new MethodType(currentToken);
             match(reservedVoid);
+            Token n = currentToken;
             match(idMetVar);
+
+            Method m = new Method(n, v, null, t);
+            symbolTable.getCurrentClass().addMethod(n, m);
+            symbolTable.setCurrentService(m);
+
             argsFormales();
             bloqueOpcional();
         }
         else if (firsts.containsToken(_Modificador, currentTokenType)) {
-            _modificador();
-            tipoMetodo();
-            _tipoParametricoOpcional();
+            Token m = _modificador();
+            MethodType mt = tipoMetodo();
+            Type pt = _tipoParametricoOpcional();
+            Token n = currentToken;
             match(idMetVar);
+
+            if(pt != null)
+                mt.setParametricType(pt);
+
+            Method newMethod = new Method(n, v, m, mt);
+
             argsFormales();
             bloqueOpcional();
         }
@@ -241,15 +255,15 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _decisorMiembroTipo() throws Exception {
+    private void _decisorMiembroTipo(Token v) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(idClase)) {
+            Token t = currentToken;
             match(idClase);
-            _decisorMiembroIdClase();
+            _decisorMiembroIdClase(v, t);
         }
         else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             tipoPrimitivo();
-            _tipoParametricoOpcional();
             match(idMetVar);
             _restoMiembro();
         }
@@ -258,9 +272,17 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _decisorMiembroIdClase() throws Exception {
+    private void _decisorMiembroIdClase(Token v, Token n) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(firsts.containsToken(ArgsFormales, currentTokenType)) {
+            Service s = new Constructor(n, v);
+            symbolTable.setCurrentService(s);
+
+            if(symbolTable.getCurrentClass() instanceof Class) {
+                Class c = (Class) symbolTable.getCurrentClass();
+                c.addConstructor(n, s);
+            }
+
             argsFormales();
             bloque();
         }
