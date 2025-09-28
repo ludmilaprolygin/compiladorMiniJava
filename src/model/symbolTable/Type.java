@@ -7,7 +7,7 @@ import utils.messages.SemanticErrorMessage;
 
 import static model.SyntacticMethod.Tipo;
 
-public class Type extends PrimitiveType {
+public class Type extends AbstractType {
     protected Type parametricType;
     public Type(Token n) {
         super(n);

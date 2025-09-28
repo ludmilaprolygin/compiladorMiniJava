@@ -260,54 +260,63 @@ public class SyntacticAnalyzer {
     private void _decisorMiembroTipo(Token v) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(idClase)) {
-            Token t = currentToken;
+            Type t = new Type(currentToken);
             match(idClase);
             _decisorMiembroIdClase(v, t);
         }
         else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
-            tipoPrimitivo();
+            PrimitiveType t = tipoPrimitivo();
+            Token n = currentToken;
             match(idMetVar);
-            _restoMiembro();
+            _restoMiembro(t, n);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroTipo).toString()));
         }
     }
 
-    private void _decisorMiembroIdClase(Token v, Token n) throws Exception {
+    private void _decisorMiembroIdClase(Token v, Type t) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(firsts.containsToken(ArgsFormales, currentTokenType)) {
-            Service s = new Constructor(n, v);
+            Service s = new Constructor(t.getName(), v);
             symbolTable.setCurrentService(s);
 
             if(symbolTable.getCurrentClass() instanceof Class) {
                 Class c = (Class) symbolTable.getCurrentClass();
-                c.addConstructor(n, s);
+                c.addConstructor(t.getName(), s);
 
                 argsFormales();
                 bloque();
             }
             else
-                throw new SemanticException(SemanticErrorMessage.constructorFoundInInterface(n));
+                throw new SemanticException(SemanticErrorMessage.constructorFoundInInterface(t.getName()));
         }
         else if (firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
-            _tipoParametricoOpcional();
+            Type pt = _tipoParametricoOpcional();
+            Token n = currentToken;
             match(idMetVar);
-            _restoMiembro();
+
+            if(pt != null)
+                t.setParametricType(pt);
+
+            _restoMiembro(pt, n);
         }
         else if (currentTokenType.equals(idMetVar)) {
+            Token n = currentToken;
             match(idMetVar);
-            _restoMiembro();
+            _restoMiembro(t, n);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroIdClase).toString()));
         }
     }
 
-    private void _restoMiembro() throws Exception {
+    private void _restoMiembro(AbstractType t, Token n) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (currentTokenType.equals(semicolon)) {
             match(semicolon);
+            Attribute a = new Attribute(n, t);
+            symbolTable.getCurrentClass().addAttribute(n, a);
         }
         else if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
             _inicializacionAtributoOpcional();
@@ -372,14 +381,16 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void tipoPrimitivo() throws Exception {
+    private PrimitiveType tipoPrimitivo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        PrimitiveType toReturn = new PrimitiveType(currentToken);
         if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             match(currentTokenType);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(TipoPrimitivo).toString()));
         }
+        return toReturn;
     }
 
     private void argsFormales() throws Exception {

@@ -7,8 +7,8 @@ import utils.messages.SemanticErrorMessage;
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Attribute extends Element {
-    private Type type;
-    public Attribute(Token n, Type t) {
+    private AbstractType type;
+    public Attribute(Token n, AbstractType t) {
         super(n);
         type = t;
     }
