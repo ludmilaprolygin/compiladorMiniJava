@@ -319,12 +319,24 @@ public class SyntacticAnalyzer {
             symbolTable.getCurrentClass().addAttribute(n, a);
         }
         else if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
-            _inicializacionAtributoOpcional();
+            _inicializacionAtributoOpcional(); //TODO
+            Attribute a = new Attribute(n, t);
+            symbolTable.getCurrentClass().addAttribute(n, a);
             match(semicolon);
         }
         else if (firsts.containsToken(ArgsFormales, currentTokenType)) {
-            argsFormales();
-            bloqueOpcional();
+            Service s = new Method(n, null, null, t);
+            symbolTable.setCurrentService(s);
+
+            if(symbolTable.getCurrentClass() instanceof Class) {
+                Class c = (Class) symbolTable.getCurrentClass();
+                c.addMethod(n, s);
+
+                argsFormales();
+                bloque();
+            }
+            else
+                throw new SemanticException(SemanticErrorMessage.constructorFoundInInterface(t.getName()));
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString()));

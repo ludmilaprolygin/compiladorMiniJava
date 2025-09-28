@@ -22,6 +22,11 @@ public class Class extends MainElement {
         }
     }
 
+    public void addMethod(Token t, Service s) throws SemanticException {
+        Method m = (Method) s;
+        super.addMethod(t, m);
+    }
+
     public Table<Constructor> getConstructors() {return constructors;}
 
     @Override

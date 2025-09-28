@@ -7,10 +7,10 @@ import utils.messages.SemanticErrorMessage;
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Method extends Service {
-    private MethodType returnType;
+    private AbstractType returnType;
     private Token modifier;
 
-    public Method (Token n, Token v, Token m, MethodType t) {
+    public Method (Token n, Token v, Token m, AbstractType t) {
         super(n, v);
         returnType = t;
         modifier = m;
