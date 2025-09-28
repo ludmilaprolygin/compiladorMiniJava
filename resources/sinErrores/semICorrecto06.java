@@ -1,4 +1,4 @@
 ///[SinErrores]
 
-class C extends B {}
-class J extends I {}
+class C {}
+class J extends C {}

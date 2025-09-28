@@ -84,7 +84,7 @@ public class SymbolTable extends Element {
 
     private void createObject() {
         Token tk = new Token(null, "Object", -1);
-        Class c = new Class(null, tk, null);
+        Class c = new Class(null, tk, null, null);
         classes.put(tk, c);
 
         Token n, v, m;
@@ -104,7 +104,7 @@ public class SymbolTable extends Element {
         Token t = new Token(null, "String", -1);
 
         Token tParent = classes.getTokenByName("Object");
-        Class c = new Class(null, t, tParent);
+        Class c = new Class(null, t, null, tParent);
         classes.put(t, c);
     }
 
@@ -112,8 +112,17 @@ public class SymbolTable extends Element {
         Token t = new Token(null, "System", -1);
 
         Token tParent = classes.getTokenByName("Object");
-        Class c = new Class(null, t, tParent);
+        Class c = new Class(null, t, null, tParent);
         classes.put(t, c);
         //TODO - add methods
+    }
+
+    public String toString() {
+        String toReturn = "";
+        for(Class c : classes.values())
+            toReturn += c.toString() + "\n";
+        for(Interface i : interfaces.values())
+            toReturn += i.toString() + "\n";
+        return toReturn;
     }
 }

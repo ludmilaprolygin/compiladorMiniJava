@@ -5,8 +5,7 @@ import model.Firsts;
 import model.Following;
 import model.Token;
 import model.TokenType;
-import model.symbolTable.Interface;
-import model.symbolTable.SymbolTable;
+import model.symbolTable.*;
 import utils.exceptions.SyntacticException;
 import utils.messages.SyntacticErrorMessage;
 
@@ -57,21 +56,22 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void _interface() throws Exception { //TODO - TipoParametrico
+    private void _interface() throws Exception {
         Interface toReturn;
         Token modifier, name, parent;
+        Type parametricType;
 
         modifier = modificadorOpcional();
         match(reservedInterface);
         name = currentToken;
         match(idClase);
-        _tipoParametricoOpcional();
+        parametricType = _tipoParametricoOpcional();
         parent = _optionalParent();
 
         if(parent.getLexeme().equals("Object"))
-            parent = null;
+            parent = null; // Las interfaces no extienden de Object
 
-        toReturn = new Interface(modifier, name, parent);
+        toReturn = new Interface(modifier, name, parametricType, parent);
         symbolTable.addInterface(toReturn.getName(), toReturn);
         symbolTable.setCurrentClass(toReturn);
 
@@ -90,9 +90,20 @@ public class SyntacticAnalyzer {
     }
 
     private void _signaturaMetodo() throws Exception{
-        _visibilidadOpcional();
-        tipoMetodo();
-        _tipoParametricoOpcional();
+        Token visibility, name;
+        MethodType methodType;
+        Type parametricType;
+
+        visibility = _visibilidadOpcional();
+        methodType = tipoMetodo();
+        parametricType = _tipoParametricoOpcional();
+        name = currentToken;
+
+        if(parametricType != null)
+            methodType.setParametricType(parametricType);
+
+        Method newMethod = new Method(name, visibility, null, methodType);
+
         match(idMetVar);
         argsFormales();
         match(semicolon);
@@ -101,15 +112,16 @@ public class SyntacticAnalyzer {
     private void clase() throws Exception {
         Class newClass;
         Token modifier, name, parent;
+        Type parametricType;
 
         modifier = modificadorOpcional();
         match(reservedClass);
         name = currentToken;
         match(idClase);
-        _tipoParametricoOpcional();
+        parametricType =_tipoParametricoOpcional();
         parent = _optionalParent();
 
-        newClass = new Class(modifier, name, parent);
+        newClass = new Class(modifier, name, parametricType, parent);
         symbolTable.addClass(newClass.getName(), newClass);
         symbolTable.setCurrentClass(newClass);
 
@@ -131,14 +143,17 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void _tipoParametricoOpcional() throws Exception {
+    private Type _tipoParametricoOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Type toReturn;
         if(firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
             match(lesserOp);
+            toReturn = new Type(currentToken);
             match(idClase);
             match(greaterOp);
         }
-        else { /* epsilon */ }
+        else { toReturn = null; }
+        return toReturn;
     }
 
     private Token modificadorOpcional() throws Exception {
@@ -191,12 +206,15 @@ public class SyntacticAnalyzer {
         miembro();
     }
 
-    private void _visibilidadOpcional() throws Exception {
+    private Token _visibilidadOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn;
         if (firsts.containsToken(_Visibilidad, currentTokenType)) {
+            toReturn = currentToken;
             match(currentTokenType);
         }
-        else { /* epsilon */ }
+        else { toReturn = null; }
+        return toReturn;
     }
 
     private void miembro() throws Exception {
@@ -288,18 +306,21 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void _modificador() throws Exception {
+    private Token _modificador() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn = currentToken;
         if (firsts.containsToken(_Modificador, currentTokenType)) {
             match(currentTokenType);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Modificador).toString()));
         }
+        return toReturn;
     }
 
-    private void tipoMetodo() throws Exception {
+    private MethodType tipoMetodo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        MethodType toReturn = new MethodType(currentToken);
         if (firsts.containsToken(Tipo, currentTokenType)) {
             tipo();
         }
@@ -309,6 +330,7 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(TipoMetodo).toString()));
         }
+        return toReturn;
     }
 
     private void tipo() throws Exception {

@@ -1,13 +1,12 @@
 package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
-import model.symbolTable.MainElement;
+import model.symbolTable.Class;
 import model.symbolTable.SymbolTable;
-import model.symbolTable.Table;
 import sourceManager.*;
 import model.Token;
 import model.TokenType;
-import model.symbolTable.Class;
+import model.symbolTable.*;
 import syntacticAnalyzer.SyntacticAnalyzer;
 import utils.exceptions.LexicalException;
 import utils.exceptions.SemanticException;
@@ -96,6 +95,7 @@ public class Main {
 
     private static void semanticAnalysis() {
         try {
+            System.out.println(symbolTable.toString());
             symbolTable.correctDeclaration();
         }
         catch (SemanticException e) {

@@ -7,13 +7,15 @@ import utils.messages.SemanticErrorMessage;
 public abstract class MainElement extends Element {
     protected Token modifier;
     protected Token inheritance;
+    protected Type parametricType;
     protected Table<Attribute> attributes;
     protected Table<Method> methods;
 
-    public MainElement(Token m, Token n, Token i) {
+    public MainElement(Token m, Token n, Type t, Token i) {
         super(n);
         modifier = m;
         inheritance = i;
+        parametricType = t;
         attributes = new Table<>();
         methods = new Table<>();
     }
@@ -48,5 +50,12 @@ public abstract class MainElement extends Element {
 
     public Token getInheritance() {
         return inheritance;
+    }
+
+    public String toString() {
+        String mod = (modifier != null) ? modifier.getLexeme() + " " : "";
+        String inh = (inheritance != null) ? " extends " + inheritance.getLexeme() : "";
+        String paramType = (parametricType != null) ? "<" + parametricType.getName().getLexeme() + ">" : "";
+        return mod + " " + name.getLexeme() + " " + paramType + " " + inh;
     }
 }

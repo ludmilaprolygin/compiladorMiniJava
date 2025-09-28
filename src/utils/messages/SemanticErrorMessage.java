@@ -46,4 +46,8 @@ public class SemanticErrorMessage {
     private static String basicErrorEnd(Token t) {
         return "[Error:" + t.getLexeme() + "|" + t.getRow() + "]";
     }
+
+    public static String parametricTypeNotAllowed(Token name) {
+        return basicErrorInit(name) + ": Parametric types are only allowed for user-defined types, but " + name.getLexeme() + " is a primitive type \n" + basicErrorEnd(name);
+    }
 }

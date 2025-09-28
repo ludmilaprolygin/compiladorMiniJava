@@ -6,7 +6,7 @@ import utils.messages.SemanticErrorMessage;
 
 import static model.SyntacticMethod.TipoPrimitivo;
 
-public class PrimitiveType extends Type {
+public class PrimitiveType extends Element {
     public PrimitiveType(Token n) {
         super(n);
     }

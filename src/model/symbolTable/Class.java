@@ -8,8 +8,8 @@ import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Class extends MainElement {
     private Table<Constructor> constructors;
-    public Class(Token m, Token n, Token i) {
-        super(m, n, i);
+    public Class(Token m, Token n, Type t, Token i) {
+        super(m, n, t, i);
         constructors = new Table<>();
     }
 
