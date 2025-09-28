@@ -6,7 +6,9 @@ import model.Following;
 import model.Token;
 import model.TokenType;
 import model.symbolTable.*;
+import utils.exceptions.SemanticException;
 import utils.exceptions.SyntacticException;
+import utils.messages.SemanticErrorMessage;
 import utils.messages.SyntacticErrorMessage;
 
 import static model.SyntacticMethod.*;
@@ -281,10 +283,12 @@ public class SyntacticAnalyzer {
             if(symbolTable.getCurrentClass() instanceof Class) {
                 Class c = (Class) symbolTable.getCurrentClass();
                 c.addConstructor(n, s);
-            }
 
-            argsFormales();
-            bloque();
+                argsFormales();
+                bloque();
+            }
+            else
+                throw new SemanticException(SemanticErrorMessage.constructorFoundInInterface(n));
         }
         else if (firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
             _tipoParametricoOpcional();

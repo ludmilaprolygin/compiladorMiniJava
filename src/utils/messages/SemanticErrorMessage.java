@@ -54,4 +54,8 @@ public class SemanticErrorMessage {
     public static String constructorDoesNotExist(Token name) {
         return basicErrorInit(name) + ": Constructor " + name.getLexeme() + " incorrect; class does not exist in this scope \n" + basicErrorEnd(name);
     }
+
+    public static String constructorFoundInInterface(Token n) {
+        return basicErrorInit(n) + ": Constructor " + n.getLexeme() + " found in interface; constructors are not allowed in interfaces \n" + basicErrorEnd(n);
+    }
 }

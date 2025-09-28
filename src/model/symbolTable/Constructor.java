@@ -16,7 +16,8 @@ public class Constructor extends Service {
         if(!symbolTable().getClasses().contains(name.getLexeme()))
             throw new SemanticException(SemanticErrorMessage.constructorDoesNotExist(name));
         else {
-            Class c = symbolTable().getClasses().get(name);
+            Token t = symbolTable().getClasses().getTokenByName(name.getLexeme());
+            Class c = symbolTable().getClasses().get(t);
             if(c == null || !c.getConstructors().contains(name.getLexeme()))
                 throw new SemanticException(SemanticErrorMessage.constructorDoesNotExist(name));
         }
