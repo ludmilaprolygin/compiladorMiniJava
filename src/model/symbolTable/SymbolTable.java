@@ -114,7 +114,57 @@ public class SymbolTable extends Element {
         Token tParent = classes.getTokenByName("Object");
         Class c = new Class(null, t, null, tParent);
         classes.put(t, c);
-        //TODO - add methods
+
+        systemMethods(c);
+        //TODO - add parameters to methods
+    }
+
+    private void systemMethods(Class c) {
+        Token n;
+        Token p = new Token(reservedPublic, "public", -1);
+        Token s = new Token(reservedStatic, "static", -1);
+        MethodType v = new MethodType(new Token(reservedVoid, "void", -1));
+        MethodType i = new MethodType(new Token(reservedInt, "int", -1));
+
+        n = new Token(idMetVar, "read", -1);
+        Method read = new Method(n, p, s, i);
+        c.getMethods().put(n, read);
+
+        n = new Token(idMetVar, "printB", -1);
+        Method printB = new Method(n, p, s, v);
+        c.getMethods().put(n, read);
+
+        n = new Token(idMetVar, "printC", -1);
+        Method printC = new Method(n, p, s, v);
+        c.getMethods().put(n, printC);
+
+        n = new Token(idMetVar, "printI", -1);
+        Method printI = new Method(n, p, s, v);
+        c.getMethods().put(n, printI);
+
+        n = new Token(idMetVar, "printS", -1);
+        Method printS = new Method(n, p, s, v);
+        c.getMethods().put(n, printS);
+
+        n = new Token(idMetVar, "println", -1);
+        Method println = new Method(n, p, s, v);
+        c.getMethods().put(n, println);
+
+        n = new Token(idMetVar, "printBln", -1);
+        Method printBln = new Method(n, p, s, v);
+        c.getMethods().put(n, printBln);
+
+        n = new Token(idMetVar, "printCln", -1);
+        Method printCln = new Method(n, p, s, v);
+        c.getMethods().put(n, printCln);
+
+        n = new Token(idMetVar, "printIln", -1);
+        Method printIln = new Method(n, p, s, v);
+        c.getMethods().put(n, printIln);
+
+        n = new Token(idMetVar, "printSln", -1);
+        Method printSln = new Method(n, p, s, v);
+        c.getMethods().put(n, printSln);
     }
 
     public String toString() {

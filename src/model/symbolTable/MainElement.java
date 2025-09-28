@@ -56,6 +56,9 @@ public abstract class MainElement extends Element {
         String mod = (modifier != null) ? modifier.getLexeme() + " " : "";
         String inh = (inheritance != null) ? " extends " + inheritance.getLexeme() : "";
         String paramType = (parametricType != null) ? "<" + parametricType.getName().getLexeme() + ">" : "";
-        return mod + " " + name.getLexeme() + " " + paramType + " " + inh;
+        return mod + name.getLexeme() + paramType + inh + " {\n" +
+                "   Attributes: " + attributes.toString() + "\n" +
+                "   Methods: " + methods.toString() + "\n" +
+                "}";
     }
 }
