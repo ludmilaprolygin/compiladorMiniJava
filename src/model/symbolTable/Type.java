@@ -6,6 +6,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
 import static model.SyntacticMethod.Tipo;
+import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Type extends AbstractType {
     protected Type parametricType;
@@ -27,17 +28,22 @@ public class Type extends AbstractType {
 
     @Override
     public void correctDeclaration() throws SemanticException {
+        super.correctDeclaration();
         if (firsts.containsToken(Tipo, name.getTokenType())){
-            if (name.getTokenType().equals(TokenType.idClase)) {
-                if (parametricType != null) {
-                    parametricType.correctDeclaration();
-                }
-            }
-            else if (parametricType != null) {
-                throw new SemanticException(SemanticErrorMessage.parametricTypeNotAllowed(name));
-            }
+            checkParametricType();
         }
         else
             throw new SemanticException(SemanticErrorMessage.undeclaredType(name));
+    }
+    protected void checkParametricType() throws SemanticException {
+        if (name.getTokenType().equals(TokenType.idClase)) {
+            if (parametricType != null) {
+                parametricType.correctDeclaration();
+            }
+
+        }
+        else if (parametricType != null) {
+            throw new SemanticException(SemanticErrorMessage.parametricTypeNotAllowed(parametricType.getName()));
+        }
     }
 }

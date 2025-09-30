@@ -18,8 +18,6 @@ public class Method extends Service {
 
     @Override
     public void correctDeclaration() throws SemanticException {
-        //if(symbolTable().getCurrentClass().getMethods().contains(name.getLexeme()))
-        //    throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(name));
         returnType.correctDeclaration();
         for(Parameter p : parameters.values())
             p.correctDeclaration();

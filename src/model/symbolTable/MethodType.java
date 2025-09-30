@@ -12,6 +12,7 @@ public class MethodType extends Type {
     }
     @Override
     public void correctDeclaration() throws SemanticException {
+        checkParametricType();
         if (firsts.containsToken(TipoMetodo, name.getTokenType())) ;
         else
             throw new SemanticException(SemanticErrorMessage.undeclaredType(name));
