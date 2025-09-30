@@ -13,6 +13,8 @@ import utils.messages.SyntacticErrorMessage;
 
 import static model.SyntacticMethod.*;
 import static model.TokenType.*;
+import static model.symbolTable.SymbolTable.symbolTable;
+
 import model.symbolTable.Class;
 
 public class SyntacticAnalyzer {
@@ -230,9 +232,12 @@ public class SyntacticAnalyzer {
             Token n = currentToken;
             match(idMetVar);
 
-            Method m = new Method(n, v, null, t);
-            symbolTable.getCurrentClass().addMethod(n, m);
-            symbolTable.setCurrentService(m);
+            Method newMethod = new Method(n, v, null, t);
+            if(symbolTable().getCurrentClass().getMethods().contains(newMethod.getName().getLexeme()))
+                throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(newMethod.getName()));
+
+            symbolTable.getCurrentClass().addMethod(n, newMethod);
+            symbolTable.setCurrentService(newMethod);
 
             argsFormales();
             bloqueOpcional();
@@ -248,6 +253,11 @@ public class SyntacticAnalyzer {
                 mt.setParametricType(pt);
 
             Method newMethod = new Method(n, v, m, mt);
+            if(symbolTable().getCurrentClass().getMethods().contains(newMethod.getName().getLexeme()))
+                throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(newMethod.getName()));
+
+            symbolTable.getCurrentClass().addMethod(n, newMethod);
+            symbolTable.setCurrentService(newMethod);
 
             argsFormales();
             bloqueOpcional();
@@ -330,6 +340,9 @@ public class SyntacticAnalyzer {
 
             if(symbolTable.getCurrentClass() instanceof Class) {
                 Class c = (Class) symbolTable.getCurrentClass();
+                if(symbolTable().getCurrentClass().getMethods().contains(s.getName().getLexeme()))
+                    throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(s.getName()));
+
                 c.addMethod(n, s);
 
                 argsFormales();
