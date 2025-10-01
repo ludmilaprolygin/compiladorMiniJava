@@ -17,6 +17,6 @@ public class Parameter extends Element{
     }
 
     public String toString() {
-        return type.getName().getLexeme() + " " + name.getLexeme();
+        return type.toString() + " " + name.getLexeme();
     }
 }

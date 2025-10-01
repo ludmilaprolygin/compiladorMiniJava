@@ -107,6 +107,7 @@ public class SyntacticAnalyzer {
             methodType.setParametricType(parametricType);
 
         Method newMethod = new Method(name, visibility, null, methodType);
+        symbolTable.setCurrentService(newMethod);
 
         match(idMetVar);
         argsFormales();
@@ -393,8 +394,9 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void tipo() throws Exception {
+    private Type tipo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Type toReturn = new MethodType(currentToken);
         if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             tipoPrimitivo();
         }
@@ -404,6 +406,7 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Tipo).toString()));
         }
+        return toReturn;
     }
 
     private PrimitiveType tipoPrimitivo() throws Exception {
@@ -448,9 +451,17 @@ public class SyntacticAnalyzer {
     }
 
     private void argFormal() throws Exception {
-        tipo();
-        _tipoParametricoOpcional();
+        Type t = tipo();
+        Type pT = _tipoParametricoOpcional();
+
+        if(pT != null)
+            t.setParametricType(pT);
+
+        Token name = currentToken;
         match(idMetVar);
+
+        Parameter newParameter = new Parameter(name, t);
+        symbolTable.getCurrentService().addParameter(newParameter);
     }
 
     private void bloqueOpcional() throws Exception {

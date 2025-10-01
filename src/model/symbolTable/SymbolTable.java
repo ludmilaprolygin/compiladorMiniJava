@@ -219,4 +219,11 @@ public class SymbolTable extends Element {
             toReturn += i.toString() + "\n";
         return toReturn;
     }
+
+    public void consolidate() throws SemanticException {
+        for(Class c : classes.values())
+            c.consolidate();
+        for(Interface i : interfaces.values())
+            i.consolidate();
+    }
 }

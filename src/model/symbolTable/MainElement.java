@@ -4,6 +4,8 @@ import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
+import static model.symbolTable.SymbolTable.symbolTable;
+
 public abstract class MainElement extends Element {
     protected Token modifier;
     protected Token inheritance;
@@ -60,5 +62,17 @@ public abstract class MainElement extends Element {
                 "   Attributes: " + attributes.toString() + "\n" +
                 "   Methods: " + methods.toString() + "\n" +
                 "}";
+    }
+
+    public void consolidate() throws SemanticException {
+        if(inheritance != null) {
+            Table<Class> classes = symbolTable().getClasses();
+            Token cParent = classes.getTokenByName(inheritance.getLexeme());
+            for(Method m : classes.get(cParent).getMethods().values()) {
+                if(!methods.contains(m.getName().getLexeme())) {
+                    addMethod(m.getName(), m);
+                }
+            }
+        }
     }
 }
