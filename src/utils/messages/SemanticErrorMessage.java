@@ -62,4 +62,8 @@ public class SemanticErrorMessage {
     public static String parameterAlreadyExists(Token n) {
         return basicErrorInit(n) +  ": Parameter " + n.getLexeme() + " already exists \n" + basicErrorEnd(n);
     }
+
+    public static String circularHierarchy(Token inheritance) {
+        return basicErrorInit(inheritance) + ": Circular hierarchy due to extension of " + inheritance.getLexeme() + "\n" + basicErrorEnd(inheritance);
+    }
 }

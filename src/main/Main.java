@@ -98,7 +98,7 @@ public class Main {
             //System.out.println(symbolTable.toString());
             symbolTable.correctDeclaration();
             symbolTable.consolidate();
-            System.out.println(symbolTable.toString());
+            System.out.println(symbolTable);
         }
         catch (SemanticException e) {
             System.out.println(e.getMessage());

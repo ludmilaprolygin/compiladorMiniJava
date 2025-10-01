@@ -31,8 +31,16 @@ public class Class extends MainElement {
 
     @Override
     public void correctDeclaration() throws SemanticException {
-        if(inheritance != null && !symbolTable().getClasses().contains(inheritance.getLexeme()))
+        String parentLexeme = inheritance != null ? inheritance.getLexeme() : null;
+        if(inheritance != null && !symbolTable().getClasses().contains(parentLexeme)) {
             throw new SemanticException(SemanticErrorMessage.parentDoesNotExist(inheritance));
+        }
+        else if(inheritance != null && parentLexeme.equals(name.getLexeme())) {
+            throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
+        }
+        else if (inheritance != null && symbolTable().getClassHeriarchy().isAncestor(name.getLexeme(), parentLexeme)) {
+            throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
+        }
         for (Attribute a : attributes.values())
             a.correctDeclaration();
         for (Method m : methods.values())
