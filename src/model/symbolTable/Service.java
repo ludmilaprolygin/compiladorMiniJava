@@ -30,6 +30,8 @@ public abstract class Service extends Element {
 
     public List<Parameter> getParameters() { return parameters; }
 
+    public Token getVisibility() { return visibility; }
+
     public boolean equalSignature(Service service){
         if(!this.name.getLexeme().equals(service.name.getLexeme()))
             return false;

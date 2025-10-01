@@ -95,7 +95,6 @@ public class Main {
 
     private static void semanticAnalysis() {
         try {
-            //System.out.println(symbolTable.toString());
             symbolTable.correctDeclaration();
             symbolTable.consolidate();
             System.out.println(symbolTable);

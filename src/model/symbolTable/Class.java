@@ -74,12 +74,32 @@ public class Class extends MainElement {
         return toReturn;
     }
 
-    public void consolidate() {
+    public void consolidate() throws SemanticException {
         if(inheritance != null){
             String parentLexeme = inheritance.getLexeme();
             Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
             Class cParent = symbolTable().getClasses().get(tParent);
-
+            Table<Method> parentMethods = cParent.getMethods();
+            for(Method m : methods.values()){
+                if(parentMethods.contains(m.getName().getLexeme())){
+                    Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
+                    Method mParent = parentMethods.get(tkParent);
+                    if(mParent != null)
+                        System.out.println(m.getName().getLexeme() + " " + mParent.getName().getLexeme());
+                    if(mParent != null && (!m.getReturnType().getName().getLexeme().equals(mParent.getReturnType().getName().getLexeme()) ||
+                            m.getParameters().size() != mParent.getParameters().size())) {
+                        throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
+                    }
+                }
+            }
+            for(Method m : parentMethods.values()){
+                if(!methods.contains(m.getName().getLexeme())){
+                    Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType());
+                    for(Parameter p : m.getParameters())
+                        mCopy.addParameter(p);
+                    methods.put(mCopy.getName(), mCopy);
+                }
+            }
         }
     }
 }
