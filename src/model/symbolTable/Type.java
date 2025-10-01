@@ -49,4 +49,14 @@ public class Type extends AbstractType {
         String pType = (parametricType != null) ? "<" + parametricType.toString() + ">" : "";
         return name.getLexeme() + pType;
     }
+
+    public boolean equals(AbstractType t) {
+        boolean toReturn = super.equals(t);
+        if(toReturn && t instanceof Type) {
+            Type type = (Type) t;
+            toReturn = (parametricType == null && type.parametricType == null) ||
+                    (parametricType != null && type.parametricType != null && parametricType.equals(type.parametricType));
+        }
+        return toReturn;
+    }
 }

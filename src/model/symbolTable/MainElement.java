@@ -31,8 +31,9 @@ public abstract class MainElement extends Element {
     }
 
     public void addMethod(Token t, Method m) throws SemanticException {
-        if(!methods.contains(t.getLexeme()))
+        if(!methods.contains(t.getLexeme())){
             methods.put(t, m);
+        }
         else {
             throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(t));
         }
@@ -71,6 +72,12 @@ public abstract class MainElement extends Element {
             for(Method m : classes.get(cParent).getMethods().values()) {
                 if(!methods.contains(m.getName().getLexeme())) {
                     addMethod(m.getName(), m);
+                }
+                else {
+                    Method thisMethod = methods.get(m.getName().getLexeme());
+                    if(thisMethod != null && !thisMethod.equalSignature(m)) {
+                        throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(thisMethod));
+                    }
                 }
             }
         }

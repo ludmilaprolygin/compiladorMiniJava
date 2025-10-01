@@ -1,6 +1,7 @@
 package utils.messages;
 
 import model.Token;
+import model.symbolTable.Method;
 
 public class SemanticErrorMessage {
     public static String attributeAlreadyExists(Token t) {
@@ -65,5 +66,13 @@ public class SemanticErrorMessage {
 
     public static String circularHierarchy(Token inheritance) {
         return basicErrorInit(inheritance) + ": Circular hierarchy due to extension of " + inheritance.getLexeme() + "\n" + basicErrorEnd(inheritance);
+    }
+
+    public static String methodDoesNotOverrideCorrectly(Method method) {
+        return basicErrorInit(method.getName()) + ": Method " + method.toString() + " does not override correctly \n" + basicErrorEnd(method.getName());
+    }
+
+    public static String cannotDeclareAbstractMethod(Token t) {
+        return basicErrorInit(t) + ": Cannot declare abstract method " + t.getLexeme() + " from a class that is not abstract \n" + basicErrorEnd(t);
     }
 }

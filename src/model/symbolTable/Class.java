@@ -1,6 +1,7 @@
 package model.symbolTable;
 
 import model.Token;
+import model.TokenType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
@@ -27,7 +28,7 @@ public class Class extends MainElement {
         super.addMethod(t, m);
     }
 
-    public Table<Constructor> getConstructors() {return constructors;}
+    public Table<Constructor> getConstructors() { return constructors; }
 
     @Override
     public void correctDeclaration() throws SemanticException {

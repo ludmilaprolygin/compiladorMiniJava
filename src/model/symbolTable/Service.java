@@ -23,4 +23,14 @@ public abstract class Service extends Element {
             throw new SemanticException(SemanticErrorMessage.parameterAlreadyExists(p.getName()));
         parameters.put(p.getName(), p);
     }
+
+    public Table<Parameter> getParameters() {return parameters; }
+
+    public boolean equalSignature(Service service){
+        if(!this.name.getLexeme().equals(service.name.getLexeme()))
+            return false;
+        if(!this.parameters.equals(service.getParameters()))
+            return false;
+        return true;
+    }
 }

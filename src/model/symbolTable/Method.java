@@ -24,4 +24,16 @@ public class Method extends Service {
         return mod + returnType.toString() + " " +
                 name.getLexeme() + "(" + parameters.toString() + ")";
     }
+
+    public AbstractType getReturnType() { return returnType; }
+
+    public boolean equalSignature(Method method){
+        boolean toReturn = super.equalSignature(method);
+        if(toReturn && !returnType.equals(method.getReturnType())) {
+            toReturn = false;
+        }
+        return toReturn;
+    }
+
+    public Token getModifier () { return modifier; }
 }

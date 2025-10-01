@@ -28,4 +28,9 @@ public class Table<Element> extends HashMap<Token, Element> {
         }
         return s;
     }
+
+    public boolean equals(Table<Element> table) {
+        boolean toReturn = this.size() == table.size();
+        return toReturn;
+    }
 }

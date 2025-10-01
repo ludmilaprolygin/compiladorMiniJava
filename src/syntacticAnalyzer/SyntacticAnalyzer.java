@@ -276,7 +276,7 @@ public class SyntacticAnalyzer {
             _decisorMiembroIdClase(v, t);
         }
         else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
-            PrimitiveType t = tipoPrimitivo();
+            Type t = tipoPrimitivo();
             Token n = currentToken;
             match(idMetVar);
             _restoMiembro(t, n);
@@ -409,9 +409,9 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private PrimitiveType tipoPrimitivo() throws Exception {
+    private Type tipoPrimitivo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        PrimitiveType toReturn = new PrimitiveType(currentToken);
+        Type toReturn = new Type(currentToken);
         if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             match(currentTokenType);
         }
