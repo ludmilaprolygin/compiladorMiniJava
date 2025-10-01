@@ -1,4 +1,4 @@
-///[Error:A|4]
+///[Error:A|3]
 
 abstract class A{
     public A(){}

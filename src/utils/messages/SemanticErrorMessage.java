@@ -75,4 +75,8 @@ public class SemanticErrorMessage {
     public static String cannotDeclareAbstractMethod(Token t) {
         return basicErrorInit(t) + ": Cannot declare abstract method " + t.getLexeme() + " from a class that is not abstract \n" + basicErrorEnd(t);
     }
+
+    public static String constructorFoundInAbstractClass(Token name) {
+        return basicErrorInit(name) + ": Constructor " + name.getLexeme() + " found in abstract class; constructors are not allowed in abstract classes \n" + basicErrorEnd(name);
+    }
 }

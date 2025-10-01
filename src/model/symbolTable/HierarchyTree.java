@@ -51,4 +51,18 @@ public class HierarchyTree {
 
         return ancestorNode.search(descendant) != null;
     }
+
+    public List<String> getClassesByDepth() {
+        List<String> result = new ArrayList<>();
+        collectByDepth(this, result);
+        return result;
+    }
+
+    private void collectByDepth(HierarchyTree node, List<String> result) {
+        if (node == null) return;
+        result.add(node.className);
+        for (HierarchyTree child : node.descendants) {
+            collectByDepth(child, result);
+        }
+    }
 }

@@ -44,20 +44,42 @@ public class Class extends MainElement {
         else if(inheritance != null && parentLexeme.equals(name.getLexeme())) {
             throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
         }
-        else if (inheritance != null && symbolTable().getClassHeriarchy().isAncestor(name.getLexeme(), parentLexeme)) {
+        else if (inheritance != null && symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
             throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
         }
         for (Attribute a : attributes.values())
             a.correctDeclaration();
-        for (Method m : methods.values())
+        for (Method m : methods.values()) {
             m.correctDeclaration();
-        for (Constructor c : constructors.values())
-            c.correctDeclaration();
+            if(modifier != null && m.getModifier() != null &&
+                !modifier.getTokenType().equals(TokenType.reservedAbstract) &&
+                m.getModifier().getTokenType().equals(TokenType.reservedAbstract)) {
+                    throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
+            }
+            else if (modifier == null && m.getModifier() != null &&
+                    m.getModifier().getTokenType().equals(TokenType.reservedAbstract))
+                throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
+        }
+        if(modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract) && !constructors.isEmpty()) {
+            throw new SemanticException(SemanticErrorMessage.constructorFoundInAbstractClass(name));
+        }
+        else
+            for (Constructor c : constructors.values())
+                c.correctDeclaration();
     }
 
     public String toString() {
         String toReturn = super.toString() + "\n" +
                 "   Constructors: " + constructors.toString() + "\n";
         return toReturn;
+    }
+
+    public void consolidate() {
+        if(inheritance != null){
+            String parentLexeme = inheritance.getLexeme();
+            Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
+            Class cParent = symbolTable().getClasses().get(tParent);
+
+        }
     }
 }

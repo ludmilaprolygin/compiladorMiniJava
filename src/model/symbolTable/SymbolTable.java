@@ -4,6 +4,8 @@ import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
+import java.util.List;
+
 import static model.TokenType.*;
 
 public class SymbolTable extends Element {
@@ -12,7 +14,7 @@ public class SymbolTable extends Element {
     private static SymbolTable symbolTable;
     private MainElement currentClass;
     private Service currentService;
-    private HierarchyTree classHeriarchy;
+    private HierarchyTree classHierarchy;
 
     private SymbolTable() {
         reset();
@@ -59,12 +61,12 @@ public class SymbolTable extends Element {
             throw new SemanticException(SemanticErrorMessage.interfaceAlreadyExists(t));
         else if(!classes.contains(t.getLexeme())) {
             classes.put(t, c);
-            HierarchyTree ht = classHeriarchy.search(c.getInheritance().getLexeme());
+            HierarchyTree ht = classHierarchy.search(c.getInheritance().getLexeme());
             if(ht != null)
                 ht.addDescendant(new HierarchyTree(t.getLexeme()));
             else {
                 HierarchyTree parent = new HierarchyTree(c.getInheritance().getLexeme());
-                classHeriarchy.addDescendant(parent);
+                classHierarchy.addDescendant(parent);
                 parent.addDescendant(new HierarchyTree(t.getLexeme()));
             }
         }
@@ -96,7 +98,7 @@ public class SymbolTable extends Element {
         Token tk = new Token(null, "Object", -1);
         Class c = new Class(null, tk, null, null);
         classes.put(tk, c);
-        classHeriarchy = new HierarchyTree(tk.getLexeme());
+        classHierarchy = new HierarchyTree(tk.getLexeme());
 
         Token n, v, m;
         MethodType t;
@@ -121,7 +123,7 @@ public class SymbolTable extends Element {
         Token tParent = classes.getTokenByName("Object");
         Class c = new Class(null, t, null, tParent);
         classes.put(t, c);
-        classHeriarchy.search(tParent.getLexeme()).addDescendant(new HierarchyTree(t.getLexeme()));
+        classHierarchy.search(tParent.getLexeme()).addDescendant(new HierarchyTree(t.getLexeme()));
     }
 
     private void createSystem() {
@@ -131,7 +133,7 @@ public class SymbolTable extends Element {
         Class c = new Class(null, t, null, tParent);
 
         classes.put(t, c);
-        classHeriarchy.search(tParent.getLexeme()).addDescendant(new HierarchyTree(t.getLexeme()));
+        classHierarchy.search(tParent.getLexeme()).addDescendant(new HierarchyTree(t.getLexeme()));
 
         systemMethods(c);
     }
@@ -234,17 +236,22 @@ public class SymbolTable extends Element {
         for (Interface i : interfaces.values()) {
             sb.append(i.toString()).append("\n");
         }
-        sb.append(classHeriarchy.toString()).append("\n");
+        sb.append(classHierarchy.toString()).append("\n");
 
         return sb.toString();
     }
 
     public void consolidate() throws SemanticException {
-        for(Class c : classes.values())
-            c.consolidate();
+        List<String> sortedClasses = classHierarchy.getClassesByDepth();
+        for(String s : sortedClasses) {
+            Token t = classes.getTokenByName(s);
+            Class c = classes.get(t);
+            if(c != null)
+                c.consolidate();
+        }
         for(Interface i : interfaces.values())
             i.consolidate();
     }
 
-    public HierarchyTree getClassHeriarchy() { return classHeriarchy; }
+    public HierarchyTree getClassHierarchy() { return classHierarchy; }
 }

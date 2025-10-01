@@ -5,6 +5,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Service extends Element {
@@ -13,7 +14,7 @@ public abstract class Service extends Element {
     public Service(Token n, Token v) {
         super(n);
         visibility = v;
-        parameters = new ArrayList<>();
+        parameters = new LinkedList<>();
     }
 
     public void correctDeclaration() throws SemanticException {
@@ -27,13 +28,11 @@ public abstract class Service extends Element {
         parameters.addLast(p);
     }
 
-    public List<Parameter> getParameters() {return parameters; }
+    public List<Parameter> getParameters() { return parameters; }
 
     public boolean equalSignature(Service service){
         if(!this.name.getLexeme().equals(service.name.getLexeme()))
             return false;
-        if(!this.parameters.equals(service.getParameters()))
-            return false;
-        return true;
+        return this.parameters.size() == service.getParameters().size();
     }
 }
