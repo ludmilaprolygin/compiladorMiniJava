@@ -58,4 +58,8 @@ public class SemanticErrorMessage {
     public static String constructorFoundInInterface(Token n) {
         return basicErrorInit(n) + ": Constructor " + n.getLexeme() + " found in interface; constructors are not allowed in interfaces \n" + basicErrorEnd(n);
     }
+
+    public static String parameterAlreadyExists(Token n) {
+        return basicErrorInit(n) +  ": Parameter " + n.getLexeme() + " already exists \n" + basicErrorEnd(n);
+    }
 }

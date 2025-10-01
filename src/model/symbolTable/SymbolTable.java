@@ -93,11 +93,15 @@ public class SymbolTable extends Element {
         v = new Token(reservedPublic, "public", -1);
         m = new Token(reservedStatic, "static", -1);
         t = new MethodType(new Token(reservedVoid, "void", -1));
+        Type tInt = new Type(new Token(reservedInt, "int", -1));
 
         Method debugPrint = new Method(n, v, m, t);
+        Token pI = new Token(idMetVar, "i", -1);
+        try {
+            debugPrint.addParameter(new Parameter(pI, tInt));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, debugPrint);
-
-        //TODO - add debugPrint parameters
     }
 
     private void createString() {
@@ -116,7 +120,6 @@ public class SymbolTable extends Element {
         classes.put(t, c);
 
         systemMethods(c);
-        //TODO - add parameters to methods
     }
 
     private void systemMethods(Class c) {
@@ -126,24 +129,49 @@ public class SymbolTable extends Element {
         MethodType v = new MethodType(new Token(reservedVoid, "void", -1));
         MethodType i = new MethodType(new Token(reservedInt, "int", -1));
 
+        Type tBoolean = new Type(new Token(reservedBoolean, "boolean", -1));
+        Type tChar = new Type(new Token(reservedChar,  "char", -1));
+        Type tString = new Type(new Token(idClase, "String", -1));
+        Type tInt = new Type(new Token(reservedInt, "int", -1));
+
         n = new Token(idMetVar, "read", -1);
         Method read = new Method(n, p, s, i);
         c.getMethods().put(n, read);
 
         n = new Token(idMetVar, "printB", -1);
         Method printB = new Method(n, p, s, v);
-        c.getMethods().put(n, read);
+        Token pB = new Token(idMetVar, "b", -1);
+        try {
+            printB.addParameter(new Parameter(pB, tBoolean));
+        }
+        catch(SemanticException e) {};
+        c.getMethods().put(n, printB);
 
         n = new Token(idMetVar, "printC", -1);
         Method printC = new Method(n, p, s, v);
+        Token pC = new Token(idMetVar, "c", -1);
+        try {
+            printC.addParameter(new Parameter(pC, tChar));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, printC);
 
         n = new Token(idMetVar, "printI", -1);
         Method printI = new Method(n, p, s, v);
+        Token pI = new Token(idMetVar, "i", -1);
+        try {
+            printI.addParameter(new Parameter(pI, tInt));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, printI);
 
         n = new Token(idMetVar, "printS", -1);
         Method printS = new Method(n, p, s, v);
+        Token pS = new Token(idMetVar, "s", -1);
+        try {
+            printS.addParameter(new Parameter(pS, tString));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, printS);
 
         n = new Token(idMetVar, "println", -1);
@@ -152,18 +180,34 @@ public class SymbolTable extends Element {
 
         n = new Token(idMetVar, "printBln", -1);
         Method printBln = new Method(n, p, s, v);
+        try {
+            printBln.addParameter(new Parameter(pB, tBoolean));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, printBln);
 
         n = new Token(idMetVar, "printCln", -1);
         Method printCln = new Method(n, p, s, v);
+        try {
+            printCln.addParameter(new Parameter(pC, tChar));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, printCln);
 
         n = new Token(idMetVar, "printIln", -1);
         Method printIln = new Method(n, p, s, v);
+        try {
+            printIln.addParameter(new Parameter(pI, tInt));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, printIln);
 
         n = new Token(idMetVar, "printSln", -1);
         Method printSln = new Method(n, p, s, v);
+        try {
+            printSln.addParameter(new Parameter(pS, tString));
+        }
+        catch(SemanticException e) {};
         c.getMethods().put(n, printSln);
     }
 

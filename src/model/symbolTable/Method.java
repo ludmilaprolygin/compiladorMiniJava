@@ -2,9 +2,6 @@ package model.symbolTable;
 
 import model.Token;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
-
-import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Method extends Service {
     private AbstractType returnType;
@@ -18,8 +15,13 @@ public class Method extends Service {
 
     @Override
     public void correctDeclaration() throws SemanticException {
+        super.correctDeclaration();
         returnType.correctDeclaration();
-        for(Parameter p : parameters.values())
-            p.correctDeclaration();
+    }
+
+    public String toString() {
+        String mod = (modifier != null) ? modifier.getLexeme() + " " : "";
+        return mod + returnType.toString() + " " +
+                name.getLexeme() + "(" + parameters.toString() + ")";
     }
 }

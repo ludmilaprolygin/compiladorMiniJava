@@ -13,7 +13,7 @@ public class Parameter extends Element{
 
     @Override
     public void correctDeclaration() throws SemanticException {
-        ;
+        type.correctDeclaration();
     }
 
     public String toString() {

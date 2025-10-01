@@ -6,7 +6,6 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
 import static model.SyntacticMethod.Tipo;
-import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Type extends AbstractType {
     protected Type parametricType;
@@ -40,10 +39,14 @@ public class Type extends AbstractType {
             if (parametricType != null) {
                 parametricType.correctDeclaration();
             }
-
         }
         else if (parametricType != null) {
             throw new SemanticException(SemanticErrorMessage.parametricTypeNotAllowed(parametricType.getName()));
         }
+    }
+
+    public String toString() {
+        String pType = (parametricType != null) ? "<" + parametricType.toString() + ">" : "";
+        return name.getLexeme() + pType;
     }
 }
