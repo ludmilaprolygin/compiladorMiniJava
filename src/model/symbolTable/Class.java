@@ -94,6 +94,7 @@ public class Class extends MainElement {
             Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
             Class cParent = symbolTable().getClasses().get(tParent);
             Table<Method> parentMethods = cParent.getMethods();
+            Table<Attribute> parentAttributes = cParent.getAttributes();
             for(Method m : methods.values()){
                 Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
                 Method mParent = parentMethods.get(tkParent);
@@ -118,7 +119,7 @@ public class Class extends MainElement {
             for(Method m : parentMethods.values()){
                 if(!methods.contains(m.getName().getLexeme())){
                     Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
-                    for(Parameter p : m.getParameters())
+                    for(Parameter p : m.getParameters().values())
                         mCopy.addParameter(p);
                     methods.put(mCopy.getName(), mCopy);
                 }
@@ -130,6 +131,11 @@ public class Class extends MainElement {
                    throw new SemanticException(SemanticErrorMessage.builderDoesNotOverrideCorrectly(myBuilder));
                 }
 
+            }
+            for(Attribute a : attributes.values()){
+                if(parentAttributes.contains(a.getName().getLexeme())){
+                    throw new SemanticException(SemanticErrorMessage.attributeAlreadyExists(a.getName()));
+                }
             }
         }
     }

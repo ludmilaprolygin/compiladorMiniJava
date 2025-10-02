@@ -9,25 +9,25 @@ import java.util.List;
 
 public abstract class Service extends Element {
     protected Token visibility;
-    protected List<Parameter> parameters; //TODO - cambiar a lista
+    protected Table<Parameter> parameters; //TODO - cambiar a lista
     public Service(Token n, Token v) {
         super(n);
         visibility = v;
-        parameters = new LinkedList<>();
+        parameters = new Table<>();
     }
 
     public void correctDeclaration() throws SemanticException {
-        for(Parameter p : parameters)
+        for(Parameter p : parameters.values())
             p.correctDeclaration();
     }
 
     public void addParameter(Parameter p) throws SemanticException{
-        if(parameters.contains(p))
+        if(parameters.contains(p.getName().getLexeme()))
             throw new SemanticException(SemanticErrorMessage.parameterAlreadyExists(p.getName()));
-        parameters.addLast(p);
+        parameters.put(p.getName(), p);
     }
 
-    public List<Parameter> getParameters() { return parameters; }
+    public Table<Parameter> getParameters() { return parameters; }
 
     public Token getVisibility() { return visibility; }
 

@@ -1,6 +1,7 @@
 package model.symbolTable;
 
 import model.Token;
+import model.TokenType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
@@ -13,7 +14,7 @@ public class MethodType extends Type {
     @Override
     public void correctDeclaration() throws SemanticException {
         checkParametricType();
-        if (firsts.containsToken(TipoMetodo, name.getTokenType())) ;
+        if (firsts.containsToken(TipoMetodo, name.getTokenType()));
         else
             throw new SemanticException(SemanticErrorMessage.undeclaredType(name));
     }

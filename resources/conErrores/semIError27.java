@@ -1,12 +1,9 @@
-///[Error:m1|10]
-// Redefinición de método estático
+///[Error:x|6]
+// Atributos duplicados en la misma clase
 
 class A {
-    static void m1() {}
-}
-
-class B extends A {
-    void m1() {}
+    int x;
+    boolean x;
 }
 
 class Init {
