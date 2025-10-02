@@ -46,6 +46,7 @@ public class Method extends Service {
 
     public boolean equalSignature(Method method){
         boolean toReturn = super.equalSignature(method);
+        toReturn = toReturn && parameters.equals(method.getParameters());
         return toReturn && !returnType.getName().getLexeme().equals(method.getReturnType().getName().getLexeme());
     }
 
