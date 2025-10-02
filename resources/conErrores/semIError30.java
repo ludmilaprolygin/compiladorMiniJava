@@ -1,4 +1,4 @@
-///[Error:m1|10]
+///[Error:m1|9]
 // Redefinición con tipos de parámetros diferentes
 
 class A {

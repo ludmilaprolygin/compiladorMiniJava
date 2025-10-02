@@ -70,12 +70,10 @@ public abstract class MainElement extends Element {
             Table<Class> classes = symbolTable().getClasses();
             Token cParent = classes.getTokenByName(inheritance.getLexeme());
             for(Method m : classes.get(cParent).getMethods().values()) {
-                if(!methods.contains(m.getName().getLexeme())) {
-                    addMethod(m.getName(), m);
-                }
-                else {
-                    Method thisMethod = methods.get(m.getName().getLexeme());
-                    if(thisMethod != null && !thisMethod.equalSignature(m)) {
+                if(methods.contains(m.getName().getLexeme())) {
+                    Token thisToken = methods.getTokenByName(m.getName().getLexeme());
+                    Method thisMethod = methods.get(thisToken);
+                    if(thisMethod != null && thisMethod.equalSignature(m)) {
                         throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(thisMethod));
                     }
                 }

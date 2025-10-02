@@ -46,10 +46,7 @@ public class Method extends Service {
 
     public boolean equalSignature(Method method){
         boolean toReturn = super.equalSignature(method);
-        if(toReturn && !returnType.getName().equals(method.getReturnType().getName())) {
-            toReturn = false;
-        }
-        return toReturn;
+        return toReturn && !returnType.getName().getLexeme().equals(method.getReturnType().getName().getLexeme());
     }
 
     public Token getModifier () { return modifier; }

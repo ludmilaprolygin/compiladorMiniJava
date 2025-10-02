@@ -89,6 +89,7 @@ public class Class extends MainElement {
     }
 
     public void consolidate() throws SemanticException {
+        super.consolidate();
         if(inheritance != null){
             String parentLexeme = inheritance.getLexeme();
             Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);

@@ -34,6 +34,7 @@ public abstract class Service extends Element {
     public boolean equalSignature(Service service){
         if(!this.name.getLexeme().equals(service.name.getLexeme()))
             return false;
-        return this.parameters.size() == service.getParameters().size();
+        else
+            return parameters.equals(service.parameters);
     }
 }
