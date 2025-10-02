@@ -100,4 +100,16 @@ public class SemanticErrorMessage {
     public static String abstractClassExtendsConcreteClass(Token name) {
         return basicErrorInit(name) + ": Abstract class " + name.getLexeme() + " cannot extend from a concrete class \n" + basicErrorEnd(name);
     }
+
+    public static String missingImplementationOnAbstracMethod(Method m) {
+        return basicErrorInit(m.getName()) + ": Missing implementation on abstract method " + m.toString() + " \n" + basicErrorEnd(m.getName());
+    }
+
+    public static String abstractMethodRedefinedAsAbstract(Method m) {
+        return basicErrorInit(m.getName()) + ": Abstract method " + m.toString() + " cannot be redefined as abstract \n" + basicErrorEnd(m.getName());
+    }
+
+    public static String cannotOverrideFinalMethod(Method m) {
+        return basicErrorInit(m.getName()) + ": Cannot override final method " + m.toString() + " \n" + basicErrorEnd(m.getName());
+    }
 }

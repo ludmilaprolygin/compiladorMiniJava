@@ -51,7 +51,7 @@ public class Class extends MainElement {
             Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
             Class cParent = symbolTable().getClasses().get(tParent);
             if(cParent.isFinal()) {
-                throw new SemanticException(SemanticErrorMessage.cannotExtendFromFinalClass(cParent.getName()));
+                throw new SemanticException(SemanticErrorMessage.cannotExtendFromFinalClass(name));
             }
             if(isAbstract() && !cParent.isAbstract() && !objectIsParent()){
                 throw new SemanticException(SemanticErrorMessage.abstractClassExtendsConcreteClass(name));
@@ -92,14 +92,23 @@ public class Class extends MainElement {
             Class cParent = symbolTable().getClasses().get(tParent);
             Table<Method> parentMethods = cParent.getMethods();
             for(Method m : methods.values()){
+                Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
+                Method mParent = parentMethods.get(tkParent);
                 if(parentMethods.contains(m.getName().getLexeme())){
-                    Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
-                    Method mParent = parentMethods.get(tkParent);
-                    if(mParent != null)
-                        System.out.println(m.getName().getLexeme() + " " + mParent.getName().getLexeme());
                     if(mParent != null && (!m.getReturnType().getName().getLexeme().equals(mParent.getReturnType().getName().getLexeme()) ||
                             m.getParameters().size() != mParent.getParameters().size())) {
                         throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
+                    }
+                    if(mParent != null && mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract) && m.getModifier() != null &&
+                            m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()) {
+                        throw new SemanticException(SemanticErrorMessage.missingImplementationOnAbstracMethod(m));
+                    }
+                    if(mParent != null && mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract) && m.getModifier() != null &&
+                            m.getModifier().getTokenType().equals(TokenType.reservedAbstract)) {
+                        throw new SemanticException(SemanticErrorMessage.abstractMethodRedefinedAsAbstract(m));
+                    }
+                    if(mParent != null && mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedFinal)) {
+                        throw new SemanticException(SemanticErrorMessage.cannotOverrideFinalMethod(m));
                     }
                 }
             }
@@ -130,6 +139,11 @@ public class Class extends MainElement {
         }
     }
 
+    private Token getTokenParent() {
+        if(inheritance != null)
+            return symbolTable().getClasses().getTokenByName(inheritance.getLexeme());
+        return null;
+    }
     private boolean objectIsParent() {
         return inheritance != null && inheritance.getLexeme().equals("Object");
     }
