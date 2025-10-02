@@ -24,7 +24,7 @@ public class Table<Element> extends HashMap<Token, Element> {
     public String toString() {
         String s = "";
         for(Entry e : this.entrySet()) {
-            s += ((Element) e.getValue().toString());
+            s += ((Element) e.getValue().toString()) + " ";
         }
         return s;
     }

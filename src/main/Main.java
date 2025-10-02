@@ -85,8 +85,6 @@ public class Main {
         try {
             lexicalAnalyzer.init(sourceManager);
             syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
-
-            System.out.println("[SinErrores]");
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -98,6 +96,8 @@ public class Main {
             symbolTable.correctDeclaration();
             symbolTable.consolidate();
             System.out.println(symbolTable);
+
+            System.out.println("[SinErrores]");
         }
         catch (SemanticException e) {
             System.out.println(e.getMessage());

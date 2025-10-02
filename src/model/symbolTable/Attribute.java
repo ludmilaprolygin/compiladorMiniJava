@@ -15,10 +15,10 @@ public class Attribute extends Element {
 
     @Override
     public void correctDeclaration() throws SemanticException {
-        MainElement currentClass = symbolTable().getCurrentClass();
-        if(currentClass.getAttributes().contains(this.getName().getLexeme()))
-           throw new SemanticException(SemanticErrorMessage.attributeAlreadyExists(this.getName()));
-        else
-           type.correctDeclaration();
+        type.correctDeclaration();
+    }
+
+    public String toString() {
+        return type.toString() + " " + super.toString();
     }
 }

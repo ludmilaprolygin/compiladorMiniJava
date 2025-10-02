@@ -19,4 +19,8 @@ public abstract class Element {
     }
 
     public abstract void correctDeclaration() throws SemanticException;
+
+    public String toString() {
+        return name.getLexeme();
+    }
 }

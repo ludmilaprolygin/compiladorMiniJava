@@ -61,17 +61,18 @@ public class Class extends MainElement {
                 throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
         }
         if(modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract) && !constructors.isEmpty()) {
-            throw new SemanticException(SemanticErrorMessage.constructorFoundInAbstractClass(name));
+            Constructor c = constructors.values().iterator().next();
+            throw new SemanticException(SemanticErrorMessage.constructorFoundInAbstractClass(c.getName()));
         }
         else
             for (Constructor c : constructors.values())
                 c.correctDeclaration();
+        addPredefinedBuilder();
     }
 
     public String toString() {
-        String toReturn = super.toString() + "\n" +
+        return super.toString() + "\n" +
                 "   Constructors: " + constructors.toString() + "\n";
-        return toReturn;
     }
 
     public void consolidate() throws SemanticException {
@@ -100,6 +101,14 @@ public class Class extends MainElement {
                     methods.put(mCopy.getName(), mCopy);
                 }
             }
+        }
+    }
+
+    private void addPredefinedBuilder() {
+        Token t = new Token(null, name.getLexeme(), -1);
+        Constructor c = new Constructor(t, new Token(TokenType.reservedPublic, "public", -1));
+        if(constructors.isEmpty()) {
+            constructors.put(t, c);
         }
     }
 }

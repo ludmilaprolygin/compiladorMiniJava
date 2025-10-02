@@ -4,7 +4,6 @@ import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
