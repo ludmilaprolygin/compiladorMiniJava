@@ -117,6 +117,9 @@ public class Class extends MainElement {
                 }
             }
             for(Method m : parentMethods.values()){
+                if(!methods.contains(m.getName().getLexeme()) && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()){
+                    throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(name));
+                }
                 if(!methods.contains(m.getName().getLexeme())){
                     Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
                     for(Parameter p : m.getParameters().values())
