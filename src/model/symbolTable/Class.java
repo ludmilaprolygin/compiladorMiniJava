@@ -56,6 +56,9 @@ public class Class extends MainElement {
             if(isAbstract() && !cParent.isAbstract() && !objectIsParent()){
                 throw new SemanticException(SemanticErrorMessage.abstractClassExtendsConcreteClass(name));
             }
+            if(cParent.isStatic()){
+                throw new SemanticException(SemanticErrorMessage.cannotExtendFromStaticClass(name));
+            }
         }
         for (Attribute a : attributes.values())
             a.correctDeclaration();
@@ -147,6 +150,7 @@ public class Class extends MainElement {
     private boolean objectIsParent() {
         return inheritance != null && inheritance.getLexeme().equals("Object");
     }
-    public boolean isAbstract() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract);}
-    public boolean isFinal() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedFinal);}
+    public boolean isAbstract() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract); }
+    public boolean isFinal() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedFinal); }
+    public boolean isStatic() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic); }
 }

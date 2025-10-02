@@ -112,4 +112,8 @@ public class SemanticErrorMessage {
     public static String cannotOverrideFinalMethod(Method m) {
         return basicErrorInit(m.getName()) + ": Cannot override final method " + m.toString() + " \n" + basicErrorEnd(m.getName());
     }
+
+    public static String cannotExtendFromStaticClass(Token name) {
+        return basicErrorInit(name) + ": Cannot extend from static class " + name.getLexeme() + " \n" + basicErrorEnd(name);
+    }
 }
