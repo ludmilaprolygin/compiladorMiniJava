@@ -45,8 +45,11 @@ public class Method extends Service {
     public void setCompletedBody() { emptyBody = false; }
 
     public boolean equalSignature(Method method){
+        System.out.println("equalSignature de Method");
         boolean toReturn = super.equalSignature(method);
+        System.out.println("super.equalSignature: " + toReturn);
         toReturn = toReturn && parameters.equals(method.getParameters());
+        System.out.println("toReturn: " + toReturn);
         return toReturn && !returnType.getName().getLexeme().equals(method.getReturnType().getName().getLexeme());
     }
 

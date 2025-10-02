@@ -28,7 +28,9 @@ public class Class extends MainElement {
         Token tParent = inheritance != null ? symbolTable().getClasses().getTokenByName(inheritance.getLexeme()) : null;
         Class cParent = symbolTable().getClasses().get(tParent);
         for(Method mParent: cParent.getMethods().values())
-            if(mParent.equalSignature(m))
+            if(mParent.getName().getLexeme().equals(m.getName().getLexeme()) &&
+                    !mParent.equalSignature(m) &&
+                    mParent.getModifier() != null && !mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract))
                 throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
         super.addMethod(t, m);
     }

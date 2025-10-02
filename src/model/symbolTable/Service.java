@@ -32,6 +32,7 @@ public abstract class Service extends Element {
     public Token getVisibility() { return visibility; }
 
     public boolean equalSignature(Service service){
+        System.out.println("equalSignature de Service");
         if(!this.name.getLexeme().equals(service.name.getLexeme()))
             return false;
         else {
