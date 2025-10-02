@@ -289,7 +289,7 @@ public class SyntacticAnalyzer {
     private void _decisorMiembroIdClase(Token v, Type t) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(firsts.containsToken(ArgsFormales, currentTokenType)) {
-            Service s = new Constructor(t.getName(), v);
+            Service s = new Builder(t.getName(), v);
             symbolTable.setCurrentService(s);
 
             if(symbolTable.getCurrentClass() instanceof Class) {

@@ -1,6 +1,7 @@
 package utils.messages;
 
 import model.Token;
+import model.symbolTable.Builder;
 import model.symbolTable.Method;
 
 public class SemanticErrorMessage {
@@ -76,7 +77,11 @@ public class SemanticErrorMessage {
         return basicErrorInit(t) + ": Cannot declare abstract method " + t.getLexeme() + " from a class that is not abstract \n" + basicErrorEnd(t);
     }
 
-    public static String constructorFoundInAbstractClass(Token name) {
+    public static String builderFoundInAbstractClass(Token name) {
         return basicErrorInit(name) + ": Constructor " + name.getLexeme() + " found in abstract class; constructors are not allowed in abstract classes \n" + basicErrorEnd(name);
+    }
+
+    public static String builderDoesNotOverrideCorrectly(Builder myBuilder) {
+        return basicErrorInit(myBuilder.getName()) + ": Constructor " + myBuilder.toString() + " does not override correctly \n" + basicErrorEnd(myBuilder.getName());
     }
 }

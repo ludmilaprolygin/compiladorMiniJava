@@ -6,8 +6,8 @@ import utils.messages.SemanticErrorMessage;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 
-public class Constructor extends Service {
-    public Constructor(Token n, Token v) {
+public class Builder extends Service {
+    public Builder(Token n, Token v) {
         super(n, v);
     }
 
@@ -18,7 +18,7 @@ public class Constructor extends Service {
         else {
             Token t = symbolTable().getClasses().getTokenByName(name.getLexeme());
             Class c = symbolTable().getClasses().get(t);
-            if(c == null || !c.getConstructors().contains(name.getLexeme()))
+            if(c == null || !c.getBuilderTable().contains(name.getLexeme()))
                 throw new SemanticException(SemanticErrorMessage.constructorDoesNotExist(name));
         }
     }
