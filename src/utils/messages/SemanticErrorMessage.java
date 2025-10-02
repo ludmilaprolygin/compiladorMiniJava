@@ -84,4 +84,12 @@ public class SemanticErrorMessage {
     public static String builderDoesNotOverrideCorrectly(Builder myBuilder) {
         return basicErrorInit(myBuilder.getName()) + ": Constructor " + myBuilder.toString() + " does not override correctly \n" + basicErrorEnd(myBuilder.getName());
     }
+
+    public static String missingReturnStatement(Token name) {
+        return basicErrorInit(name) + ": Missing return statement in method " + name.getLexeme() + " with non-void return type \n" + basicErrorEnd(name);
+    }
+
+    public static String abstractMethodWithBody(Token name) {
+        return basicErrorInit(name) + ": Abstract method " + name.getLexeme() + " cannot have a body \n" + basicErrorEnd(name);
+    }
 }

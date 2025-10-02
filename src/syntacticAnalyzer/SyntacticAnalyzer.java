@@ -106,7 +106,7 @@ public class SyntacticAnalyzer {
         if(parametricType != null)
             methodType.setParametricType(parametricType);
 
-        Method newMethod = new Method(name, visibility, null, methodType);
+        Method newMethod = new Method(name, visibility, null, methodType, true);
         symbolTable.setCurrentService(newMethod);
 
         match(idMetVar);
@@ -479,6 +479,8 @@ public class SyntacticAnalyzer {
 
     private void bloque() throws Exception {
         match(openBracket);
+        if(symbolTable.getCurrentService() instanceof Method)
+            ((Method) symbolTable.getCurrentService()).setCompletedBody();
         listaSentencias();
         match(closeBracket);
     }

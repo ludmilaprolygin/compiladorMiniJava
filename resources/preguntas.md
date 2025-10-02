@@ -1,6 +1,8 @@
-### [] Por que el semIError04 sería un error?
+### [] No chequeamos el override de los constructores entonces?
+_Si no se declara ninguno, se asigna un constructor con cuerpo y argumentos vacíos_
 
-### [] El error de semIErrorTemp01.java lo modelé en el sintáctico con la gramática
+### [] Hay que chequear que un método con tipo no void tenga al menos cuerpo?
 
-### [] Deberíamos agregar el constructor de las clases predefinidas? 
-Hacerlo generalmente para todas las clases predefinidas
+### semIError05.java me chequea primero el hecho de que abstract tiene un body; está bien o lo cambio? Si pongo la signatura del metodo sin {} pero con ; si funciona
+Error semántico en linea 5: Abstract method m1 cannot have a body
+[Error:m1|5]

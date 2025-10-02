@@ -95,7 +95,7 @@ public class Class extends MainElement {
             }
             for(Method m : parentMethods.values()){
                 if(!methods.contains(m.getName().getLexeme())){
-                    Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType());
+                    Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
                     for(Parameter p : m.getParameters())
                         mCopy.addParameter(p);
                     methods.put(mCopy.getName(), mCopy);
