@@ -117,6 +117,9 @@ public class Class extends MainElement {
                     if(mParent != null && mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedFinal)) {
                         throw new SemanticException(SemanticErrorMessage.cannotOverrideFinalMethod(m));
                     }
+                    if(mParent != null && !mParent.getParameters().equals(m.getParameters())) {
+                        throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
+                    }
                 }
             }
             for(Method m : parentMethods.values()){
