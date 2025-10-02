@@ -47,6 +47,16 @@ public class Class extends MainElement {
         else if (inheritance != null && symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
             throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
         }
+        if(inheritance !=null){
+            Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
+            Class cParent = symbolTable().getClasses().get(tParent);
+            if(cParent.isFinal()) {
+                throw new SemanticException(SemanticErrorMessage.cannotExtendFromFinalClass(cParent.getName()));
+            }
+            if(isAbstract() && !cParent.isAbstract() && !objectIsParent()){
+                throw new SemanticException(SemanticErrorMessage.abstractClassExtendsConcreteClass(name));
+            }
+        }
         for (Attribute a : attributes.values())
             a.correctDeclaration();
         for (Method m : methods.values()) {
@@ -119,4 +129,10 @@ public class Class extends MainElement {
             builderTable.put(t, c);
         }
     }
+
+    private boolean objectIsParent() {
+        return inheritance != null && inheritance.getLexeme().equals("Object");
+    }
+    public boolean isAbstract() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract);}
+    public boolean isFinal() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedFinal);}
 }

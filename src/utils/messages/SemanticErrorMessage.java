@@ -92,4 +92,12 @@ public class SemanticErrorMessage {
     public static String abstractMethodWithBody(Token name) {
         return basicErrorInit(name) + ": Abstract method " + name.getLexeme() + " cannot have a body \n" + basicErrorEnd(name);
     }
+
+    public static String cannotExtendFromFinalClass(Token name) {
+        return basicErrorInit(name) + ": Cannot extend from final class " + name.getLexeme() + " \n" + basicErrorEnd(name);
+    }
+
+    public static String abstractClassExtendsConcreteClass(Token name) {
+        return basicErrorInit(name) + ": Abstract class " + name.getLexeme() + " cannot extend from a concrete class \n" + basicErrorEnd(name);
+    }
 }
