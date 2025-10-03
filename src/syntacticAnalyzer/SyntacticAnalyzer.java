@@ -319,6 +319,7 @@ public class SyntacticAnalyzer {
         }
         else if (currentTokenType.equals(dot)) {
             _encadenado();
+            _asignacionOpcional();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroIdClase).toString()));
@@ -1046,6 +1047,7 @@ public class SyntacticAnalyzer {
             operadorAsignacion();
             expresionCompuesta();
             _operadorTernario();
+            match(semicolon);
         }
         else { /* epsilon */ }
     }

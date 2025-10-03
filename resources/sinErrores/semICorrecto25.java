@@ -1,5 +1,5 @@
 ///[SinErrores]
 
 abstract class A {
-    abstract m1();
+    abstract void m1();
 }
