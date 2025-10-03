@@ -18,6 +18,8 @@ public class Attribute extends Element {
         type.correctDeclaration();
     }
 
+    public AbstractType getType() { return type; }
+
     public String toString() {
         return type.toString() + " " + super.toString();
     }

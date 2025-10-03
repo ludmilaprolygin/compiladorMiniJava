@@ -1,4 +1,4 @@
-///[Error:x|9]
+///[SinErrores]
 // Atributo con el mismo nombre que uno en superclase
 
 class A {
