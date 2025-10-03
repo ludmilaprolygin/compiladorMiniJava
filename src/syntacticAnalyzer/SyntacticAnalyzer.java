@@ -317,6 +317,9 @@ public class SyntacticAnalyzer {
             match(idMetVar);
             _restoMiembro(t, n);
         }
+        else if (currentTokenType.equals(dot)) {
+            _encadenado();
+        }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroIdClase).toString()));
         }
@@ -330,7 +333,7 @@ public class SyntacticAnalyzer {
             symbolTable.getCurrentClass().addAttribute(n, a);
         }
         else if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
-            _inicializacionAtributoOpcional(); //TODO
+            _inicializacionAtributoOpcional();
             Attribute a = new Attribute(n, t);
             symbolTable.getCurrentClass().addAttribute(n, a);
             match(semicolon);
@@ -542,6 +545,8 @@ public class SyntacticAnalyzer {
             match(dot);
             match(idMetVar);
             argsActuales();
+            _restoEncadenado();
+            _asignacionOpcional();
         }
         else if (currentTokenType.equals(comma)) {
             _restoVarLocalClasica();
@@ -751,6 +756,12 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
             argsActuales();
+            _restoEncadenado();
+        }
+        else if(currentTokenType.equals(dot)) {
+            match(dot);
+            match(idMetVar);
+            _restoEncadenado();
         }
         else { /* epsilon */ }
     }
