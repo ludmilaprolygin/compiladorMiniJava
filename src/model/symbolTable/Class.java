@@ -8,16 +8,16 @@ import utils.messages.SemanticErrorMessage;
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Class extends MainElement {
-    private Table<Builder> builderTable;
+    private List builderTable;
     public Class(Token m, Token n, Type t, Token i) {
         super(m, n, t, i);
-        builderTable = new Table<>();
+        builderTable = new List();
     }
 
     public void addConstructor(Token t, Service s) throws SemanticException {
         Builder c = (Builder) s;
         if(!builderTable.contains(t.getLexeme()))
-            builderTable.put(t, c);
+            builderTable.addLast(c);
         else {
             throw new SemanticException(SemanticErrorMessage.constructorAlreadyExists(t));
         }
@@ -35,7 +35,7 @@ public class Class extends MainElement {
         super.addMethod(t, m);
     }
 
-    public Table<Builder> getBuilderTable() { return builderTable; }
+    public List getBuilderTable() { return builderTable; }
 
     @Override
     public void correctDeclaration() throws SemanticException {
@@ -76,11 +76,11 @@ public class Class extends MainElement {
                 throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
         }
         if(modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract) && !builderTable.isEmpty()) {
-            Builder c = builderTable.values().iterator().next();
+            Element c = builderTable.getFirst();
             throw new SemanticException(SemanticErrorMessage.builderFoundInAbstractClass(c.getName()));
         }
         else
-            for (Builder c : builderTable.values())
+            for (Element c : builderTable)
                 c.correctDeclaration();
         addPredefinedBuilder();
     }
@@ -133,12 +133,12 @@ public class Class extends MainElement {
                     methods.put(mCopy.getName(), mCopy);
                 }
             }
-            Table<Builder> parentBuilder = cParent.getBuilderTable();
+            List parentBuilder = cParent.getBuilderTable();
             Builder myBuilder = null;
             if(!builderTable.isEmpty())
-                myBuilder = builderTable.values().iterator().next();
-            for(Builder b : parentBuilder.values()){
-                if(!b.getParameters().isEmpty() && myBuilder != null && myBuilder.getParameters().isEmpty()){
+                myBuilder = (Builder) builderTable.getFirst();
+            for(Element b : parentBuilder){
+                if(!((Builder)b).getParameters().isEmpty() && myBuilder != null && myBuilder.getParameters().isEmpty()){
                    throw new SemanticException(SemanticErrorMessage.builderDoesNotOverrideCorrectly(myBuilder));
                 }
 
@@ -163,7 +163,7 @@ public class Class extends MainElement {
         Token t = new Token(null, name.getLexeme(), -1);
         Builder c = new Builder(t, new Token(TokenType.reservedPublic, "public", -1));
         if(builderTable.isEmpty() && modifier != null && !modifier.getTokenType().equals(TokenType.reservedAbstract)) {
-            builderTable.put(t, c);
+            builderTable.addLast(c);
         }
     }
 

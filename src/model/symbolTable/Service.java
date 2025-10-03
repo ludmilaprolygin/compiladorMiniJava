@@ -6,7 +6,7 @@ import utils.messages.SemanticErrorMessage;
 
 public abstract class Service extends Element {
     protected Token visibility;
-    protected List parameters; //TODO - cambiar a lista
+    protected List parameters;
     public Service(Token n, Token v) {
         super(n);
         visibility = v;
