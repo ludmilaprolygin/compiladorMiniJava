@@ -6,3 +6,5 @@ _Si no se declara ninguno, se asigna un constructor con cuerpo y argumentos vac�
 ### semIError05.java me chequea primero el hecho de que abstract tiene un body; está bien o lo cambio? Si pongo la signatura del metodo sin {} pero con ; si funciona
 Error semántico en linea 5: Abstract method m1 cannot have a body
 [Error:m1|5]
+
+### El test semICorrecto03.java a veces anda y a veces no, por qué puede ser?

@@ -134,9 +134,11 @@ public class Class extends MainElement {
                 }
             }
             Table<Builder> parentBuilder = cParent.getBuilderTable();
-            Builder myBuilder = builderTable.values().iterator().next();
+            Builder myBuilder = null;
+            if(!builderTable.isEmpty())
+                myBuilder = builderTable.values().iterator().next();
             for(Builder b : parentBuilder.values()){
-                if(!b.getParameters().isEmpty() && myBuilder.getParameters().isEmpty()){
+                if(!b.getParameters().isEmpty() && myBuilder != null && myBuilder.getParameters().isEmpty()){
                    throw new SemanticException(SemanticErrorMessage.builderDoesNotOverrideCorrectly(myBuilder));
                 }
 
@@ -160,7 +162,7 @@ public class Class extends MainElement {
     private void addPredefinedBuilder() {
         Token t = new Token(null, name.getLexeme(), -1);
         Builder c = new Builder(t, new Token(TokenType.reservedPublic, "public", -1));
-        if(builderTable.isEmpty()) {
+        if(builderTable.isEmpty() && modifier != null && !modifier.getTokenType().equals(TokenType.reservedAbstract)) {
             builderTable.put(t, c);
         }
     }
