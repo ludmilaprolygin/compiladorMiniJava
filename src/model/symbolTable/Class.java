@@ -165,6 +165,9 @@ public class Class extends MainElement {
         if(builderTable.isEmpty() && modifier != null && !modifier.getTokenType().equals(TokenType.reservedAbstract)) {
             builderTable.addLast(c);
         }
+        else if(builderTable.isEmpty() && modifier == null){
+            builderTable.addLast(c);
+        }
     }
 
     private Token getTokenParent() {

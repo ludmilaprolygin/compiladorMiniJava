@@ -95,7 +95,7 @@ public class Main {
         try {
             symbolTable.correctDeclaration();
             symbolTable.consolidate();
-            //System.out.println(symbolTable);
+            System.out.println(symbolTable);
 
             System.out.println("[SinErrores]");
         }
