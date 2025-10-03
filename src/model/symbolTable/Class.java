@@ -128,8 +128,8 @@ public class Class extends MainElement {
                 }
                 if(!methods.contains(m.getName().getLexeme())){
                     Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
-                    for(Parameter p : m.getParameters().values())
-                        mCopy.addParameter(p);
+                    for(Element p : m.getParameters())
+                        mCopy.addParameter((Parameter) p);
                     methods.put(mCopy.getName(), mCopy);
                 }
             }
