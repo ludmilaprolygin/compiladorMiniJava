@@ -106,7 +106,7 @@ public class SymbolTable extends Element {
         v = new Token(reservedPublic, "public", -1);
         m = new Token(reservedStatic, "static", -1);
         t = new VoidType(new Token(reservedVoid, "void", -1));
-        Type tInt = new Type(new Token(reservedInt, "int", -1));
+        AbstractType tInt = new IntType(new Token(reservedInt, "int", -1));
 
         Method debugPrint = new Method(n, v, m, t);
         Token pI = new Token(idMetVar, "i", -1);
@@ -145,10 +145,10 @@ public class SymbolTable extends Element {
         AbstractType v = new VoidType(new Token(reservedVoid, "void", -1));
         AbstractType i = new IntType(new Token(reservedInt, "int", -1));
 
-        Type tBoolean = new Type(new Token(reservedBoolean, "boolean", -1));
-        Type tChar = new Type(new Token(reservedChar,  "char", -1));
-        Type tString = new Type(new Token(idClase, "String", -1));
-        Type tInt = new Type(new Token(reservedInt, "int", -1));
+        AbstractType tBoolean = new BooleanType(new Token(reservedBoolean, "boolean", -1));
+        AbstractType tChar = new CharType(new Token(reservedChar,  "char", -1));
+        AbstractType tString = new ClassType(new Token(idClase, "String", -1));
+        AbstractType tInt = new IntType(new Token(reservedInt, "int", -1));
 
         n = new Token(idMetVar, "read", -1);
         Method read = new Method(n, p, s, i);
