@@ -101,11 +101,11 @@ public class SymbolTable extends Element {
         classHierarchy = new HierarchyTree(tk.getLexeme());
 
         Token n, v, m;
-        MethodType t;
+        AbstractType t;
         n = new Token(idMetVar, "debugPrint", -1);
         v = new Token(reservedPublic, "public", -1);
         m = new Token(reservedStatic, "static", -1);
-        t = new MethodType(new Token(reservedVoid, "void", -1));
+        t = new VoidType(new Token(reservedVoid, "void", -1));
         Type tInt = new Type(new Token(reservedInt, "int", -1));
 
         Method debugPrint = new Method(n, v, m, t);
@@ -142,8 +142,8 @@ public class SymbolTable extends Element {
         Token n;
         Token p = new Token(reservedPublic, "public", -1);
         Token s = new Token(reservedStatic, "static", -1);
-        MethodType v = new MethodType(new Token(reservedVoid, "void", -1));
-        MethodType i = new MethodType(new Token(reservedInt, "int", -1));
+        AbstractType v = new VoidType(new Token(reservedVoid, "void", -1));
+        AbstractType i = new IntType(new Token(reservedInt, "int", -1));
 
         Type tBoolean = new Type(new Token(reservedBoolean, "boolean", -1));
         Type tChar = new Type(new Token(reservedChar,  "char", -1));

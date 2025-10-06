@@ -95,7 +95,7 @@ public class SyntacticAnalyzer {
 
     private void _signaturaMetodo() throws Exception{
         Token visibility, name;
-        MethodType methodType;
+        AbstractType methodType;
         AbstractType parametricType;
 
         visibility = _visibilidadOpcional();
@@ -103,8 +103,9 @@ public class SyntacticAnalyzer {
         parametricType = _tipoParametricoOpcional();
         name = currentToken;
 
-        if(parametricType != null)
-            methodType.setParametricType(parametricType);
+        if(parametricType != null && methodType instanceof ClassType)
+            ((ClassType) methodType).setParametricType(parametricType);
+            //methodType.setParametricType(parametricType);
 
         Method newMethod = new Method(name, visibility, null, methodType, true);
         symbolTable.setCurrentService(newMethod);
@@ -228,7 +229,7 @@ public class SyntacticAnalyzer {
             _decisorMiembroTipo(v);
         }
         else if (currentTokenType.equals(reservedVoid)) {
-            MethodType t = new MethodType(currentToken);
+            AbstractType t = new VoidType(currentToken);
             match(reservedVoid);
             Token n = currentToken;
             match(idMetVar);
@@ -245,13 +246,16 @@ public class SyntacticAnalyzer {
         }
         else if (firsts.containsToken(_Modificador, currentTokenType)) {
             Token m = _modificador();
-            MethodType mt = tipoMetodo();
+            AbstractType mt = tipoMetodo();
             AbstractType pt = _tipoParametricoOpcional();
             Token n = currentToken;
             match(idMetVar);
 
             if(pt != null)
-                mt.setParametricType(pt);
+                if(mt instanceof ClassType)
+                    ((ClassType) mt).setParametricType(pt);
+                else
+                    throw new SemanticException(SemanticErrorMessage.parametricTypeNotAllowed(pt.getName()));
 
             Method newMethod = new Method(n, v, m, mt);
             if(symbolTable().getCurrentClass().getMethods().contains(newMethod.getName().getLexeme()))
@@ -307,8 +311,9 @@ public class SyntacticAnalyzer {
             Token n = currentToken;
             match(idMetVar);
 
-            if(pt != null)
-                t.setParametricType(pt);
+            if(pt != null && t != null)
+                ((ClassType) t).setParametricType(pt);
+                //t.setParametricType(pt);
 
             _restoMiembro(pt, n);
         }
@@ -383,13 +388,14 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private MethodType tipoMetodo() throws Exception {
+    private AbstractType tipoMetodo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        MethodType toReturn = new MethodType(currentToken);
+        AbstractType toReturn; // = new MethodType(currentToken);
         if (firsts.containsToken(Tipo, currentTokenType)) {
-            tipo();
+            toReturn = tipo();
         }
         else if (currentTokenType.equals(reservedVoid)) {
+            toReturn = new VoidType(currentToken);
             match(reservedVoid);
         }
         else {
