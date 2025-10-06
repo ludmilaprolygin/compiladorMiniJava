@@ -8,7 +8,7 @@ import utils.messages.SemanticErrorMessage;
 import static model.SyntacticMethod.Tipo;
 
 public class Type extends AbstractType {
-    protected Type parametricType;
+    protected AbstractType parametricType;
     public Type(Token n) {
         super(n);
     }
@@ -17,11 +17,11 @@ public class Type extends AbstractType {
         parametricType = p;
     }
 
-    public Type getParametricType() {
+    public AbstractType getParametricType() {
         return parametricType;
     }
 
-    public void setParametricType(Type parametricType) {
+    public void setParametricType(AbstractType parametricType) {
         this.parametricType = parametricType;
     }
 

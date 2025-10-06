@@ -6,8 +6,8 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
 public class Parameter extends Element{
-    Type type;
-    public Parameter(Token n, Type t) {
+    AbstractType type;
+    public Parameter(Token n, AbstractType t) {
 
         super(n);
         type = t;

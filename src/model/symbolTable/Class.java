@@ -9,7 +9,7 @@ import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Class extends MainElement {
     private List builderTable;
-    public Class(Token m, Token n, Type t, Token i) {
+    public Class(Token m, Token n, AbstractType t, Token i) {
         super(m, n, t, i);
         builderTable = new List();
     }

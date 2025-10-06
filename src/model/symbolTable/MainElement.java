@@ -9,11 +9,11 @@ import static model.symbolTable.SymbolTable.symbolTable;
 public abstract class MainElement extends Element {
     protected Token modifier;
     protected Token inheritance;
-    protected Type parametricType;
+    protected AbstractType parametricType;
     protected Table<Attribute> attributes;
     protected Table<Method> methods;
 
-    public MainElement(Token m, Token n, Type t, Token i) {
+    public MainElement(Token m, Token n, AbstractType t, Token i) {
         super(n);
         modifier = m;
         inheritance = i;

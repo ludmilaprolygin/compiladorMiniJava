@@ -7,7 +7,7 @@ import utils.messages.SemanticErrorMessage;
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Interface extends MainElement {
-    public Interface(Token m, Token n, Type t, Token i) {
+    public Interface(Token m, Token n, AbstractType t, Token i) {
         super(m, n, t, i);
     }
 

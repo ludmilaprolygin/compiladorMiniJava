@@ -63,7 +63,7 @@ public class SyntacticAnalyzer {
     private void _interface() throws Exception {
         Interface toReturn;
         Token modifier, name, parent;
-        Type parametricType;
+        AbstractType parametricType;
 
         modifier = modificadorOpcional();
         match(reservedInterface);
@@ -96,7 +96,7 @@ public class SyntacticAnalyzer {
     private void _signaturaMetodo() throws Exception{
         Token visibility, name;
         MethodType methodType;
-        Type parametricType;
+        AbstractType parametricType;
 
         visibility = _visibilidadOpcional();
         methodType = tipoMetodo();
@@ -117,7 +117,7 @@ public class SyntacticAnalyzer {
     private void clase() throws Exception {
         Class newClass;
         Token modifier, name, parent;
-        Type parametricType;
+        AbstractType parametricType;
 
         modifier = modificadorOpcional();
         match(reservedClass);
@@ -148,12 +148,12 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private Type _tipoParametricoOpcional() throws Exception {
+    private AbstractType _tipoParametricoOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Type toReturn;
+        AbstractType toReturn;
         if(firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
             match(lesserOp);
-            toReturn = new Type(currentToken);
+            toReturn = new ClassType(currentToken);
             match(idClase);
             match(greaterOp);
         }
@@ -246,7 +246,7 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(_Modificador, currentTokenType)) {
             Token m = _modificador();
             MethodType mt = tipoMetodo();
-            Type pt = _tipoParametricoOpcional();
+            AbstractType pt = _tipoParametricoOpcional();
             Token n = currentToken;
             match(idMetVar);
 
@@ -271,12 +271,12 @@ public class SyntacticAnalyzer {
     private void _decisorMiembroTipo(Token v) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(idClase)) {
-            Type t = new Type(currentToken);
+            AbstractType t = new ClassType(currentToken);
             match(idClase);
-            _decisorMiembroIdClase(v, t);
+            _decisorMiembroIdClase(v, (ClassType) t);
         }
         else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
-            Type t = tipoPrimitivo();
+            AbstractType t = tipoPrimitivo();
             Token n = currentToken;
             match(idMetVar);
             _restoMiembro(t, n);
@@ -286,7 +286,7 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _decisorMiembroIdClase(Token v, Type t) throws Exception {
+    private void _decisorMiembroIdClase(Token v, ClassType t) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if(firsts.containsToken(ArgsFormales, currentTokenType)) {
             Service s = new Builder(t.getName(), v);
@@ -303,7 +303,7 @@ public class SyntacticAnalyzer {
                 throw new SemanticException(SemanticErrorMessage.constructorFoundInInterface(t.getName()));
         }
         else if (firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
-            Type pt = _tipoParametricoOpcional();
+            AbstractType pt = _tipoParametricoOpcional();
             Token n = currentToken;
             match(idMetVar);
 
@@ -398,13 +398,14 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private Type tipo() throws Exception {
+    private AbstractType tipo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Type toReturn = new MethodType(currentToken);
+        AbstractType toReturn; // = new MethodType(currentToken);
         if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
-            tipoPrimitivo();
+            toReturn = tipoPrimitivo();
         }
         else if (currentTokenType.equals(idClase)) {
+            toReturn = new ClassType(currentToken);
             match(idClase);
         }
         else {
@@ -413,10 +414,18 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private Type tipoPrimitivo() throws Exception {
+    private AbstractType tipoPrimitivo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Type toReturn = new Type(currentToken);
+        AbstractType toReturn; // = new Type(currentToken);
         if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
+            if(currentTokenType.equals(reservedVoid))
+                toReturn = new VoidType(currentToken);
+            else if (currentTokenType.equals(reservedInt))
+                toReturn = new IntType(currentToken);
+            else if (currentTokenType.equals(reservedBoolean))
+                toReturn = new BooleanType(currentToken);
+            else // if (currentTokenType.equals(reservedChar))
+                toReturn = new CharType(currentToken);
             match(currentTokenType);
         }
         else {
@@ -455,11 +464,11 @@ public class SyntacticAnalyzer {
     }
 
     private void argFormal() throws Exception {
-        Type t = tipo();
-        Type pT = _tipoParametricoOpcional();
+        AbstractType t = tipo();
+        AbstractType pT = _tipoParametricoOpcional();
 
-        if(pT != null)
-            t.setParametricType(pT);
+        if(pT != null && t instanceof ClassType)
+            ((ClassType) t).setParametricType(pT);
 
         Token name = currentToken;
         match(idMetVar);
