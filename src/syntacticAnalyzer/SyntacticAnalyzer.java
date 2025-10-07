@@ -62,7 +62,8 @@ public class SyntacticAnalyzer {
 
     private void _interface() throws Exception {
         Interface toReturn;
-        Token modifier, name, parent;
+        Token modifier, name;
+        Class parent;
         AbstractType parametricType;
 
         modifier = modificadorOpcional();
@@ -72,10 +73,10 @@ public class SyntacticAnalyzer {
         parametricType = _tipoParametricoOpcional();
         parent = _optionalParent();
 
-        if(parent.getLexeme().equals("Object"))
+        if(parent.getName().getLexeme().equals("Object"))
             parent = null; // Las interfaces no extienden de Object
 
-        toReturn = new Interface(modifier, name, parametricType, parent);
+        toReturn = new Interface(modifier, name, parametricType, parent.getName());
         symbolTable.addInterface(toReturn.getName(), toReturn);
         symbolTable.setCurrentClass(toReturn);
 
@@ -117,7 +118,8 @@ public class SyntacticAnalyzer {
 
     private void clase() throws Exception {
         Class newClass;
-        Token modifier, name, parent;
+        Token modifier, name;
+        Class parent;
         AbstractType parametricType;
 
         modifier = modificadorOpcional();
@@ -136,16 +138,16 @@ public class SyntacticAnalyzer {
         match(closeBracket);
     }
 
-    private Token _optionalParent() throws Exception {
+    private Class _optionalParent() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Token toReturn;
+        Class toReturn;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             toReturn = herenciaOpcional();
         }
         else if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
             toReturn = _interfaceOpcional();
         }
-        else { toReturn = new Token(null, "Object", -1); }
+        else { toReturn = symbolTable.getObjectClass(); }
         return toReturn;
     }
 
@@ -173,25 +175,26 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private Token herenciaOpcional() throws Exception {
+    private Class herenciaOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Token toReturn;
+        Class toReturn;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             match(reservedExtends);
-            toReturn = currentToken;
+            toReturn = new Class(null, currentToken, null, null);
             match(idClase);
-            _tipoParametricoOpcional();
+            AbstractType parentType = _tipoParametricoOpcional();
+            toReturn.setParametricType(parentType);
         }
         else { toReturn = null; }
         return toReturn;
     }
 
-    private Token _interfaceOpcional() throws Exception {
+    private Class _interfaceOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Token toReturn = null;
+        Class toReturn = null;
         if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
             match(reservedImplements);
-            toReturn = currentToken;
+            //toReturn = currentToken;
             match(idClase);
             _tipoParametricoOpcional();
         }

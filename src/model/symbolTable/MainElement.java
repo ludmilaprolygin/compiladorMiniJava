@@ -55,6 +55,13 @@ public abstract class MainElement extends Element {
         return inheritance;
     }
 
+    public AbstractType getParametricType() {
+        return parametricType;
+    }
+    public void setParametricType(AbstractType parametricType) {
+        this.parametricType = parametricType;
+    }
+
     public String toString() {
         String mod = (modifier != null) ? modifier.getLexeme() + " " : "";
         String inh = (inheritance != null) ? " extends " + inheritance.getLexeme() : "";
@@ -79,5 +86,9 @@ public abstract class MainElement extends Element {
                 }
             }
         }
+    }
+
+    public void correctDeclaration () throws SemanticException {
+
     }
 }

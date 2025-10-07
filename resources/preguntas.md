@@ -1,7 +1,4 @@
-### [] Hay que chequear que un método con tipo no void tenga al menos cuerpo?
+### [] Tendríamos que permitir un tipo paramétrico K, E, V aunque no sean clases existentes?
 
-### semIError05.java me chequea primero el hecho de que abstract tiene un body; está bien o lo cambio? Si pongo la signatura del metodo sin {} pero con ; si funciona
-Error semántico en linea 5: Abstract method m1 cannot have a body
-[Error:m1|5]
-
-### El test semICorrecto03.java a veces anda y a veces no, por qué puede ser?
+### [] El tipo parametrico también debería aparecer en el extends?
+Ver Java

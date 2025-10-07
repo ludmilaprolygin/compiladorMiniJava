@@ -15,6 +15,7 @@ public class SymbolTable extends Element {
     private MainElement currentClass;
     private Service currentService;
     private HierarchyTree classHierarchy;
+    private Class objectClass;
 
     private SymbolTable() {
         reset();
@@ -97,6 +98,7 @@ public class SymbolTable extends Element {
     private void createObject() {
         Token tk = new Token(null, "Object", -1);
         Class c = new Class(null, tk, null, null);
+        objectClass = c;
         classes.put(tk, c);
         classHierarchy = new HierarchyTree(tk.getLexeme());
 
@@ -121,7 +123,7 @@ public class SymbolTable extends Element {
         Token t = new Token(null, "String", -1);
 
         Token tParent = classes.getTokenByName("Object");
-        Class c = new Class(null, t, null, tParent);
+        Class c = new Class(null, t, null, objectClass);
         classes.put(t, c);
         classHierarchy.search(tParent.getLexeme()).addDescendant(new HierarchyTree(t.getLexeme()));
     }
@@ -130,7 +132,7 @@ public class SymbolTable extends Element {
         Token t = new Token(null, "System", -1);
 
         Token tParent = classes.getTokenByName("Object");
-        Class c = new Class(null, t, null, tParent);
+        Class c = new Class(null, t, null, objectClass);
 
         classes.put(t, c);
         classHierarchy.search(tParent.getLexeme()).addDescendant(new HierarchyTree(t.getLexeme()));
@@ -254,4 +256,5 @@ public class SymbolTable extends Element {
     }
 
     public HierarchyTree getClassHierarchy() { return classHierarchy; }
+    public Class getObjectClass () { return objectClass; }
 }

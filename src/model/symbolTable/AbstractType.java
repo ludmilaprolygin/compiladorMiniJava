@@ -11,7 +11,7 @@ public abstract class AbstractType extends Element {
     }
 
     public void correctDeclaration() throws SemanticException {
-        if(name.getTokenType().equals(TokenType.idClase) && !SymbolTable.symbolTable().getClasses().contains(name.getLexeme()))
+        if(name.getTokenType().equals(TokenType.idClase) && (!SymbolTable.symbolTable().getClasses().contains(name.getLexeme()) && !SymbolTable.symbolTable().getInterfaces().contains(name.getLexeme())))
             throw new SemanticException(SemanticErrorMessage.undeclaredType(name));
     }
 

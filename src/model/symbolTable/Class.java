@@ -9,8 +9,10 @@ import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Class extends MainElement {
     private List builderTable;
-    public Class(Token m, Token n, AbstractType t, Token i) {
-        super(m, n, t, i);
+    private Class parentClass;
+    public Class(Token m, Token n, AbstractType t, Class i) {
+        super(m, n, t, (i != null ? i.getName() : null));
+        parentClass = i;
         builderTable = new List();
     }
 
@@ -39,6 +41,7 @@ public class Class extends MainElement {
 
     @Override
     public void correctDeclaration() throws SemanticException {
+        super.correctDeclaration();
         String parentLexeme = inheritance != null ? inheritance.getLexeme() : null;
         if(inheritance != null && !symbolTable().getClasses().contains(parentLexeme)) {
             throw new SemanticException(SemanticErrorMessage.parentDoesNotExist(inheritance));
@@ -49,7 +52,7 @@ public class Class extends MainElement {
         else if (inheritance != null && symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
             throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
         }
-        if(inheritance !=null){
+        if(inheritance != null){
             Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
             Class cParent = symbolTable().getClasses().get(tParent);
             if(cParent.isFinal()) {
@@ -63,7 +66,8 @@ public class Class extends MainElement {
             }
         }
         for (Attribute a : attributes.values())
-            a.correctDeclaration();
+            if(parametricType != null && !a.getType().equals(parametricType))
+                a.correctDeclaration();
         for (Method m : methods.values()) {
             m.correctDeclaration();
             if(modifier != null && m.getModifier() != null &&
@@ -96,6 +100,17 @@ public class Class extends MainElement {
             String parentLexeme = inheritance.getLexeme();
             Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
             Class cParent = symbolTable().getClasses().get(tParent);
+            if(cParent.getParametricType() != null && parametricType == null)
+            {
+                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(name));
+            }
+            else if (cParent.getParametricType() != null && parametricType != null &&
+                    parentClass.getParametricType() != null && !parentClass.getParametricType().getName().getLexeme().equals(parametricType.getName().getLexeme())) {
+                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parametricType.getName()));
+            }
+            else if ((parentClass.getParametricType() != null && cParent.getParametricType() == null) || (parentClass.getParametricType() == null && cParent.getParametricType() != null))
+                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parentClass.getName()));
+
             Table<Method> parentMethods = cParent.getMethods();
             Table<Attribute> parentAttributes = cParent.getAttributes();
             for(Method m : methods.values()){

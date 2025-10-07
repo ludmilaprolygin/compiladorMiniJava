@@ -116,4 +116,12 @@ public class SemanticErrorMessage {
     public static String cannotExtendFromStaticClass(Token name) {
         return basicErrorInit(name) + ": Cannot extend from static class " + name.getLexeme() + " \n" + basicErrorEnd(name);
     }
+
+    public static String parametricTypeMustBeClass(Token name) {
+        return basicErrorInit(name) + ": Parametric type " + name.getLexeme() + " must be a user-defined class \n" + basicErrorEnd(name);
+    }
+
+    public static String parametricInheritanceMismatch(Token name) {
+        return basicErrorInit(name) + ": Parent " + name.getLexeme() + " is parametric but child doesn't have the same parametric type \n" + basicErrorEnd(name);
+    }
 }
