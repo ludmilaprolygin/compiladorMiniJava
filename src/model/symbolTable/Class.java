@@ -68,6 +68,8 @@ public class Class extends MainElement {
         for (Attribute a : attributes.values())
             if(parametricType != null && !a.getType().equals(parametricType))
                 a.correctDeclaration();
+            else if (parametricType == null)
+                a.correctDeclaration();
         for (Method m : methods.values()) {
             m.correctDeclaration();
             if(modifier != null && m.getModifier() != null &&
