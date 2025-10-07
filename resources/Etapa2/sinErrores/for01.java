@@ -12,5 +12,7 @@ class Estandar {
         for(int i;;) {}
         for(i;;) {}
         for(i;; i=i+1) {}
+        for(var f: x.get());
+        for(var a=10; a >10 ; a+b) {}
     }
 }

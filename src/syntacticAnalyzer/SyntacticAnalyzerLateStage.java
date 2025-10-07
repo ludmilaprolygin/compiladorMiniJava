@@ -800,7 +800,8 @@ public class SyntacticAnalyzerLateStage {
         TokenType currentTokenType = getCurrentTokenType();
         if(currentTokenType.equals(colon)) {
             match(colon);
-            match(idMetVar);
+            //match(idMetVar);
+            expresionOpcional();
             match(closeParenthesis);
             bloqueOpcional();
         }
@@ -836,6 +837,9 @@ public class SyntacticAnalyzerLateStage {
         }
         else if (firsts.containsToken(_OperadorUnarioModificador, currentTokenType)) {
             _operadorUnarioModificador();
+        }
+        else if(firsts.containsToken(ExpresionBasica, currentTokenType)) {
+            expresionBasica();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_ForEstandar).toString()));

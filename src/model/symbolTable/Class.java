@@ -86,8 +86,6 @@ public class Class extends MainElement {
 
         }
         else { // implements
-            parent = getParentInterface();
-            Interface iParent = (Interface) parent;
             consolidateMethodsFromImplementation(parentMethods);
         }
     }
