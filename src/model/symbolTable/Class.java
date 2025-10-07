@@ -64,6 +64,14 @@ public class Class extends MainElement {
         super.consolidate();
         MainElement parent = getParent();
         if(inheritance != null){
+            if (parent.getParametricType() != null && parametricType != null &&
+                    parentClass.getParametricType() != null && !parentClass.getParametricType().getName().getLexeme().equals(parametricType.getName().getLexeme())) {
+                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parametricType.getName()));
+            }
+            else if(parent.getParametricType() != null && parametricType == null) {
+                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(name));
+            }
+
             if(parent instanceof Class cParent) { // extends
                 if ((parentClass.getParametricType() != null && cParent.getParametricType() == null) || (parentClass.getParametricType() == null && cParent.getParametricType() != null))
                     throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parentClass.getName()));
@@ -131,16 +139,7 @@ public class Class extends MainElement {
             }
             else { // implements
                 parent = getParentInterface();
-                System.out.println();
                 Interface iParent = (Interface) parent;
-            }
-
-            if(parent.getParametricType() != null && parametricType == null) {
-                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(name));
-            }
-            else if (parent.getParametricType() != null && parametricType != null &&
-                    parentClass.getParametricType() != null && !parentClass.getParametricType().getName().getLexeme().equals(parametricType.getName().getLexeme())) {
-                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parametricType.getName()));
             }
         }
     }
