@@ -124,7 +124,7 @@ public class SyntacticAnalyzer {
     private void clase() throws Exception {
         Class newClass;
         Token modifier, name;
-        Class parent;
+        MainElement parent;
         AbstractType parametricType;
 
         modifier = modificadorOpcional();
@@ -132,7 +132,7 @@ public class SyntacticAnalyzer {
         name = currentToken;
         match(idClase);
         parametricType =_tipoParametricoOpcional();
-        parent = (Class) _optionalParent();
+        parent = _optionalParent();
 
         newClass = new Class(modifier, name, parametricType, parent);
         symbolTable.addClass(name, newClass);
@@ -194,14 +194,16 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private Class _interfaceOpcional() throws Exception {
+    private Interface _interfaceOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Class toReturn = null;
+        Interface toReturn = null;
         if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
             match(reservedImplements);
             //toReturn = currentToken;
+            toReturn = new Interface(null, currentToken, null, null);
             match(idClase);
-            _tipoParametricoOpcional();
+            AbstractType parentType = _tipoParametricoOpcional();
+            toReturn.setParametricType(parentType);
         }
         else { /* epsilon */ }
         return toReturn;
