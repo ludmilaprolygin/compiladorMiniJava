@@ -127,13 +127,6 @@ public class Class extends MainElement {
                     }
 
                 }
-                /*
-                for(Attribute a : attributes.values()){
-                    if(parentAttributes.contains(a.getName().getLexeme())){
-                        throw new SemanticException(SemanticErrorMessage.attributeAlreadyExists(a.getName()));
-                    }
-                }
-                 */
 
             }
             else { // implements
@@ -227,5 +220,12 @@ public class Class extends MainElement {
                 attributes.put(aCopy.getName(), aCopy);
             }
         }
+        /*
+        for(Attribute a : attributes.values()){
+            if(parentAttributes.contains(a.getName().getLexeme())){
+                throw new SemanticException(SemanticErrorMessage.attributeAlreadyExists(a.getName()));
+            }
+        }
+        */
     }
 }
