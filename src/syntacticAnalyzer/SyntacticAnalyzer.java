@@ -74,10 +74,7 @@ public class SyntacticAnalyzer {
 
         parent = _optionalParent();
 
-        if ((parent instanceof Class) && !parent.getName().getLexeme().equals("Object")) {
-            throw new SemanticException(SemanticErrorMessage.interfaceCannotExtendClass(name));
-        }
-        else if ((parent instanceof Class) && parent.getName().getLexeme().equals("Object")) {
+        if ((parent instanceof Class) && parent.getName().getLexeme().equals("Object")) {
             parent = null;
         }
 

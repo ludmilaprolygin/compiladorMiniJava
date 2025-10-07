@@ -27,9 +27,8 @@ public class Class extends MainElement {
 
     public void addMethod(Token t, Service s) throws SemanticException {
         Method m = (Method) s;
-        Token tParent = inheritance != null ? symbolTable().getClasses().getTokenByName(inheritance.getLexeme()) : null;
-        Class cParent = symbolTable().getClasses().get(tParent);
-        for(Method mParent: cParent.getMethods().values())
+        MainElement parent = getParent();
+        for(Method mParent: parent.getMethods().values())
             if(mParent.getName().getLexeme().equals(m.getName().getLexeme()) &&
                     !mParent.equalSignature(m) &&
                     mParent.getModifier() != null && !mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract))
