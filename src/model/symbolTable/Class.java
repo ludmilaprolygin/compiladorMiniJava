@@ -43,34 +43,26 @@ public class Class extends MainElement {
     public void correctDeclaration() throws SemanticException {
         super.correctDeclaration();
         String parentLexeme = inheritance != null ? inheritance.getLexeme() : null;
-        if(inheritance != null && (!symbolTable().getClasses().contains(parentLexeme) && !symbolTable().getInterfaces().contains(parentLexeme))) {
-            throw new SemanticException(SemanticErrorMessage.parentDoesNotExist(inheritance));
-        }
-        else if(inheritance != null && parentLexeme.equals(name.getLexeme())) {
-            throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
-        }
-        else if (inheritance != null && symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
-            throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
-        }
-        if(inheritance != null){
-            Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
-            Class cParent = symbolTable().getClasses().get(tParent);
-            if(cParent != null) {
+        if(inheritance != null) {
+            if ((!symbolTable().getClasses().contains(parentLexeme) && !symbolTable().getInterfaces().contains(parentLexeme))) {
+                throw new SemanticException(SemanticErrorMessage.parentDoesNotExist(inheritance));
+            } else if (parentLexeme.equals(name.getLexeme())) {
+                throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
+            } else if (symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
+                throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
+            }
+            Class cParent = getParentClass();
+            if (cParent != null) {
                 if (cParent.isFinal()) {
                     throw new SemanticException(SemanticErrorMessage.cannotExtendFromFinalClass(name));
                 }
                 if (isAbstract() && !cParent.isAbstract() && !objectIsParent()) {
                     throw new SemanticException(SemanticErrorMessage.abstractClassExtendsConcreteClass(name));
                 }
-                if (cParent.isStatic()) {
-                    throw new SemanticException(SemanticErrorMessage.cannotExtendFromStaticClass(name));
-                }
             }
         }
         for (Attribute a : attributes.values())
-            if(parametricType != null && !a.getType().equals(parametricType))
-                a.correctDeclaration();
-            else if (parametricType == null)
+            if((parametricType == null) || (!a.getType().equals(parametricType)))
                 a.correctDeclaration();
         for (Method m : methods.values()) {
             m.correctDeclaration();
@@ -91,6 +83,16 @@ public class Class extends MainElement {
             for (Element c : builderTable)
                 c.correctDeclaration();
         addPredefinedBuilder();
+    }
+
+    private Class getParentClass() {
+        Class cParent = null;
+        if (inheritance != null) {
+            String parentLexeme = inheritance != null ? inheritance.getLexeme() : null;
+            Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
+            cParent = symbolTable().getClasses().get(tParent);
+        }
+        return cParent;
     }
 
     public String toString() {

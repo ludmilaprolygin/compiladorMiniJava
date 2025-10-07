@@ -73,6 +73,12 @@ public abstract class MainElement extends Element {
                 "}";
     }
 
+    public void correctDeclaration () throws SemanticException {
+        if (modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic)){
+            throw new SemanticException(SemanticErrorMessage.mainElementCannotBeStatic(modifier));
+        }
+    }
+
     public void consolidate() throws SemanticException {
         if(inheritance != null) {
             Table<Class> classes = symbolTable().getClasses();
@@ -88,12 +94,6 @@ public abstract class MainElement extends Element {
                     }
                 }
             }
-        }
-    }
-
-    public void correctDeclaration () throws SemanticException {
-        if (modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic)){
-            throw new SemanticException(SemanticErrorMessage.mainElementCannotBeStatic(modifier));
         }
     }
 }
