@@ -555,6 +555,7 @@ public class SyntacticAnalyzerLateStage {
         }
         else if (firsts.containsToken(Operando, currentTokenType)) {
             operando();
+            _operadorTernario();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(ExpresionBasica).toString()));
