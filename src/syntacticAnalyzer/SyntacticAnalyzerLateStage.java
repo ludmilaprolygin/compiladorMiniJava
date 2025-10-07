@@ -221,6 +221,7 @@ public class SyntacticAnalyzerLateStage {
         }
         else if(currentTokenType.equals(dot)) {
             _encadenado();
+            _asignacionOpcional();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroIdClase).toString()));
