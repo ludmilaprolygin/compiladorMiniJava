@@ -128,4 +128,8 @@ public class SemanticErrorMessage {
     public static String interfaceCannotExtendClass(Token name) {
         return basicErrorInit(name) + ": Interface cannot extend class " + name.getLexeme() + " \n" + basicErrorEnd(name);
     }
+
+    public static String mainElementCannotBeStatic(Token modifier) {
+        return basicErrorInit(modifier) + ": Main element cannot be declared static \n" + basicErrorEnd(modifier);
+    }
 }

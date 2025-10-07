@@ -164,12 +164,12 @@ public class Class extends MainElement {
 
                 }
                 /*
-            for(Attribute a : attributes.values()){
-                if(parentAttributes.contains(a.getName().getLexeme())){
-                    throw new SemanticException(SemanticErrorMessage.attributeAlreadyExists(a.getName()));
+                for(Attribute a : attributes.values()){
+                    if(parentAttributes.contains(a.getName().getLexeme())){
+                        throw new SemanticException(SemanticErrorMessage.attributeAlreadyExists(a.getName()));
+                    }
                 }
-            }
-             */
+                 */
                 for(Attribute parentAttribute : parentAttributes.values()){
                     if(!attributes.contains(parentAttribute.getName().getLexeme())){
                         Attribute aCopy = new Attribute(parentAttribute.getName(), parentAttribute.getType());

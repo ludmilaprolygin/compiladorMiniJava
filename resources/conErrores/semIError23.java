@@ -1,10 +1,7 @@
-///[Error:B|7]
+///[Error:static|4]
 // Heredar de clase static
 
 static class A {
-}
-
-class B extends A {
 }
 
 class Init {

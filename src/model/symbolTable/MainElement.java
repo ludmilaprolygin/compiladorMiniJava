@@ -1,6 +1,7 @@
 package model.symbolTable;
 
 import model.Token;
+import model.TokenType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorMessage;
 
@@ -91,6 +92,8 @@ public abstract class MainElement extends Element {
     }
 
     public void correctDeclaration () throws SemanticException {
-
+        if (modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic)){
+            throw new SemanticException(SemanticErrorMessage.mainElementCannotBeStatic(modifier));
+        }
     }
 }

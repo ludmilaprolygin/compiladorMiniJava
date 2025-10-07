@@ -1,5 +1,5 @@
 ///[SinErrores]
 
 abstract class A {}
-static class B {}
+class B {}
 final class C {}
