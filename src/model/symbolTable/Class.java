@@ -81,18 +81,7 @@ public class Class extends MainElement {
             if ((parentClass.getParametricType() != null && cParent.getParametricType() == null) || (parentClass.getParametricType() == null && cParent.getParametricType() != null))
                 throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parentClass.getName()));
 
-
-            for(Method m : parentMethods.values()){
-                if(!methods.contains(m.getName().getLexeme()) && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()){
-                    throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(name));
-                }
-                if(!methods.contains(m.getName().getLexeme())){
-                    Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
-                    for(Element p : m.getParameters())
-                        mCopy.addParameter((Parameter) p);
-                    methods.put(mCopy.getName(), mCopy);
-                }
-            }
+            consolidateMethodsFromExtension(parentMethods);
             consolidateBuilder(cParent);
 
         }
@@ -101,7 +90,6 @@ public class Class extends MainElement {
             Interface iParent = (Interface) parent;
         }
     }
-
     private void addPredefinedBuilder() {
         Token t = new Token(null, name.getLexeme(), -1);
         Builder c = new Builder(t, new Token(TokenType.reservedPublic, "public", -1));
@@ -237,6 +225,19 @@ public class Class extends MainElement {
                 throw new SemanticException(SemanticErrorMessage.builderDoesNotOverrideCorrectly(myBuilder));
             }
 
+        }
+    }
+    private void consolidateMethodsFromExtension(Table<Method> parentMethods) throws SemanticException{
+        for(Method m : parentMethods.values()){
+            if(!methods.contains(m.getName().getLexeme()) && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()){
+                throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(name));
+            }
+            if(!methods.contains(m.getName().getLexeme())){
+                Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
+                for(Element p : m.getParameters())
+                    mCopy.addParameter((Parameter) p);
+                methods.put(mCopy.getName(), mCopy);
+            }
         }
     }
 }
