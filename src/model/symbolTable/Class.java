@@ -72,12 +72,16 @@ public class Class extends MainElement {
                 throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(name));
             }
 
+            Table<Attribute> parentAttributes = parent.getAttributes();
+            correctAttributes(parentAttributes);
+
+            Table<Method> parentMethods = parent.getMethods();
+
             if(parent instanceof Class cParent) { // extends
                 if ((parentClass.getParametricType() != null && cParent.getParametricType() == null) || (parentClass.getParametricType() == null && cParent.getParametricType() != null))
                     throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parentClass.getName()));
 
-                Table<Method> parentMethods = cParent.getMethods();
-                Table<Attribute> parentAttributes = cParent.getAttributes();
+
                 for(Method m : methods.values()){
                     Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
                     Method mParent = parentMethods.get(tkParent);
@@ -130,12 +134,7 @@ public class Class extends MainElement {
                     }
                 }
                  */
-                for(Attribute parentAttribute : parentAttributes.values()){
-                    if(!attributes.contains(parentAttribute.getName().getLexeme())){
-                        Attribute aCopy = new Attribute(parentAttribute.getName(), parentAttribute.getType());
-                        attributes.put(aCopy.getName(), aCopy);
-                    }
-                }
+
             }
             else { // implements
                 parent = getParentInterface();
@@ -220,5 +219,13 @@ public class Class extends MainElement {
             }
         }
         addPredefinedBuilder();
+    }
+    private void correctAttributes(Table<Attribute> parentAttributes) throws SemanticException {
+        for(Attribute parentAttribute : parentAttributes.values()){
+            if(!attributes.contains(parentAttribute.getName().getLexeme())){
+                Attribute aCopy = new Attribute(parentAttribute.getName(), parentAttribute.getType());
+                attributes.put(aCopy.getName(), aCopy);
+            }
+        }
     }
 }
