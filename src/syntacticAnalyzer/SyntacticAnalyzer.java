@@ -63,7 +63,7 @@ public class SyntacticAnalyzer {
     private void _interface() throws Exception {
         Interface toReturn;
         Token modifier, name;
-        Class parent;
+        MainElement parent;
         AbstractType parametricType;
 
         modifier = modificadorOpcional();
@@ -71,12 +71,17 @@ public class SyntacticAnalyzer {
         name = currentToken;
         match(idClase);
         parametricType = _tipoParametricoOpcional();
+
         parent = _optionalParent();
 
-        if(parent.getName().getLexeme().equals("Object"))
-            parent = null; // Las interfaces no extienden de Object
+        if ((parent instanceof Class) && !parent.getName().getLexeme().equals("Object")) {
+            throw new SemanticException(SemanticErrorMessage.interfaceCannotExtendClass(name));
+        }
+        else if ((parent instanceof Class) && parent.getName().getLexeme().equals("Object")) {
+            parent = null;
+        }
 
-        toReturn = new Interface(modifier, name, parametricType, parent.getName());
+        toReturn = new Interface(modifier, name, parametricType, (parent != null ? parent.getName() : null));
         symbolTable.addInterface(toReturn.getName(), toReturn);
         symbolTable.setCurrentClass(toReturn);
 
@@ -127,7 +132,7 @@ public class SyntacticAnalyzer {
         name = currentToken;
         match(idClase);
         parametricType =_tipoParametricoOpcional();
-        parent = _optionalParent();
+        parent = (Class) _optionalParent();
 
         newClass = new Class(modifier, name, parametricType, parent);
         symbolTable.addClass(name, newClass);
@@ -138,9 +143,9 @@ public class SyntacticAnalyzer {
         match(closeBracket);
     }
 
-    private Class _optionalParent() throws Exception {
+    private MainElement _optionalParent() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Class toReturn;
+        MainElement toReturn;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             toReturn = herenciaOpcional();
         }

@@ -1,4 +1,4 @@
-///[Error:A|4]
+///[Error:(|4]
 
 interface A {
     public A() {}

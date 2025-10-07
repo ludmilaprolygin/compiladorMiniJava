@@ -1,4 +1,4 @@
-///[Error:B|3]
+///[Error:A|3]
 
 interface A extends B {}
 class B {}
