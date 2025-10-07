@@ -56,7 +56,7 @@ public class Class extends MainElement {
                 if (cParent.isFinal()) {
                     throw new SemanticException(SemanticErrorMessage.cannotExtendFromFinalClass(name));
                 }
-                if (isAbstract() && !cParent.isAbstract() && !objectIsParent()) {
+                if (this.isAbstract() && !cParent.isAbstract() && !objectIsParent()) {
                     throw new SemanticException(SemanticErrorMessage.abstractClassExtendsConcreteClass(name));
                 }
             }
@@ -83,16 +83,6 @@ public class Class extends MainElement {
             for (Element c : builderTable)
                 c.correctDeclaration();
         addPredefinedBuilder();
-    }
-
-    private Class getParentClass() {
-        Class cParent = null;
-        if (inheritance != null) {
-            String parentLexeme = inheritance != null ? inheritance.getLexeme() : null;
-            Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
-            cParent = symbolTable().getClasses().get(tParent);
-        }
-        return cParent;
     }
 
     public String toString() {
@@ -192,16 +182,16 @@ public class Class extends MainElement {
             builderTable.addLast(c);
         }
     }
-
-    private Token getTokenParent() {
-        if(inheritance != null)
-            return symbolTable().getClasses().getTokenByName(inheritance.getLexeme());
-        return null;
-    }
     private boolean objectIsParent() {
         return inheritance != null && inheritance.getLexeme().equals("Object");
     }
-    public boolean isAbstract() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract); }
-    public boolean isFinal() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedFinal); }
-    public boolean isStatic() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic); }
+    private Class getParentClass() {
+        Class cParent = null;
+        if (inheritance != null) {
+            String parentLexeme = inheritance.getLexeme();
+            Token tParent = symbolTable().getClasses().getTokenByName(parentLexeme);
+            cParent = symbolTable().getClasses().get(tParent);
+        }
+        return cParent;
+    }
 }
