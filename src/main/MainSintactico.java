@@ -1,13 +1,12 @@
 package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
-import model.symbolTable.Class;
 import model.symbolTable.SymbolTable;
 import sourceManager.*;
 import model.Token;
 import model.TokenType;
 import model.symbolTable.*;
-import syntacticAnalyzer.SyntacticAnalyzer;
+import syntacticAnalyzer.SyntacticAnalyzerLateStage;
 import utils.exceptions.LexicalException;
 import utils.exceptions.SemanticException;
 import utils.messages.GenericErrorMessage;
@@ -19,7 +18,7 @@ import java.io.IOException;
 public class MainSintactico {
     private static SourceManager sourceManager;
     private static LexicalAnalyzer lexicalAnalyzer;
-    private static SyntacticAnalyzer syntacticAnalyzer;
+    private static SyntacticAnalyzerLateStage syntacticAnalyzer;
     private static final SymbolTable symbolTable = SymbolTable.symbolTable();
 
     public static void main(String[] args) {
@@ -83,7 +82,9 @@ public class MainSintactico {
     private static void syntacticAnalysis() {
         try {
             lexicalAnalyzer.init(sourceManager);
-            syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+            syntacticAnalyzer = new SyntacticAnalyzerLateStage(lexicalAnalyzer);
+
+            System.out.println("[SinErrores]");
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
