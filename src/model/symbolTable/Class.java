@@ -88,6 +88,7 @@ public class Class extends MainElement {
         else { // implements
             parent = getParentInterface();
             Interface iParent = (Interface) parent;
+            consolidateMethodsFromImplementation(parentMethods);
         }
     }
     private void addPredefinedBuilder() {
@@ -237,6 +238,13 @@ public class Class extends MainElement {
                 for(Element p : m.getParameters())
                     mCopy.addParameter((Parameter) p);
                 methods.put(mCopy.getName(), mCopy);
+            }
+        }
+    }
+    private void consolidateMethodsFromImplementation(Table<Method> parentMethods) throws SemanticException {
+        for(Method m : parentMethods.values()){
+            if(!methods.contains(m.getName().getLexeme())){
+                throw new SemanticException(SemanticErrorMessage.classesMustImplementAllInterfaceMethods(name));
             }
         }
     }

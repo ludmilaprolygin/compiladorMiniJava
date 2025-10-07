@@ -115,6 +115,7 @@ public class SyntacticAnalyzer {
 
         Method newMethod = new Method(name, visibility, null, methodType, true);
         symbolTable.setCurrentService(newMethod);
+        symbolTable.getCurrentClass().addMethod(name, newMethod);
 
         match(idMetVar);
         argsFormales();

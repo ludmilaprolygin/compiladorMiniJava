@@ -132,4 +132,8 @@ public class SemanticErrorMessage {
     public static String mainElementCannotBeStatic(Token modifier) {
         return basicErrorInit(modifier) + ": Main element cannot be declared static \n" + basicErrorEnd(modifier);
     }
+
+    public static String classesMustImplementAllInterfaceMethods(Token m) {
+        return basicErrorInit(m) + ": Classes that implement interfaces must implement all parent interface methods \n" + basicErrorEnd(m);
+    }
 }
