@@ -62,10 +62,9 @@ public class Class extends MainElement {
 
     public void consolidate() throws SemanticException {
         super.consolidate();
-        MainElement parent = getParentClass();
+        MainElement parent = getParent();
         if(inheritance != null){
-            if(parent != null){
-                Class cParent = (Class) parent;
+            if(parent instanceof Class cParent) { // extends
                 if ((parentClass.getParametricType() != null && cParent.getParametricType() == null) || (parentClass.getParametricType() == null && cParent.getParametricType() != null))
                     throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parentClass.getName()));
 
@@ -130,7 +129,7 @@ public class Class extends MainElement {
                     }
                 }
             }
-            else {
+            else { // implements
                 parent = getParentInterface();
                 System.out.println();
                 Interface iParent = (Interface) parent;
@@ -176,6 +175,11 @@ public class Class extends MainElement {
             cParent = symbolTable().getInterfaces().get(tParent);
         }
         return cParent;
+    }
+    private MainElement getParent() throws SemanticException {
+        Class c = getParentClass();
+        Interface i = getParentInterface();
+        return c == null ? i : c;
     }
     private void correctInheritance(String parentLexeme) throws SemanticException {
         if ((!symbolTable().getClasses().contains(parentLexeme) && !symbolTable().getInterfaces().contains(parentLexeme))) {
