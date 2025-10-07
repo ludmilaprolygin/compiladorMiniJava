@@ -44,45 +44,15 @@ public class Class extends MainElement {
         super.correctDeclaration();
         String parentLexeme = inheritance != null ? inheritance.getLexeme() : null;
         if(inheritance != null) {
-            if ((!symbolTable().getClasses().contains(parentLexeme) && !symbolTable().getInterfaces().contains(parentLexeme))) {
-                throw new SemanticException(SemanticErrorMessage.parentDoesNotExist(inheritance));
-            } else if (parentLexeme.equals(name.getLexeme())) {
-                throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
-            } else if (symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
-                throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
-            }
-            Class cParent = getParentClass();
-            if (cParent != null) {
-                if (cParent.isFinal()) {
-                    throw new SemanticException(SemanticErrorMessage.cannotExtendFromFinalClass(name));
-                }
-                if (this.isAbstract() && !cParent.isAbstract() && !objectIsParent()) {
-                    throw new SemanticException(SemanticErrorMessage.abstractClassExtendsConcreteClass(name));
-                }
-            }
+            correctInheritance(parentLexeme);
         }
         for (Attribute a : attributes.values())
             if((parametricType == null) || (!a.getType().equals(parametricType)))
                 a.correctDeclaration();
         for (Method m : methods.values()) {
-            m.correctDeclaration();
-            if(modifier != null && m.getModifier() != null &&
-                !modifier.getTokenType().equals(TokenType.reservedAbstract) &&
-                m.getModifier().getTokenType().equals(TokenType.reservedAbstract)) {
-                    throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
-            }
-            else if (modifier == null && m.getModifier() != null &&
-                    m.getModifier().getTokenType().equals(TokenType.reservedAbstract))
-                throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
+            correctMethod(m);
         }
-        if(modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract) && !builderTable.isEmpty()) {
-            Element c = builderTable.getFirst();
-            throw new SemanticException(SemanticErrorMessage.builderFoundInAbstractClass(c.getName()));
-        }
-        else
-            for (Element c : builderTable)
-                c.correctDeclaration();
-        addPredefinedBuilder();
+        correctBuilder();
     }
 
     public String toString() {
@@ -193,5 +163,46 @@ public class Class extends MainElement {
             cParent = symbolTable().getClasses().get(tParent);
         }
         return cParent;
+    }
+    private void correctInheritance(String parentLexeme) throws SemanticException {
+        if ((!symbolTable().getClasses().contains(parentLexeme) && !symbolTable().getInterfaces().contains(parentLexeme))) {
+            throw new SemanticException(SemanticErrorMessage.parentDoesNotExist(inheritance));
+        } else if (parentLexeme.equals(name.getLexeme())) {
+            throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
+        } else if (symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
+            throw new SemanticException(SemanticErrorMessage.circularHierarchy(inheritance));
+        }
+        Class cParent = getParentClass();
+        if (cParent != null) {
+            if (cParent.isFinal()) {
+                throw new SemanticException(SemanticErrorMessage.cannotExtendFromFinalClass(name));
+            }
+            if (this.isAbstract() && !cParent.isAbstract() && !objectIsParent()) {
+                throw new SemanticException(SemanticErrorMessage.abstractClassExtendsConcreteClass(name));
+            }
+        }
+    }
+    private void correctMethod(Method m) throws SemanticException {
+        m.correctDeclaration();
+        if(modifier != null && m.getModifier() != null &&
+                !modifier.getTokenType().equals(TokenType.reservedAbstract) &&
+                m.getModifier().getTokenType().equals(TokenType.reservedAbstract)) {
+            throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
+        }
+        else if (modifier == null && m.getModifier() != null &&
+                m.getModifier().getTokenType().equals(TokenType.reservedAbstract))
+            throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(m.getName()));
+    }
+    private void correctBuilder() throws SemanticException {
+        if(modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract) && !builderTable.isEmpty()) {
+            Element c = builderTable.getFirst();
+            throw new SemanticException(SemanticErrorMessage.builderFoundInAbstractClass(c.getName()));
+        }
+        else {
+            for (Element c : builderTable) {
+                c.correctDeclaration();
+            }
+        }
+        addPredefinedBuilder();
     }
 }
