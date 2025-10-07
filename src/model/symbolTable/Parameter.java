@@ -15,8 +15,11 @@ public class Parameter extends Element{
 
     @Override
     public void correctDeclaration() throws SemanticException {
-        if(type.getName().getTokenType().equals(TokenType.idClase) &&
-                (!SymbolTable.symbolTable().getClasses().contains(type.getName().getLexeme()) && !SymbolTable.symbolTable().getInterfaces().contains(type.getName().getLexeme())))
+        SymbolTable st = SymbolTable.symbolTable();
+        if(st.getCurrentClass().getParametricType() != null &&
+            st.getCurrentClass().getParametricType().getName().getLexeme().equals(type.getName().getLexeme())) {}
+        else if(type.getName().getTokenType().equals(TokenType.idClase) &&
+                (!st.getClasses().contains(type.getName().getLexeme()) && !SymbolTable.symbolTable().getInterfaces().contains(type.getName().getLexeme())))
             throw new SemanticException(SemanticErrorMessage.undeclaredType(type.getName()));
         type.correctDeclaration();
     }

@@ -32,6 +32,7 @@ public class Method extends Service {
         //    throw new SemanticException(SemanticErrorMessage.missingReturnStatement(name));
         if(!emptyBody && modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract))
             throw new SemanticException(SemanticErrorMessage.abstractMethodWithBody(name));
+
     }
 
     public String toString() {

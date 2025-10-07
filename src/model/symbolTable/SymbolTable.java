@@ -23,10 +23,14 @@ public class SymbolTable extends Element {
 
     @Override
     public void correctDeclaration() throws SemanticException {
-        for(Class c : classes.values())
+        for(Class c : classes.values()){
+            setCurrentClass(c);
             c.correctDeclaration();
-        for(Interface i : interfaces.values())
+        }
+        for(Interface i : interfaces.values()) {
+            setCurrentClass(i);
             i.correctDeclaration();
+        }
     }
 
     public static SymbolTable symbolTable() {
