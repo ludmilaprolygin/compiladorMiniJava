@@ -63,76 +63,52 @@ public class Class extends MainElement {
     public void consolidate() throws SemanticException {
         super.consolidate();
         MainElement parent = getParent();
-        if(inheritance != null){
-            if (parent.getParametricType() != null && parametricType != null &&
-                    parentClass.getParametricType() != null && !parentClass.getParametricType().getName().getLexeme().equals(parametricType.getName().getLexeme())) {
-                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parametricType.getName()));
+        if (parent.getParametricType() != null && parametricType != null &&
+                parentClass.getParametricType() != null && !parentClass.getParametricType().getName().getLexeme().equals(parametricType.getName().getLexeme())) {
+            throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parametricType.getName()));
+        }
+        else if(parent.getParametricType() != null && parametricType == null) {
+            throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(name));
+        }
+
+        Table<Attribute> parentAttributes = parent.getAttributes();
+        consolidateAttributes(parentAttributes);
+
+        Table<Method> parentMethods = parent.getMethods();
+
+        if(parent instanceof Class cParent) { // extends
+            if ((parentClass.getParametricType() != null && cParent.getParametricType() == null) || (parentClass.getParametricType() == null && cParent.getParametricType() != null))
+                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parentClass.getName()));
+
+            for(Method m : methods.values()){
+                consolidateMethods(m, parentMethods);
             }
-            else if(parent.getParametricType() != null && parametricType == null) {
-                throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(name));
+            for(Method m : parentMethods.values()){
+                if(!methods.contains(m.getName().getLexeme()) && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()){
+                    throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(name));
+                }
+                if(!methods.contains(m.getName().getLexeme())){
+                    Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
+                    for(Element p : m.getParameters())
+                        mCopy.addParameter((Parameter) p);
+                    methods.put(mCopy.getName(), mCopy);
+                }
             }
-
-            Table<Attribute> parentAttributes = parent.getAttributes();
-            correctAttributes(parentAttributes);
-
-            Table<Method> parentMethods = parent.getMethods();
-
-            if(parent instanceof Class cParent) { // extends
-                if ((parentClass.getParametricType() != null && cParent.getParametricType() == null) || (parentClass.getParametricType() == null && cParent.getParametricType() != null))
-                    throw new SemanticException(SemanticErrorMessage.parametricInheritanceMismatch(parentClass.getName()));
-
-
-                for(Method m : methods.values()){
-                    Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
-                    Method mParent = parentMethods.get(tkParent);
-                    if(parentMethods.contains(m.getName().getLexeme())){
-                        if(mParent != null && (!m.getReturnType().getName().getLexeme().equals(mParent.getReturnType().getName().getLexeme()) ||
-                                m.getParameters().size() != mParent.getParameters().size())) {
-                            throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
-                        }
-                        if(mParent != null && mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract) && m.getModifier() != null &&
-                                m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()) {
-                            throw new SemanticException(SemanticErrorMessage.missingImplementationOnAbstracMethod(m));
-                        }
-                        if(mParent != null && mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract) && m.getModifier() != null &&
-                                m.getModifier().getTokenType().equals(TokenType.reservedAbstract)) {
-                            throw new SemanticException(SemanticErrorMessage.abstractMethodRedefinedAsAbstract(m));
-                        }
-                        if(mParent != null && mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedFinal)) {
-                            throw new SemanticException(SemanticErrorMessage.cannotOverrideFinalMethod(m));
-                        }
-                        if(mParent != null && !mParent.getParameters().equals(m.getParameters())) {
-                            throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
-                        }
-                    }
-                }
-                for(Method m : parentMethods.values()){
-                    if(!methods.contains(m.getName().getLexeme()) && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()){
-                        throw new SemanticException(SemanticErrorMessage.cannotDeclareAbstractMethod(name));
-                    }
-                    if(!methods.contains(m.getName().getLexeme())){
-                        Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
-                        for(Element p : m.getParameters())
-                            mCopy.addParameter((Parameter) p);
-                        methods.put(mCopy.getName(), mCopy);
-                    }
-                }
-                List parentBuilder = cParent.getBuilderTable();
-                Builder myBuilder = null;
-                if(!builderTable.isEmpty())
-                    myBuilder = (Builder) builderTable.getFirst();
-                for(Element b : parentBuilder){
-                    if(!((Builder)b).getParameters().isEmpty() && myBuilder != null && myBuilder.getParameters().isEmpty()){
-                        throw new SemanticException(SemanticErrorMessage.builderDoesNotOverrideCorrectly(myBuilder));
-                    }
-
+            List parentBuilder = cParent.getBuilderTable();
+            Builder myBuilder = null;
+            if(!builderTable.isEmpty())
+                myBuilder = (Builder) builderTable.getFirst();
+            for(Element b : parentBuilder){
+                if(!((Builder)b).getParameters().isEmpty() && myBuilder != null && myBuilder.getParameters().isEmpty()){
+                    throw new SemanticException(SemanticErrorMessage.builderDoesNotOverrideCorrectly(myBuilder));
                 }
 
             }
-            else { // implements
-                parent = getParentInterface();
-                Interface iParent = (Interface) parent;
-            }
+
+        }
+        else { // implements
+            parent = getParentInterface();
+            Interface iParent = (Interface) parent;
         }
     }
 
@@ -213,7 +189,7 @@ public class Class extends MainElement {
         }
         addPredefinedBuilder();
     }
-    private void correctAttributes(Table<Attribute> parentAttributes) throws SemanticException {
+    private void consolidateAttributes(Table<Attribute> parentAttributes) throws SemanticException {
         for(Attribute parentAttribute : parentAttributes.values()){
             if(!attributes.contains(parentAttribute.getName().getLexeme())){
                 Attribute aCopy = new Attribute(parentAttribute.getName(), parentAttribute.getType());
@@ -227,5 +203,35 @@ public class Class extends MainElement {
             }
         }
         */
+    }
+    private void consolidateMethods(Method m, Table<Method> parentMethods) throws SemanticException {
+        Method mParent = getParentMethod(m, parentMethods);
+        if(parentMethods.contains(m.getName().getLexeme())){
+            if(mParent != null){
+                if((!m.getReturnType().getName().getLexeme().equals(mParent.getReturnType().getName().getLexeme()) ||
+                        m.getParameters().size() != mParent.getParameters().size())) {
+                    throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
+                }
+                if(mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract) && m.getModifier() != null &&
+                        m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()) {
+                    throw new SemanticException(SemanticErrorMessage.missingImplementationOnAbstracMethod(m));
+                }
+                if(mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract) && m.getModifier() != null &&
+                        m.getModifier().getTokenType().equals(TokenType.reservedAbstract)) {
+                    throw new SemanticException(SemanticErrorMessage.abstractMethodRedefinedAsAbstract(m));
+                }
+                if(mParent.getModifier() != null && mParent.getModifier().getTokenType().equals(TokenType.reservedFinal)) {
+                    throw new SemanticException(SemanticErrorMessage.cannotOverrideFinalMethod(m));
+                }
+                if(!mParent.getParameters().equals(m.getParameters())) {
+                    throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(m));
+                }
+            }
+        }
+    }
+
+    private Method getParentMethod(Method m, Table<Method> parentMethods) throws SemanticException {
+        Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
+        return parentMethods.get(tkParent);
     }
 }

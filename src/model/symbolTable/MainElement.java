@@ -80,17 +80,15 @@ public abstract class MainElement extends Element {
     }
 
     public void consolidate() throws SemanticException {
-        if(inheritance != null) {
-            Table<Class> classes = symbolTable().getClasses();
-            Token cParent = classes.getTokenByName(inheritance.getLexeme());
-            if(cParent != null){
-                for(Method m : classes.get(cParent).getMethods().values()) {
-                    if(methods.contains(m.getName().getLexeme())) {
-                        Token thisToken = methods.getTokenByName(m.getName().getLexeme());
-                        Method thisMethod = methods.get(thisToken);
-                        if(thisMethod != null && thisMethod.equalSignature(m)) {
-                            throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(thisMethod));
-                        }
+        Table<Class> classes = symbolTable().getClasses();
+        Token cParent = classes.getTokenByName(inheritance.getLexeme());
+        if(cParent != null){
+            for(Method m : classes.get(cParent).getMethods().values()) {
+                if(methods.contains(m.getName().getLexeme())) {
+                    Token thisToken = methods.getTokenByName(m.getName().getLexeme());
+                    Method thisMethod = methods.get(thisToken);
+                    if(thisMethod != null && thisMethod.equalSignature(m)) {
+                        throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(thisMethod));
                     }
                 }
             }

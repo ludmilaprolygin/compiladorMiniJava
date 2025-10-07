@@ -248,11 +248,13 @@ public class SymbolTable extends Element {
         for(String s : sortedClasses) {
             Token t = classes.getTokenByName(s);
             Class c = classes.get(t);
-            if(c != null)
+            if(c != null && c.getInheritance() != null)
                 c.consolidate();
         }
         for(Interface i : interfaces.values())
-            i.consolidate();
+            if(i.getInheritance() != null){
+                i.consolidate();
+            }
     }
 
     public HierarchyTree getClassHierarchy() { return classHierarchy; }
