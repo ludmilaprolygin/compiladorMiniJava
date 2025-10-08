@@ -6,7 +6,6 @@ import utils.exceptions.SemanticException;
 
 public abstract class Element {
     protected Token name;
-    protected static final Firsts firsts = new Firsts();
 
     public Element() {}
 
