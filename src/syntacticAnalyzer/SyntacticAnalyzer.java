@@ -1,6 +1,7 @@
 package syntacticAnalyzer;
 
 import lexicalAnalyzer.LexicalAnalyzer;
+import model.AST.*;
 import model.Firsts;
 import model.Following;
 import model.Token;
@@ -521,10 +522,12 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void sentencia() throws Exception {
+    private NodoSentencia sentencia() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoSentencia toReturn = null; //TODO - sacar null
         if (currentTokenType.equals(semicolon)) {
             match(semicolon);
+            toReturn = new NodoSentenciaVacia();
         }
         else if (currentTokenType.equals(idClase)) {
             match(idClase);
@@ -550,7 +553,7 @@ public class SyntacticAnalyzer {
             bloque();
         }
         else if (firsts.containsToken(If, currentTokenType)) {
-            ifStatement();
+            toReturn = ifStatement();
         }
         else if (firsts.containsToken(While, currentTokenType)) {
             whileStatement();
@@ -561,6 +564,7 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Sentencia).toString()));
         }
+        return toReturn;
     }
 
     private void _decisorExpresionIdClase() throws Exception {
@@ -634,22 +638,29 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void ifStatement() throws Exception {
+    private NodoSentencia ifStatement() throws Exception {
+        NodoIf toReturn;
         match(reservedIf);
         match(openParenthesis);
-        expresion();
+        NodoExpresion expresion = expresion();
         match(closeParenthesis);
-        sentencia();
-        _restoIfStatement();
+        NodoSentencia sentenciaIf = sentencia();
+        NodoSentencia sentenciaElse = _restoIfStatement();
+        toReturn = new NodoIf(expresion, sentenciaIf, sentenciaElse);
+        return toReturn;
     }
 
-    private void _restoIfStatement() throws Exception {
+    private NodoSentencia _restoIfStatement() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoSentencia toReturn;
         if (currentTokenType.equals(reservedElse)) {
             match(reservedElse);
-            sentencia();
+            toReturn = sentencia();
         }
-        else { /* epsilon */ }
+        else { /* epsilon */
+            toReturn = new NodoSentenciaVacia();
+        }
+        return toReturn;
     }
 
     private void whileStatement() throws Exception {
@@ -660,9 +671,10 @@ public class SyntacticAnalyzer {
         sentencia();
     }
 
-    private void expresion() throws Exception {
-        expresionCompuesta();
+    private NodoExpresion expresion() throws Exception {
+        NodoExpresion e = expresionCompuesta();
         _restoExpresion();
+        return e;
     }
 
     private void _restoExpresion() throws Exception {
@@ -678,9 +690,10 @@ public class SyntacticAnalyzer {
         match(assignOp);
     }
 
-    private void expresionCompuesta() throws Exception {
-        expresionBasica();
+    private NodoExpresion expresionCompuesta() throws Exception {
+        NodoExpresion e = expresionBasica();
         _restoExpresionCompuesta();
+        return e;
     }
 
     private void _restoExpresionCompuesta() throws Exception {
@@ -703,18 +716,20 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void expresionBasica() throws Exception {
+    private NodoExpresion expresionBasica() throws Exception {
+        NodoExpresion toReturn = new NodoExpresionVacia(); //TODO - esto es un mock, borrar
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(OperadorUnario, currentTokenType)) {
             operadorUnario();
             operando();
         }
         else if (firsts.containsToken(Operando, currentTokenType)) {
-            operando();
+            toReturn = operando();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(ExpresionBasica).toString()));
         }
+        return toReturn;
     }
 
     private void operadorUnario() throws Exception {
