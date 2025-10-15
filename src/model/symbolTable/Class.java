@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import model.AST.NodoBloqueVacio;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
@@ -216,8 +217,10 @@ public class Class extends MainElement {
     private void consolidateBuilder(Class cParent) throws SemanticException{
         List parentBuilder = cParent.getBuilderTable();
         Builder myBuilder = null;
-        if(!builderTable.isEmpty())
+        if(!builderTable.isEmpty()) {
             myBuilder = (Builder) builderTable.getFirst();
+            myBuilder.setBloque(new NodoBloqueVacio());
+        }
         for(Element b : parentBuilder){
             if(!((Builder)b).getParameters().isEmpty() && myBuilder != null && myBuilder.getParameters().isEmpty()){
                 throw new SemanticException(SemanticErrorIMessage.builderDoesNotOverrideCorrectly(myBuilder));
@@ -235,6 +238,7 @@ public class Class extends MainElement {
                 for(Element p : m.getParameters())
                     mCopy.addParameter((Parameter) p);
                 methods.put(mCopy.getName(), mCopy);
+                mCopy.setBloque(m.getBloque());
             }
         }
     }
@@ -243,6 +247,13 @@ public class Class extends MainElement {
             if(!methods.contains(m.getName().getLexeme())){
                 throw new SemanticException(SemanticErrorIMessage.classesMustImplementAllInterfaceMethods(name));
             }
+        }
+    }
+
+    public void check() throws SemanticException {
+        super.check();
+        for (Element c : builderTable) {
+            ((Builder) c).check();
         }
     }
 }

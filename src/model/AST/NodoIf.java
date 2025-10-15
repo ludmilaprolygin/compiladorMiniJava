@@ -15,7 +15,6 @@ public class NodoIf extends NodoSentencia {
     }
     @Override
     public void check() throws SemanticException {
-        //TODO - completar
         AbstractType expType = condicion.check();
         expType.compatible(new BooleanType(null));
 

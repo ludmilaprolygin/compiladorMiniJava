@@ -29,6 +29,6 @@ public class SemanticErrorIIMessage {
     }
 
     public static String incompatibleTypes(Token t) {
-        return basicErrorInit(t) + ": Incompatibles types" + basicErrorEnd(t);
+        return basicErrorInit(t) + ": Incompatibles types\n" + basicErrorEnd(t);
     }
 }

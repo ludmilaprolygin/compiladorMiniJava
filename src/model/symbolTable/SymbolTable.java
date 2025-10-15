@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import model.AST.NodoBloqueVacio;
 import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
@@ -121,6 +122,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, debugPrint);
+        debugPrint.setBloque(new NodoBloqueVacio());
     }
 
     private void createString() {
@@ -159,6 +161,7 @@ public class SymbolTable extends Element {
         n = new Token(idMetVar, "read", -1);
         Method read = new Method(n, p, s, i);
         c.getMethods().put(n, read);
+        read.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printB", -1);
         Method printB = new Method(n, p, s, v);
@@ -168,6 +171,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printB);
+        printB.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printC", -1);
         Method printC = new Method(n, p, s, v);
@@ -177,6 +181,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printC);
+        printC.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printI", -1);
         Method printI = new Method(n, p, s, v);
@@ -186,6 +191,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printI);
+        printI.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printS", -1);
         Method printS = new Method(n, p, s, v);
@@ -195,10 +201,12 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printS);
+        printS.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "println", -1);
         Method println = new Method(n, p, s, v);
         c.getMethods().put(n, println);
+        println.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printBln", -1);
         Method printBln = new Method(n, p, s, v);
@@ -207,6 +215,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printBln);
+        printBln.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printCln", -1);
         Method printCln = new Method(n, p, s, v);
@@ -215,6 +224,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printCln);
+        printCln.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printIln", -1);
         Method printIln = new Method(n, p, s, v);
@@ -223,6 +233,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printIln);
+        printIln.setBloque(new NodoBloqueVacio());
 
         n = new Token(idMetVar, "printSln", -1);
         Method printSln = new Method(n, p, s, v);
@@ -231,6 +242,7 @@ public class SymbolTable extends Element {
         }
         catch(SemanticException e) {};
         c.getMethods().put(n, printSln);
+        printSln.setBloque(new NodoBloqueVacio());
     }
 
     public String toString() {
@@ -263,4 +275,18 @@ public class SymbolTable extends Element {
 
     public HierarchyTree getClassHierarchy() { return classHierarchy; }
     public Class getObjectClass () { return objectClass; }
+
+    public void check() throws SemanticException {
+        List<String> sortedClasses = classHierarchy.getClassesByDepth();
+        for(String s : sortedClasses) {
+            Token t = classes.getTokenByName(s);
+            Class c = classes.get(t);
+            if(c != null && c.getInheritance() != null)
+                c.check();
+        }
+        for(Interface i : interfaces.values())
+            if(i.getInheritance() != null){
+                i.check();
+            }
+    }
 }

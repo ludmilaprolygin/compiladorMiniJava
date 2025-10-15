@@ -10,7 +10,5 @@ public abstract class NodoOperando extends NodoExpresion {
         this.token = token;
     }
 
-    public AbstractType check() throws SemanticException {
-        return null;
-    }
+    public abstract AbstractType check() throws SemanticException;
 }

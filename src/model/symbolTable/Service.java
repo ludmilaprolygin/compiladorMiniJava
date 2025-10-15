@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import model.AST.NodoBloque;
 import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
@@ -7,6 +8,7 @@ import utils.messages.SemanticErrorIMessage;
 public abstract class Service extends Element {
     protected Token visibility;
     protected List parameters;
+    protected NodoBloque bloque;
     public Service(Token n, Token v) {
         super(n);
         visibility = v;
@@ -34,5 +36,12 @@ public abstract class Service extends Element {
         else {
             return parameters.equals(service.parameters);
         }
+    }
+
+    public void setBloque(NodoBloque b) { bloque = b; }
+    public NodoBloque getBloque() { return bloque; }
+
+    public void check() throws SemanticException {
+        bloque.check();
     }
 }

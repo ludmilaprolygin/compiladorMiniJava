@@ -251,7 +251,8 @@ public class SyntacticAnalyzer {
             symbolTable.setCurrentService(newMethod);
 
             argsFormales();
-            bloqueOpcional();
+            NodoBloque b = bloqueOpcional();
+            newMethod.setBloque(b);
         }
         else if (firsts.containsToken(_Modificador, currentTokenType)) {
             Token m = _modificador();
@@ -274,7 +275,8 @@ public class SyntacticAnalyzer {
             symbolTable.setCurrentService(newMethod);
 
             argsFormales();
-            bloqueOpcional();
+            NodoBloque b = bloqueOpcional();
+            newMethod.setBloque(b);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString()));
@@ -310,7 +312,8 @@ public class SyntacticAnalyzer {
                 c.addConstructor(t.getName(), s);
 
                 argsFormales();
-                bloque();
+                NodoBloque b = bloque();
+                s.setBloque(b);
             }
             else
                 throw new SemanticException(SemanticErrorIMessage.constructorFoundInInterface(t.getName()));
@@ -365,7 +368,8 @@ public class SyntacticAnalyzer {
                 c.addMethod(n, s);
 
                 argsFormales();
-                bloque();
+                NodoBloque b = bloque();
+                s.setBloque(b);
             }
             else
                 throw new SemanticException(SemanticErrorIMessage.constructorFoundInInterface(t.getName()));
@@ -492,39 +496,46 @@ public class SyntacticAnalyzer {
         symbolTable.getCurrentService().addParameter(newParameter);
     }
 
-    private void bloqueOpcional() throws Exception {
+    private NodoBloque bloqueOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoBloque toReturn;
         if (firsts.containsToken(Bloque, currentTokenType)) {
-            bloque();
+            toReturn = bloque();
         }
         else if (currentTokenType.equals(semicolon)) {
             match(semicolon);
+            toReturn = new NodoBloqueVacio();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(BloqueOpcional).toString()));
         }
+        return toReturn;
     }
 
-    private void bloque() throws Exception {
+    private NodoBloque bloque() throws Exception {
+        NodoBloque toReturn = new NodoBloque();
         match(openBracket);
         if(symbolTable.getCurrentService() instanceof Method)
             ((Method) symbolTable.getCurrentService()).setCompletedBody();
-        listaSentencias();
+        listaSentencias(toReturn);
         match(closeBracket);
+        return toReturn;
     }
 
-    private void listaSentencias() throws Exception {
+    private NodoBloque listaSentencias(NodoBloque bloque) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(Sentencia, currentTokenType)) {
-            sentencia();
-            listaSentencias();
+            NodoSentencia s = sentencia();
+            bloque.addStatement(s);
+            listaSentencias(bloque);
         }
         else { /* epsilon */ }
+        return bloque;
     }
 
     private NodoSentencia sentencia() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        NodoSentencia toReturn = null; //TODO - sacar null
+        NodoSentencia toReturn = new NodoSentenciaVacia(); //TODO - sacar null
         if (currentTokenType.equals(semicolon)) {
             match(semicolon);
             toReturn = new NodoSentenciaVacia();
@@ -550,7 +561,7 @@ public class SyntacticAnalyzer {
             match(semicolon);
         }
         else if (firsts.containsToken(Bloque, currentTokenType)) {
-            bloque();
+            toReturn = bloque();
         }
         else if (firsts.containsToken(If, currentTokenType)) {
             toReturn = ifStatement();

@@ -98,4 +98,9 @@ public abstract class MainElement extends Element {
     protected boolean isAbstract() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract); }
     protected boolean isFinal() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedFinal); }
     protected boolean isStatic() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic); }
+
+    public void check() throws SemanticException {
+        for(Method m : methods.values())
+            m.check();
+    }
 }
