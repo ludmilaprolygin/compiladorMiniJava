@@ -22,4 +22,11 @@ public class NodoBloque extends NodoSentencia {
         for(NodoSentencia s : statements)
             s.check();
     }
+
+    public String toString(int depth){
+        String toReturn = "";
+        for(NodoSentencia s : statements)
+            toReturn += s.toString(depth + 1) + "\n";
+        return toReturn;
+    }
 }

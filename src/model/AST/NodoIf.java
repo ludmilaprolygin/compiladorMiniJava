@@ -21,4 +21,14 @@ public class NodoIf extends NodoSentencia {
         sentenciaIf.check();
         sentenciaElse.check();
     }
+    public String toString(int depth){
+        String toReturn = "";
+        for (int i = 0; i < depth * 3; i++)
+            toReturn += " ";
+        toReturn += "if\n";
+        toReturn += condicion.toString(depth + 1) + "\n";
+        toReturn += sentenciaIf.toString(depth + 1) + "\n";
+        toReturn += sentenciaElse.toString(depth + 1) + "\n";
+        return toReturn;
+    }
 }

@@ -9,4 +9,10 @@ public class NodoExpresionVacia extends NodoExpresion {
     public AbstractType check() throws SemanticException {
         return new UniversalType();
     }
+    public String toString(int depth){
+        String toReturn = "";
+        for (int i = 0; i < depth * 3; i++)
+            toReturn += " ";
+        return toReturn + "{ nodo expresion vacia }\n";
+    }
 }

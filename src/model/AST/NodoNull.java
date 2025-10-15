@@ -14,4 +14,10 @@ public class NodoNull extends NodoOperando{
     public AbstractType check() throws SemanticException {
         return new UniversalType();
     }
+    public String toString(int depth){
+        String toReturn = "";
+        for (int i = 0; i < depth * 3; i++)
+            toReturn += " ";
+        return toReturn + "NULL \n";
+    }
 }

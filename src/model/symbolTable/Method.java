@@ -38,7 +38,7 @@ public class Method extends Service {
     public String toString() {
         String mod = (modifier != null) ? modifier.getLexeme() + " " : "";
         return mod + returnType.toString() + " " +
-                name.getLexeme() + "(" + parameters.toString() + ")";
+                name.getLexeme() + "(" + parameters.toString() + ")" + bloque.toString(0);
     }
 
     public AbstractType getReturnType() { return returnType; }
