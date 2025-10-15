@@ -742,10 +742,11 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void operando() throws Exception {
+    private NodoExpresion operando() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = new NodoExpresionVacia(); //TODO - borrar porque es un mock
         if (firsts.containsToken(Primitivo, currentTokenType)) {
-            primitivo();
+            toReturn = primitivo();
         }
         else if (firsts.containsToken(Referencia, currentTokenType)) {
             referencia();
@@ -753,16 +754,31 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Operando).toString()));
         }
+        return toReturn;
     }
 
-    private void primitivo() throws Exception {
+    private NodoExpresion primitivo() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoOperando toReturn;
         if (firsts.containsToken(Primitivo, currentTokenType)) {
+            if(currentTokenType.equals(boolFalse) || currentTokenType.equals(boolTrue)) {
+                toReturn = new NodoBooleanLiteral(currentToken);
+            }
+            else if(currentTokenType.equals(intLiteral)){
+                toReturn = new NodoIntLiteral(currentToken);
+            }
+            else if(currentTokenType.equals(charLiteral)){
+                toReturn = new NodoCharLiteral(currentToken);
+            }
+            else {
+                toReturn = new NodoNull();
+            }
             match(currentTokenType);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primitivo).toString()));
         }
+        return toReturn;
     }
 
     private void referencia() throws Exception {
