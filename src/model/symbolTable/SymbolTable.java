@@ -2,7 +2,7 @@ package model.symbolTable;
 
 import model.Token;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIMessage;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class SymbolTable extends Element {
 
     public void addClass(Token t, Class c) throws SemanticException {
         if(interfaces.contains(t.getLexeme()))
-            throw new SemanticException(SemanticErrorMessage.interfaceAlreadyExists(t));
+            throw new SemanticException(SemanticErrorIMessage.interfaceAlreadyExists(t));
         else if(!classes.contains(t.getLexeme())) {
             classes.put(t, c);
             HierarchyTree ht = classHierarchy.search(c.getInheritance().getLexeme());
@@ -76,17 +76,17 @@ public class SymbolTable extends Element {
             }
         }
         else {
-            throw new SemanticException(SemanticErrorMessage.classAlreadyExists(t));
+            throw new SemanticException(SemanticErrorIMessage.classAlreadyExists(t));
         }
     }
 
     public void addInterface(Token t, Interface i) throws SemanticException {
         if(classes.contains(t.getLexeme()))
-            throw new SemanticException(SemanticErrorMessage.classAlreadyExists(t));
+            throw new SemanticException(SemanticErrorIMessage.classAlreadyExists(t));
         else if(!interfaces.contains(t.getLexeme()))
             interfaces.put(t, i);
         else {
-            throw new SemanticException(SemanticErrorMessage.interfaceAlreadyExists(t));
+            throw new SemanticException(SemanticErrorIMessage.interfaceAlreadyExists(t));
         }
     }
 

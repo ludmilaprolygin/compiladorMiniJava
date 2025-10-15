@@ -3,7 +3,8 @@ package model.symbolTable;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIIMessage;
+import utils.messages.SemanticErrorIMessage;
 
 public abstract class AbstractType extends Element {
     public AbstractType(Token n) {
@@ -13,10 +14,15 @@ public abstract class AbstractType extends Element {
     public void correctDeclaration() throws SemanticException {
         if(SymbolTable.symbolTable().getCurrentClass().getParametricType() != null && SymbolTable.symbolTable().getCurrentClass().getParametricType().getName().getLexeme().equals(name.getLexeme()));
         else if(name.getTokenType().equals(TokenType.idClase) && (!SymbolTable.symbolTable().getClasses().contains(name.getLexeme()) && !SymbolTable.symbolTable().getInterfaces().contains(name.getLexeme())))
-            throw new SemanticException(SemanticErrorMessage.undeclaredType(name));
+            throw new SemanticException(SemanticErrorIMessage.undeclaredType(name));
     }
 
     public boolean equals(AbstractType t) {
         return name.getLexeme().equals(t.getName().getLexeme());
+    }
+
+    public void compatible(AbstractType t) throws SemanticException {
+        if (t.getClass() != getClass())
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
     }
 }

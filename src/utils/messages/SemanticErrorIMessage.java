@@ -4,7 +4,7 @@ import model.Token;
 import model.symbolTable.Builder;
 import model.symbolTable.Method;
 
-public class SemanticErrorMessage {
+public class SemanticErrorIMessage {
     public static String attributeAlreadyExists(Token t) {
         return basicErrorInit(t) + ": Attribute " + t.getLexeme() + " already exists \n" + basicErrorEnd(t);
     }

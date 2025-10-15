@@ -3,7 +3,7 @@ package model.symbolTable;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIMessage;
 
 public class ClassType extends AbstractType {
     protected AbstractType parametricType;
@@ -25,7 +25,7 @@ public class ClassType extends AbstractType {
             checkParametricType();
         }
         else
-            throw new SemanticException(SemanticErrorMessage.undeclaredType(name));
+            throw new SemanticException(SemanticErrorIMessage.undeclaredType(name));
     }
     protected void checkParametricType() throws SemanticException {
         if (name.getTokenType().equals(TokenType.idClase)) {
@@ -34,7 +34,7 @@ public class ClassType extends AbstractType {
             }
         }
         else if (parametricType != null) {
-            throw new SemanticException(SemanticErrorMessage.parametricTypeNotAllowed(parametricType.getName()));
+            throw new SemanticException(SemanticErrorIMessage.parametricTypeNotAllowed(parametricType.getName()));
         }
     }
 

@@ -3,7 +3,7 @@ package model.symbolTable;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIMessage;
 
 public class Method extends Service {
     private AbstractType returnType;
@@ -31,7 +31,7 @@ public class Method extends Service {
         //if(!returnType.getName().getTokenType().equals(TokenType.reservedVoid) && emptyBody)
         //    throw new SemanticException(SemanticErrorMessage.missingReturnStatement(name));
         if(!emptyBody && modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract))
-            throw new SemanticException(SemanticErrorMessage.abstractMethodWithBody(name));
+            throw new SemanticException(SemanticErrorIMessage.abstractMethodWithBody(name));
 
     }
 

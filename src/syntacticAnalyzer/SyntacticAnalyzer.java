@@ -9,7 +9,7 @@ import model.TokenType;
 import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.exceptions.SyntacticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIMessage;
 import utils.messages.SyntacticErrorMessage;
 
 import static model.SyntacticMethod.*;
@@ -245,7 +245,7 @@ public class SyntacticAnalyzer {
 
             Method newMethod = new Method(n, v, null, t);
             if(symbolTable().getCurrentClass().getMethods().contains(newMethod.getName().getLexeme()))
-                throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(newMethod.getName()));
+                throw new SemanticException(SemanticErrorIMessage.methodAlreadyExists(newMethod.getName()));
 
             symbolTable.getCurrentClass().addMethod(n, newMethod);
             symbolTable.setCurrentService(newMethod);
@@ -264,11 +264,11 @@ public class SyntacticAnalyzer {
                 if(mt instanceof ClassType)
                     ((ClassType) mt).setParametricType(pt);
                 else
-                    throw new SemanticException(SemanticErrorMessage.parametricTypeNotAllowed(pt.getName()));
+                    throw new SemanticException(SemanticErrorIMessage.parametricTypeNotAllowed(pt.getName()));
 
             Method newMethod = new Method(n, v, m, mt);
             if(symbolTable().getCurrentClass().getMethods().contains(newMethod.getName().getLexeme()))
-                throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(newMethod.getName()));
+                throw new SemanticException(SemanticErrorIMessage.methodAlreadyExists(newMethod.getName()));
 
             symbolTable.getCurrentClass().addMethod(n, newMethod);
             symbolTable.setCurrentService(newMethod);
@@ -313,7 +313,7 @@ public class SyntacticAnalyzer {
                 bloque();
             }
             else
-                throw new SemanticException(SemanticErrorMessage.constructorFoundInInterface(t.getName()));
+                throw new SemanticException(SemanticErrorIMessage.constructorFoundInInterface(t.getName()));
         }
         else if (firsts.containsToken(_TipoParametricoOpcional, currentTokenType)) {
             AbstractType pt = _tipoParametricoOpcional();
@@ -360,7 +360,7 @@ public class SyntacticAnalyzer {
             if(symbolTable.getCurrentClass() instanceof Class) {
                 Class c = (Class) symbolTable.getCurrentClass();
                 if(symbolTable().getCurrentClass().getMethods().contains(s.getName().getLexeme()))
-                    throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(s.getName()));
+                    throw new SemanticException(SemanticErrorIMessage.methodAlreadyExists(s.getName()));
 
                 c.addMethod(n, s);
 
@@ -368,7 +368,7 @@ public class SyntacticAnalyzer {
                 bloque();
             }
             else
-                throw new SemanticException(SemanticErrorMessage.constructorFoundInInterface(t.getName()));
+                throw new SemanticException(SemanticErrorIMessage.constructorFoundInInterface(t.getName()));
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Miembro).toString()));

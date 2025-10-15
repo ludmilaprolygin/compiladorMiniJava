@@ -3,7 +3,7 @@ package model.symbolTable;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIMessage;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 
@@ -27,7 +27,7 @@ public abstract class MainElement extends Element {
         if (!attributes.contains(t.getLexeme()))
             attributes.put(t, a);
         else {
-            throw new SemanticException(SemanticErrorMessage.attributeAlreadyExists(t));
+            throw new SemanticException(SemanticErrorIMessage.attributeAlreadyExists(t));
         }
     }
 
@@ -36,7 +36,7 @@ public abstract class MainElement extends Element {
             methods.put(t, m);
         }
         else {
-            throw new SemanticException(SemanticErrorMessage.methodAlreadyExists(t));
+            throw new SemanticException(SemanticErrorIMessage.methodAlreadyExists(t));
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class MainElement extends Element {
 
     public void correctDeclaration () throws SemanticException {
         if (modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic)){
-            throw new SemanticException(SemanticErrorMessage.mainElementCannotBeStatic(modifier));
+            throw new SemanticException(SemanticErrorIMessage.mainElementCannotBeStatic(modifier));
         }
     }
 
@@ -88,7 +88,7 @@ public abstract class MainElement extends Element {
                     Token thisToken = methods.getTokenByName(m.getName().getLexeme());
                     Method thisMethod = methods.get(thisToken);
                     if(thisMethod != null && thisMethod.equalSignature(m)) {
-                        throw new SemanticException(SemanticErrorMessage.methodDoesNotOverrideCorrectly(thisMethod));
+                        throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(thisMethod));
                     }
                 }
             }

@@ -2,7 +2,7 @@ package model.symbolTable;
 
 import model.Token;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIMessage;
 
 public abstract class Service extends Element {
     protected Token visibility;
@@ -20,7 +20,7 @@ public abstract class Service extends Element {
 
     public void addParameter(Parameter p) throws SemanticException{
         if(parameters.contains(p.getName().getLexeme()))
-            throw new SemanticException(SemanticErrorMessage.parameterAlreadyExists(p.getName()));
+            throw new SemanticException(SemanticErrorIMessage.parameterAlreadyExists(p.getName()));
         parameters.addLast(p);
     }
 

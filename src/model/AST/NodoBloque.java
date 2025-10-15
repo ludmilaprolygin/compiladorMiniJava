@@ -19,6 +19,7 @@ public class NodoBloque extends NodoSentencia {
         statements.add(statement);
     }
     public void check() throws SemanticException {
-        //TODO - complete
+        for(NodoSentencia s : statements)
+            s.check();
     }
 }

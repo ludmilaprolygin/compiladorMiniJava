@@ -3,7 +3,7 @@ package model.symbolTable;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorMessage;
+import utils.messages.SemanticErrorIMessage;
 
 public class Parameter extends Element{
     AbstractType type;
@@ -20,7 +20,7 @@ public class Parameter extends Element{
             st.getCurrentClass().getParametricType().getName().getLexeme().equals(type.getName().getLexeme())) {}
         else if(type.getName().getTokenType().equals(TokenType.idClase) &&
                 (!st.getClasses().contains(type.getName().getLexeme()) && !SymbolTable.symbolTable().getInterfaces().contains(type.getName().getLexeme())))
-            throw new SemanticException(SemanticErrorMessage.undeclaredType(type.getName()));
+            throw new SemanticException(SemanticErrorIMessage.undeclaredType(type.getName()));
         type.correctDeclaration();
     }
 
