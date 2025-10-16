@@ -8,5 +8,5 @@ public class UniversalType extends AbstractType {
         super(null);
     }
 
-    public void compatible(AbstractType t) throws SemanticException { }
+    public boolean compatible(AbstractType t) throws SemanticException { return true; }
 }

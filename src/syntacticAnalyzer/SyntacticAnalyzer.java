@@ -557,7 +557,7 @@ public class SyntacticAnalyzer {
             match(semicolon);
         }
         else if (firsts.containsToken(Return, currentTokenType)) {
-            returnStatement();
+            toReturn = returnStatement();
             match(semicolon);
         }
         else if (firsts.containsToken(Bloque, currentTokenType)) {
@@ -567,7 +567,7 @@ public class SyntacticAnalyzer {
             toReturn = ifStatement();
         }
         else if (firsts.containsToken(While, currentTokenType)) {
-            whileStatement();
+            toReturn = whileStatement();
         }
         else if (firsts.containsToken(_ForStatement, currentTokenType)) {
             _forStatement();
@@ -591,9 +591,9 @@ public class SyntacticAnalyzer {
             _restoVarLocalClasica();
         }
         else if (firsts.containsToken(ExpresionCompuesta, currentTokenType)) {
-            expresionCompuesta();
+            NodoExpresion e = expresionCompuesta();
             _restoVarLocalClasica();
-            _restoExpresion();
+            _restoExpresion(e);
             _operadorTernario();
             match(semicolon);
         }
@@ -636,17 +636,24 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void returnStatement() throws Exception {
+    private NodoSentencia returnStatement() throws Exception {
+        NodoSentencia toReturn;
         match(reservedReturn);
-        expresionOpcional();
+        NodoExpresion expresion = expresionOpcional();
+        toReturn = new NodoReturn(expresion);
+        return toReturn;
     }
 
-    private void expresionOpcional() throws Exception {
+    private NodoExpresion expresionOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn;
         if (firsts.containsToken(Expresion, currentTokenType)) {
-            expresion();
+            toReturn = expresion();
         }
-        else { /* epsilon */ }
+        else { /* epsilon */
+            toReturn = new NodoExpresionVacia();
+        }
+        return toReturn;
     }
 
     private NodoSentencia ifStatement() throws Exception {
@@ -674,27 +681,33 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void whileStatement() throws Exception {
+    private NodoSentencia whileStatement() throws Exception {
+        NodoSentencia toReturn;
         match(reservedWhile);
         match(openParenthesis);
-        expresion();
+        NodoExpresion expresion = expresion();
         match(closeParenthesis);
-        sentencia();
+        NodoSentencia sentencia = sentencia();
+        toReturn = new NodoWhile(expresion, sentencia);
+        return toReturn;
     }
 
     private NodoExpresion expresion() throws Exception {
         NodoExpresion e = expresionCompuesta();
-        _restoExpresion();
+        e = _restoExpresion(e);
         return e;
     }
 
-    private void _restoExpresion() throws Exception {
+    private NodoExpresion _restoExpresion(NodoExpresion ladoIzquierdo) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = ladoIzquierdo;
         if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
             operadorAsignacion();
-            expresionCompuesta();
+            NodoExpresion ladoDerecho = expresionCompuesta();
+            toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
     private void operadorAsignacion() throws Exception {
@@ -703,28 +716,33 @@ public class SyntacticAnalyzer {
 
     private NodoExpresion expresionCompuesta() throws Exception {
         NodoExpresion e = expresionBasica();
-        _restoExpresionCompuesta();
+        e = _restoExpresionCompuesta(e);
         return e;
     }
 
-    private void _restoExpresionCompuesta() throws Exception {
+    private NodoExpresion _restoExpresionCompuesta(NodoExpresion ladoIzquierdo) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = ladoIzquierdo;
         if (firsts.containsToken(OperadorBinario, currentTokenType)) {
-            operadorBinario();
-            expresionBasica();
-            _restoExpresionCompuesta();
+            Token operador = operadorBinario();
+            NodoExpresion ladoDerecho = expresionBasica();
+            NodoExpresion expresionBinaria = new NodoExpresionBinaria(operador, ladoIzquierdo, ladoDerecho);
+            toReturn = _restoExpresionCompuesta(expresionBinaria);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
-    private void operadorBinario() throws Exception {
+    private Token operadorBinario() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn = currentToken;
         if (firsts.containsToken(OperadorBinario, currentTokenType)) {
             match(currentTokenType);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorBinario).toString()));
         }
+        return toReturn;
     }
 
     private NodoExpresion expresionBasica() throws Exception {

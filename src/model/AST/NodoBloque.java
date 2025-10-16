@@ -24,9 +24,15 @@ public class NodoBloque extends NodoSentencia {
     }
 
     public String toString(int depth){
-        String toReturn = "";
-        for(NodoSentencia s : statements)
+        String toReturn = "{\n";
+        for(NodoSentencia s : statements){
+            for (int i = 0; i < depth * 3; i++)
+                toReturn += " ";
             toReturn += s.toString(depth + 1) + "\n";
+        }
+        for (int i = 0; i < depth * 3; i++)
+            toReturn += " ";
+        toReturn += "}";
         return toReturn;
     }
 }

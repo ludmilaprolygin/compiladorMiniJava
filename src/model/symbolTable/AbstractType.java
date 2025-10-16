@@ -21,8 +21,9 @@ public abstract class AbstractType extends Element {
         return name.getLexeme().equals(t.getName().getLexeme());
     }
 
-    public void compatible(AbstractType t) throws SemanticException {
+    public boolean compatible(AbstractType t) throws SemanticException {
         if (t.getClass() != getClass())
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
+        return true;
     }
 }
