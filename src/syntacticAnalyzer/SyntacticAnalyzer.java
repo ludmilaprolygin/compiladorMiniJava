@@ -337,7 +337,7 @@ public class SyntacticAnalyzer {
             _restoMiembro(t, n);
         }
         else if (currentTokenType.equals(dot)) {
-            _encadenado();
+            Encadenado e = _encadenado();
             _asignacionOpcional(new NodoExpresionVacia());
         }
         else {
@@ -587,7 +587,7 @@ public class SyntacticAnalyzer {
             match(dot);
             match(idMetVar);
             argsActuales();
-            _restoEncadenado();
+            _restoEncadenado(new EncadenadoVacio());
             _asignacionOpcional(new NodoExpresionVacia());
         }
         else if (currentTokenType.equals(comma)) {
@@ -849,41 +849,43 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         Encadenado toReturn = null;
         if (firsts.containsToken(_Encadenado, currentTokenType)) {
-            _encadenado();
+            toReturn = _encadenado();
             _restoReferencia();
         }
         else { /* epsilon */ }
         return toReturn;
     }
 
-    private void _encadenado () throws Exception {
+    private Encadenado _encadenado () throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Encadenado toReturn = new EncadenadoVacio();
         if (currentTokenType.equals(dot)) {
             match(dot);
             match(idMetVar);
-            _restoEncadenado();
+            toReturn = _restoEncadenado(toReturn);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Encadenado).toString()));
         }
+        return toReturn;
     }
 
-    private Encadenado _restoEncadenado () throws Exception {
+    private Encadenado _restoEncadenado (Encadenado encadenado) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        Encadenado toReturn = null; //TODO - aca hay un null
+        Encadenado toReturn = encadenado; //TODO - aca hay un null
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
             Token token = currentToken;
             java.util.List<NodoExpresion> args = argsActuales();
-            Encadenado e = _restoEncadenado();
-            toReturn = new NodoLLamadaEncadenada(token, e, args);
+            Encadenado e = _restoEncadenado(encadenado);
+            toReturn.setEncadenado(new NodoLLamadaEncadenada(token, e, args));
         }
         else if(currentTokenType.equals(dot)) {
             Token token;
             match(dot);
             token = currentToken;
             match(idMetVar);
-            Encadenado e = _restoEncadenado();
-            toReturn = new NodoVarEncadenada(token, e);
+            Encadenado e = _restoEncadenado(encadenado);
+            toReturn.setEncadenado(new NodoVarEncadenada(token, e));
         }
         else { /* epsilon */ }
         return toReturn;

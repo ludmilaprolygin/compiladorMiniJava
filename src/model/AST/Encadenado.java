@@ -4,5 +4,6 @@ import model.symbolTable.AbstractType;
 import utils.exceptions.SemanticException;
 
 public abstract class Encadenado {
+    public abstract void setEncadenado(Encadenado encadenado);
     public abstract void check(AbstractType t) throws SemanticException;
 }

@@ -14,6 +14,10 @@ public class NodoVarEncadenada extends Encadenado{
         nombre = t;
         encadenado = e;
     }
+    public void setEncadenado(Encadenado encadenado){
+        this.encadenado = encadenado;
+    }
+
     @Override
     public void check(AbstractType t) throws SemanticException {
 
