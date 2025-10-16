@@ -336,7 +336,7 @@ public class SyntacticAnalyzer {
         }
         else if (currentTokenType.equals(dot)) {
             _encadenado();
-            _asignacionOpcional();
+            _asignacionOpcional(new NodoExpresionVacia());
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroIdClase).toString()));
@@ -383,8 +383,8 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
             match(currentTokenType);
-            expresionCompuesta();
-            _operadorTernario();
+            NodoExpresion expresion = expresionCompuesta();
+            _operadorTernario(expresion);
         }
         else { /* epsilon */ }
     }
@@ -545,7 +545,7 @@ public class SyntacticAnalyzer {
             _decisorExpresionIdClase();
         }
         else if (firsts.containsToken(Expresion, currentTokenType)) {
-            expresion();
+            toReturn = new NodoSentenciaConExpresion(expresion());
             match(semicolon);
         }
         else if (firsts.containsToken(_VarLocalClasica, currentTokenType)) {
@@ -585,7 +585,7 @@ public class SyntacticAnalyzer {
             match(idMetVar);
             argsActuales();
             _restoEncadenado();
-            _asignacionOpcional();
+            _asignacionOpcional(new NodoExpresionVacia());
         }
         else if (currentTokenType.equals(comma)) {
             _restoVarLocalClasica();
@@ -594,14 +594,14 @@ public class SyntacticAnalyzer {
             NodoExpresion e = expresionCompuesta();
             _restoVarLocalClasica();
             _restoExpresion(e);
-            _operadorTernario();
+            _operadorTernario(e);
             match(semicolon);
         }
         else if (currentTokenType.equals(lesserOp)) {
             _tipoParametricoOpcional();
             match(idMetVar);
             _restoVarLocalClasica();
-            _asignacionOpcional();
+            _asignacionOpcional(new NodoExpresionVacia());
 
         }
         else {
@@ -621,19 +621,23 @@ public class SyntacticAnalyzer {
 
     private void _restoVarLocal() throws Exception {
         match(assignOp);
-        expresionCompuesta();
-        _operadorTernario();
+        NodoExpresion expresion = expresionCompuesta();
+        _operadorTernario(expresion);
     }
 
-    private void _operadorTernario() throws Exception {
+    private NodoExpresion _operadorTernario(NodoExpresion e) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = new NodoExpresionVacia();
         if(currentTokenType.equals(questionMark)) {
+            e.check().compatible(new BooleanType(null));
             match(questionMark);
-            expresion();
+            AbstractType expTrue = expresion().check();
             match(colon);
-            expresion();
+            AbstractType expFalse = expresion().check();
+            expTrue.compatible(expFalse);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
     private NodoSentencia returnStatement() throws Exception {
@@ -869,7 +873,7 @@ public class SyntacticAnalyzer {
             expresionParentizada();
         }
         else if (firsts.containsToken(_OperadorTernario, currentTokenType)) {
-            _operadorTernario();
+            _operadorTernario(new NodoExpresionVacia());
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString()));
@@ -1093,7 +1097,7 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(_DeclaracionOpcional, currentTokenType)) {
             _declaracionTipoOpcional();
             match(idMetVar);
-            _asignacionOpcional();
+            _asignacionOpcional(new NodoExpresionVacia());
         }
         else { /* epsilon */ }
     }
@@ -1106,7 +1110,7 @@ public class SyntacticAnalyzer {
             _tipoParametricoOpcional();
             match(idMetVar);
             _restoVarLocalClasica();
-            _asignacionOpcional();
+            _asignacionOpcional(new NodoExpresionVacia());
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(VarLocal).toString()));
@@ -1124,14 +1128,17 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
     }
 
-    private void _asignacionOpcional() throws Exception {
+    private NodoExpresion _asignacionOpcional(NodoExpresion ladoIzquierdo) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = ladoIzquierdo;
         if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
             operadorAsignacion();
-            expresionCompuesta();
-            _operadorTernario();
+            NodoExpresion ladoDerecho = expresionCompuesta();
+            _operadorTernario(ladoDerecho);
+            toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho);
             match(semicolon);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 }
