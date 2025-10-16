@@ -519,6 +519,7 @@ public class SyntacticAnalyzer {
         match(openBracket);
         if(symbolTable.getCurrentService() instanceof Method)
             ((Method) symbolTable.getCurrentService()).setCompletedBody();
+        symbolTable.setBloque(toReturn);
         listaSentencias(toReturn);
         match(closeBracket);
         return toReturn;
@@ -613,13 +614,16 @@ public class SyntacticAnalyzer {
     }
 
     private NodoSentencia varLocal() throws Exception {
-        NodoExpresion expresion = _inicioVarLocal();
-        expresion = _restoVarLocal(expresion);
+        NodoExpresion expresion;
+        NodoVar e = _inicioVarLocal();
+        expresion = _restoVarLocal(e);
+        e.setTipo(expresion.check());
+        symbolTable().getBloque().addVariable(e);
         return new NodoSentenciaConExpresion(expresion);
     }
 
-    private NodoExpresion _inicioVarLocal() throws Exception {
-        NodoExpresion toReturn;
+    private NodoVar _inicioVarLocal() throws Exception {
+        NodoVar toReturn;
         match(reservedVar);
         toReturn = new NodoVar(currentToken);
         match(idMetVar);

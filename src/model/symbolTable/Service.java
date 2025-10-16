@@ -1,6 +1,7 @@
 package model.symbolTable;
 
 import model.AST.NodoBloque;
+import model.AST.NodoBloqueVacio;
 import model.AST.NodoOperando;
 import model.Token;
 import utils.exceptions.SemanticException;
@@ -17,6 +18,7 @@ public abstract class Service extends Element {
         super(n);
         visibility = v;
         parameters = new List();
+        bloque = new NodoBloqueVacio();
     }
 
     public void correctDeclaration() throws SemanticException {

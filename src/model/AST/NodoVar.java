@@ -21,6 +21,10 @@ public class NodoVar extends NodoOperando {
         this.encadenado = encadenado;
     }
 
+    public void setTipo (AbstractType a){
+        tipo = a;
+    }
+
     @Override
     public AbstractType check() throws SemanticException {
         return new UniversalType();

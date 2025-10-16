@@ -1,6 +1,7 @@
 package model.AST;
 
 import model.symbolTable.AbstractType;
+import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -18,6 +19,7 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         AbstractType right = ladoDerecho.check();
         if(!left.compatible(right))
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(left.getName()));
+
         return right;
     }
 

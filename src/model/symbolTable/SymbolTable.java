@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import model.AST.NodoBloque;
 import model.AST.NodoBloqueVacio;
 import model.Token;
 import utils.exceptions.SemanticException;
@@ -17,6 +18,7 @@ public class SymbolTable extends Element {
     private Service currentService;
     private HierarchyTree classHierarchy;
     private Class objectClass;
+    private NodoBloque bloque;
 
     private SymbolTable() {
         reset();
@@ -43,6 +45,7 @@ public class SymbolTable extends Element {
     public void reset() {
         classes = new Table<>();
         interfaces = new Table<>();
+        bloque = new NodoBloqueVacio();
         predefined();
     }
 
@@ -61,6 +64,9 @@ public class SymbolTable extends Element {
     public Service getCurrentService() {
         return currentService;
     }
+
+    public void setBloque(NodoBloque b) { bloque = b; }
+    public NodoBloque getBloque() { return bloque; }
 
     public void addClass(Token t, Class c) throws SemanticException {
         if(interfaces.contains(t.getLexeme()))
