@@ -18,6 +18,8 @@ import static model.symbolTable.SymbolTable.symbolTable;
 
 import model.symbolTable.Class;
 
+import java.util.LinkedList;
+
 public class SyntacticAnalyzer {
     private Token currentToken;
     private final LexicalAnalyzer lexicalAnalyzer;
@@ -384,7 +386,7 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
             match(currentTokenType);
             NodoExpresion expresion = expresionCompuesta();
-            _operadorTernario(expresion);
+            expresion = _operadorTernario(expresion);
         }
         else { /* epsilon */ }
     }
@@ -628,7 +630,7 @@ public class SyntacticAnalyzer {
         NodoExpresion toReturn;
         match(assignOp);
         NodoExpresion expresion = expresionCompuesta();
-        _operadorTernario(expresion);
+        expresion = _operadorTernario(expresion);
         toReturn = new NodoExpresionAsignacion(ladoIzquierdo, expresion);
         return toReturn;
     }
@@ -638,6 +640,7 @@ public class SyntacticAnalyzer {
         NodoExpresion toReturn = e;
         if(currentTokenType.equals(questionMark)) {
             e.check().compatible(new BooleanType(null));
+            Token t = currentToken;
             match(questionMark);
             NodoExpresion expTrue = expresion();
             AbstractType expTrueType = expTrue.check();
@@ -645,6 +648,7 @@ public class SyntacticAnalyzer {
             NodoExpresion expFalse = expresion();
             AbstractType expFalseType = expFalse.check();
             expTrueType.compatible(expFalseType);
+            toReturn = new NodoExpresionTernaria(t, e, expTrue, expFalse);
         }
         else { /* epsilon */ }
         return toReturn;
@@ -763,8 +767,9 @@ public class SyntacticAnalyzer {
         NodoExpresion toReturn = new NodoExpresionVacia(); //TODO - esto es un mock, borrar
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(OperadorUnario, currentTokenType)) {
-            operadorUnario();
-            operando();
+            Token operador = operadorUnario();
+            NodoExpresion expresion = operando();
+            toReturn = new NodoExpresionUnaria(operador, expresion);
         }
         else if (firsts.containsToken(Operando, currentTokenType)) {
             toReturn = operando();
@@ -775,14 +780,16 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void operadorUnario() throws Exception {
+    private Token operadorUnario() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Token toReturn = currentToken;
         if (firsts.containsToken(OperadorUnario, currentTokenType)) {
             match(currentTokenType);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(OperadorUnario).toString()));
         }
+        return toReturn;
     }
 
     private NodoExpresion operando() throws Exception {
@@ -792,7 +799,7 @@ public class SyntacticAnalyzer {
             toReturn = primitivo();
         }
         else if (firsts.containsToken(Referencia, currentTokenType)) {
-            referencia();
+            toReturn = referencia();
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Operando).toString()));
@@ -824,18 +831,29 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void referencia() throws Exception {
-        primario();
-        _restoReferencia();
+    private NodoExpresion referencia() throws Exception {
+        NodoExpresion var = primario();
+        Encadenado e = _restoReferencia();
+        NodoVar v = null;
+        if(var instanceof NodoVar){
+            v = (NodoVar) var;
+            v.setEncadenado(e);
+            return v;
+        }
+        else{
+            return var;
+        }
     }
 
-    private void _restoReferencia() throws Exception {
+    private Encadenado _restoReferencia() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Encadenado toReturn = null;
         if (firsts.containsToken(_Encadenado, currentTokenType)) {
             _encadenado();
             _restoReferencia();
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
     private void _encadenado () throws Exception {
@@ -850,22 +868,30 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _restoEncadenado () throws Exception {
+    private Encadenado _restoEncadenado () throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        Encadenado toReturn = null; //TODO - aca hay un null
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
-            argsActuales();
-            _restoEncadenado();
+            Token token = currentToken;
+            java.util.List<NodoExpresion> args = argsActuales();
+            Encadenado e = _restoEncadenado();
+            toReturn = new NodoLLamadaEncadenada(token, e, args);
         }
         else if(currentTokenType.equals(dot)) {
+            Token token;
             match(dot);
+            token = currentToken;
             match(idMetVar);
-            _restoEncadenado();
+            Encadenado e = _restoEncadenado();
+            toReturn = new NodoVarEncadenada(token, e);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
-    private void primario() throws Exception {
+    private NodoExpresion primario() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = new NodoExpresionVacia();
         if (currentTokenType.equals(reservedThis) || currentTokenType.equals(stringLiteral)) {
             match(currentTokenType);
         }
@@ -873,6 +899,7 @@ public class SyntacticAnalyzer {
             llamadaConstructor();
         }
         else if (currentTokenType.equals(idMetVar)) {
+            toReturn = new NodoVar(currentToken);
             match(idMetVar);
             _restoLlamadaMetodo();
         }
@@ -880,7 +907,7 @@ public class SyntacticAnalyzer {
             llamadaMetodoEstatico();
         }
         else if (firsts.containsToken(ExpresionParentizada, currentTokenType)) {
-            expresionParentizada();
+            toReturn = expresionParentizada();
         }
         else if (firsts.containsToken(_OperadorTernario, currentTokenType)) {
             _operadorTernario(new NodoExpresionVacia());
@@ -888,6 +915,7 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString()));
         }
+        return toReturn;
     }
 
     private void _restoLlamadaMetodo() throws Exception {
@@ -935,36 +963,41 @@ public class SyntacticAnalyzer {
         argsActuales();
     }
 
-    private void expresionParentizada() throws Exception {
+    private NodoExpresion expresionParentizada() throws Exception {
         match(openParenthesis);
-        expresion();
+        NodoExpresion toReturn = expresion();
         match(closeParenthesis);
+        return toReturn;
     }
 
-    private void argsActuales() throws Exception {
+    private java.util.List<NodoExpresion> argsActuales() throws Exception {
         match(openParenthesis);
-        listaExpsOpcional();
+        java.util.List<NodoExpresion> toReturn = listaExpsOpcional();
         match(closeParenthesis);
+        return toReturn;
     }
 
-    private void listaExpsOpcional() throws Exception {
+    private java.util.List<NodoExpresion> listaExpsOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        java.util.List<NodoExpresion> toReturn = new LinkedList<>();
         if (firsts.containsToken(ListaExps, currentTokenType)) {
-            listaExps();
+            listaExps(toReturn);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
-    private void listaExps() throws Exception {
-        expresion();
-        _restoListaExps();
+    private void listaExps(java.util.List<NodoExpresion> list) throws Exception {
+        NodoExpresion e = expresion();
+        list.addLast(e);
+        _restoListaExps(list);
     }
 
-    private void _restoListaExps() throws Exception {
+    private void _restoListaExps(java.util.List<NodoExpresion> list) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         if (currentTokenType.equals(comma)) {
             match(comma);
-            listaExps();
+            listaExps(list);
         }
         else { /* epsilon */ }
     }

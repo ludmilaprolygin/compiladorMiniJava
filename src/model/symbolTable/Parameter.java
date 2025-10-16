@@ -32,7 +32,6 @@ public class Parameter extends Element{
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Parameter other = (Parameter) obj;
-        return name.getLexeme().equals(other.name.getLexeme()) &&
-                type.equals(other.type);
+        return type.equals(other.type);
     }
 }

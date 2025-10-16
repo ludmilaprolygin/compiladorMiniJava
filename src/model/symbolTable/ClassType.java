@@ -3,7 +3,10 @@ package model.symbolTable;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
+
+import static model.symbolTable.SymbolTable.symbolTable;
 
 public class ClassType extends AbstractType {
     protected AbstractType parametricType;
@@ -51,5 +54,14 @@ public class ClassType extends AbstractType {
                     (parametricType != null && type.parametricType != null && parametricType.equals(type.parametricType));
         }
         return toReturn;
+    }
+
+    public boolean compatible(AbstractType t) throws SemanticException {
+        super.compatible(t);
+        if(!t.getName().getLexeme().equals(name.getLexeme())) {
+            if(!symbolTable().getClassHierarchy().isAncestor(t.getName().getLexeme(), name.getLexeme()))
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
+        }
+        return true;
     }
 }
