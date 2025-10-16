@@ -1,9 +1,13 @@
 package model.symbolTable;
 
 import model.AST.NodoBloque;
+import model.AST.NodoOperando;
 import model.Token;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
+
+import java.util.LinkedList;
 
 public abstract class Service extends Element {
     protected Token visibility;
@@ -25,7 +29,6 @@ public abstract class Service extends Element {
             throw new SemanticException(SemanticErrorIMessage.parameterAlreadyExists(p.getName()));
         parameters.addLast(p);
     }
-
     public List getParameters() { return parameters; }
 
     public Token getVisibility() { return visibility; }

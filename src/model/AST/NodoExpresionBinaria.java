@@ -2,6 +2,7 @@ package model.AST;
 
 import model.Token;
 import model.symbolTable.AbstractType;
+import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 
 public class NodoExpresionBinaria extends NodoExpresion {
@@ -17,7 +18,7 @@ public class NodoExpresionBinaria extends NodoExpresion {
 
     @Override
     public AbstractType check() throws SemanticException {
-        return null;
+        return new UniversalType();
     }
 
     @Override

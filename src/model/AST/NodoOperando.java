@@ -9,7 +9,7 @@ public abstract class NodoOperando extends NodoExpresion {
     public NodoOperando(Token token){
         this.token = token;
     }
-
+    public Token getToken() { return token; }
     public abstract AbstractType check() throws SemanticException;
     public String toString(int depth){
         String toReturn = "";

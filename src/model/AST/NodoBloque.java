@@ -1,6 +1,7 @@
 package model.AST;
 
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,12 +9,22 @@ import java.util.List;
 public class NodoBloque extends NodoSentencia {
 
     protected final List<NodoSentencia> statements;
+    protected List<NodoOperando> variables;
 
     public NodoBloque() {
         statements = new LinkedList<>();
+        variables = new LinkedList<>();
     }
 
     public List<NodoSentencia> getStatements() { return statements; }
+    public List<NodoOperando> getVariables() { return variables; }
+    public void addVariable(NodoOperando variable) throws SemanticException {
+        for(NodoOperando o : variables){
+            if(o.getToken().getLexeme().equals(variable.getToken().getLexeme()))
+                throw new SemanticException(SemanticErrorIIMessage.variableAlreadyExists(variable.getToken()));
+        }
+        variables.addLast(variable);
+    }
 
     public void addStatement (NodoSentencia statement) {
         statements.add(statement);
