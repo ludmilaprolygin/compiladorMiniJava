@@ -748,8 +748,9 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(OperadorBinario, currentTokenType)) {
             Token operador = operadorBinario();
             NodoExpresion ladoDerecho = expresionBasica();
-            NodoExpresion expresionBinaria = new NodoExpresionBinaria(operador, ladoIzquierdo, ladoDerecho);
-            toReturn = _restoExpresionCompuesta(expresionBinaria);
+            ladoDerecho = _restoExpresionCompuesta(ladoDerecho);
+            toReturn = new NodoExpresionBinaria(operador, ladoIzquierdo, ladoDerecho);
+
         }
         else { /* epsilon */ }
         return toReturn;
