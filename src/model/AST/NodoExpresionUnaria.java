@@ -7,6 +7,7 @@ import model.symbolTable.BooleanType;
 import model.symbolTable.IntType;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 public class NodoExpresionUnaria extends NodoExpresion{
 
@@ -30,6 +31,8 @@ public class NodoExpresionUnaria extends NodoExpresion{
         }
         else if (operador.getTokenType() == TokenType.notOp)
             expType.compatible(new BooleanType(null));
+        else
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
         return expType;
     }
 
