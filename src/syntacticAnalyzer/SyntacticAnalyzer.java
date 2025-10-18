@@ -553,7 +553,7 @@ public class SyntacticAnalyzer {
             match(semicolon);
         }
         else if (firsts.containsToken(_VarLocalClasica, currentTokenType)) {
-            _varLocalClasica();
+            toReturn = _varLocalClasica();
             match(semicolon);
         }
         else if (firsts.containsToken(VarLocal, currentTokenType)) {
@@ -594,8 +594,8 @@ public class SyntacticAnalyzer {
         else if (currentTokenType.equals(comma)) {
             _restoVarLocalClasica();
         }
-        else if (firsts.containsToken(ExpresionCompuesta, currentTokenType)) {
-            NodoExpresion e = expresionCompuesta();
+        else if (firsts.containsToken(ExpresionBasica, currentTokenType)) {
+            NodoExpresion e = expresionBasica();
             _restoVarLocalClasica();
             _restoExpresion(e);
             _operadorTernario(e);
@@ -769,7 +769,7 @@ public class SyntacticAnalyzer {
     }
 
     private NodoExpresion expresionBasica() throws Exception {
-        NodoExpresion toReturn = new NodoExpresionVacia(); //TODO - esto es un mock, borrar
+        NodoExpresion toReturn;
         TokenType currentTokenType = getCurrentTokenType();
         if (firsts.containsToken(OperadorUnario, currentTokenType)) {
             Token operador = operadorUnario();
@@ -1153,19 +1153,24 @@ public class SyntacticAnalyzer {
     }
 
     // Opcional Variables Locales Clásicas E2
-    private void _varLocalClasica() throws Exception {
+    private NodoSentencia _varLocalClasica() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoSentencia toReturn = new NodoSentenciaVacia();
         if(firsts.containsToken(Tipo, currentTokenType)) {
-            tipo();
+            NodoVar var;
+            AbstractType tipo = tipo();
             _tipoParametricoOpcional();
+            var = new NodoVar(currentToken);
             match(idMetVar);
+            var.setTipo(tipo);
             _restoVarLocalClasica();
             _asignacionOpcional(new NodoExpresionVacia());
+            symbolTable().getBloque().addVariable(var);
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(VarLocal).toString()));
         }
-
+        return toReturn;
     }
 
     private void _restoVarLocalClasica() throws Exception{

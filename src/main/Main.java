@@ -26,12 +26,17 @@ public class Main {
         initialize();
 
         if (args.length == 1) {
-            String fileName = args[0];
-            openFile(fileName);
-            //lexicalAnalysis();
-            syntacticAnalysis();
-            closeFile();
-            semanticAnalysis();
+            try{
+                String fileName = args[0];
+                openFile(fileName);
+                //lexicalAnalysis();
+                syntacticAnalysis();
+                closeFile();
+                semanticAnalysis();
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         }
         else {
             System.out.println(GenericErrorMessage.MISUSE_ERROR);
@@ -81,27 +86,17 @@ public class Main {
         System.out.println(lexicalConsoleMessage.getErrorMessage());
     }
 
-    private static void syntacticAnalysis() {
-        try {
-            lexicalAnalyzer.init(sourceManager);
-            syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    private static void syntacticAnalysis() throws Exception {
+        lexicalAnalyzer.init(sourceManager);
+        syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
     }
 
-    private static void semanticAnalysis() {
-        try {
-            symbolTable.correctDeclaration();
-            symbolTable.consolidate();
-            System.out.println(symbolTable);
-            symbolTable.check();
+    private static void semanticAnalysis() throws SemanticException{
+        symbolTable.correctDeclaration();
+        symbolTable.consolidate();
+        System.out.println(symbolTable);
+        symbolTable.check();
 
-            System.out.println("[SinErrores]");
-        }
-        catch (SemanticException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("[SinErrores]");
     }
 }
