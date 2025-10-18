@@ -221,12 +221,14 @@ public class Class extends MainElement {
             myBuilder = (Builder) builderTable.getFirst();
             myBuilder.setBloque(new NodoBloqueVacio());
         }
+        /*
         for(Element b : parentBuilder){
             if(!((Builder)b).getParameters().isEmpty() && myBuilder != null && myBuilder.getParameters().isEmpty()){
                 throw new SemanticException(SemanticErrorIMessage.builderDoesNotOverrideCorrectly(myBuilder));
             }
 
         }
+         */
     }
     private void consolidateMethodsFromExtension(Table<Method> parentMethods) throws SemanticException{
         for(Method m : parentMethods.values()){
