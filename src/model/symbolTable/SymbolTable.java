@@ -90,8 +90,19 @@ public class SymbolTable extends Element {
     public void addInterface(Token t, Interface i) throws SemanticException {
         if(classes.contains(t.getLexeme()))
             throw new SemanticException(SemanticErrorIMessage.classAlreadyExists(t));
-        else if(!interfaces.contains(t.getLexeme()))
+        else if(!interfaces.contains(t.getLexeme())){
             interfaces.put(t, i);
+            if(i.getInheritance() != null) {
+                HierarchyTree ht = classHierarchy.search(i.getInheritance().getLexeme());
+                if (ht != null)
+                    ht.addDescendant(new HierarchyTree(t.getLexeme()));
+                else {
+                    HierarchyTree parent = new HierarchyTree(i.getInheritance().getLexeme());
+                    classHierarchy.addDescendant(parent);
+                    parent.addDescendant(new HierarchyTree(t.getLexeme()));
+                }
+            }
+        }
         else {
             throw new SemanticException(SemanticErrorIMessage.interfaceAlreadyExists(t));
         }

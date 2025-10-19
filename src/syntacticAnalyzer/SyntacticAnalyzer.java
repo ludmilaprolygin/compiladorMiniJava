@@ -83,9 +83,6 @@ public class SyntacticAnalyzer {
             parent = null;
             toReturn = new Interface(modifier, name, parametricType, null, c);
         }
-        else if (parent instanceof Class) {
-            throw new SemanticException(SemanticErrorIMessage.interfaceCannotExtendClass(parent.getName()));
-        }
         else
         {
             toReturn = new Interface(modifier, name, parametricType, (parent != null ? parent.getName() : null));

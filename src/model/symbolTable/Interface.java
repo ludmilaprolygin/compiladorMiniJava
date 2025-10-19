@@ -18,11 +18,17 @@ public class Interface extends MainElement {
 
     @Override
     public void correctDeclaration() throws SemanticException {
-        if(inheritance != null && !symbolTable().getInterfaces().contains(inheritance.getLexeme()))
+        if(inheritance != null && !symbolTable().getInterfaces().contains(inheritance.getLexeme())) {
             if(inheritance != null && symbolTable().getClasses().contains(inheritance.getLexeme()))
                 throw new SemanticException(SemanticErrorIMessage.interfaceExtendingAClass(inheritance));
             else
                 throw new SemanticException(SemanticErrorIMessage.parentDoesNotExist(inheritance));
+        }
+        else {
+            if (symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), inheritance.getLexeme())){
+                throw new SemanticException(SemanticErrorIMessage.circularHierarchy(inheritance));
+            }
+        }
         for (Attribute a : attributes.values())
             a.correctDeclaration();
         for (Method m : methods.values())
