@@ -136,4 +136,12 @@ public class SemanticErrorIMessage {
     public static String classesMustImplementAllInterfaceMethods(Token m) {
         return basicErrorInit(m) + ": Classes that implement interfaces must implement all parent interface methods \n" + basicErrorEnd(m);
     }
+
+    public static String classCannotExtendInterface(Token name) {
+        return basicErrorInit(name) + ": Classes should implement Interfaces, not extend them.\n" + basicErrorEnd(name);
+    }
+
+    public static String classCannotImplementClass(Token name) {
+        return basicErrorInit(name) + ": Classes should extend Classes, not implement them.\n" + basicErrorEnd(name);
+    }
 }

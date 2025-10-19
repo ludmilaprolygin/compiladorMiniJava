@@ -13,6 +13,7 @@ public abstract class MainElement extends Element {
     protected AbstractType parametricType;
     protected Table<Attribute> attributes;
     protected Table<Method> methods;
+    protected char inheritanceType;
 
     public MainElement(Token m, Token n, AbstractType t, Token i) {
         super(n);

@@ -16,6 +16,12 @@ public class Class extends MainElement {
         parentClass = i;
         builderTable = new List();
     }
+    public Class(Token m, Token n, AbstractType t, MainElement i, char it) {
+        super(m, n, t, (i != null ? i.getName() : null));
+        parentClass = i;
+        builderTable = new List();
+        inheritanceType = it;
+    }
 
     public void addConstructor(Token t, Service s) throws SemanticException {
         Builder c = (Builder) s;
@@ -132,6 +138,10 @@ public class Class extends MainElement {
             throw new SemanticException(SemanticErrorIMessage.circularHierarchy(inheritance));
         } else if (symbolTable().getClassHierarchy().isAncestor(name.getLexeme(), parentLexeme)) {
             throw new SemanticException(SemanticErrorIMessage.circularHierarchy(inheritance));
+        } else if (inheritanceType == 'e' && symbolTable().getInterfaces().contains(parentLexeme)) {
+            throw new SemanticException(SemanticErrorIMessage.classCannotExtendInterface(inheritance));
+        } else if (inheritanceType == 'i' && symbolTable().getClasses().contains(parentLexeme)) {
+            throw new SemanticException(SemanticErrorIMessage.classCannotImplementClass(inheritance));
         }
         Class cParent = getParentClass();
         if (cParent != null) {

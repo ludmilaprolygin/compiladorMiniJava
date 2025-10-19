@@ -75,13 +75,22 @@ public class SyntacticAnalyzer {
         match(idClase);
         parametricType = _tipoParametricoOpcional();
 
-        parent = _optionalParent();
+        Object[] herencia = _optionalParent();
+        parent = (MainElement) herencia[0];
+        char c = (char) herencia[1];
 
         if ((parent instanceof Class) && parent.getName().getLexeme().equals("Object")) {
             parent = null;
+            toReturn = new Interface(modifier, name, parametricType, null, c);
+        }
+        else if (parent instanceof Class) {
+            throw new SemanticException(SemanticErrorIMessage.interfaceCannotExtendClass(parent.getName()));
+        }
+        else
+        {
+            toReturn = new Interface(modifier, name, parametricType, (parent != null ? parent.getName() : null));
         }
 
-        toReturn = new Interface(modifier, name, parametricType, (parent != null ? parent.getName() : null));
         symbolTable.addInterface(toReturn.getName(), toReturn);
         symbolTable.setCurrentClass(toReturn);
 
@@ -133,9 +142,11 @@ public class SyntacticAnalyzer {
         name = currentToken;
         match(idClase);
         parametricType =_tipoParametricoOpcional();
-        parent = _optionalParent();
+        Object[] herencia = _optionalParent();
+        parent = (MainElement) herencia[0];
+        char c = (char) herencia[1];
 
-        newClass = new Class(modifier, name, parametricType, parent);
+        newClass = new Class(modifier, name, parametricType, parent, c);
         symbolTable.addClass(name, newClass);
         symbolTable.setCurrentClass(newClass);
 
@@ -144,17 +155,25 @@ public class SyntacticAnalyzer {
         match(closeBracket);
     }
 
-    private MainElement _optionalParent() throws Exception {
+    private Object[] _optionalParent() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         MainElement toReturn;
+        Character c;
+        Object[] parent;
         if (firsts.containsToken(HerenciaOpcional, currentTokenType)) {
             toReturn = herenciaOpcional();
+            c = 'e';
         }
         else if (firsts.containsToken(_InterfaceOpcional, currentTokenType)) {
             toReturn = _interfaceOpcional();
+            c = 'i';
         }
-        else { toReturn = symbolTable.getObjectClass(); }
-        return toReturn;
+        else {
+            toReturn = symbolTable.getObjectClass();
+            c = 'e';
+        }
+        parent = new Object[]{toReturn, c};
+        return parent;
     }
 
     private AbstractType _tipoParametricoOpcional() throws Exception {

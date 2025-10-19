@@ -10,6 +10,11 @@ public class Interface extends MainElement {
     public Interface(Token m, Token n, AbstractType t, Token i) {
         super(m, n, t, i);
     }
+    public Interface(Token m, Token n, AbstractType t, Token i, char it) {
+
+        super(m, n, t, i);
+        inheritanceType = it;
+    }
 
     @Override
     public void correctDeclaration() throws SemanticException {
