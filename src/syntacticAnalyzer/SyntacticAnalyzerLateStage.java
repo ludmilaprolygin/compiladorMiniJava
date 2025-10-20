@@ -419,8 +419,8 @@ public class SyntacticAnalyzerLateStage {
         else if (currentTokenType.equals(comma)) {
             _restoVarLocalClasica();
         }
-        else if (firsts.containsToken(ExpresionCompuesta, currentTokenType)) {
-            expresionCompuesta();
+        else if (firsts.containsToken(ExpresionBasica, currentTokenType)) {
+            expresionBasica();
             _restoVarLocalClasica();
             _restoExpresion();
             _operadorTernario();
