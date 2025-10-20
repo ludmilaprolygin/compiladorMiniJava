@@ -653,10 +653,11 @@ public class SyntacticAnalyzer {
 
     private NodoExpresion _restoVarLocal(NodoExpresion ladoIzquierdo) throws Exception {
         NodoExpresion toReturn;
+        Token o = currentToken;
         match(assignOp);
         NodoExpresion expresion = expresionCompuesta();
         expresion = _operadorTernario(expresion);
-        toReturn = new NodoExpresionAsignacion(ladoIzquierdo, expresion);
+        toReturn = new NodoExpresionAsignacion(ladoIzquierdo, expresion, o);
         return toReturn;
     }
 
@@ -745,16 +746,18 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         NodoExpresion toReturn = ladoIzquierdo;
         if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
-            operadorAsignacion();
+            Token o = operadorAsignacion();
             NodoExpresion ladoDerecho = expresionCompuesta();
-            toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho);
+            toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho, o);
         }
         else { /* epsilon */ }
         return toReturn;
     }
 
-    private void operadorAsignacion() throws Exception {
+    private Token operadorAsignacion() throws Exception {
+        Token o = currentToken;
         match(assignOp);
+        return o;
     }
 
     private NodoExpresion expresionCompuesta() throws Exception {
@@ -1218,10 +1221,10 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         NodoExpresion toReturn = ladoIzquierdo;
         if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
-            operadorAsignacion();
+            Token o = operadorAsignacion();
             NodoExpresion ladoDerecho = expresionCompuesta();
             _operadorTernario(ladoDerecho);
-            toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho);
+            toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho, o);
             match(semicolon);
         }
         else { /* epsilon */ }

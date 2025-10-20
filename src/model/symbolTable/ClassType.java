@@ -71,7 +71,9 @@ public class ClassType extends AbstractType {
            t.getName().getTokenType().equals(idClase) && t.getName().getLexeme().equals("String") && name.getTokenType().equals(TokenType.stringLiteral) ||
            getName().getTokenType().equals(idClase) && getName().getLexeme().equals("String") && t.getName().getTokenType().equals(TokenType.stringLiteral))
             return true;
-        else
+        else if (name.getTokenType().equals(TokenType.stringLiteral) || t.getName().getTokenType().equals(TokenType.stringLiteral))
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
+        else
+            return true;
      }
 }
