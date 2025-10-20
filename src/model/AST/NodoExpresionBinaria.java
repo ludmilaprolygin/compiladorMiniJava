@@ -19,6 +19,8 @@ public class NodoExpresionBinaria extends NodoExpresion {
         ladoDerecho = d;
     }
 
+    public Token getOperador() { return operador; }
+
     @Override
     public AbstractType check() throws SemanticException {
         AbstractType expType = ladoDerecho.check();

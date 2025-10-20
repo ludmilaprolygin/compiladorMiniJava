@@ -70,8 +70,7 @@ public abstract class MainElement extends Element {
         String paramType = (parametricType != null) ? "<" + parametricType.getName().getLexeme() + ">" : "";
         return mod + name.getLexeme() + paramType + inh + " {\n" +
                 "   Attributes: " + attributes.toString() + "\n" +
-                "   Methods: " + methods.toString() + "\n" +
-                "}";
+                "   Methods: " + methods.toString() + "\n";
     }
 
     public void correctDeclaration () throws SemanticException {
@@ -102,6 +101,9 @@ public abstract class MainElement extends Element {
 
     public void check() throws SemanticException {
         for(Method m : methods.values())
+        {
+            symbolTable().setCurrentService(m);
             m.check();
+        }
     }
 }

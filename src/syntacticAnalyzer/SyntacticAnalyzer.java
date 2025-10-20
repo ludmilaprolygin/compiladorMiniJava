@@ -562,7 +562,7 @@ public class SyntacticAnalyzer {
         else if (currentTokenType.equals(idClase)) {
             Token token = currentToken;
             match(idClase);
-            _decisorExpresionIdClase(token);
+            toReturn = _decisorExpresionIdClase(token);
         }
         else if (firsts.containsToken(Expresion, currentTokenType)) {
             toReturn = new NodoSentenciaConExpresion(expresion());
@@ -598,8 +598,9 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void _decisorExpresionIdClase(Token token) throws Exception {
+    private NodoSentencia _decisorExpresionIdClase(Token token) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoSentencia toReturn = new NodoSentenciaVacia();
         if (currentTokenType.equals(dot)) {
             match(dot);
             match(idMetVar);
@@ -611,11 +612,14 @@ public class SyntacticAnalyzer {
             _restoVarLocalClasica();
         }
         else if (firsts.containsToken(ExpresionBasica, currentTokenType)) {
+            Token t = currentToken;
             NodoExpresion e = expresionBasica();
+            NodoExpresion v = new NodoVar(t, new ClassType(token));
             _restoVarLocalClasica();
-            _restoExpresion(e);
-            _operadorTernario(e);
+            v = _restoExpresion(v);
+            v = _operadorTernario(v);
             match(semicolon);
+            toReturn = new NodoSentenciaConExpresion(v);
         }
         else if (currentTokenType.equals(lesserOp)) {
             _tipoParametricoOpcional();
@@ -627,6 +631,7 @@ public class SyntacticAnalyzer {
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorExpresionIdClase).toString()));
         }
+        return toReturn;
     }
 
     private NodoSentencia varLocal() throws Exception {
@@ -919,12 +924,12 @@ public class SyntacticAnalyzer {
             match(currentTokenType);
         }
         else if (firsts.containsToken(LlamadaConstructor, currentTokenType)) {
-            llamadaConstructor();
+            toReturn = llamadaConstructor();
         }
         else if (currentTokenType.equals(idMetVar)) {
             toReturn = new NodoVar(currentToken);
             match(idMetVar);
-            _restoLlamadaMetodo();
+            toReturn = _restoLlamadaMetodo(toReturn);
         }
         else if (firsts.containsToken(LlamadaMetodoEstatico, currentTokenType)) {
             llamadaMetodoEstatico();
@@ -941,19 +946,25 @@ public class SyntacticAnalyzer {
         return toReturn;
     }
 
-    private void _restoLlamadaMetodo() throws Exception {
+    private NodoExpresion _restoLlamadaMetodo(NodoExpresion e) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = e;
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
-            argsActuales();
+            java.util.List<NodoExpresion> args = argsActuales();
+            toReturn = new NodoLLamadaMetodo(((NodoVar) e).getToken(), args);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
-    private void llamadaConstructor() throws Exception {
+    private NodoLLamadaConstructor llamadaConstructor() throws Exception {
         match(reservedNew);
+        ClassType t = new ClassType(currentToken);
         match(idClase);
         _tipoParametricoInstanciacion();
-        argsActuales();
+        java.util.List<NodoExpresion> a = argsActuales();
+        NodoLLamadaConstructor toReturn = new NodoLLamadaConstructor(t, a);
+        return toReturn;
     }
 
     private void _tipoParametricoInstanciacion() throws Exception {

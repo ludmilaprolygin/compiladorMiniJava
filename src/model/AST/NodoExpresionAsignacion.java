@@ -4,6 +4,7 @@ import model.symbolTable.AbstractType;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
+import utils.messages.SemanticErrorIMessage;
 
 public class NodoExpresionAsignacion extends NodoExpresion{
     protected NodoExpresion ladoIzquierdo;
@@ -17,9 +18,10 @@ public class NodoExpresionAsignacion extends NodoExpresion{
     public AbstractType check() throws SemanticException {
         AbstractType left = ladoIzquierdo.check();
         AbstractType right = ladoDerecho.check();
+        if(ladoIzquierdo instanceof NodoExpresionBinaria)
+            throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(((NodoExpresionBinaria) ladoIzquierdo).getOperador()));
         if(!left.compatible(right))
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(left.getName()));
-
         return right;
     }
 

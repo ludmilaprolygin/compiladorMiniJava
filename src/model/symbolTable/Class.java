@@ -63,7 +63,7 @@ public class Class extends MainElement {
 
     public String toString() {
         return super.toString() + "\n" +
-                "   Constructors: " + builderTable.toString() + "\n";
+                "   Builders: " + builderTable.toString() + "\n}";
     }
 
     public void consolidate() throws SemanticException {
@@ -264,7 +264,9 @@ public class Class extends MainElement {
 
     public void check() throws SemanticException {
         super.check();
-        for (Element c : builderTable) {
+        for (Element c : builderTable)
+        {
+            symbolTable().setCurrentService((Builder) c);
             ((Builder) c).check();
         }
     }

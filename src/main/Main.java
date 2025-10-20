@@ -26,7 +26,7 @@ public class Main {
         initialize();
 
         if (args.length == 1) {
-            try{
+            try {
                 String fileName = args[0];
                 openFile(fileName);
                 //lexicalAnalysis();

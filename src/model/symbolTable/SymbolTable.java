@@ -299,11 +299,17 @@ public class SymbolTable extends Element {
             Token t = classes.getTokenByName(s);
             Class c = classes.get(t);
             if(c != null && c.getInheritance() != null)
+            {
+                setCurrentClass(c);
                 c.check();
+            }
         }
         for(Interface i : interfaces.values())
             if(i.getInheritance() != null){
-                i.check();
+                {
+                    setCurrentClass(i);
+                    i.check();
+                }
             }
     }
 }

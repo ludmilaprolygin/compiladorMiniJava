@@ -9,4 +9,8 @@ public class UniversalType extends AbstractType {
     }
 
     public boolean compatible(AbstractType t) throws SemanticException { return true; }
+
+    public String toString() {
+        return "";
+    }
 }

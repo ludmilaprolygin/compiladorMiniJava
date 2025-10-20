@@ -6,6 +6,8 @@ import utils.messages.SemanticErrorIIMessage;
 import java.util.LinkedList;
 import java.util.List;
 
+import static model.symbolTable.SymbolTable.symbolTable;
+
 public class NodoBloque extends NodoSentencia {
 
     protected final List<NodoSentencia> statements;
@@ -30,6 +32,7 @@ public class NodoBloque extends NodoSentencia {
         statements.add(statement);
     }
     public void check() throws SemanticException {
+        symbolTable().setBloque(this);
         for(NodoSentencia s : statements)
             s.check();
     }

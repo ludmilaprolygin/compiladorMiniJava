@@ -31,4 +31,8 @@ public class SemanticErrorIIMessage {
     public static String incompatibleTypes(Token t) {
         return basicErrorInit(t) + ": Incompatibles types\n" + basicErrorEnd(t);
     }
+
+    public static String composabilityNotAllowed(Token operador) {
+        return basicErrorInit(operador) + ": Left side of assignment error\n" + basicErrorEnd(operador);
+    }
 }

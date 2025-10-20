@@ -10,6 +10,8 @@ import utils.messages.SemanticErrorIMessage;
 
 import java.util.LinkedList;
 
+import static model.symbolTable.SymbolTable.symbolTable;
+
 public abstract class Service extends Element {
     protected Token visibility;
     protected List parameters;
@@ -47,6 +49,7 @@ public abstract class Service extends Element {
     public NodoBloque getBloque() { return bloque; }
 
     public void check() throws SemanticException {
+        symbolTable().setBloque(bloque);
         bloque.check();
     }
 }
