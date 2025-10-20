@@ -53,14 +53,10 @@ public class NodoExpresionBinaria extends NodoExpresion {
     @Override
     public String toString(int depth) {
         String toReturn = "";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
         toReturn += operador.getLexeme() + "\n";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
         toReturn += ladoIzquierdo.toString(depth + 1);
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
         toReturn += ladoDerecho.toString(depth + 1);
         return toReturn;
     }

@@ -7,8 +7,8 @@ public class NodoBloqueVacio extends NodoBloque {
     public void check() throws SemanticException { }
     public String toString(int depth){
         String toReturn = "";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
         return toReturn + "{ nodo bloque vacio }\n";
     }
 }

@@ -11,8 +11,8 @@ public class NodoExpresionVacia extends NodoExpresion {
     }
     public String toString(int depth){
         String toReturn = "";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
         return toReturn + "{ nodo expresion vacia }\n";
     }
 }

@@ -17,12 +17,10 @@ public class NodoReturn extends NodoSentencia {
     @Override
     public String toString(int depth) {
         String toReturn = "";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
         toReturn += "return\n";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
-        toReturn += expresion.toString(depth + 1) + "\n";
+        toReturn += expresion.toString(depth + 1);
             return toReturn;
     }
 }

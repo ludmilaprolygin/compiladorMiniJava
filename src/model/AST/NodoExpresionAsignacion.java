@@ -26,15 +26,11 @@ public class NodoExpresionAsignacion extends NodoExpresion{
     @Override
     public String toString(int depth) {
         String toReturn = "";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
         toReturn += "=\n";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
-        toReturn += ladoIzquierdo.toString(depth + 1) + "\n";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
-        toReturn += ladoDerecho.toString(depth + 1) + "\n";
+        toReturn += ladoIzquierdo.toString(depth + 1);
+        toReturn += ladoDerecho.toString(depth + 1);
         return toReturn;
     }
 }

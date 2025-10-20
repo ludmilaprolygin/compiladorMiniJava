@@ -23,18 +23,12 @@ public class NodoIf extends NodoSentencia {
     }
     public String toString(int depth){
         String toReturn = "";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
         toReturn += "if\n";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
-        toReturn += condicion.toString(depth + 1) + "\n";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
-        toReturn += sentenciaIf.toString(depth + 1) + "\n";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
-        toReturn += sentenciaElse.toString(depth + 1) + "\n";
+        toReturn += condicion.toString(depth + 1);
+        toReturn += sentenciaIf.toString(depth + 1);
+        toReturn += sentenciaElse.toString(depth + 1);
         return toReturn;
     }
 }

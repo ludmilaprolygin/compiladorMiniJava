@@ -16,8 +16,8 @@ public class NodoNull extends NodoOperando{
     }
     public String toString(int depth){
         String toReturn = "";
-        for (int i = 0; i < depth * 3; i++)
-            toReturn += " ";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
         return toReturn + "NULL \n";
     }
 }
