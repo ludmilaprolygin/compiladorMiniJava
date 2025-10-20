@@ -32,9 +32,11 @@ public class NodoBloque extends NodoSentencia {
         statements.add(statement);
     }
     public void check() throws SemanticException {
+        NodoBloque bloqueAnterior = symbolTable().getBloque();
         symbolTable().setBloque(this);
         for(NodoSentencia s : statements)
             s.check();
+        symbolTable().setBloque(bloqueAnterior);
     }
 
     public String toString(int depth){

@@ -35,4 +35,8 @@ public class SemanticErrorIIMessage {
     public static String composabilityNotAllowed(Token operador) {
         return basicErrorInit(operador) + ": Left side of assignment error\n" + basicErrorEnd(operador);
     }
+
+    public static String variableDoesNotExist(Token token) {
+        return basicErrorInit(token) + ": Variable not declared\n" + basicErrorEnd(token);
+    }
 }

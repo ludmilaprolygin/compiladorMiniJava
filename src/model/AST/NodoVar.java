@@ -27,6 +27,7 @@ public class NodoVar extends NodoOperando {
 
     @Override
     public AbstractType check() throws SemanticException {
-        return new UniversalType();
+        //isDeclared();
+        return tipo;
     }
 }

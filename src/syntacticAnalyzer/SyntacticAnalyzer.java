@@ -920,7 +920,11 @@ public class SyntacticAnalyzer {
     private NodoExpresion primario() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         NodoExpresion toReturn = new NodoExpresionVacia();
-        if (currentTokenType.equals(reservedThis) || currentTokenType.equals(stringLiteral)) {
+        if (currentTokenType.equals(reservedThis)) {
+            toReturn = new NodoThis();
+            match(currentTokenType);
+        } else if (currentTokenType.equals(stringLiteral)) {
+            toReturn = new NodoStringLiteral(currentToken);
             match(currentTokenType);
         }
         else if (firsts.containsToken(LlamadaConstructor, currentTokenType)) {

@@ -6,6 +6,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
 
+import static model.TokenType.idClase;
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class ClassType extends AbstractType {
@@ -24,14 +25,14 @@ public class ClassType extends AbstractType {
     @Override
     public void correctDeclaration() throws SemanticException {
         super.correctDeclaration();
-        if (name.getTokenType().equals(TokenType.idClase)){
+        if (name.getTokenType().equals(idClase)){
             checkParametricType();
         }
         else
             throw new SemanticException(SemanticErrorIMessage.undeclaredType(name));
     }
     protected void checkParametricType() throws SemanticException {
-        if (name.getTokenType().equals(TokenType.idClase)) {
+        if (name.getTokenType().equals(idClase)) {
             if (parametricType != null) {
                 parametricType.correctDeclaration();
             }
@@ -57,13 +58,20 @@ public class ClassType extends AbstractType {
     }
 
     public boolean compatible(AbstractType t) throws SemanticException {
-        System.out.println("t.getName().getLexeme(): "+ t.getName().getLexeme());
-        System.out.println("name.getLexeme(): " + name.getLexeme());
-        System.out.println(symbolTable().getClassHierarchy().isAncestor(t.getName().getLexeme(), name.getLexeme()));
         if(!t.getName().getLexeme().equals(name.getLexeme())) {
-            if(!symbolTable().getClassHierarchy().isAncestor(t.getName().getLexeme(), name.getLexeme()))
+            if(stringComparison(t));
+            else if(!symbolTable().getClassHierarchy().isAncestor(t.getName().getLexeme(), name.getLexeme()))
                 throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
         }
         return true;
     }
+
+    private boolean stringComparison(AbstractType t) throws SemanticException {
+        if(t.getName().getTokenType().equals(name.getTokenType()) && name.getTokenType().equals(TokenType.stringLiteral) ||
+           t.getName().getTokenType().equals(idClase) && t.getName().getLexeme().equals("String") && name.getTokenType().equals(TokenType.stringLiteral) ||
+           getName().getTokenType().equals(idClase) && getName().getLexeme().equals("String") && t.getName().getTokenType().equals(TokenType.stringLiteral))
+            return true;
+        else
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
+     }
 }
