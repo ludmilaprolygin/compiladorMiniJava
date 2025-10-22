@@ -1,4 +1,4 @@
-///[Error:A|7]
+///[Error:=|7]
 //Author: Ludmi
 class B extends A {}
 class A {}

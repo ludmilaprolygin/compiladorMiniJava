@@ -44,4 +44,8 @@ public class SemanticErrorIIMessage {
         Token t = new Token(null, "", -1);
         return basicErrorInit(t) + ": Missing main method\n" + basicErrorEnd(t);
     }
+
+    public static String methodNotDeclared(Token metodo) {
+        return basicErrorInit(metodo) + ": Method " + metodo.getLexeme() + " is not declared \n" + basicErrorEnd(metodo);
+    }
 }

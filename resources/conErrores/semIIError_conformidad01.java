@@ -1,4 +1,4 @@
-///[Error:m1|10]
+///[Error:=|10]
 //Author: Ludmi
 class A {
     void m1(){}

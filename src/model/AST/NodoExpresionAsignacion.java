@@ -26,7 +26,7 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         try{
             left.compatible(right);
         } catch (SemanticException e){
-            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(ladoDerecho.getToken()));
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
         }
         return right;
     }

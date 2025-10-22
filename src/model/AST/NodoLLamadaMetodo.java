@@ -3,8 +3,10 @@ package model.AST;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.Method;
+import model.symbolTable.Parameter;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 
@@ -25,6 +27,9 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     public AbstractType check() throws SemanticException {
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
         Method m = belongingClass.getMethods().get(tokenM);
+        if (m == null)
+            throw new SemanticException(SemanticErrorIIMessage.methodNotDeclared(metodo));
+        compareArgs();
         return m.getReturnType();
     }
 
@@ -42,5 +47,22 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     @Override
     public Token getToken() {
         return metodo;
+    }
+
+    private void compareArgs() throws SemanticException {
+        Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
+        Method m = belongingClass.getMethods().get(tokenM);
+        if (m.getParameters().size() != argumentos.size())
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
+        for (int i = 0; i < argumentos.size(); i++) {
+            AbstractType argType = argumentos.get(i).check();
+            AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
+            try {
+                argType.compatible(paramType);
+            }
+            catch (SemanticException e) {
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
+            }
+        }
     }
 }

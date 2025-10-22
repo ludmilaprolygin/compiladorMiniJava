@@ -1,4 +1,4 @@
-///[Error:true|6]
+///[Error:=|6]
 //Author: Ludmi
 class Conformidad{
     void m1(){
