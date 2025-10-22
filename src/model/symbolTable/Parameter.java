@@ -34,4 +34,8 @@ public class Parameter extends Element{
         Parameter other = (Parameter) obj;
         return type.equals(other.type);
     }
+
+    public AbstractType getType() {
+        return type;
+    }
 }

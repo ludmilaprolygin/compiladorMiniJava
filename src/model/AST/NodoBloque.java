@@ -70,36 +70,6 @@ public class NodoBloque extends NodoSentencia {
         return toReturn;
     }
 
-    public NodoExpresion variableExists(Token currentToken) throws SemanticException {
-        for (NodoOperando var : variables) {
-            if (var.getToken().getLexeme().equals(currentToken.getLexeme())) {
-                return var;
-            }
-        }
-        if (bloqueContenedor != null && bloqueContenedor != this) {
-            return bloqueContenedor.variableExists(currentToken);
-        }
-        else {
-            Service s = symbolTable().getCurrentService();
-            for(Element param : s.getParameters()) {
-                if (((Parameter) param).getName().getLexeme().equals(currentToken.getLexeme())) {
-                    for(NodoLLamadaMetodo llamada : llamadas) {
-                        if(llamada.getMetodo().getLexeme().equals(param.getName().getLexeme())) {
-                            return llamada;
-                        }
-                    }
-                }
-            }
-            System.out.println(symbolTable().getCurrentClass().getAttributes());
-            Token t = symbolTable().getCurrentClass().getAttributes().getTokenByName(currentToken.getLexeme());
-            if (t != null) {
-                return new NodoVar(currentToken);
-            }
-
-        }
-        throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(currentToken));
-    }
-
     public void addLlamada(NodoExpresion toReturn) {
         llamadas.add((NodoLLamadaMetodo) toReturn);
     }

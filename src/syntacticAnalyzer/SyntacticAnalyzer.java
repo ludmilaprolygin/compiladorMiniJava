@@ -939,7 +939,6 @@ public class SyntacticAnalyzer {
             toReturn = llamadaConstructor();
         }
         else if (currentTokenType.equals(idMetVar)) {
-            //toReturn = symbolTable.getBloque().variableExists(currentToken);
             toReturn = new NodoVar(currentToken);
             match(idMetVar);
             toReturn = _restoLlamadaMetodo(toReturn);
