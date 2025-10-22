@@ -619,6 +619,7 @@ public class SyntacticAnalyzer {
             Token t = currentToken;
             NodoExpresion e = expresionBasica();
             NodoExpresion v = new NodoVar(t, new ClassType(token));
+            ((NodoVar) v).declare();
             _restoVarLocalClasica();
             v = _restoExpresion(v);
             v = _operadorTernario(v);
@@ -651,6 +652,7 @@ public class SyntacticAnalyzer {
         NodoVar toReturn;
         match(reservedVar);
         toReturn = new NodoVar(currentToken);
+        toReturn.declare();
         match(idMetVar);
         return toReturn;
     }

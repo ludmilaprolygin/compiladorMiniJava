@@ -24,6 +24,17 @@ public abstract class NodoOperando extends NodoExpresion {
         boolean toReturn = false;
         SymbolTable st = SymbolTable.symbolTable();
         toReturn = st.getBloque().getVariables().contains(this);
+        for(NodoOperando n : st.getBloque().getVariables()){
+            if(n.getToken().getLexeme().equals(this.getToken().getLexeme())){
+                toReturn = true;
+                return toReturn;
+            }
+        }
+        NodoBloque bloque = st.getBloque();
+        while(!toReturn && bloque != null && bloque != st.getCurrentService().getBloque()){
+            toReturn = toReturn || bloque.getVariables().contains(this);
+            bloque = bloque.getBloqueContenedor();
+        }
         toReturn = toReturn || st.getCurrentService().getParameters().contains(this.getToken().getLexeme());
         toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
         if (!toReturn){

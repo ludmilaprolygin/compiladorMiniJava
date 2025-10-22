@@ -8,6 +8,7 @@ import utils.exceptions.SemanticException;
 public class NodoVar extends NodoOperando {
     protected AbstractType tipo;
     protected Encadenado encadenado;
+    protected boolean isDeclared;
     public NodoVar(Token token) {
         super(token);
         tipo = new UniversalType();
@@ -24,10 +25,11 @@ public class NodoVar extends NodoOperando {
     public void setTipo (AbstractType a){
         tipo = a;
     }
+    public void declare() { isDeclared = true;}
 
     @Override
     public AbstractType check() throws SemanticException {
-        //isDeclared();
+        isDeclared();
         if(encadenado != null)
             encadenado.check(tipo);
         return tipo;
@@ -38,5 +40,9 @@ public class NodoVar extends NodoOperando {
         for (int i = 0; i < depth; i++)
             toReturn += "- ";
         return toReturn + token.getLexeme() + " (" + tipo.getClass() + ")\n";
+    }
+
+    public boolean isDeclared() throws SemanticException {
+        return isDeclared || super.isDeclared();
     }
 }
