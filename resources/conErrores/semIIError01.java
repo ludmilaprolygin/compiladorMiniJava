@@ -1,4 +1,4 @@
-//[Error:v1|9]
+///[Error:v1|9]
 // La variable v1 no fue declarada - ln: 9
 class A {
     int a1;

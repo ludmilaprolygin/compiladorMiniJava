@@ -1,5 +1,5 @@
 ///[Error:B|7]
-
+//Author: Ludmi
 class B extends A {}
 class A {}
 class C {

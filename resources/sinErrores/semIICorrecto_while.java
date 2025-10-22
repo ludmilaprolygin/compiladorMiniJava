@@ -1,5 +1,5 @@
 ///[SinErrores]
-
+//Author: Ludmi
 class ClaseTest{
     void m1(){
         while(true) {

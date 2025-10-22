@@ -1,5 +1,5 @@
 ///[Error:true|6]
-
+//Author: Ludmi
 class Conformidad{
     void m1(){
         var x = 10;

@@ -1,5 +1,5 @@
 ///[Error:m1|8]
-
+//Author: Ludmi
 class A {
     void m1(){}
 }
