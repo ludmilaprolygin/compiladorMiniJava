@@ -225,11 +225,16 @@ public class Class extends MainElement {
     }
 
     private void consolidateBuilder(Class cParent) throws SemanticException{
-        List parentBuilder = cParent.getBuilderTable();
+        //List parentBuilder = cParent.getBuilderTable();
         Builder myBuilder = null;
         if(!builderTable.isEmpty()) {
             myBuilder = (Builder) builderTable.getFirst();
             myBuilder.setBloque(new NodoBloqueVacio());
+        }
+        if(builderTable.getFirst() != null){
+            if(!builderTable.getFirst().getName().getLexeme().equals(name.getLexeme())){
+                throw new SemanticException(SemanticErrorIMessage.builderDoesNotOverrideCorrectly((Builder) builderTable.getFirst()));
+            }
         }
         /*
         for(Element b : parentBuilder){
