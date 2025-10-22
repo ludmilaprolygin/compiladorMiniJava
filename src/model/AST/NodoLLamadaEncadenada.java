@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NodoLLamadaEncadenada extends Encadenado {
-    protected Token nombre;
-    protected Encadenado encadenado;
     protected List<NodoExpresion> parametros;
     public NodoLLamadaEncadenada(Token t){
         nombre = t;
@@ -28,6 +26,9 @@ public class NodoLLamadaEncadenada extends Encadenado {
     }
     public void setParametros(List<NodoExpresion> p){
         parametros = p;
+    }
+    public List<NodoExpresion> getParametros(){
+        return parametros;
     }
     @Override
     public void check(AbstractType t) throws SemanticException {

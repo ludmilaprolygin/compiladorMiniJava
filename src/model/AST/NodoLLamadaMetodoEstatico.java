@@ -38,7 +38,25 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion{
         if (m.getModifier() != null && !m.getModifier().getTokenType().equals(reservedStatic)){
             throw new SemanticException(SemanticErrorIIMessage.methodNotStatic(idM));
         }
+        compareArgs(belongingClass, idM);
         return m.getReturnType();
+    }
+
+    private void compareArgs(Class belongingClass, Token metodo) throws SemanticException {
+        Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
+        Method m = belongingClass.getMethods().get(tokenM);
+        if (m.getParameters().size() != argumentos.size())
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
+        for (int i = 0; i < argumentos.size(); i++) {
+            AbstractType argType = argumentos.get(i).check();
+            AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
+            try {
+                argType.compatible(paramType);
+            }
+            catch (SemanticException e) {
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
+            }
+        }
     }
 
     @Override

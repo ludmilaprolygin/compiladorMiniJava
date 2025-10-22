@@ -307,7 +307,9 @@ public class SyntacticAnalyzer {
         if(currentTokenType.equals(idClase)) {
             AbstractType t = new ClassType(currentToken);
             match(idClase);
-            _decisorMiembroIdClase(v, (ClassType) t);
+            NodoExpresion exp = _decisorMiembroIdClase(v, (ClassType) t);
+            if(exp instanceof NodoLLamadaMetodoEstatico)
+                symbolTable.getBloque().addStatement(new NodoSentenciaConExpresion(exp));
         }
         else if (firsts.containsToken(TipoPrimitivo, currentTokenType)) {
             AbstractType t = tipoPrimitivo();
@@ -320,8 +322,9 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _decisorMiembroIdClase(Token v, ClassType t) throws Exception {
+    private NodoExpresion _decisorMiembroIdClase(Token v, ClassType t) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = new NodoExpresionVacia();
         if(firsts.containsToken(ArgsFormales, currentTokenType)) {
             Service s = new Builder(t.getName(), v);
             symbolTable.setCurrentService(s);
@@ -355,12 +358,19 @@ public class SyntacticAnalyzer {
             _restoMiembro(t, n);
         }
         else if (currentTokenType.equals(dot)) {
+            Token idClaseT = t.getName();
             Encadenado e = _encadenado();
+            java.util.List<NodoExpresion> args = new LinkedList<>();
+            if(e instanceof NodoLLamadaEncadenada)
+                args = ((NodoLLamadaEncadenada) e).getParametros();
+            Token idMetVarT = e.getNombre();
+            toReturn = new NodoLLamadaMetodoEstatico(idClaseT, idMetVarT, args);
             _asignacionOpcional(new NodoExpresionVacia());
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_DecisorMiembroIdClase).toString()));
         }
+        return toReturn;
     }
 
     private void _restoMiembro(AbstractType t, Token n) throws Exception {
