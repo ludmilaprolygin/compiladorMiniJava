@@ -618,7 +618,7 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(ExpresionBasica, currentTokenType)) {
             Token t = currentToken;
             NodoExpresion e = expresionBasica();
-            NodoExpresion v = new NodoVar(t, e.check());
+            NodoExpresion v = new NodoVar(t, new ClassType(token));
             _restoVarLocalClasica();
             v = _restoExpresion(v);
             v = _operadorTernario(v);

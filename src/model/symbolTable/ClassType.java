@@ -60,7 +60,7 @@ public class ClassType extends AbstractType {
     public boolean compatible(AbstractType t) throws SemanticException {
         if(!t.getName().getLexeme().equals(name.getLexeme())) {
             if(stringComparison(t));
-            else if(!symbolTable().getClassHierarchy().isAncestor(t.getName().getLexeme(), name.getLexeme()))
+            else if(symbolTable().getClassHierarchy().isAncestor(t.getName().getLexeme(), name.getLexeme()))
                 throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
         }
         return true;
@@ -74,6 +74,6 @@ public class ClassType extends AbstractType {
         else if (name.getTokenType().equals(TokenType.stringLiteral) || t.getName().getTokenType().equals(TokenType.stringLiteral))
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));
         else
-            return true;
+            return false;
      }
 }
