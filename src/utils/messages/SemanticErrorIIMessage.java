@@ -48,4 +48,8 @@ public class SemanticErrorIIMessage {
     public static String methodNotDeclared(Token metodo) {
         return basicErrorInit(metodo) + ": Method " + metodo.getLexeme() + " is not declared \n" + basicErrorEnd(metodo);
     }
+
+    public static String methodNotStatic(Token idM) {
+        return basicErrorInit(idM) + ": Method " + idM.getLexeme() + " is not static \n" + basicErrorEnd(idM);
+    }
 }

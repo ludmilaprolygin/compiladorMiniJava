@@ -558,7 +558,7 @@ public class SyntacticAnalyzer {
 
     private NodoSentencia sentencia() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        NodoSentencia toReturn = new NodoSentenciaVacia(); //TODO - sacar null
+        NodoSentencia toReturn = new NodoSentenciaVacia();
         if (currentTokenType.equals(semicolon)) {
             match(semicolon);
             toReturn = new NodoSentenciaVacia();
@@ -608,7 +608,7 @@ public class SyntacticAnalyzer {
         if (currentTokenType.equals(dot)) {
             match(dot);
             match(idMetVar);
-            argsActuales();
+            java.util.List<NodoExpresion> args = argsActuales();
             _restoEncadenado(new EncadenadoVacio());
             _asignacionOpcional(new NodoExpresionVacia());
         }
@@ -829,7 +829,7 @@ public class SyntacticAnalyzer {
 
     private NodoExpresion operando() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
-        NodoExpresion toReturn = new NodoExpresionVacia(); //TODO - borrar porque es un mock
+        NodoExpresion toReturn = new NodoExpresionVacia();
         if (firsts.containsToken(Primitivo, currentTokenType)) {
             toReturn = primitivo();
         }
@@ -906,9 +906,8 @@ public class SyntacticAnalyzer {
     }
 
     private Encadenado _restoEncadenado (Encadenado encadenado) throws Exception {
-        //TODO - rehacer, esta mal
         TokenType currentTokenType = getCurrentTokenType();
-        Encadenado toReturn = encadenado; //TODO - aca hay un null
+        Encadenado toReturn = encadenado;
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
             Token token = currentToken;
             java.util.List<NodoExpresion> args = argsActuales();
@@ -946,7 +945,7 @@ public class SyntacticAnalyzer {
             toReturn = _restoLlamadaMetodo(toReturn);
         }
         else if (firsts.containsToken(LlamadaMetodoEstatico, currentTokenType)) {
-            llamadaMetodoEstatico();
+            toReturn = llamadaMetodoEstatico();
         }
         else if (firsts.containsToken(ExpresionParentizada, currentTokenType)) {
             toReturn = expresionParentizada();
@@ -1005,11 +1004,16 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void llamadaMetodoEstatico() throws Exception {
+    private NodoLLamadaMetodoEstatico llamadaMetodoEstatico() throws Exception {
+        NodoLLamadaMetodoEstatico toReturn;
+        Token idClaseT = currentToken;
         match(idClase);
         match(dot);
+        Token idMetVarT = currentToken;
         match(idMetVar);
-        argsActuales();
+        java.util.List<NodoExpresion> args = argsActuales();
+        toReturn = new NodoLLamadaMetodoEstatico(idClaseT, idMetVarT, args);
+        return toReturn;
     }
 
     private NodoExpresion expresionParentizada() throws Exception {
