@@ -294,6 +294,7 @@ public class SyntacticAnalyzer {
 
             argsFormales();
             NodoBloque b = bloqueOpcional();
+            b.setBloqueContenedor(symbolTable.getBloque());
             newMethod.setBloque(b);
         }
         else {
@@ -331,6 +332,7 @@ public class SyntacticAnalyzer {
 
                 argsFormales();
                 NodoBloque b = bloque();
+                b.setBloqueContenedor(symbolTable.getBloque());
                 s.setBloque(b);
             }
             else
@@ -387,6 +389,7 @@ public class SyntacticAnalyzer {
 
                 argsFormales();
                 NodoBloque b = bloque();
+                b.setBloqueContenedor(symbolTable.getBloque());
                 s.setBloque(b);
             }
             else
@@ -535,6 +538,7 @@ public class SyntacticAnalyzer {
         match(openBracket);
         if(symbolTable.getCurrentService() instanceof Method)
             ((Method) symbolTable.getCurrentService()).setCompletedBody();
+        toReturn.setBloqueContenedor(symbolTable.getBloque());
         symbolTable.setBloque(toReturn);
         listaSentencias(toReturn);
         match(closeBracket);
@@ -614,7 +618,7 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(ExpresionBasica, currentTokenType)) {
             Token t = currentToken;
             NodoExpresion e = expresionBasica();
-            NodoExpresion v = new NodoVar(t, new ClassType(token));
+            NodoExpresion v = new NodoVar(t, e.check());
             _restoVarLocalClasica();
             v = _restoExpresion(v);
             v = _operadorTernario(v);
@@ -900,6 +904,7 @@ public class SyntacticAnalyzer {
     }
 
     private Encadenado _restoEncadenado (Encadenado encadenado) throws Exception {
+        //TODO - rehacer, esta mal
         TokenType currentTokenType = getCurrentTokenType();
         Encadenado toReturn = encadenado; //TODO - aca hay un null
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
@@ -934,6 +939,7 @@ public class SyntacticAnalyzer {
             toReturn = llamadaConstructor();
         }
         else if (currentTokenType.equals(idMetVar)) {
+            //toReturn = symbolTable.getBloque().variableExists(currentToken);
             toReturn = new NodoVar(currentToken);
             match(idMetVar);
             toReturn = _restoLlamadaMetodo(toReturn);
@@ -958,7 +964,8 @@ public class SyntacticAnalyzer {
         NodoExpresion toReturn = e;
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
             java.util.List<NodoExpresion> args = argsActuales();
-            toReturn = new NodoLLamadaMetodo(((NodoVar) e).getToken(), args);
+            toReturn = new NodoLLamadaMetodo(((NodoVar) e).getToken(), args, symbolTable.getCurrentClass());
+            symbolTable.getBloque().addLlamada(toReturn);
         }
         else { /* epsilon */ }
         return toReturn;

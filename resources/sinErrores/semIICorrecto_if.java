@@ -12,3 +12,6 @@ class IfThenElse {
         }
     }
 }
+class Tester {
+    static void main() {}
+}

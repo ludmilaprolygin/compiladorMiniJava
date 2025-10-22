@@ -6,3 +6,7 @@ class Conformidad{
         x = true;
     }
 }
+
+class Ex {
+    static void main () {}
+}

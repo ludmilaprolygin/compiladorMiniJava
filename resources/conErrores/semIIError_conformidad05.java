@@ -1,4 +1,4 @@
-///[Error:void|7]
+///[Error:==|8]
 
 class A {
     void m1() {

@@ -7,6 +7,7 @@ import model.symbolTable.BooleanType;
 import model.symbolTable.IntType;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 public class NodoExpresionBinaria extends NodoExpresion {
     protected Token operador;
@@ -31,27 +32,47 @@ public class NodoExpresionBinaria extends NodoExpresion {
                 operador.getTokenType() == TokenType.divOp ||
                 operador.getTokenType() == TokenType.modOp)
         {
-            expTypeRight.compatible(new IntType(null));
-            expTypeLeft.compatible(new IntType(null));
+            try{
+                expTypeRight.compatible(new IntType(null));
+                expTypeLeft.compatible(new IntType(null));
+            }
+            catch(Exception e){
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+            }
         }
         else if (operador.getTokenType() == TokenType.orOp ||
                     operador.getTokenType() == TokenType.andOp){
-            expTypeRight.compatible(new BooleanType(null));
-            expTypeLeft.compatible(new BooleanType(null));
-            expTypeRight = new BooleanType(null);
+            try {
+                expTypeRight.compatible(new BooleanType(null));
+                expTypeLeft.compatible(new BooleanType(null));
+                expTypeRight = new BooleanType(null);
+            }
+            catch(Exception e){
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+            }
         }
         else if(operador.getTokenType() == TokenType.lesserOp ||
                 operador.getTokenType() == TokenType.lesserEqualOp ||
                 operador.getTokenType() == TokenType.greaterOp ||
                 operador.getTokenType() == TokenType.greaterEqualOp){
-            expTypeRight.compatible(new IntType(null));
-            expTypeLeft.compatible(new IntType(null));
-            expTypeRight = new BooleanType(null);
+            try {
+                expTypeRight.compatible(new IntType(null));
+                expTypeLeft.compatible(new IntType(null));
+                expTypeRight = new BooleanType(null);
+            }
+            catch(Exception e){
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+            }
         }
         else if (operador.getTokenType() == TokenType.equalsOp ||
                 operador.getTokenType() == TokenType.notEqualOp){
-            expTypeRight.compatible(ladoIzquierdo.check());
-            expTypeRight = new BooleanType(null);
+            try {
+                expTypeRight.compatible(ladoIzquierdo.check());
+                expTypeRight = new BooleanType(null);
+            }
+            catch(Exception e){
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+            }
         }
         return expTypeRight;
     }

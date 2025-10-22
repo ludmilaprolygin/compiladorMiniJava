@@ -5,6 +5,10 @@ class ExpresionesBasicas {
         var miVariableEntera1 = 100;
         var miVariableEntera2 = 100 + 100;
         var miVariableBooleana = true;
-        miVariableEntera = 100 + 50;
+        miVariableEntera1 = 100 + 50;
     }
+}
+
+class Tester {
+    static void main() {}
 }

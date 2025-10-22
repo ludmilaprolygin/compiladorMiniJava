@@ -5,3 +5,7 @@ class ReturnTest{
         return 2+3;
     }
 }
+
+class Tester {
+    static void main() {}
+}

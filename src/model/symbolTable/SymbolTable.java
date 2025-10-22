@@ -4,6 +4,7 @@ import model.AST.NodoBloque;
 import model.AST.NodoBloqueVacio;
 import model.Token;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class SymbolTable extends Element {
     private HierarchyTree classHierarchy;
     private Class objectClass;
     private NodoBloque bloque;
+    private boolean hasMain;
 
     private SymbolTable() {
         reset();
@@ -46,12 +48,16 @@ public class SymbolTable extends Element {
         classes = new Table<>();
         interfaces = new Table<>();
         bloque = new NodoBloqueVacio();
+        hasMain = false;
         predefined();
     }
 
     public void setCurrentClass(MainElement c) {
         currentClass = c;
     }
+
+    public boolean hasMain() { return hasMain; }
+    public void setHasMain() { hasMain = true; }
 
     public MainElement getCurrentClass() {
         return currentClass;
@@ -304,6 +310,8 @@ public class SymbolTable extends Element {
                 c.check();
             }
         }
+        if(hasMain == false)
+            throw new SemanticException(SemanticErrorIIMessage.missingMainMethod());
         for(Interface i : interfaces.values())
             if(i.getInheritance() != null){
                 {

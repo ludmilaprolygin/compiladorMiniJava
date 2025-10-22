@@ -39,4 +39,9 @@ public class SemanticErrorIIMessage {
     public static String variableDoesNotExist(Token token) {
         return basicErrorInit(token) + ": Variable not declared\n" + basicErrorEnd(token);
     }
+
+    public static String missingMainMethod() {
+        Token t = new Token(null, "", -1);
+        return basicErrorInit(t) + ": Missing main method\n" + basicErrorEnd(t);
+    }
 }

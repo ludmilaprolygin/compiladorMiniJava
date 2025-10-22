@@ -7,3 +7,7 @@ class A {
 class B extends A {
     int i = m1();
 }
+
+class Ex {
+    static void main () {}
+}

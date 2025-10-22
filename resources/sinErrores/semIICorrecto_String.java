@@ -5,3 +5,7 @@ class Str {
         String s = "Hello World";
     }
 }
+
+class Tester {
+    static void main() {}
+}

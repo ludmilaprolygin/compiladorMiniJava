@@ -7,3 +7,7 @@ class A {
         }
     }
 }
+
+class Tester {
+    static void main() {}
+}

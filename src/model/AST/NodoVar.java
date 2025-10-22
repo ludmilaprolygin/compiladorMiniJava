@@ -28,6 +28,15 @@ public class NodoVar extends NodoOperando {
     @Override
     public AbstractType check() throws SemanticException {
         //isDeclared();
+        if(encadenado != null)
+            encadenado.check(tipo);
         return tipo;
+    }
+
+    public String toString(int depth){
+        String toReturn = "";
+        for (int i = 0; i < depth; i++)
+            toReturn += "- ";
+        return toReturn + token.getLexeme() + " (" + tipo.getClass() + ")\n";
     }
 }

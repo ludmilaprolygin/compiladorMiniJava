@@ -11,15 +11,21 @@ import static model.symbolTable.SymbolTable.symbolTable;
 public class NodoLLamadaMetodo extends NodoExpresion {
     protected Token metodo;
     protected java.util.List<NodoExpresion> argumentos;
+    protected model.symbolTable.MainElement belongingClass;
 
-    public NodoLLamadaMetodo(Token m, java.util.List<NodoExpresion> a){
+    public NodoLLamadaMetodo(Token m, java.util.List<NodoExpresion> a, model.symbolTable.MainElement c){
         metodo = m;
         argumentos = a;
+        belongingClass = c;
     }
+
+    public Token getMetodo() { return metodo; }
 
     @Override
     public AbstractType check() throws SemanticException {
-        return ((Method) symbolTable().getCurrentService()).getReturnType();
+        Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
+        Method m = belongingClass.getMethods().get(tokenM);
+        return m.getReturnType();
     }
 
     @Override

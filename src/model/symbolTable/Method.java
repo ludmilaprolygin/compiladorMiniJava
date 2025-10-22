@@ -32,7 +32,9 @@ public class Method extends Service {
         //    throw new SemanticException(SemanticErrorMessage.missingReturnStatement(name));
         if(!emptyBody && modifier != null && modifier.getTokenType().equals(TokenType.reservedAbstract))
             throw new SemanticException(SemanticErrorIMessage.abstractMethodWithBody(name));
-
+        if(modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic) && returnType.getName().getTokenType().equals(TokenType.reservedVoid) &&
+            name.getLexeme().equals("main"))
+            SymbolTable.symbolTable().setHasMain();
     }
 
     public String toString() {

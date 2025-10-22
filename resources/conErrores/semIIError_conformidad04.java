@@ -1,4 +1,4 @@
-///[Error:'a'|5]
+///[Error:+|5]
 
 class Conformidad {
     void m1(){
