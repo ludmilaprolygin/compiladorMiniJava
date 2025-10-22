@@ -38,4 +38,9 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         else
             return toReturn + metodo.getLexeme() + "(" + argumentos.toString()+ ")\n";
     }
+
+    @Override
+    public Token getToken() {
+        return metodo;
+    }
 }

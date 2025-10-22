@@ -7,3 +7,7 @@ class IfThenElse {
         }
     }
 }
+
+class Ex {
+    static void main(){}
+}

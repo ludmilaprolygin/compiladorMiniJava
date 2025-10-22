@@ -14,4 +14,5 @@ public class NodoBooleanLiteral extends NodoOperando {
     public AbstractType check() throws SemanticException {
         return new BooleanType(token);
     }
+
 }

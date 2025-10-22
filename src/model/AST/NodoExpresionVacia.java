@@ -1,5 +1,6 @@
 package model.AST;
 
+import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
@@ -14,5 +15,10 @@ public class NodoExpresionVacia extends NodoExpresion {
         for (int i = 0; i < depth; i++)
             toReturn += "- ";
         return toReturn + "{ nodo expresion vacia }\n";
+    }
+
+    @Override
+    public Token getToken() {
+        return null;
     }
 }

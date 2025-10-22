@@ -45,4 +45,9 @@ public class NodoExpresionUnaria extends NodoExpresion{
         toReturn += ladoDerecho.toString(depth + 1);
         return toReturn;
     }
+
+    @Override
+    public Token getToken() {
+        return operador;
+    }
 }

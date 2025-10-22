@@ -5,7 +5,7 @@ import utils.exceptions.SemanticException;
 
 public class UniversalType extends AbstractType {
     public UniversalType() {
-        super(null);
+        super(new Token(null, "universalType", -1));
     }
 
     public boolean compatible(AbstractType t) throws SemanticException { return true; }

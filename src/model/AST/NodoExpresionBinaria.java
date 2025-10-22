@@ -5,7 +5,6 @@ import model.TokenType;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
 import model.symbolTable.IntType;
-import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -86,5 +85,10 @@ public class NodoExpresionBinaria extends NodoExpresion {
         toReturn += ladoIzquierdo.toString(depth + 1);
         toReturn += ladoDerecho.toString(depth + 1);
         return toReturn;
+    }
+
+    @Override
+    public Token getToken() {
+        return operador;
     }
 }

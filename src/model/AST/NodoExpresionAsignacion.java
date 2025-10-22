@@ -2,10 +2,8 @@ package model.AST;
 
 import model.Token;
 import model.symbolTable.AbstractType;
-import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
-import utils.messages.SemanticErrorIMessage;
 
 public class NodoExpresionAsignacion extends NodoExpresion{
     protected NodoExpresion ladoIzquierdo;
@@ -25,8 +23,11 @@ public class NodoExpresionAsignacion extends NodoExpresion{
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(((NodoExpresionBinaria) ladoIzquierdo).getOperador()));
         if(!(ladoIzquierdo instanceof NodoOperando) && !(ladoIzquierdo instanceof NodoExpresionUnaria))
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
-        if(!left.compatible(right))
-            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(left.getName()));
+        try{
+            left.compatible(right);
+        } catch (SemanticException e){
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(ladoDerecho.getToken()));
+        }
         return right;
     }
 
@@ -39,5 +40,9 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         toReturn += ladoIzquierdo.toString(depth + 1);
         toReturn += ladoDerecho.toString(depth + 1);
         return toReturn;
+    }
+
+    public Token getToken() {
+        return operador;
     }
 }

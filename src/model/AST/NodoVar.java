@@ -29,10 +29,10 @@ public class NodoVar extends NodoOperando {
 
     @Override
     public AbstractType check() throws SemanticException {
-        isDeclared();
+        AbstractType toReturn = isDeclared();
         if(encadenado != null)
             encadenado.check(tipo);
-        return tipo;
+        return toReturn;
     }
 
     public String toString(int depth){
@@ -42,7 +42,16 @@ public class NodoVar extends NodoOperando {
         return toReturn + token.getLexeme() + " (" + tipo.getClass() + ")\n";
     }
 
-    public boolean isDeclared() throws SemanticException {
-        return isDeclared || super.isDeclared();
+    public AbstractType isDeclared() throws SemanticException {
+        AbstractType aType;
+        if(!isDeclared)
+            aType = super.isDeclared();
+        else
+            aType = tipo;
+        return aType;
+    }
+
+    public Token getToken() {
+        return token;
     }
 }

@@ -38,4 +38,9 @@ public class NodoLLamadaConstructor extends NodoExpresion{
         else
             return toReturn + "new " + classType.getName().getLexeme() + "(" + parametros.toString()+ ")\n";
     }
+
+    @Override
+    public Token getToken() {
+        return classType.getName();
+    }
 }
