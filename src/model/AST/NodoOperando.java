@@ -36,6 +36,7 @@ public abstract class NodoOperando extends NodoExpresion {
             for(NodoOperando n : st.getBloque().getVariables()){
                 if(n.getToken() != null && this.getToken() != null && n.getToken().getLexeme().equals(this.getToken().getLexeme())){
                     aType = n.check();
+                    toReturn = true;
                 }
             }
             bloque = bloque.getBloqueContenedor();
@@ -44,12 +45,14 @@ public abstract class NodoOperando extends NodoExpresion {
         for(Element n : st.getCurrentService().getParameters()){
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
                 aType = ((model.symbolTable.Parameter) n).getType();
+                toReturn = true;
             }
         }
         toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
         for(Attribute n : st.getCurrentClass().getAttributes().values()){
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
                 aType = n.getType();
+                toReturn = true;
             }
         }
         if (!toReturn){

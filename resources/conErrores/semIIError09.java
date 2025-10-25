@@ -12,4 +12,8 @@ class A {
 
 }
 
+class Ex {
+    static void main (){}
+}
+
 

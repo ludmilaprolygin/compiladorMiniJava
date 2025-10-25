@@ -12,10 +12,12 @@ public class NodoVar extends NodoOperando {
     public NodoVar(Token token) {
         super(token);
         tipo = new UniversalType();
+        //exists(token);
     }
     public NodoVar(Token token, AbstractType tipo) {
         super(token);
         this.tipo = tipo;
+        //exists(token);
     }
 
     public void setEncadenado(Encadenado encadenado) {
@@ -54,4 +56,6 @@ public class NodoVar extends NodoOperando {
     public Token getToken() {
         return token;
     }
+
+
 }

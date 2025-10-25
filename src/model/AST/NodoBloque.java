@@ -34,6 +34,14 @@ public class NodoBloque extends NodoSentencia {
             if(o.getToken().getLexeme().equals(variable.getToken().getLexeme()))
                 throw new SemanticException(SemanticErrorIIMessage.variableAlreadyExists(variable.getToken()));
         }
+        NodoBloque bloqueC = bloqueContenedor;
+        while(bloqueC != null){
+            for(NodoOperando o : bloqueC.getVariables()){
+                if(o.getToken().getLexeme().equals(variable.getToken().getLexeme()))
+                    throw new SemanticException(SemanticErrorIIMessage.variableAlreadyExists(variable.getToken()));
+            }
+            bloqueC = bloqueC.getBloqueContenedor();
+        }
         variables.addLast(variable);
     }
 
@@ -59,13 +67,13 @@ public class NodoBloque extends NodoSentencia {
     public String toString(int depth){
         String toReturn = "";
         for (int i = 0; i < depth; i++)
-            toReturn += " ";
-        toReturn = "{\n";
+            toReturn += "  ";
+        toReturn += "{\n";
         for(NodoSentencia s : statements){
             toReturn += s.toString(depth + 1) + "\n";
         }
         for (int i = 0; i < depth; i++)
-            toReturn += " ";
+            toReturn += "  ";
         toReturn += "}";
         return toReturn;
     }
