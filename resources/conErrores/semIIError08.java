@@ -1,4 +1,4 @@
-//[Error:++|7]
+///[Error:++|7]
 // Author: Cami
 class A {
     int a1;

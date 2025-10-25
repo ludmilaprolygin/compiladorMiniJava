@@ -27,10 +27,20 @@ public class NodoExpresionUnaria extends NodoExpresion{
            operador.getTokenType() == TokenType.incrementOp ||
            operador.getTokenType() == TokenType.decrementOp)
         {
-           expType.compatible(new IntType(null));
+            try{
+                expType.compatible(new IntType(null));
+            }
+            catch(SemanticException e){
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+            }
         }
         else if (operador.getTokenType() == TokenType.notOp)
-            expType.compatible(new BooleanType(null));
+            try{
+                expType.compatible(new BooleanType(null));
+            }
+            catch(SemanticException e){
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+            }
         else
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
         return expType;
