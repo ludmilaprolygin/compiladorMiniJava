@@ -1,6 +1,7 @@
 package utils.messages;
 
 import model.Token;
+import model.symbolTable.AbstractType;
 import model.symbolTable.Builder;
 import model.symbolTable.Method;
 
@@ -51,5 +52,9 @@ public class SemanticErrorIIMessage {
 
     public static String methodNotStatic(Token idM) {
         return basicErrorInit(idM) + ": Method " + idM.getLexeme() + " is not static \n" + basicErrorEnd(idM);
+    }
+
+    public static String primitiveTypesCantReceiveCalls(AbstractType tipo) {
+        return basicErrorInit(tipo.getName()) + ": Message not supported on " + tipo.getName().getLexeme() + " type\n" + basicErrorEnd(tipo.getName());
     }
 }

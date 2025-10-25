@@ -2,8 +2,10 @@ package model.AST;
 
 import model.Token;
 import model.symbolTable.AbstractType;
+import model.symbolTable.ClassType;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 public class NodoVar extends NodoOperando {
     protected AbstractType tipo;
@@ -33,7 +35,11 @@ public class NodoVar extends NodoOperando {
     public AbstractType check() throws SemanticException {
         AbstractType toReturn = isDeclared();
         if(encadenado != null)
-            encadenado.check(tipo);
+            if(tipo instanceof ClassType || tipo instanceof UniversalType)
+                toReturn = encadenado.check(tipo);
+                //encadenado.check(tipo);
+            else
+                throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(tipo));
         return toReturn;
     }
 
@@ -52,10 +58,4 @@ public class NodoVar extends NodoOperando {
             aType = tipo;
         return aType;
     }
-
-    public Token getToken() {
-        return token;
-    }
-
-
 }

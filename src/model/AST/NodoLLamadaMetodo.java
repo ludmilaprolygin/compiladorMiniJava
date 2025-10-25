@@ -1,10 +1,7 @@
 package model.AST;
 
 import model.Token;
-import model.symbolTable.AbstractType;
-import model.symbolTable.Method;
-import model.symbolTable.Parameter;
-import model.symbolTable.UniversalType;
+import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -14,6 +11,7 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     protected Token metodo;
     protected java.util.List<NodoExpresion> argumentos;
     protected model.symbolTable.MainElement belongingClass;
+    protected Encadenado encadenado;
 
     public NodoLLamadaMetodo(Token m, java.util.List<NodoExpresion> a, model.symbolTable.MainElement c){
         metodo = m;
@@ -30,7 +28,16 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         if (m == null)
             throw new SemanticException(SemanticErrorIIMessage.methodNotDeclared(metodo));
         compareArgs();
-        return m.getReturnType();
+        AbstractType toReturn = m.getReturnType();
+
+        if(encadenado != null)
+            if(m.getReturnType() instanceof ClassType || m.getReturnType() instanceof UniversalType)
+                toReturn = encadenado.check(m.getReturnType());
+                //encadenado.check(tipo);
+            else
+                throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(m.getReturnType()));
+
+        return toReturn;
     }
 
     @Override
@@ -48,6 +55,8 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     public Token getToken() {
         return metodo;
     }
+
+    public void setEncadenado(Encadenado e){ encadenado = e; }
 
     private void compareArgs() throws SemanticException {
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());

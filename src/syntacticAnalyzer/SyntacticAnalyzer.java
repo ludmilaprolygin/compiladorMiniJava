@@ -880,10 +880,16 @@ public class SyntacticAnalyzer {
         NodoExpresion var = primario();
         Encadenado e = _restoReferencia();
         NodoVar v = null;
+        NodoLLamadaMetodo m = null;
         if(var instanceof NodoVar){
             v = (NodoVar) var;
             v.setEncadenado(e);
             return v;
+        }
+        else if(var instanceof NodoLLamadaMetodo){
+            m = (NodoLLamadaMetodo) var;
+            m.setEncadenado(e);
+            return m;
         }
         else{
             return var;
@@ -905,9 +911,16 @@ public class SyntacticAnalyzer {
         TokenType currentTokenType = getCurrentTokenType();
         Encadenado toReturn = new EncadenadoVacio();
         if (currentTokenType.equals(dot)) {
+            Token token;
             match(dot);
+            token = currentToken;
             match(idMetVar);
-            toReturn = _restoEncadenado(toReturn);
+            toReturn = new NodoVarEncadenada(token);
+            Encadenado e = _restoEncadenado(toReturn);
+            if(toReturn != e)
+                toReturn.setEncadenado(e);
+            else
+                toReturn.setEncadenado(new EncadenadoVacio());
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Encadenado).toString()));
@@ -921,8 +934,10 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(ArgsActuales, currentTokenType)) {
             Token token = currentToken;
             java.util.List<NodoExpresion> args = argsActuales();
+            toReturn = new NodoLLamadaEncadenada(encadenado.getNombre(), null, args);
+            //toReturn.setEncadenado(new NodoLLamadaEncadenada(token, null, args));
             Encadenado e = _restoEncadenado(encadenado);
-            toReturn.setEncadenado(new NodoLLamadaEncadenada(token, e, args));
+            toReturn.getEncadenado().setEncadenado(e);
         }
         else if(currentTokenType.equals(dot)) {
             Token token;
@@ -930,7 +945,7 @@ public class SyntacticAnalyzer {
             token = currentToken;
             match(idMetVar);
             Encadenado e = _restoEncadenado(encadenado);
-            toReturn.setEncadenado(new NodoVarEncadenada(token, e));
+            toReturn.setEncadenado(e);
         }
         else { /* epsilon */ }
         return toReturn;
