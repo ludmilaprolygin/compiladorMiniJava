@@ -1,5 +1,6 @@
 package model.AST;
 
+import model.AST.Encadenados.Encadenado;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.ClassType;
@@ -14,11 +15,13 @@ public class NodoVar extends NodoOperando {
     public NodoVar(Token token) {
         super(token);
         tipo = new UniversalType();
+        //encadenado = new EncadenadoVacio();
         //exists(token);
     }
     public NodoVar(Token token, AbstractType tipo) {
         super(token);
         this.tipo = tipo;
+        //encadenado = new EncadenadoVacio();
         //exists(token);
     }
 
@@ -36,7 +39,7 @@ public class NodoVar extends NodoOperando {
         AbstractType toReturn = isDeclared();
         if(encadenado != null)
             if(tipo instanceof ClassType || tipo instanceof UniversalType)
-                toReturn = encadenado.check(tipo);
+                toReturn = encadenado.check(toReturn);
                 //encadenado.check(tipo);
             else
                 throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(tipo));
@@ -47,7 +50,8 @@ public class NodoVar extends NodoOperando {
         String toReturn = "";
         for (int i = 0; i < depth; i++)
             toReturn += "- ";
-        return toReturn + token.getLexeme() + " (" + tipo.getClass() + ")\n";
+        String encString = encadenado != null ? encadenado.toString(depth + 1) : "";
+        return toReturn + token.getLexeme() + " (" + tipo.getClass() + ")\n" + encString;
     }
 
     public AbstractType isDeclared() throws SemanticException {

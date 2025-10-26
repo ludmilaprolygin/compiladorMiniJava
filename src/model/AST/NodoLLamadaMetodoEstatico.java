@@ -1,5 +1,6 @@
 package model.AST;
 
+import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.symbolTable.*;
 import model.symbolTable.Class;
@@ -9,7 +10,7 @@ import utils.messages.SemanticErrorIMessage;
 
 import static model.TokenType.reservedStatic;
 
-public class NodoLLamadaMetodoEstatico extends NodoExpresion{
+public class NodoLLamadaMetodoEstatico extends NodoExpresion {
     private Token idC;
     private Token idM;
     private java.util.List<NodoExpresion> argumentos;

@@ -1,11 +1,10 @@
-package model.AST;
+package model.AST.Expresiones;
 
 import model.Token;
 import model.TokenType;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
 import model.symbolTable.IntType;
-import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 

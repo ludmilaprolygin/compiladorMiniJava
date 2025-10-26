@@ -1,12 +1,7 @@
 package model.AST;
 
-import model.Token;
-import model.symbolTable.Attribute;
-import model.symbolTable.Element;
-import model.symbolTable.Parameter;
-import model.symbolTable.Service;
+import model.AST.Expresiones.NodoExpresion;
 import utils.exceptions.SemanticException;
-import utils.exceptions.SyntacticException;
 import utils.messages.SemanticErrorIIMessage;
 
 import java.util.LinkedList;

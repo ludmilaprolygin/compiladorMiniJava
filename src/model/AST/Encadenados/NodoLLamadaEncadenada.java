@@ -1,5 +1,6 @@
-package model.AST;
+package model.AST.Encadenados;
 
+import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.symbolTable.*;
 import utils.exceptions.SemanticException;
@@ -40,7 +41,9 @@ public class NodoLLamadaEncadenada extends Encadenado {
         Table<Method> methods = c.getMethods();
         for(Method method : methods.values()){
             if(method.getName().getLexeme().equals(nombre.getLexeme()));
-             return encadenado.check(method.getReturnType());
+            if(encadenado == null)
+                encadenado = new EncadenadoVacio();
+            return encadenado.check(method.getReturnType());
         }
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
     }

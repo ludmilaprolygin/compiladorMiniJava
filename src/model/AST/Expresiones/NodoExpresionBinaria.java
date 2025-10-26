@@ -1,4 +1,4 @@
-package model.AST;
+package model.AST.Expresiones;
 
 import model.Token;
 import model.TokenType;

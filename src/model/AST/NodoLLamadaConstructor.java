@@ -1,17 +1,19 @@
 package model.AST;
 
+import model.AST.Encadenados.Encadenado;
+import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.ClassType;
-import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class NodoLLamadaConstructor extends NodoExpresion{
+public class NodoLLamadaConstructor extends NodoExpresion {
     protected ClassType classType;
     protected List<NodoExpresion> parametros;
+    protected Encadenado encadenado;
 
     public NodoLLamadaConstructor(ClassType classType){
         this.classType = classType;
@@ -42,5 +44,9 @@ public class NodoLLamadaConstructor extends NodoExpresion{
     @Override
     public Token getToken() {
         return classType.getName();
+    }
+
+    public void setEncadenado(Encadenado e){
+        encadenado = e;
     }
 }

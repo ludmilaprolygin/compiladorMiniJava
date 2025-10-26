@@ -1,11 +1,11 @@
 package model.AST;
 
+import model.AST.Encadenados.Encadenado;
+import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
-
-import static model.symbolTable.SymbolTable.symbolTable;
 
 public class NodoLLamadaMetodo extends NodoExpresion {
     protected Token metodo;

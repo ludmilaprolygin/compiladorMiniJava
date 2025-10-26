@@ -1,4 +1,4 @@
-package model.AST;
+package model.AST.Encadenados;
 
 import model.Token;
 import model.symbolTable.AbstractType;
@@ -8,7 +8,7 @@ import model.symbolTable.Table;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
-public class NodoVarEncadenada extends Encadenado{
+public class NodoVarEncadenada extends Encadenado {
     public NodoVarEncadenada(Token t){
         nombre = t;
     }
@@ -28,6 +28,8 @@ public class NodoVarEncadenada extends Encadenado{
             Table<Attribute> attributes = c.getAttributes();
             for(Attribute attribute : attributes.values()){
                 if(attribute.getName().getLexeme().equals(nombre.getLexeme()));
+                if(encadenado == null)
+                    encadenado = new EncadenadoVacio();
                 return encadenado.check(attribute.getType());
             }
         }

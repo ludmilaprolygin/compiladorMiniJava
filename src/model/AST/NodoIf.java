@@ -1,5 +1,6 @@
 package model.AST;
 
+import model.AST.Expresiones.NodoExpresion;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
 import utils.exceptions.SemanticException;

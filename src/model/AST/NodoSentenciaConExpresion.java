@@ -1,5 +1,6 @@
 package model.AST;
 
+import model.AST.Expresiones.NodoExpresion;
 import utils.exceptions.SemanticException;
 
 public class NodoSentenciaConExpresion extends NodoSentencia {

@@ -2,6 +2,11 @@ package syntacticAnalyzer;
 
 import lexicalAnalyzer.LexicalAnalyzer;
 import model.AST.*;
+import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
+import model.AST.Encadenados.NodoLLamadaEncadenada;
+import model.AST.Encadenados.NodoVarEncadenada;
+import model.AST.Expresiones.*;
 import model.Firsts;
 import model.Following;
 import model.Token;
@@ -880,21 +885,28 @@ public class SyntacticAnalyzer {
     private NodoExpresion referencia() throws Exception {
         NodoExpresion var = primario();
         Encadenado e = _restoReferencia();
-        NodoVar v = null;
-        NodoLLamadaMetodo m = null;
+
         if(var instanceof NodoVar){
-            v = (NodoVar) var;
+            NodoVar v = (NodoVar) var;
             v.setEncadenado(e);
             return v;
         }
-        else if(var instanceof NodoLLamadaMetodo){
-            m = (NodoLLamadaMetodo) var;
+        if(var instanceof NodoLLamadaMetodo){
+            NodoLLamadaMetodo m = (NodoLLamadaMetodo) var;
             m.setEncadenado(e);
             return m;
         }
-        else{
-            return var;
+        if(var instanceof NodoThis){
+            NodoThis t = (NodoThis) var;
+            t.setEncadenado(e);
+            return t;
         }
+        if(var instanceof NodoLLamadaConstructor){
+            NodoLLamadaConstructor c = (NodoLLamadaConstructor) var;
+            c.setEncadenado(e);
+            return c;
+        }
+        return var;
     }
 
     private Encadenado _restoReferencia() throws Exception {
@@ -918,10 +930,12 @@ public class SyntacticAnalyzer {
             match(idMetVar);
             toReturn = new NodoVarEncadenada(token);
             Encadenado e = _restoEncadenado(toReturn);
+
             if(toReturn != e)
                 toReturn.setEncadenado(e);
             else
-                toReturn.setEncadenado(new EncadenadoVacio());
+                toReturn = e;
+
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(_Encadenado).toString()));
@@ -945,7 +959,8 @@ public class SyntacticAnalyzer {
             match(dot);
             token = currentToken;
             match(idMetVar);
-            Encadenado e = _restoEncadenado(encadenado);
+            NodoVarEncadenada var = new NodoVarEncadenada(token);
+            Encadenado e = _restoEncadenado(var);
             toReturn.setEncadenado(e);
         }
         else { /* epsilon */ }
