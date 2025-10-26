@@ -1,4 +1,4 @@
-package model.AST;
+package model.AST.Operandos;
 
 import model.AST.Encadenados.Encadenado;
 import model.Token;

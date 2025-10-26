@@ -1,4 +1,4 @@
-package model.AST;
+package model.AST.Sentencias;
 
 import utils.exceptions.SemanticException;
 

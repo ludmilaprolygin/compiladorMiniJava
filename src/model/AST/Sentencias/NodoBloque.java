@@ -1,6 +1,8 @@
-package model.AST;
+package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
+import model.AST.Expresiones.NodoLLamadaMetodo;
+import model.AST.Operandos.NodoOperando;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 

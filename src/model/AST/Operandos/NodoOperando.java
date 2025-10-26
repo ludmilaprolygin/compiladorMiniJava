@@ -1,6 +1,7 @@
-package model.AST;
+package model.AST.Operandos;
 
 import model.AST.Expresiones.NodoExpresion;
+import model.AST.Sentencias.NodoBloque;
 import model.Token;
 import model.symbolTable.*;
 import utils.exceptions.SemanticException;

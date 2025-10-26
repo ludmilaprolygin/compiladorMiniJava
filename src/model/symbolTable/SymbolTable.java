@@ -1,7 +1,7 @@
 package model.symbolTable;
 
-import model.AST.NodoBloque;
-import model.AST.NodoBloqueVacio;
+import model.AST.Sentencias.NodoBloque;
+import model.AST.Sentencias.NodoBloqueVacio;
 import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;

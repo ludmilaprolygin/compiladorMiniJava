@@ -1,18 +1,18 @@
-package model.AST;
+package model.AST.Operandos;
 
 import model.Token;
 import model.symbolTable.AbstractType;
-import model.symbolTable.BooleanType;
+import model.symbolTable.ClassType;
 import utils.exceptions.SemanticException;
 
-public class NodoBooleanLiteral extends NodoOperando {
-    public NodoBooleanLiteral(Token token){
+public class NodoStringLiteral extends NodoOperando{
+
+    public NodoStringLiteral(Token token) {
         super(token);
     }
 
     @Override
     public AbstractType check() throws SemanticException {
-        return new BooleanType(token);
+        return new ClassType(token);
     }
-
 }

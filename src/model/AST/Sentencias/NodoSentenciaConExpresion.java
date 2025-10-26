@@ -1,4 +1,4 @@
-package model.AST;
+package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
 import utils.exceptions.SemanticException;

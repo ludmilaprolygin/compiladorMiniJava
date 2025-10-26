@@ -1,12 +1,13 @@
 package syntacticAnalyzer;
 
 import lexicalAnalyzer.LexicalAnalyzer;
-import model.AST.*;
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.AST.Encadenados.NodoVarEncadenada;
 import model.AST.Expresiones.*;
+import model.AST.Operandos.*;
+import model.AST.Sentencias.*;
 import model.Firsts;
 import model.Following;
 import model.Token;

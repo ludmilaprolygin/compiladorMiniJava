@@ -1,11 +1,11 @@
-package model.AST;
+package model.AST.Operandos;
 
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.IntType;
 import utils.exceptions.SemanticException;
 
-public class NodoIntLiteral extends NodoOperando{
+public class NodoIntLiteral extends NodoOperando {
     public NodoIntLiteral(Token token){
         super(token);
     }

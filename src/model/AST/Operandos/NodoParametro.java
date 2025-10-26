@@ -1,7 +1,6 @@
-package model.AST;
+package model.AST.Operandos;
 
 import model.symbolTable.AbstractType;
-import model.symbolTable.Attribute;
 import model.symbolTable.Parameter;
 import utils.exceptions.SemanticException;
 

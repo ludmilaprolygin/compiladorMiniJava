@@ -1,6 +1,5 @@
-package model.AST;
+package model.AST.Expresiones;
 
-import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.symbolTable.*;
 import model.symbolTable.Class;

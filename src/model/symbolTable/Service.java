@@ -1,14 +1,10 @@
 package model.symbolTable;
 
-import model.AST.NodoBloque;
-import model.AST.NodoBloqueVacio;
-import model.AST.NodoOperando;
+import model.AST.Sentencias.NodoBloque;
+import model.AST.Sentencias.NodoBloqueVacio;
 import model.Token;
 import utils.exceptions.SemanticException;
-import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
-
-import java.util.LinkedList;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 
