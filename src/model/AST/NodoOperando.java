@@ -31,9 +31,9 @@ public abstract class NodoOperando extends NodoExpresion {
             }
         }
         NodoBloque bloque = st.getBloque();
-        while(!toReturn && bloque != null && bloque != st.getCurrentService().getBloque()){
-            toReturn = toReturn || bloque.getVariables().contains(this);
-            for(NodoOperando n : st.getBloque().getVariables()){
+        while(!toReturn && bloque != null){
+            toReturn = bloque.getVariables().contains(this);
+            for(NodoOperando n : bloque.getVariables()){
                 if(n.getToken() != null && this.getToken() != null && n.getToken().getLexeme().equals(this.getToken().getLexeme())){
                     aType = n.check();
                     toReturn = true;

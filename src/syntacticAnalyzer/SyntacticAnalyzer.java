@@ -294,7 +294,7 @@ public class SyntacticAnalyzer {
 
             argsFormales();
             NodoBloque b = bloqueOpcional();
-            b.setBloqueContenedor(symbolTable.getBloque());
+            b.setBloqueContenedor(new NodoBloqueVacio());
             newMethod.setBloque(b);
         }
         else {
@@ -335,7 +335,7 @@ public class SyntacticAnalyzer {
 
                 argsFormales();
                 NodoBloque b = bloque();
-                b.setBloqueContenedor(symbolTable.getBloque());
+                b.setBloqueContenedor(new NodoBloqueVacio());
                 s.setBloque(b);
             }
             else
@@ -399,7 +399,7 @@ public class SyntacticAnalyzer {
 
                 argsFormales();
                 NodoBloque b = bloque();
-                b.setBloqueContenedor(symbolTable.getBloque());
+                b.setBloqueContenedor(new NodoBloqueVacio());
                 s.setBloque(b);
             }
             else
@@ -535,7 +535,7 @@ public class SyntacticAnalyzer {
         }
         else if (currentTokenType.equals(semicolon)) {
             match(semicolon);
-            toReturn = new NodoBloqueVacio();
+            toReturn = new NodoBloqueVacio(symbolTable.getBloque());
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(BloqueOpcional).toString()));
@@ -544,13 +544,14 @@ public class SyntacticAnalyzer {
     }
 
     private NodoBloque bloque() throws Exception {
-        NodoBloque toReturn = new NodoBloque();
+        NodoBloque toReturn = new NodoBloque(symbolTable.getBloque());
         match(openBracket);
         if(symbolTable.getCurrentService() instanceof Method)
             ((Method) symbolTable.getCurrentService()).setCompletedBody();
-        toReturn.setBloqueContenedor(symbolTable.getBloque());
+        //toReturn.setBloqueContenedor(symbolTable.getBloque());
         symbolTable.setBloque(toReturn);
         listaSentencias(toReturn);
+        symbolTable.setBloque(toReturn.getBloqueContenedor());
         match(closeBracket);
         return toReturn;
     }

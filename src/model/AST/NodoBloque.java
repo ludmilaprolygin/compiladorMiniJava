@@ -21,10 +21,11 @@ public class NodoBloque extends NodoSentencia {
     protected NodoBloque bloqueContenedor;
     protected List<NodoLLamadaMetodo> llamadas;
 
-    public NodoBloque() {
+    public NodoBloque(NodoBloque bc) {
         statements = new LinkedList<>();
         variables = new LinkedList<>();
         llamadas = new LinkedList<>();
+        bloqueContenedor = bc;
     }
 
     public List<NodoSentencia> getStatements() { return statements; }

@@ -20,7 +20,7 @@ public abstract class Service extends Element {
         super(n);
         visibility = v;
         parameters = new List();
-        bloque = new NodoBloqueVacio();
+        bloque = new NodoBloqueVacio(null);
     }
 
     public void correctDeclaration() throws SemanticException {
