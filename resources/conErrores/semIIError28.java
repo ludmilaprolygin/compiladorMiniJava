@@ -1,4 +1,4 @@
-///[Error:atributoC|33]
+///[Error:atributoC|34]
 // Atributo no declarado en Clase C
 //Author: Cami
 class A{

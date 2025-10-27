@@ -1,4 +1,4 @@
-///[Error:m4|33]
+///[Error:m4|34]
 // Encadenado sobre un metodo void
 //Author: Cami
 class A{

@@ -1,4 +1,4 @@
-///[Error:m1|31]
+///[Error:m1|32]
 // Encadenado sobre un tipo primitivo int
 //Author: Cami
 class A{

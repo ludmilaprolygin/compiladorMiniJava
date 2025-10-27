@@ -1,4 +1,4 @@
-//[Error:=|6]
+///[Error:=|7]
 // Tipo String incompatible con un entero.
 
 //Author: Cami

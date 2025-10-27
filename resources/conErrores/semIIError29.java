@@ -1,4 +1,4 @@
-///[Error:m4|33]
+///[Error:m4|34]
 // Parametros de más
 //Author: Cami
 class A{

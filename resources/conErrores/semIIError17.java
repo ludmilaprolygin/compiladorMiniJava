@@ -1,4 +1,4 @@
-///[Error:return|8]
+///[Error:return|9]
 //Author: Cami
 
 class A {

@@ -68,7 +68,7 @@ public class ClassType extends AbstractType {
     }
 
     private boolean stringComparison(AbstractType t) throws SemanticException {
-        if(t.getName().getTokenType().equals(name.getTokenType()) && name.getTokenType().equals(TokenType.stringLiteral) || 
+        if(t.getName().getTokenType().equals(name.getTokenType()) && name.getTokenType().equals(TokenType.stringLiteral) ||
            t.getName().getTokenType().equals(idClase) && t.getName().getLexeme().equals("String") && name.getTokenType().equals(TokenType.stringLiteral) ||
            getName().getTokenType().equals(idClase) && getName().getLexeme().equals("String") && t.getName().getTokenType().equals(TokenType.stringLiteral))
             return true;

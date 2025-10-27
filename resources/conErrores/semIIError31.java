@@ -1,4 +1,4 @@
-///[Error:metodoQueNoExiste|33]
+///[Error:metodoQueNoExiste|34]
 // Tipo de parámetros incorrectos
 //Author: Cami
 class A{
