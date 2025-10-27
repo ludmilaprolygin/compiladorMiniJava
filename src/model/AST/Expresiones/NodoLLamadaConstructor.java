@@ -4,10 +4,14 @@ import model.AST.Encadenados.Encadenado;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.ClassType;
+import model.symbolTable.SymbolTable;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static model.TokenType.idClase;
 
 public class NodoLLamadaConstructor extends NodoExpresion {
     protected ClassType classType;
@@ -26,6 +30,7 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
     @Override
     public AbstractType check() throws SemanticException {
+        checkClassExistance();
         if(encadenado != null)
             return encadenado.check(classType);
         else
@@ -60,5 +65,17 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
     public Encadenado getEncadenado() {
         return encadenado;
+    }
+
+    protected void checkClassExistance() throws SemanticException {
+        if (classType == null) {
+            throw new SemanticException(SemanticErrorIIMessage.undeclaredType(new Token(idClase, "", -1)));
+        }
+        else{
+            Token t = SymbolTable.symbolTable().getClasses().getTokenByName(classType.getName().getLexeme());
+            if (t == null) {
+                throw new SemanticException(SemanticErrorIIMessage.undeclaredType(classType.getName()));
+            }
+        }
     }
 }
