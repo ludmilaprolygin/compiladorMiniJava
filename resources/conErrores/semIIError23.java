@@ -1,4 +1,4 @@
-///[Error:m1|31]
+///[Error:m1|32]
 // Llamada metodo le falta un parámetro
 //Author: Cami
 class A{
