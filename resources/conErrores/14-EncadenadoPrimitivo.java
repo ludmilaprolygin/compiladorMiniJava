@@ -1,4 +1,4 @@
-///[Error:x|8]
+///[Error:y|8]
 //Author:Franco
 class A {
     int x;

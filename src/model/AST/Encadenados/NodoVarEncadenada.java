@@ -1,10 +1,7 @@
 package model.AST.Encadenados;
 
 import model.Token;
-import model.symbolTable.AbstractType;
-import model.symbolTable.Attribute;
-import model.symbolTable.SymbolTable;
-import model.symbolTable.Table;
+import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -21,6 +18,8 @@ public class NodoVarEncadenada extends Encadenado {
 
     @Override
     public AbstractType check(AbstractType t) throws SemanticException {
+        if(t.isPrimitive() || t instanceof VoidType)
+            throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(nombre));
         Token token = SymbolTable.symbolTable().getClasses().getTokenByName(t.getName().getLexeme());
         model.symbolTable.Class c = SymbolTable.symbolTable().getClasses().get(token);
         if(c != null){

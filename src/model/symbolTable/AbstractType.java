@@ -27,4 +27,6 @@ public abstract class AbstractType extends Element {
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(this.getName()));
         return true;
     }
+
+    public abstract boolean isPrimitive();
 }

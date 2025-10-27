@@ -34,7 +34,7 @@ public class NodoLLamadaMetodo extends NodoExpresion {
                 toReturn = encadenado.check(m.getReturnType());
                 //encadenado.check(tipo);
             else
-                throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(m.getReturnType()));
+                throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(metodo));
 
         return toReturn;
     }

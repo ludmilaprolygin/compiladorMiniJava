@@ -4,4 +4,8 @@ import model.Token;
 
 public class BooleanType extends AbstractType{
     public BooleanType(Token n) { super(n); }
+    @Override
+    public boolean isPrimitive() {
+        return true;
+    }
 }

@@ -35,6 +35,8 @@ public class NodoLLamadaEncadenada extends Encadenado {
     }
     @Override
     public AbstractType check(AbstractType t) throws SemanticException {
+        if(t.isPrimitive() || t instanceof VoidType)
+            throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(nombre));
         Token token = SymbolTable.symbolTable().getClasses().getTokenByName(t.getName().getLexeme());
         model.symbolTable.Class c = SymbolTable.symbolTable().getClasses().get(token);
         if(c != null) {
