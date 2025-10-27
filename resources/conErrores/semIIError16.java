@@ -1,4 +1,5 @@
 ///[Error:123|8]
+//Author: Cami
 
 class A {
     int a1;

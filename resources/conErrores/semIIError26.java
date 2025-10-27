@@ -1,5 +1,6 @@
 ///[Error:m1|31]
 // Encadenado sobre un tipo primitivo int
+//Author: Cami
 class A{
     int a1;
     B b1;

@@ -1,5 +1,6 @@
 ///[Error:m4|33]
 // Encadenado sobre un metodo void
+//Author: Cami
 class A{
     int a1;
     B b1;

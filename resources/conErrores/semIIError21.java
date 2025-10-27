@@ -1,5 +1,5 @@
 ///[Error:=|9]
-
+//Author: Cami
 class A {
     int a1;
     B b;

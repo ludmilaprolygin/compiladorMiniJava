@@ -1,5 +1,6 @@
 ///[Error:m4|33]
 // Parametros de más
+//Author: Cami
 class A{
     int a1;
     B b1;
@@ -30,6 +31,6 @@ class Init{
     int x;
     static void main(){
         a = new A();
-        x =a.m2().m3().m4(1);;
+        x = a.m2().m3().m4(1);
     }
 }

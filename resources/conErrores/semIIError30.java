@@ -1,5 +1,6 @@
 ///[Error:m1|33]
 // Tipo de parámetros incorrectos
+//Author: Cami
 class A{
     int a1;
     B b1;

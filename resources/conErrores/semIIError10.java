@@ -1,6 +1,6 @@
 ///[Error:=|11]
 // Tipos incompatibles incompatibles en la asignacion: B no conforma con C - ln: 11
-
+//Author: Cami
 class A {
 
     A v1;   

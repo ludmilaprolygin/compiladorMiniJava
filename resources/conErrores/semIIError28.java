@@ -1,5 +1,6 @@
 ///[Error:atributoC|33]
 // Atributo no declarado en Clase C
+//Author: Cami
 class A{
     int a1;
     B b1;
