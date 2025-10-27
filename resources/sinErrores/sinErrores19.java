@@ -19,7 +19,11 @@ class Principal extends Utilidades{
         sumar(1, 2);
     }
 
+
+}
+
+class Ex {
     static void main() {
-        metodo();
+
     }
 }

@@ -66,7 +66,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
                 AbstractType argType = parametros.get(i).check();
                 AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
                 try {
-                    argType.compatible(paramType);
+                    paramType.compatible(argType);
                 }
                 catch (SemanticException e) {
                     throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));

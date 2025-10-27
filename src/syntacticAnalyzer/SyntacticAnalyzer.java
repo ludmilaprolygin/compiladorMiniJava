@@ -416,14 +416,16 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _inicializacionAtributoOpcional() throws Exception {
+    private NodoExpresion _inicializacionAtributoOpcional() throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
+        NodoExpresion toReturn = new NodoExpresionVacia();
         if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
             match(currentTokenType);
             NodoExpresion expresion = expresionCompuesta();
-            expresion = _operadorTernario(expresion);
+            toReturn = _operadorTernario(expresion);
         }
         else { /* epsilon */ }
+        return toReturn;
     }
 
     private Token _modificador() throws Exception {
