@@ -25,7 +25,7 @@ public abstract class Encadenado {
             toReturn += "- ";
         if(encadenado == null)
             encadenado = new EncadenadoVacio();
-        toReturn += "." + nombre.getLexeme() + "\n" + encadenado.toString(depth + 1);
+        toReturn += "." + nombre.getLexeme() + " " + getClass().getSimpleName() + "\n" + encadenado.toString(depth + 1);
         return toReturn;
     }
 }

@@ -39,10 +39,15 @@ public class NodoLLamadaEncadenada extends Encadenado {
         if(c != null) {
             Table<Method> methods = c.getMethods();
             for(Method method : methods.values()){
-                if(method.getName().getLexeme().equals(nombre.getLexeme()));
-                if(encadenado == null)
-                    encadenado = new EncadenadoVacio();
-                return encadenado.check(method.getReturnType());
+                AbstractType methodType = method.getReturnType();
+                if(method.getName().getLexeme().equals(nombre.getLexeme())){
+                    if(encadenado == null) {
+                        encadenado = new EncadenadoVacio();
+                        return methodType;
+                    }
+
+                    return encadenado.check(methodType);
+                }
             }
         }
 

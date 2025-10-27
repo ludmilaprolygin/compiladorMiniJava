@@ -26,10 +26,10 @@ public class NodoVarEncadenada extends Encadenado {
         if(c != null){
             Table<Attribute> attributes = c.getAttributes();
             for(Attribute attribute : attributes.values()){
-                if(attribute.getName().getLexeme().equals(nombre.getLexeme()));
+                if(attribute.getName().getLexeme().equals(nombre.getLexeme())){
                 if(encadenado == null)
                     encadenado = new EncadenadoVacio();
-                return encadenado.check(attribute.getType());
+                return encadenado.check(attribute.getType());}
             }
         }
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));

@@ -26,7 +26,10 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
     @Override
     public AbstractType check() throws SemanticException {
-        return classType;
+        if(encadenado != null)
+            return encadenado.check(classType);
+        else
+            return classType;
     }
 
     @Override
