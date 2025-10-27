@@ -3,6 +3,7 @@ package model.AST.Encadenados;
 import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.symbolTable.*;
+import model.symbolTable.Class;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -40,6 +41,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
             Table<Method> methods = c.getMethods();
             for(Method method : methods.values()){
                 AbstractType methodType = method.getReturnType();
+                compareArgs(c);
                 if(method.getName().getLexeme().equals(nombre.getLexeme())){
                     if(encadenado == null) {
                         encadenado = new EncadenadoVacio();
@@ -52,5 +54,27 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
 
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
+    }
+
+    private void compareArgs(Class belongingClass) throws SemanticException {
+        Token tokenM = belongingClass.getMethods().getTokenByName(nombre.getLexeme());
+        Method m = belongingClass.getMethods().get(tokenM);
+        if(m != null){
+            if (m.getParameters().size() != parametros.size())
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
+            for (int i = 0; i < parametros.size(); i++) {
+                AbstractType argType = parametros.get(i).check();
+                AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
+                try {
+                    argType.compatible(paramType);
+                }
+                catch (SemanticException e) {
+                    throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
+                }
+            }
+        }
+        else{
+            throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
+        }
     }
 }

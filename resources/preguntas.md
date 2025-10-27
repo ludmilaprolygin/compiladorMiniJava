@@ -1,7 +1,7 @@
-### [] semIIError18
-### [] semIIError20
-### [] semIIError23
-### [] semIIError24
-### [] semIIError29
-### [] semIIError30
-### [] semIIError32
+### [ ] semIIError18
+### [ ] semIIError20
+### [ ] semIIError23
+### [X] semIIError24
+### [X] semIIError29
+### [ ] semIIError30
+### [X] semIIError32

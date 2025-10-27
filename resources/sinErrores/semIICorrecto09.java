@@ -18,7 +18,7 @@ class B extends A{
     {
         a1.a3.a2 = 4;
         a1.a3.a1.a1.a1;
-        a1.m2(2,3);
+        a1.m2();
 
         m2().a2.m3();
     }

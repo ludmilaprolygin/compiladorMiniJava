@@ -77,17 +77,7 @@ public class Method extends Service {
         if(ret != null && ret.compatibleWithVoid() && !returnType.getName().getTokenType().equals(TokenType.reservedVoid)){
             throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
         }
-        //if(ret != null){
-            //AbstractType retType = ret.getType();
-            /*try{
-                retType.compatible(returnType);
-            }
-            catch(SemanticException e){
-                throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
-            }
 
-             */
-        //}
     }
 
     protected void checkThisOnStaticContext() throws SemanticException {
