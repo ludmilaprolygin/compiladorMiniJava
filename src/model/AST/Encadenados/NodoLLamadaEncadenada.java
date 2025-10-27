@@ -37,14 +37,19 @@ public class NodoLLamadaEncadenada extends Encadenado {
     public AbstractType check(AbstractType t) throws SemanticException {
         if(t.isPrimitive() || t instanceof VoidType)
             throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(nombre));
+
         Token token = SymbolTable.symbolTable().getClasses().getTokenByName(t.getName().getLexeme());
         model.symbolTable.Class c = SymbolTable.symbolTable().getClasses().get(token);
+
         if(c != null) {
             Table<Method> methods = c.getMethods();
+
             for(Method method : methods.values()){
-                AbstractType methodType = method.getReturnType();
-                compareArgs(c);
+
                 if(method.getName().getLexeme().equals(nombre.getLexeme())){
+                    compareArgs(method);
+
+                    AbstractType methodType = method.getReturnType();
                     if(encadenado == null) {
                         encadenado = new EncadenadoVacio();
                         return methodType;
@@ -53,30 +58,26 @@ public class NodoLLamadaEncadenada extends Encadenado {
                     return encadenado.check(methodType);
                 }
             }
+            throw new SemanticException(SemanticErrorIIMessage.methodNotDeclared(nombre));
         }
 
-        throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
-    }
+        throw new SemanticException(SemanticErrorIIMessage.undeclaredType(t.getName()));
+    }private void compareArgs(Method m) throws SemanticException {
+        if (m.getParameters().size() != parametros.size())
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
 
-    private void compareArgs(Class belongingClass) throws SemanticException {
-        Token tokenM = belongingClass.getMethods().getTokenByName(nombre.getLexeme());
-        Method m = belongingClass.getMethods().get(tokenM);
-        if(m != null){
-            if (m.getParameters().size() != parametros.size())
-                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
-            for (int i = 0; i < parametros.size(); i++) {
-                AbstractType argType = parametros.get(i).check();
-                AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
-                try {
-                    paramType.compatible(argType);
-                }
-                catch (SemanticException e) {
-                    throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
-                }
+        for (int i = 0; i < parametros.size(); i++) {
+
+            AbstractType argType = parametros.get(i).check();
+
+            AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
+
+            try {
+                paramType.compatible(argType);
             }
-        }
-        else{
-            throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
+            catch (SemanticException e) {
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
+            }
         }
     }
 }
