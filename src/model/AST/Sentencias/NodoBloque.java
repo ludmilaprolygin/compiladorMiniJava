@@ -1,10 +1,12 @@
 package model.AST.Sentencias;
 
+import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoExpresionBinaria;
 import model.AST.Expresiones.NodoLLamadaMetodo;
 import model.AST.Expresiones.NodoThis;
 import model.AST.Operandos.NodoOperando;
+import model.AST.Operandos.NodoVar;
 import model.symbolTable.AbstractType;
 import model.symbolTable.Method;
 import utils.exceptions.SemanticException;
@@ -71,8 +73,9 @@ public class NodoBloque extends NodoSentencia {
                 r = ((NodoReturn) s);
                 retType = r.getType();
             }
-            if(s instanceof NodoSentenciaConExpresion e && e.expresion instanceof NodoExpresionBinaria)
+            if(s instanceof NodoSentenciaConExpresion e && (e.expresion instanceof NodoExpresionBinaria || (e.expresion instanceof NodoVar && (((NodoVar) e.expresion).getEncadenado() == null || ((NodoVar) e.expresion).getEncadenado() instanceof EncadenadoVacio)))){
                 throw new SemanticException(SemanticErrorIIMessage.expresionMislocated(e.expresion.getToken()));
+            }
         }
         if(r!=null && retType != null && symbolTable().getCurrentService() instanceof Method){
             try{
