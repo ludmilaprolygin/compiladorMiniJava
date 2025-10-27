@@ -1,5 +1,5 @@
 ///[Error:a|26]
-
+//Author:Franco
 class A {
     int x;
 }

@@ -1,5 +1,5 @@
 ///[Error:=|6]
-
+//Author:Franco
 class B {
     void m1() {
         var x = 5;

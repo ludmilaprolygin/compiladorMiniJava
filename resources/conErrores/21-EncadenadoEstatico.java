@@ -1,5 +1,6 @@
-///[Error:m2|11]
+///[Error:m2|12]
 // Variable local duplicada en el metodo m2
+//Author:Franco
 class A {
     static B method() {
         return null;

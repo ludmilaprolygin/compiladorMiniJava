@@ -1,5 +1,5 @@
 ///[Error:=|5]
-
+//Author:Franco
 class B {
     void m1() {
         this.m2() = 10;

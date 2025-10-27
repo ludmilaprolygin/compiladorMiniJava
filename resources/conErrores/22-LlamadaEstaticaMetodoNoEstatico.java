@@ -1,5 +1,6 @@
-///[Error:method|9]
+///[Error:method|10]
 // Variable local duplicada en el metodo m2
+//Author:Franco
 class A {
     void method() {}
 }
