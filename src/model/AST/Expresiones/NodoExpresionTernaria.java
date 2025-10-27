@@ -26,23 +26,24 @@ public class NodoExpresionTernaria extends NodoExpresion{
 
     @Override
     public AbstractType check() throws SemanticException {
-        AbstractType condicionType = condicion.check();
-        AbstractType sTrueType = sTrue.check();
-        AbstractType sFalseType = sFalse.check();
-        try{
-            condicionType.compatible(new BooleanType(null));
+
+        AbstractType condType = condicion.check();
+        if (! (new BooleanType(null)).compatible(condType) ) {
+            throw new SemanticException(SemanticErrorIIMessage.optionsMustBeCompatibleWithOperandType(condicion.getToken()));
         }
-        catch(SemanticException e){
-            throw new SemanticException(SemanticErrorIIMessage.firstOperandMustBeBoolean(condicion.getToken()));
+
+        AbstractType tipoTrue = sTrue.check();
+        AbstractType tipoFalse = sFalse.check();
+
+        if (tipoTrue.compatible(tipoFalse)) {
+            return tipoTrue;
         }
-        try{
-            sTrueType.compatible(sFalseType);
-            sTrueType.compatible(new NodoVar(operador).check());
+        else if (tipoFalse.compatible(tipoTrue)) {
+            return tipoFalse;
         }
-        catch(SemanticException e){
-            throw new SemanticException(SemanticErrorIIMessage.optionsMustBeCompatibleWithOperandType(sTrueType.getName()));
+        else {
+            throw new SemanticException(SemanticErrorIIMessage.optionsMustBeCompatibleWithOperandType(sTrue.getToken()));
         }
-        return sTrueType;
     }
 
     @Override
