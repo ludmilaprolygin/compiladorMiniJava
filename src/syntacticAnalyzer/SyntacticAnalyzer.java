@@ -626,10 +626,19 @@ public class SyntacticAnalyzer {
         NodoSentencia toReturn = new NodoSentenciaVacia();
         if (currentTokenType.equals(dot)) {
             match(dot);
+            Token t = currentToken;
             match(idMetVar);
-            java.util.List<NodoExpresion> args = argsActuales();
-            _restoEncadenado(new EncadenadoVacio());
-            _asignacionOpcional(new NodoExpresionVacia());
+            java.util.List<NodoExpresion> args = argsActuales(); 
+
+            NodoLLamadaMetodoEstatico call = new NodoLLamadaMetodoEstatico(token, t, args);
+
+            Encadenado chain = _restoReferencia();
+            if (chain != null) {
+                call.setEncadenado(chain);
+            }
+            toReturn = new NodoSentenciaConExpresion(call);
+            match(semicolon);
+
         }
         else if (currentTokenType.equals(comma)) {
             _restoVarLocalClasica();

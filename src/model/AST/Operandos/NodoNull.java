@@ -1,6 +1,9 @@
 package model.AST.Operandos;
 
+import model.Token;
 import model.symbolTable.AbstractType;
+import model.symbolTable.Class;
+import model.symbolTable.ClassType;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
 
@@ -11,7 +14,8 @@ public class NodoNull extends NodoOperando{
 
     @Override
     public AbstractType check() throws SemanticException {
-        return new UniversalType();
+        Token tk = new Token(null, "Object", -1);
+        return new ClassType(tk);
     }
     public String toString(int depth){
         String toReturn = "";

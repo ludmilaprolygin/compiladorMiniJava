@@ -15,6 +15,7 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
     private Token idC;
     private Token idM;
     private java.util.List<NodoExpresion> argumentos;
+    private Encadenado encadenado;
 
     public NodoLLamadaMetodoEstatico(Token c, Token m, java.util.List<NodoExpresion> args){
         idC = c;
@@ -73,6 +74,12 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
 
     @Override
     public Encadenado getLastEncadenado (){
-        return new EncadenadoVacio();
+        if (encadenado == null)
+            return null;
+        return encadenado.getLastEncadenado();
+    }
+
+    public void setEncadenado(Encadenado chain) {
+        encadenado = chain;
     }
 }

@@ -24,8 +24,15 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     public AbstractType check() throws SemanticException {
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
         Method m = belongingClass.getMethods().get(tokenM);
+
         if (m == null)
             throw new SemanticException(SemanticErrorIIMessage.methodNotDeclared(metodo));
+
+        Service servicioActual = SymbolTable.symbolTable().getCurrentService();
+
+        if (servicioActual instanceof Method && ((Method) servicioActual).isStatic() && !m.isStatic()) {
+            throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(metodo));
+        }
         compareArgs();
         AbstractType toReturn = m.getReturnType();
 
