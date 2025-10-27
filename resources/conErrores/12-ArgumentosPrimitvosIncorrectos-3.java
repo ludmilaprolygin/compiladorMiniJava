@@ -1,5 +1,6 @@
-///[Error:A|10]
+///[Error:A|11]
 // Clase B no declarada
+    //Author:Franco
 class A {
 
     A (int x, char y) {
@@ -7,7 +8,7 @@ class A {
     }
 
     void m1() {
-        var obj = new A(null, 'a');
+        var obj = new A(true, 'a');
     }
 
     static void main() {}

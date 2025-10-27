@@ -1,5 +1,6 @@
-///[Error:A|10]
+///[Error:A|11]
 // Clase B no declarada
+//Author:Franco
 class A {
 
     A (int x, char y) {

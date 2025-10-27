@@ -1,5 +1,6 @@
-///[Error:m2|5]
+///[Error:m2|6]
 // Método no declarado
+//Author:Franco
 class A {
     void m1() {
         m2();

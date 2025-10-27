@@ -1,5 +1,6 @@
-///[Error:B|5]
+///[Error:B|6]
 // Clase B no declarada
+//Author:Franco
 class A {
     void m1() {
         var obj = new B();
