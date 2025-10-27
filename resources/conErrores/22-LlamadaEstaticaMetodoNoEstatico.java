@@ -1,4 +1,4 @@
-///[Error:A|10]
+///[Error:method|10]
 // Variable local duplicada en el metodo m2
 //Author:Franco
 class A {

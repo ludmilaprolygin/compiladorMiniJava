@@ -34,30 +34,41 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
         }
         if(belongingClass == null)
             throw new SemanticException(SemanticErrorIMessage.undeclaredType(idC));
+
         Token tokenM = belongingClass.getMethods().getTokenByName(idM.getLexeme());
         Method m = belongingClass.getMethods().get(tokenM);
+
         if (m == null)
             throw new SemanticException(SemanticErrorIIMessage.methodNotDeclared(idM));
-        if (m.getModifier() != null && !m.getModifier().getTokenType().equals(reservedStatic)){
+
+        if (m.getModifier() == null || !m.getModifier().getTokenType().equals(reservedStatic)){
             throw new SemanticException(SemanticErrorIIMessage.methodNotStatic(idM));
         }
-        compareArgs(belongingClass, idM);
-        return m.getReturnType();
+
+        compareArgs(m);
+
+        AbstractType miTipoDeRetorno = m.getReturnType();
+
+        if (encadenado != null) {
+            return encadenado.check(miTipoDeRetorno);
+        } else {
+            return miTipoDeRetorno;
+        }
     }
 
-    private void compareArgs(Class belongingClass, Token metodo) throws SemanticException {
-        Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
-        Method m = belongingClass.getMethods().get(tokenM);
+    private void compareArgs(Method m) throws SemanticException {
         if (m.getParameters().size() != argumentos.size())
-            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
+            throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(idM)); // Usamos idM como token de error
+
         for (int i = 0; i < argumentos.size(); i++) {
             AbstractType argType = argumentos.get(i).check();
             AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
+
             try {
                 argType.compatible(paramType);
             }
             catch (SemanticException e) {
-                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(idM));
             }
         }
     }
