@@ -1,5 +1,7 @@
 package model.AST.Expresiones;
 
+import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.UniversalType;
@@ -20,5 +22,10 @@ public class NodoExpresionVacia extends NodoExpresion {
     @Override
     public Token getToken() {
         return null;
+    }
+
+    @Override
+    public Encadenado getLastEncadenado() {
+        return new EncadenadoVacio();
     }
 }

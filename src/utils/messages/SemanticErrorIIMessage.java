@@ -8,14 +8,14 @@ import model.symbolTable.Method;
 public class SemanticErrorIIMessage {
     private static String basicErrorInit(Token t) {
         try {
-            return "Error semántico en linea " + t.getRow();
+            return "Error semántico en linea " + (t==null ? "-1": t.getRow());
         }
         catch(Exception e) {e.printStackTrace();}
         return null;
     }
 
     private static String basicErrorEnd(Token t) {
-        return "[Error:" + t.getLexeme() + "|" + t.getRow() + "]";
+        return "[Error:" + t.getLexeme() + "|" + (t==null ? "-1" : t.getRow()) + "]";
     }
 
     public static String variableAlreadyExists(Token n) {

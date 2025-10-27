@@ -1,5 +1,8 @@
 package model.AST.Expresiones;
 
+import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
+import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.AST.Operandos.NodoOperando;
 import model.Token;
 import model.symbolTable.AbstractType;
@@ -18,6 +21,9 @@ public class NodoExpresionAsignacion extends NodoExpresion{
     }
     @Override
     public AbstractType check() throws SemanticException {
+        if(ladoIzquierdo.getLastEncadenado() instanceof NodoLLamadaEncadenada)
+            throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
+
         AbstractType left = ladoIzquierdo.check();
         AbstractType right = ladoDerecho.check();
         if(ladoIzquierdo instanceof NodoExpresionBinaria)
@@ -26,6 +32,7 @@ public class NodoExpresionAsignacion extends NodoExpresion{
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
         if(ladoIzquierdo instanceof NodoLLamadaConstructor)
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
+
         try{
             left.compatible(right);
         } catch (SemanticException e){
@@ -47,5 +54,10 @@ public class NodoExpresionAsignacion extends NodoExpresion{
 
     public Token getToken() {
         return operador;
+    }
+
+    @Override
+    public Encadenado getLastEncadenado() {
+        return new EncadenadoVacio();
     }
 }

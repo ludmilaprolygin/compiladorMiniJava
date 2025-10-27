@@ -1,5 +1,7 @@
 package model.AST.Expresiones;
 
+import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
 import model.Token;
 import model.TokenType;
 import model.symbolTable.AbstractType;
@@ -58,5 +60,10 @@ public class NodoExpresionUnaria extends NodoExpresion{
     @Override
     public Token getToken() {
         return operador;
+    }
+
+    @Override
+    public Encadenado getLastEncadenado() {
+        return new EncadenadoVacio();
     }
 }

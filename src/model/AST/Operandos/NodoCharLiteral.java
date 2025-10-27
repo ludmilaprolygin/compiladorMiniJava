@@ -1,5 +1,6 @@
 package model.AST.Operandos;
 
+import model.AST.Encadenados.Encadenado;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.CharType;
@@ -15,3 +16,5 @@ public class NodoCharLiteral extends NodoOperando {
         return new CharType(token);
     }
 }
+
+

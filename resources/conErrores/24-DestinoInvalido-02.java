@@ -1,4 +1,4 @@
-///[Error:=|5]
+///[Error:static|9]
 //Author:Franco
 class B {
     void m1() {

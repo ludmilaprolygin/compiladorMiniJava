@@ -1,5 +1,7 @@
 package model.AST.Operandos;
 
+import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Sentencias.NodoBloque;
 import model.Token;
@@ -61,5 +63,10 @@ public abstract class NodoOperando extends NodoExpresion {
             throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(getToken()));
         }
         return aType;
+    }
+
+    @Override
+    public Encadenado getLastEncadenado() {
+        return new EncadenadoVacio();
     }
 }

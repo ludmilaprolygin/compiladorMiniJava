@@ -82,7 +82,12 @@ public class Method extends Service {
 
     protected void checkThisOnStaticContext() throws SemanticException {
         if(modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic)){
-            bloque.checkThisOnStaticContext();
+            try{
+                bloque.checkThisOnStaticContext();
+            }
+            catch(Exception e){
+                throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(modifier));
+            }
         }
     }
 
