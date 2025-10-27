@@ -4,7 +4,7 @@ import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoExpresionVacia;
 import model.AST.Expresiones.NodoThis;
 import model.Token;
-import model.symbolTable.AbstractType;
+import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -21,7 +21,17 @@ public class NodoReturn extends NodoSentencia {
 
     @Override
     public void check() throws SemanticException {
-        expresion.check();
+        AbstractType aType = expresion.check();
+
+        if(!(expresion instanceof NodoExpresionVacia)) {
+            Service s = SymbolTable.symbolTable().getCurrentService();
+            if (s instanceof Method m)
+                try {
+                    m.getReturnType().compatible(aType);
+                } catch (Exception e) {
+                    throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(t, "return"));
+                }
+        }
     }
 
     public Token getToken() { return t; }

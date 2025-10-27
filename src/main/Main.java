@@ -98,6 +98,6 @@ public class Main {
         System.out.println(symbolTable);
         symbolTable.check();
 
-        System.out.println("[SinErrores]");
+        System.out.println("Compilación exitosa. \n[SinErrores]");
     }
 }
