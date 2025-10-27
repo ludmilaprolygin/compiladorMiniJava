@@ -1,5 +1,6 @@
-///[Error:x|10]
+///[Error:x|11]
 // Variable local duplicada en el metodo m2
+//Author:Franco
 class A {
     void m1() {
         var x = 10;
