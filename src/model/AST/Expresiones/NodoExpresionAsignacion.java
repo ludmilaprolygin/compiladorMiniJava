@@ -22,7 +22,7 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         AbstractType right = ladoDerecho.check();
         if(ladoIzquierdo instanceof NodoExpresionBinaria)
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(((NodoExpresionBinaria) ladoIzquierdo).getOperador()));
-        if(!(ladoIzquierdo instanceof NodoOperando) && !(ladoIzquierdo instanceof NodoExpresionUnaria))
+        if(!(ladoIzquierdo instanceof NodoOperando) && !(ladoIzquierdo instanceof NodoExpresionUnaria) && !(ladoIzquierdo instanceof NodoThis))
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
         try{
             left.compatible(right);

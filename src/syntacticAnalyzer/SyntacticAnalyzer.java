@@ -659,7 +659,6 @@ public class SyntacticAnalyzer {
     private NodoSentencia varLocal() throws Exception {
         NodoExpresion expresion;
         NodoVar e = _inicioVarLocal();
-        e.checkExistance();
         expresion = _restoVarLocal(e);
         e.setTipo(expresion.check());
         symbolTable().getBloque().addVariable(e);
@@ -671,6 +670,7 @@ public class SyntacticAnalyzer {
         match(reservedVar);
         toReturn = new NodoVar(currentToken);
         toReturn.declare();
+        toReturn.checkExistance();
         match(idMetVar);
         return toReturn;
     }
