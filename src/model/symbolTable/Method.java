@@ -5,6 +5,7 @@ import model.AST.Sentencias.NodoSentencia;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
 
 public class Method extends Service {
@@ -61,6 +62,8 @@ public class Method extends Service {
     protected void checkReturnType() throws SemanticException {
         NodoReturn ret = bloque.hasReturnStatementSomewhere();
         if(ret != null && returnType.getName().getTokenType().equals(TokenType.reservedVoid) && !ret.compatibleWithVoid())
-            throw new SemanticException(SemanticErrorIMessage.voidMethodWithReturnStatement(ret.getToken()));
+            throw new SemanticException(SemanticErrorIIMessage.voidMethodWithReturnStatement(ret.getToken()));
+        //if(ret != null && returnType != null && !returnType.compatible(ret.getType()))
+        //    throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
     }
 }

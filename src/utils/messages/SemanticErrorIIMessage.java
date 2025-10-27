@@ -65,4 +65,12 @@ public class SemanticErrorIIMessage {
     public static String optionsMustBeCompatibleWithOperandType(Token name) {
         return basicErrorInit(name) + ": Both options of ternary operator must be compatible with the operand type\n" + basicErrorEnd(name);
     }
+
+    public static String voidMethodWithReturnStatement(Token name) {
+        return basicErrorInit(name) + ": Void method " + name.getLexeme() + " cannot have a return statement \n" + basicErrorEnd(name);
+    }
+
+    public static String incorrectReturnType(Token token) {
+        return basicErrorInit(token) + ": Return type is not compatible with method's declared return type \n" + basicErrorEnd(token);
+    }
 }

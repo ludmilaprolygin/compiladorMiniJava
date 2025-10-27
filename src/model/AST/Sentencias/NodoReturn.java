@@ -3,6 +3,7 @@ package model.AST.Sentencias;
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoExpresionVacia;
 import model.Token;
+import model.symbolTable.AbstractType;
 import utils.exceptions.SemanticException;
 
 public class NodoReturn extends NodoSentencia {
@@ -33,5 +34,14 @@ public class NodoReturn extends NodoSentencia {
 
     public boolean compatibleWithVoid() {
         return expresion instanceof NodoExpresionVacia;
+    }
+
+    public boolean compatibleWithType(AbstractType type) throws SemanticException {
+        AbstractType returnType = expresion.check();
+        return returnType.compatible(type);
+    }
+
+    public AbstractType getType() throws SemanticException {
+        return expresion.check();
     }
 }
