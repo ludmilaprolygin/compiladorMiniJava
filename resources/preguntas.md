@@ -3,5 +3,5 @@
 ### [ ] semIIError23
 ### [X] semIIError24
 ### [X] semIIError29
-### [ ] semIIError30
+### [X] semIIError30
 ### [X] semIIError32

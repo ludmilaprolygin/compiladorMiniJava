@@ -1,4 +1,4 @@
-///[Error:m1|33]
+///[Error:m1|34]
 // Tipo de parámetros incorrectos
 //Author: Cami
 class A{
