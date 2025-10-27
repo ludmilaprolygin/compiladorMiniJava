@@ -2,15 +2,23 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.Token;
-import model.symbolTable.AbstractType;
-import model.symbolTable.UniversalType;
+import model.symbolTable.*;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
+
 
 public class NodoThis extends NodoExpresion {
     protected Encadenado encadenado;
     @Override
     public AbstractType check() throws SemanticException {
-        return new UniversalType();
+        Service s = SymbolTable.symbolTable().getCurrentService();
+        if(s instanceof Method m)
+            if(m.isStatic())
+                throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(encadenado.getNombre(), "this"));
+        AbstractType toReturn = new ClassType(SymbolTable.symbolTable().getCurrentClass().getName());
+        if(encadenado != null)
+            return encadenado.check(toReturn);
+        return toReturn;
     }
 
     @Override

@@ -81,4 +81,8 @@ public class SemanticErrorIIMessage {
     public static String thisInStaticContext(Token token) {
         return basicErrorInit(token) + ": 'this' cannot be used in a static context \n" + basicErrorEnd(token);
     }
+
+    public static String thisInStaticContext(Token token, String s) {
+        return basicErrorInit(token) + ": 'this' cannot be used in a static context \n [Error:this|" + token.getRow() + "]";
+    }
 }

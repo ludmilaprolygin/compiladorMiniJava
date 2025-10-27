@@ -85,4 +85,8 @@ public class Method extends Service {
             bloque.checkThisOnStaticContext();
         }
     }
+
+    public boolean isStatic() {
+        return modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic);
+    }
 }
