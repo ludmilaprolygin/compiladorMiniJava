@@ -12,18 +12,16 @@ import java.util.List;
 public class NodoLLamadaEncadenada extends Encadenado {
     protected List<NodoExpresion> parametros;
     public NodoLLamadaEncadenada(Token t){
-        nombre = t;
+        super(t);
         parametros = new LinkedList<>();
     }
     public NodoLLamadaEncadenada(Token t, Encadenado e){
-        nombre = t;
+        super(t, e);
         parametros = new LinkedList<>();
-        encadenado = e;
     }
     public NodoLLamadaEncadenada(Token t, Encadenado e, List<NodoExpresion> p){
-        nombre = t;
+        super(t, e);
         parametros = p;
-        encadenado = e;
     }
     public void setEncadenado(Encadenado encadenado) {
         this.encadenado = encadenado;
@@ -38,13 +36,16 @@ public class NodoLLamadaEncadenada extends Encadenado {
     public AbstractType check(AbstractType t) throws SemanticException {
         Token token = SymbolTable.symbolTable().getClasses().getTokenByName(t.getName().getLexeme());
         model.symbolTable.Class c = SymbolTable.symbolTable().getClasses().get(token);
-        Table<Method> methods = c.getMethods();
-        for(Method method : methods.values()){
-            if(method.getName().getLexeme().equals(nombre.getLexeme()));
-            if(encadenado == null)
-                encadenado = new EncadenadoVacio();
-            return encadenado.check(method.getReturnType());
+        if(c != null) {
+            Table<Method> methods = c.getMethods();
+            for(Method method : methods.values()){
+                if(method.getName().getLexeme().equals(nombre.getLexeme()));
+                if(encadenado == null)
+                    encadenado = new EncadenadoVacio();
+                return encadenado.check(method.getReturnType());
+            }
         }
+
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
     }
 }

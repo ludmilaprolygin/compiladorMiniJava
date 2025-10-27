@@ -57,4 +57,12 @@ public class SemanticErrorIIMessage {
     public static String primitiveTypesCantReceiveCalls(AbstractType tipo) {
         return basicErrorInit(tipo.getName()) + ": Message not supported on " + tipo.getName().getLexeme() + " type\n" + basicErrorEnd(tipo.getName());
     }
+
+    public static String firstOperandMustBeBoolean(Token token) {
+        return basicErrorInit(token) + ": First operand of ternary operator must be boolean\n" + basicErrorEnd(token);
+    }
+
+    public static String optionsMustBeCompatibleWithOperandType(Token name) {
+        return basicErrorInit(name) + ": Both options of ternary operator must be compatible with the operand type\n" + basicErrorEnd(name);
+    }
 }

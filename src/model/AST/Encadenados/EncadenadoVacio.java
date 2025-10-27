@@ -1,12 +1,20 @@
 package model.AST.Encadenados;
 
+import model.Token;
 import model.symbolTable.AbstractType;
 import utils.exceptions.SemanticException;
 
 public class EncadenadoVacio extends Encadenado{
+    public EncadenadoVacio() {
+        super(null, null);
+    }
+
     @Override
     public void setEncadenado(Encadenado encadenado) {
 
+    }
+    public Encadenado getEncadenado() {
+        return new EncadenadoVacio();
     }
 
     @Override

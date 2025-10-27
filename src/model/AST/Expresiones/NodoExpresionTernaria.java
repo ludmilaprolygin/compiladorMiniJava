@@ -1,9 +1,12 @@
 package model.AST.Expresiones;
 
+import model.AST.Operandos.NodoVar;
 import model.Token;
 import model.symbolTable.AbstractType;
+import model.symbolTable.BooleanType;
 import model.symbolTable.UniversalType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 public class NodoExpresionTernaria extends NodoExpresion{
 
@@ -21,7 +24,23 @@ public class NodoExpresionTernaria extends NodoExpresion{
 
     @Override
     public AbstractType check() throws SemanticException {
-        return new UniversalType();
+        AbstractType condicionType = condicion.check();
+        AbstractType sTrueType = sTrue.check();
+        AbstractType sFalseType = sFalse.check();
+        try{
+            condicionType.compatible(new BooleanType(null));
+        }
+        catch(SemanticException e){
+            throw new SemanticException(SemanticErrorIIMessage.firstOperandMustBeBoolean(condicion.getToken()));
+        }
+        try{
+            sTrueType.compatible(sFalseType);
+            sTrueType.compatible(new NodoVar(operador).check());
+        }
+        catch(SemanticException e){
+            throw new SemanticException(SemanticErrorIIMessage.optionsMustBeCompatibleWithOperandType(sTrueType.getName()));
+        }
+        return sTrueType;
     }
 
     @Override

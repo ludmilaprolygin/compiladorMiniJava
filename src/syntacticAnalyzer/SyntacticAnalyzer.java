@@ -935,8 +935,6 @@ public class SyntacticAnalyzer {
 
             if(toReturn != e)
                 toReturn.setEncadenado(e);
-            else
-                toReturn = e;
 
         }
         else {
@@ -954,7 +952,8 @@ public class SyntacticAnalyzer {
             toReturn = new NodoLLamadaEncadenada(encadenado.getNombre(), null, args);
             //toReturn.setEncadenado(new NodoLLamadaEncadenada(token, null, args));
             Encadenado e = _restoEncadenado(encadenado);
-            toReturn.getEncadenado().setEncadenado(e);
+            if(toReturn.getEncadenado() != null)
+                toReturn.getEncadenado().setEncadenado(e);
         }
         else if(currentTokenType.equals(dot)) {
             Token token;
@@ -963,7 +962,8 @@ public class SyntacticAnalyzer {
             match(idMetVar);
             NodoVarEncadenada var = new NodoVarEncadenada(token);
             Encadenado e = _restoEncadenado(var);
-            toReturn.setEncadenado(e);
+            if(toReturn != null)
+                toReturn.setEncadenado(e);
         }
         else { /* epsilon */ }
         return toReturn;
@@ -994,7 +994,7 @@ public class SyntacticAnalyzer {
             toReturn = expresionParentizada();
         }
         else if (firsts.containsToken(_OperadorTernario, currentTokenType)) {
-            _operadorTernario(new NodoExpresionVacia());
+            toReturn = _operadorTernario(new NodoExpresionVacia());
         }
         else {
             throw new SyntacticException(SyntacticErrorMessage.basicError(currentToken, firsts.get(Primario).toString()));
@@ -1180,7 +1180,7 @@ public class SyntacticAnalyzer {
     private void _forEstandar() throws Exception {
         _declaracionOpcional();
         match(semicolon);
-        expresionOpcional();
+        NodoExpresion exp = expresionOpcional();
         match(semicolon);
         _incrementoOpcional();
         match(closeParenthesis);
@@ -1278,7 +1278,7 @@ public class SyntacticAnalyzer {
         if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
             Token o = operadorAsignacion();
             NodoExpresion ladoDerecho = expresionCompuesta();
-            _operadorTernario(ladoDerecho);
+            ladoDerecho = _operadorTernario(ladoDerecho);
             toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho, o);
             match(semicolon);
         }

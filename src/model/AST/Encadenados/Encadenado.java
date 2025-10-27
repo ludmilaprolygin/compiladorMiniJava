@@ -7,6 +7,14 @@ import utils.exceptions.SemanticException;
 public abstract class Encadenado {
     protected Token nombre;
     protected Encadenado encadenado;
+    public Encadenado(Token t){
+        nombre = t;
+        encadenado = new EncadenadoVacio();
+    }
+    public Encadenado(Token t, Encadenado e){
+        nombre = t;
+        encadenado = e;
+    }
     public abstract void setEncadenado(Encadenado encadenado);
     public Token getNombre() { return nombre; }
     public Encadenado getEncadenado() { return encadenado; }

@@ -10,11 +10,10 @@ import utils.messages.SemanticErrorIIMessage;
 
 public class NodoVarEncadenada extends Encadenado {
     public NodoVarEncadenada(Token t){
-        nombre = t;
+        super(t);
     }
     public NodoVarEncadenada(Token t, Encadenado e){
-        nombre = t;
-        encadenado = e;
+        super(t, e);
     }
     public void setEncadenado(Encadenado encadenado){
         this.encadenado = encadenado;
