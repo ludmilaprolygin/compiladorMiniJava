@@ -18,4 +18,6 @@ public class NodoBloqueVacio extends NodoBloque {
             toReturn += "- ";
         return toReturn + "{ nodo bloque vacio }\n";
     }
+
+    public void checkThisOnStaticContext() throws SemanticException {}
 }

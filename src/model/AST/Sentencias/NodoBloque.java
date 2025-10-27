@@ -4,6 +4,8 @@ import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoLLamadaMetodo;
 import model.AST.Expresiones.NodoThis;
 import model.AST.Operandos.NodoOperando;
+import model.symbolTable.AbstractType;
+import model.symbolTable.Method;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -58,8 +60,26 @@ public class NodoBloque extends NodoSentencia {
     public void check() throws SemanticException {
         NodoBloque bloqueAnterior = symbolTable().getBloque();
         symbolTable().setBloque(this);
+        AbstractType retType = null;
+        NodoReturn r = null;
         for(NodoSentencia s : statements)
+        {
             s.check();
+            if(s instanceof NodoReturn)
+            {
+                r = ((NodoReturn) s);
+                retType = r.getType();
+            }
+        }
+        if(r!=null && retType != null && symbolTable().getCurrentService() instanceof Method){
+            try{
+                r.compatibleWithType(retType);
+                //retType.compatible(((Method) symbolTable().getCurrentService()).getReturnType());
+            }
+            catch(Exception e){
+                throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(retType.getName(), "return"));
+            }
+        }
         symbolTable().setBloque(bloqueAnterior);
     }
 
@@ -99,10 +119,9 @@ public class NodoBloque extends NodoSentencia {
         for(NodoSentencia s : statements){
             if(s instanceof NodoBloque b){
                 b.checkThisOnStaticContext();
-            } else if(s instanceof NodoSentenciaConExpresion t){
-                if(((NodoSentenciaConExpresion) t).expresion instanceof NodoThis)
-                    throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(t.expresion.getToken()));
-            }
+            } else
+                s.checkThisOnStaticContext();
+
         }
     }
 }

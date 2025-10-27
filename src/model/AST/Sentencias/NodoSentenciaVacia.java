@@ -11,4 +11,11 @@ public class NodoSentenciaVacia extends NodoSentencia {
             toReturn += "- ";
         return toReturn + "{ nodo sentencia vacia }\n";
     }
+
+    @Override
+    protected void checkThisOnStaticContext() throws SemanticException {
+
+    }
+
+
 }

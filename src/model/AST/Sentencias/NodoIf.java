@@ -1,9 +1,11 @@
 package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
+import model.AST.Expresiones.NodoThis;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
 import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIIMessage;
 
 public class NodoIf extends NodoSentencia {
     protected NodoExpresion condicion;
@@ -31,5 +33,14 @@ public class NodoIf extends NodoSentencia {
         toReturn += sentenciaIf.toString(depth + 1);
         toReturn += sentenciaElse.toString(depth + 1);
         return toReturn;
+    }
+
+    @Override
+    protected void checkThisOnStaticContext() throws SemanticException {
+        if(condicion instanceof NodoThis){
+            throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(condicion.getToken()));
+        }
+        sentenciaIf.checkThisOnStaticContext();
+        sentenciaElse.checkThisOnStaticContext();
     }
 }
