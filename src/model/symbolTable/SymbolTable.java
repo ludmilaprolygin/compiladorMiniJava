@@ -146,6 +146,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, debugPrint);
         debugPrint.setBloque(new NodoBloqueVacio());
+        debugPrint.pass();
     }
 
     private void createString() {
@@ -185,6 +186,7 @@ public class SymbolTable extends Element {
         Method read = new Method(n, p, s, i);
         c.getMethods().put(n, read);
         read.setBloque(new NodoBloqueVacio());
+        read.pass();
 
         n = new Token(idMetVar, "printB", -1);
         Method printB = new Method(n, p, s, v);
@@ -195,6 +197,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printB);
         printB.setBloque(new NodoBloqueVacio());
+        printB.pass();
 
         n = new Token(idMetVar, "printC", -1);
         Method printC = new Method(n, p, s, v);
@@ -205,6 +208,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printC);
         printC.setBloque(new NodoBloqueVacio());
+        printC.pass();
 
         n = new Token(idMetVar, "printI", -1);
         Method printI = new Method(n, p, s, v);
@@ -215,6 +219,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printI);
         printI.setBloque(new NodoBloqueVacio());
+        printI.pass();
 
         n = new Token(idMetVar, "printS", -1);
         Method printS = new Method(n, p, s, v);
@@ -225,11 +230,13 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printS);
         printS.setBloque(new NodoBloqueVacio());
+        printS.pass();
 
         n = new Token(idMetVar, "println", -1);
         Method println = new Method(n, p, s, v);
         c.getMethods().put(n, println);
         println.setBloque(new NodoBloqueVacio());
+        println.pass();
 
         n = new Token(idMetVar, "printBln", -1);
         Method printBln = new Method(n, p, s, v);
@@ -239,6 +246,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printBln);
         printBln.setBloque(new NodoBloqueVacio());
+        printBln.pass();
 
         n = new Token(idMetVar, "printCln", -1);
         Method printCln = new Method(n, p, s, v);
@@ -248,6 +256,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printCln);
         printCln.setBloque(new NodoBloqueVacio());
+        printCln.pass();
 
         n = new Token(idMetVar, "printIln", -1);
         Method printIln = new Method(n, p, s, v);
@@ -257,6 +266,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printIln);
         printIln.setBloque(new NodoBloqueVacio());
+        printIln.pass();
 
         n = new Token(idMetVar, "printSln", -1);
         Method printSln = new Method(n, p, s, v);
@@ -266,6 +276,7 @@ public class SymbolTable extends Element {
         catch(SemanticException e) {};
         c.getMethods().put(n, printSln);
         printSln.setBloque(new NodoBloqueVacio());
+        printSln.pass();
     }
 
     public String toString() {

@@ -13,7 +13,7 @@ class A {
 class B extends A{
     A a3;
 
-    A m2(){}
+    A m2(){ return new A();}
     void m1(B p1)
     {
         a1.a3.a2 = 4;

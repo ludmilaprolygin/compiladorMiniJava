@@ -12,19 +12,24 @@ public class Method extends Service {
     private AbstractType returnType;
     private Token modifier;
     boolean emptyBody;
+    boolean pass;
 
     public Method (Token n, Token v, Token m, AbstractType t) {
         super(n, v);
         returnType = t;
         modifier = m;
         emptyBody = true;
+        pass = false;
     }
     public Method (Token n, Token v, Token m, AbstractType t, boolean b) {
         super(n, v);
         returnType = t;
         modifier = m;
         emptyBody = b;
+        pass = false;
     }
+
+    public void pass(){ pass = true; }
 
     @Override
     public void correctDeclaration() throws SemanticException {
@@ -65,5 +70,8 @@ public class Method extends Service {
             throw new SemanticException(SemanticErrorIIMessage.voidMethodWithReturnStatement(ret.getToken()));
         //if(ret != null && returnType != null && !returnType.compatible(ret.getType()))
         //    throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
+        if(ret == null && !returnType.getName().getTokenType().equals(TokenType.reservedVoid) && !pass){
+            throw new SemanticException(SemanticErrorIIMessage.missingReturnStatement(name));
+        }
     }
 }
