@@ -1,4 +1,4 @@
-///[Error:(|9]
+///[Error:+|9]
 // Variable local duplicada en el metodo m2
 //Author:Franco
 class A {
