@@ -2,9 +2,8 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.Token;
-import model.symbolTable.AbstractType;
-import model.symbolTable.ClassType;
-import model.symbolTable.SymbolTable;
+import model.symbolTable.*;
+import model.symbolTable.Class;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -30,7 +29,7 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
     @Override
     public AbstractType check() throws SemanticException {
-        checkClassExistance();
+        compareArgs(checkClassExistance());
         if(encadenado != null)
             return encadenado.check(classType);
         else
@@ -67,14 +66,35 @@ public class NodoLLamadaConstructor extends NodoExpresion {
         return encadenado;
     }
 
-    protected void checkClassExistance() throws SemanticException {
+    protected Class checkClassExistance() throws SemanticException {
+        Class c = null;
         if (classType == null) {
             throw new SemanticException(SemanticErrorIIMessage.undeclaredType(new Token(idClase, "", -1)));
         }
         else{
             Token t = SymbolTable.symbolTable().getClasses().getTokenByName(classType.getName().getLexeme());
+            c = SymbolTable.symbolTable().getClasses().get(t);
             if (t == null) {
                 throw new SemanticException(SemanticErrorIIMessage.undeclaredType(classType.getName()));
+            }
+        }
+        return c;
+    }
+
+    private void compareArgs(Class belongingClass) throws SemanticException {
+        if(!belongingClass.getBuilderTable().isEmpty()){
+            Builder b = (Builder) belongingClass.getBuilderTable().getFirst();
+            if (b.getParameters().size() != parametros.size())
+                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(classType.getName()));
+            for (int i = 0; i < parametros.size(); i++) {
+                AbstractType argType = parametros.get(i).check();
+                AbstractType paramType = ((Parameter) b.getParameters().get(i)).getType();
+                try {
+                    argType.compatible(paramType);
+                }
+                catch (SemanticException e) {
+                    throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(classType.getName()));
+                }
             }
         }
     }
