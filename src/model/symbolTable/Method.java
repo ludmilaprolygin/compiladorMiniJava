@@ -44,6 +44,7 @@ public class Method extends Service {
             name.getLexeme().equals("main"))
             SymbolTable.symbolTable().setHasMain();
         checkReturnType();
+        checkThisOnStaticContext();
     }
 
     public String toString() {
@@ -72,6 +73,26 @@ public class Method extends Service {
         //    throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
         if(ret == null && !returnType.getName().getTokenType().equals(TokenType.reservedVoid) && !pass){
             throw new SemanticException(SemanticErrorIIMessage.missingReturnStatement(name));
+        }
+        if(ret != null && ret.compatibleWithVoid() && !returnType.getName().getTokenType().equals(TokenType.reservedVoid)){
+            throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
+        }
+        //if(ret != null){
+            //AbstractType retType = ret.getType();
+            /*try{
+                retType.compatible(returnType);
+            }
+            catch(SemanticException e){
+                throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
+            }
+
+             */
+        //}
+    }
+
+    protected void checkThisOnStaticContext() throws SemanticException {
+        if(modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic)){
+            bloque.checkThisOnStaticContext();
         }
     }
 }

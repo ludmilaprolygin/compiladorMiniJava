@@ -2,6 +2,7 @@ package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoLLamadaMetodo;
+import model.AST.Expresiones.NodoThis;
 import model.AST.Operandos.NodoOperando;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
@@ -92,5 +93,16 @@ public class NodoBloque extends NodoSentencia {
 
     public void addLlamada(NodoExpresion toReturn) {
         llamadas.add((NodoLLamadaMetodo) toReturn);
+    }
+
+    public void checkThisOnStaticContext() throws SemanticException {
+        for(NodoSentencia s : statements){
+            if(s instanceof NodoBloque b){
+                b.checkThisOnStaticContext();
+            } else if(s instanceof NodoSentenciaConExpresion t){
+                if(((NodoSentenciaConExpresion) t).expresion instanceof NodoThis)
+                    throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(t.expresion.getToken()));
+            }
+        }
     }
 }

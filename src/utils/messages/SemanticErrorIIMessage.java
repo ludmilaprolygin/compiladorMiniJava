@@ -73,4 +73,12 @@ public class SemanticErrorIIMessage {
     public static String incorrectReturnType(Token token) {
         return basicErrorInit(token) + ": Return type is not compatible with method's declared return type \n" + basicErrorEnd(token);
     }
+
+    public static String incorrectReturnType(Token token, String s) {
+        return basicErrorInit(token) + ": Return type is not compatible with method's declared return type \n [Error:" + s + "|" + token.getRow() + "]";
+    }
+
+    public static String thisInStaticContext(Token token) {
+        return basicErrorInit(token) + ": 'this' cannot be used in a static context \n" + basicErrorEnd(token);
+    }
 }
