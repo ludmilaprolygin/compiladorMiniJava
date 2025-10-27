@@ -659,6 +659,7 @@ public class SyntacticAnalyzer {
     private NodoSentencia varLocal() throws Exception {
         NodoExpresion expresion;
         NodoVar e = _inicioVarLocal();
+        e.checkExistance();
         expresion = _restoVarLocal(e);
         e.setTipo(expresion.check());
         symbolTable().getBloque().addVariable(e);

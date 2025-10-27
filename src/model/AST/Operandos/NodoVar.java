@@ -1,10 +1,9 @@
 package model.AST.Operandos;
 
 import model.AST.Encadenados.Encadenado;
+import model.AST.Sentencias.NodoBloque;
 import model.Token;
-import model.symbolTable.AbstractType;
-import model.symbolTable.ClassType;
-import model.symbolTable.UniversalType;
+import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -32,7 +31,9 @@ public class NodoVar extends NodoOperando {
     public void setTipo (AbstractType a){
         tipo = a;
     }
-    public void declare() { isDeclared = true;}
+    public void declare() throws SemanticException {
+        isDeclared = true;
+    }
 
     @Override
     public AbstractType check() throws SemanticException {
@@ -58,8 +59,32 @@ public class NodoVar extends NodoOperando {
         AbstractType aType;
         if(!isDeclared)
             aType = super.isDeclared();
-        else
+        else {
             aType = tipo;
+        }
         return aType;
+    }
+
+    public void checkExistance() throws SemanticException {
+        boolean toReturn = false;
+        SymbolTable st = SymbolTable.symbolTable();
+        toReturn = st.getCurrentService().getParameters().contains(this.getToken().getLexeme());
+        Token t = null;
+        for(Element n : st.getCurrentService().getParameters()){
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                toReturn = true;
+            }
+            t = n.getName();
+        }
+        toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
+        for(Attribute n : st.getCurrentClass().getAttributes().values()){
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                toReturn = true;
+            }
+            t = n.getName();
+        }
+        if (toReturn){
+            throw new SemanticException(SemanticErrorIIMessage.variableAlreadyExists(token));
+        }
     }
 }
