@@ -706,9 +706,10 @@ public class SyntacticAnalyzer {
 
     private NodoSentencia returnStatement() throws Exception {
         NodoSentencia toReturn;
+        Token t = currentToken;
         match(reservedReturn);
         NodoExpresion expresion = expresionOpcional();
-        toReturn = new NodoReturn(expresion);
+        toReturn = new NodoReturn(expresion, t);
         return toReturn;
     }
 
@@ -890,22 +891,34 @@ public class SyntacticAnalyzer {
 
         if(var instanceof NodoVar){
             NodoVar v = (NodoVar) var;
-            v.setEncadenado(e);
+            if(v.getEncadenado() == null || v.getEncadenado() instanceof EncadenadoVacio)
+                v.setEncadenado(e);
+            else
+                v.getLastEncadenado().setEncadenado(e);
             return v;
         }
         if(var instanceof NodoLLamadaMetodo){
             NodoLLamadaMetodo m = (NodoLLamadaMetodo) var;
-            m.setEncadenado(e);
+            if(m.getEncadenado() == null || m.getEncadenado() instanceof EncadenadoVacio)
+                m.setEncadenado(e);
+            else
+                m.getLastEncadenado().setEncadenado(e);
             return m;
         }
         if(var instanceof NodoThis){
             NodoThis t = (NodoThis) var;
-            t.setEncadenado(e);
+            if(t.getEncadenado() == null || t.getEncadenado() instanceof EncadenadoVacio)
+                t.setEncadenado(e);
+            else
+                t.getLastEncadenado().setEncadenado(e);
             return t;
         }
         if(var instanceof NodoLLamadaConstructor){
             NodoLLamadaConstructor c = (NodoLLamadaConstructor) var;
-            c.setEncadenado(e);
+            if(c.getEncadenado() == null || c.getEncadenado() instanceof EncadenadoVacio)
+                c.setEncadenado(e);
+            else
+                c.getLastEncadenado().setEncadenado(e);
             return c;
         }
         return var;

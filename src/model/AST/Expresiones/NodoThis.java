@@ -26,4 +26,14 @@ public class NodoThis extends NodoExpresion {
     public void setEncadenado(Encadenado e){
         encadenado = e;
     }
+
+    public Encadenado getLastEncadenado (){
+        if (encadenado == null)
+            return null;
+        return encadenado.getLastEncadenado();
+    }
+
+    public Encadenado getEncadenado() {
+        return encadenado;
+    }
 }

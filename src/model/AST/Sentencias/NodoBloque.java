@@ -76,6 +76,20 @@ public class NodoBloque extends NodoSentencia {
         return toReturn;
     }
 
+    public NodoReturn hasReturnStatementSomewhere() {
+        for (NodoSentencia s : statements) {
+            if (s instanceof NodoReturn) {
+                return (NodoReturn) s;
+            } else if (s instanceof NodoBloque b) {
+                NodoReturn r = b.hasReturnStatementSomewhere();
+                if (r != null) {
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
+
     public void addLlamada(NodoExpresion toReturn) {
         llamadas.add((NodoLLamadaMetodo) toReturn);
     }

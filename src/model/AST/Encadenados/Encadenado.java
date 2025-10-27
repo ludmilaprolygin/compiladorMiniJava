@@ -28,4 +28,15 @@ public abstract class Encadenado {
         toReturn += "." + nombre.getLexeme() + " " + getClass().getSimpleName() + "\n" + encadenado.toString(depth + 1);
         return toReturn;
     }
+
+    public Encadenado getLastEncadenado() {
+        Encadenado current = this;
+        Encadenado toReturn = this;
+        while (current != null && !(current.getEncadenado() instanceof EncadenadoVacio)) {
+            current = current.getEncadenado();
+            if(current != null)
+                toReturn = current;
+        }
+        return toReturn;
+    }
 }

@@ -144,4 +144,8 @@ public class SemanticErrorIMessage {
     public static String classCannotImplementClass(Token name) {
         return basicErrorInit(name) + ": Classes should extend Classes, not implement them.\n" + basicErrorEnd(name);
     }
+
+    public static String voidMethodWithReturnStatement(Token name) {
+        return basicErrorInit(name) + ": Void method " + name.getLexeme() + " cannot have a return statement \n" + basicErrorEnd(name);
+    }
 }

@@ -87,4 +87,14 @@ public class NodoVar extends NodoOperando {
             throw new SemanticException(SemanticErrorIIMessage.variableAlreadyExists(token));
         }
     }
+
+    public Encadenado getLastEncadenado (){
+        if (encadenado == null)
+            return null;
+        return encadenado.getLastEncadenado();
+    }
+
+    public Encadenado getEncadenado() {
+        return encadenado;
+    }
 }

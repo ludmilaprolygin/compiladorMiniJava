@@ -7,7 +7,7 @@ class A {
     B b1;
     C c1;
     void m1(){
-        return ;
+        return;
     }
     int m2(){
         return a1;

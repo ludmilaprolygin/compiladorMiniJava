@@ -1,5 +1,7 @@
 package model.symbolTable;
 
+import model.AST.Sentencias.NodoReturn;
+import model.AST.Sentencias.NodoSentencia;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
@@ -35,6 +37,7 @@ public class Method extends Service {
         if(modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic) && returnType.getName().getTokenType().equals(TokenType.reservedVoid) &&
             name.getLexeme().equals("main"))
             SymbolTable.symbolTable().setHasMain();
+        checkReturnType();
     }
 
     public String toString() {
@@ -54,4 +57,10 @@ public class Method extends Service {
     }
 
     public Token getModifier () { return modifier; }
+
+    protected void checkReturnType() throws SemanticException {
+        NodoReturn ret = bloque.hasReturnStatementSomewhere();
+        if(ret != null && returnType.getName().getTokenType().equals(TokenType.reservedVoid) && !ret.compatibleWithVoid())
+            throw new SemanticException(SemanticErrorIMessage.voidMethodWithReturnStatement(ret.getToken()));
+    }
 }
