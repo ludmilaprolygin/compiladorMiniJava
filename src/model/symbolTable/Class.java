@@ -196,6 +196,7 @@ public class Class extends MainElement {
             Method mParent = getParentMethod(m, parentMethods);
             if (parentMethods.contains(m.getName().getLexeme())) {
                 if (mParent != null) {
+                    checkStatic(m, mParent);
                     if ((!m.getReturnType().getName().getLexeme().equals(mParent.getReturnType().getName().getLexeme()) ||
                             m.getParameters().size() != mParent.getParameters().size())) {
                         throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(m));
@@ -219,6 +220,21 @@ public class Class extends MainElement {
                     }
                 }
             }
+        }
+    }
+
+    private void checkStatic(Method m, Method mParent) throws SemanticException {
+        if(m.getModifier() != null &&
+           m.getModifier().getTokenType().equals(TokenType.reservedStatic) &&
+                (mParent.getModifier() == null || !mParent.getModifier().getTokenType().equals(TokenType.reservedStatic)))
+        {
+            throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(m));
+        }
+        if(mParent.getModifier() != null &&
+           mParent.getModifier().getTokenType().equals(TokenType.reservedStatic) &&
+                (m.getModifier() == null || !m.getModifier().getTokenType().equals(TokenType.reservedStatic)))
+        {
+            throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(m));
         }
     }
 
