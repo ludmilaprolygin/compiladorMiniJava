@@ -89,4 +89,8 @@ public class SemanticErrorIIMessage {
     public static String thisInStaticContext(Token token, String s) {
         return basicErrorInit(token) + ": 'this' cannot be used in a static context \n [Error:this|" + token.getRow() + "]";
     }
+
+    public static String expresionMislocated(Token token) {
+        return basicErrorInit(token) + ": Expression statements are not allowed here \n" + basicErrorEnd(token);
+    }
 }
