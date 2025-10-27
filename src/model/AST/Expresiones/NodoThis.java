@@ -1,6 +1,7 @@
 package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
 import model.symbolTable.*;
 import utils.exceptions.SemanticException;
@@ -43,5 +44,26 @@ public class NodoThis extends NodoExpresion {
 
     public Encadenado getEncadenado() {
         return encadenado;
+    }
+
+    @Override
+    public AbstractType checkLeftValue() throws SemanticException {
+
+        Encadenado ultimo = this.getLastEncadenado();
+
+        // Caso 1: 'this = 10' (ultimo == null)
+        // 'this' por sí solo no es un L-Value.
+        if (ultimo == null) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(this.getToken()));
+        }
+
+        // Caso 2: 'this.miMetodo() = 10'
+        if (ultimo instanceof NodoLLamadaEncadenada) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(ultimo.getNombre()));
+        }
+
+        // Caso 3: 'this.miAtributo = 10'
+        // Es válido. Ejecutamos el check() normal.
+        return this.check();
     }
 }

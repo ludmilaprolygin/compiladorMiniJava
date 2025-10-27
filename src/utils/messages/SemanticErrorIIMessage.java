@@ -93,4 +93,8 @@ public class SemanticErrorIIMessage {
     public static String expresionMislocated(Token token) {
         return basicErrorInit(token) + ": Expression statements are not allowed here \n" + basicErrorEnd(token);
     }
+
+    public static String invalidLeftValue(Token token) {
+        return basicErrorInit(token) + ": Invalid left value in assignment \n" + basicErrorEnd(token);
+    }
 }

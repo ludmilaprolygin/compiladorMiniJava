@@ -24,6 +24,8 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         if(ladoIzquierdo.getLastEncadenado() instanceof NodoLLamadaEncadenada)
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
 
+        ladoIzquierdo.checkLeftValue();
+
         AbstractType left = ladoIzquierdo.check();
         AbstractType right = ladoDerecho.check();
         if(ladoIzquierdo instanceof NodoExpresionBinaria)

@@ -1,6 +1,7 @@
 package model.AST.Operandos;
 
 import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.AST.Sentencias.NodoBloque;
 import model.Token;
 import model.symbolTable.*;
@@ -96,5 +97,26 @@ public class NodoVar extends NodoOperando {
 
     public Encadenado getEncadenado() {
         return encadenado;
+    }
+
+    @Override
+    public AbstractType checkLeftValue() throws SemanticException {
+
+        // Obtenemos el último eslabón de la cadena
+        Encadenado ultimo = this.getLastEncadenado();
+
+        // Caso 1: 'x.y.miMetodo() = 10'
+        // Si el último eslabón es una llamada, es un error.
+        if (ultimo instanceof NodoLLamadaEncadenada) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(ultimo.getNombre()));
+        }
+
+        // Caso 2: 'x = 10' (ultimo == null)
+        // Caso 3: 'x.y.miAtributo = 10' (ultimo es NodoVarEncadenada)
+        // En ambos casos, es un L-Value válido.
+
+        // Como es válido, simplemente ejecutamos el 'check()' normal
+        // para obtener el tipo final del lado izquierdo.
+        return this.check();
     }
 }
