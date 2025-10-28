@@ -1,7 +1,11 @@
 package model.symbolTable;
 
+import model.AST.Expresiones.NodoExpresionAsignacion;
+import model.AST.Operandos.NodoVar;
 import model.AST.Sentencias.NodoBloque;
 import model.AST.Sentencias.NodoBloqueVacio;
+import model.AST.Sentencias.NodoReturn;
+import model.AST.Sentencias.NodoSentenciaConExpresion;
 import model.Token;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;

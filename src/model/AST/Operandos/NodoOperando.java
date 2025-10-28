@@ -24,44 +24,53 @@ public abstract class NodoOperando extends NodoExpresion {
     }
 
     protected AbstractType isDeclared() throws SemanticException {
-        boolean toReturn = false;
-        AbstractType aType = new UniversalType();
         SymbolTable st = SymbolTable.symbolTable();
-        toReturn = st.getBloque().getVariables().contains(this);
-        for(NodoOperando n : st.getBloque().getVariables()){
-            if(n.getToken() != null && this.getToken() != null && n.getToken().getLexeme().equals(this.getToken().getLexeme())){
-                toReturn = true;
-                aType = n.check();
-            }
-        }
+        String varName = this.getToken().getLexeme();
+        AbstractType aType = null;
+        boolean toReturn = false;
+
         NodoBloque bloque = st.getBloque();
-        while(!toReturn && bloque != null){
-            toReturn = bloque.getVariables().contains(this);
+        while(bloque != null && !toReturn){
             for(NodoOperando n : bloque.getVariables()){
-                if(n.getToken() != null && this.getToken() != null && n.getToken().getLexeme().equals(this.getToken().getLexeme())){
-                    aType = n.check();
+                if(n.getToken().getLexeme().equals(varName)){
+
+                    if (n instanceof NodoVar) {
+                        aType = ((NodoVar) n).getTipo();                     } else {
+                        aType = new UniversalType();
+                    }
+
                     toReturn = true;
+                    break;
                 }
             }
-            bloque = bloque.getBloqueContenedor();
+            if (!toReturn)
+                bloque = bloque.getBloqueContenedor();
         }
-        toReturn = toReturn || st.getCurrentService().getParameters().contains(this.getToken().getLexeme());
-        for(Element n : st.getCurrentService().getParameters()){
-            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
-                aType = ((model.symbolTable.Parameter) n).getType();
-                toReturn = true;
+
+        if(!toReturn) {
+            for(Element n : st.getCurrentService().getParameters()){
+                if(n.getName().getLexeme().equals(varName)){
+                    aType = ((model.symbolTable.Parameter) n).getType();
+                    toReturn = true;
+                    break;
+                }
             }
         }
-        toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
-        for(Attribute n : st.getCurrentClass().getAttributes().values()){
-            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
-                aType = n.getType();
-                toReturn = true;
+
+        if(!toReturn) {
+            for(Attribute n : st.getCurrentClass().getAttributes().values()){
+                if(n.getName().getLexeme().equals(varName)){
+                    aType = n.getType();
+                    toReturn = true;
+                    break;
+                }
             }
         }
+
         if (!toReturn){
             throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(getToken()));
         }
+
         return aType;
     }
 

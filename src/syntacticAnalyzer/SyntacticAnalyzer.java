@@ -624,11 +624,12 @@ public class SyntacticAnalyzer {
     private NodoSentencia _decisorExpresionIdClase(Token token) throws Exception {
         TokenType currentTokenType = getCurrentTokenType();
         NodoSentencia toReturn = new NodoSentenciaVacia();
+
         if (currentTokenType.equals(dot)) {
             match(dot);
             Token t = currentToken;
             match(idMetVar);
-            java.util.List<NodoExpresion> args = argsActuales(); 
+            java.util.List<NodoExpresion> args = argsActuales();
 
             NodoLLamadaMetodoEstatico call = new NodoLLamadaMetodoEstatico(token, t, args);
 
@@ -640,19 +641,24 @@ public class SyntacticAnalyzer {
             match(semicolon);
 
         }
+        else if (currentTokenType.equals(idMetVar)) {
+            NodoVar var = new NodoVar(currentToken);
+            match(idMetVar);
+
+            var.setTipo(new ClassType(token));
+            var.declare();
+            symbolTable().getBloque().addVariable(var);
+
+            _restoVarLocalClasica();
+
+            NodoExpresion asignacion = _asignacionOpcional(var);
+
+            if (asignacion != var) {
+                toReturn = new NodoSentenciaConExpresion(asignacion);
+            }
+        }
         else if (currentTokenType.equals(comma)) {
             _restoVarLocalClasica();
-        }
-        else if (firsts.containsToken(ExpresionBasica, currentTokenType)) {
-            Token t = currentToken;
-            NodoExpresion e = expresionBasica();
-            NodoExpresion v = new NodoVar(t, new ClassType(token));
-            ((NodoVar) v).declare();
-            _restoVarLocalClasica();
-            v = _restoExpresion(v);
-            v = _operadorTernario(v);
-            match(semicolon);
-            toReturn = new NodoSentenciaConExpresion(v);
         }
         else if (currentTokenType.equals(lesserOp)) {
             _tipoParametricoOpcional();

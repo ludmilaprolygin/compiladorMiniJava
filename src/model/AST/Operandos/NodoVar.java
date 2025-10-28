@@ -110,4 +110,8 @@ public class NodoVar extends NodoOperando {
 
         return this.check();
     }
+
+    public AbstractType getTipo() {
+        return tipo;
+    }
 }
