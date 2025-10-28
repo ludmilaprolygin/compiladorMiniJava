@@ -130,4 +130,8 @@ public class NodoBloque extends NodoSentencia {
 
         }
     }
+
+    public NodoSentencia getLastStatement(){
+        return statements.getLast();
+    }
 }

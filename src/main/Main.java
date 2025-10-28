@@ -24,6 +24,7 @@ public class Main {
 
     public static void main(String[] args) {
         initialize();
+        //loadWrappers();
 
         if (args.length == 1) {
             try {
@@ -90,6 +91,18 @@ public class Main {
     private static void syntacticAnalysis() throws Exception {
         lexicalAnalyzer.init(sourceManager);
         syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+    }
+
+    private static void loadWrappers() {
+        try{
+            String wrapperFilePath = "src/model/symbolTable/Wrappers.txt";
+            openFile(wrapperFilePath);
+            syntacticAnalysis();
+            closeFile();
+        }
+        catch(Exception e){
+
+        }
     }
 
     private static void semanticAnalysis() throws SemanticException{

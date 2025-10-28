@@ -58,7 +58,7 @@ public class ClassType extends AbstractType {
     }
 
     public boolean compatible(AbstractType t) throws SemanticException {
-        if(!(t instanceof NullType))
+        if(!(t instanceof NullType) && t != null && t.getName()!= null)
             if(!t.getName().getLexeme().equals(name.getLexeme())) {
                 if(stringComparison(t));
                     //throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(name));

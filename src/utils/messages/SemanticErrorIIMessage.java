@@ -97,4 +97,8 @@ public class SemanticErrorIIMessage {
     public static String invalidLeftValue(Token token) {
         return basicErrorInit(token) + ": Invalid left value in assignment \n" + basicErrorEnd(token);
     }
+
+    public static String unreachableCode(Token token) {
+        return basicErrorInit(token) + ": Unreachable code detected \n" + basicErrorEnd(token);
+    }
 }

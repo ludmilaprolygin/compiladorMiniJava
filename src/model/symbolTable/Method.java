@@ -1,5 +1,8 @@
 package model.symbolTable;
 
+import model.AST.Expresiones.NodoExpresionVacia;
+import model.AST.Sentencias.NodoBloque;
+import model.AST.Sentencias.NodoBloqueVacio;
 import model.AST.Sentencias.NodoReturn;
 import model.AST.Sentencias.NodoSentencia;
 import model.Token;
@@ -77,7 +80,7 @@ public class Method extends Service {
         if(ret != null && ret.compatibleWithVoid() && !returnType.getName().getTokenType().equals(TokenType.reservedVoid)){
             throw new SemanticException(SemanticErrorIIMessage.incorrectReturnType(ret.getToken()));
         }
-
+        //checkReturnClause();
     }
 
     protected void checkThisOnStaticContext() throws SemanticException {

@@ -1198,14 +1198,16 @@ public class SyntacticAnalyzer {
         }
     }
 
-    private void _forEstandar() throws Exception {
+    private NodoForStandard _forEstandar() throws Exception {
         _declaracionOpcional();
         match(semicolon);
         NodoExpresion exp = expresionOpcional();
         match(semicolon);
+        NodoForStandard toReturn = new NodoForStandard(exp);
         _incrementoOpcional();
         match(closeParenthesis);
         bloqueOpcional();
+        return toReturn;
     }
 
     private void _restoIdMetVarForEstandar() throws Exception {

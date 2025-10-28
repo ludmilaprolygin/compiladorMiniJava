@@ -70,5 +70,6 @@ public class NodoReturn extends NodoSentencia {
         return expresion.check();
     }
 
+    public NodoExpresion getExpresion() { return expresion; }
 
 }
