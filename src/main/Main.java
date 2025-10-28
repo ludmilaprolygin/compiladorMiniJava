@@ -33,6 +33,7 @@ public class Main {
                 //lexicalAnalysis();
                 syntacticAnalysis();
                 closeFile();
+                loadWrappers();
                 semanticAnalysis();
             }
             catch(Exception e){
