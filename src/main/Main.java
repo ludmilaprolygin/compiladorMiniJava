@@ -24,7 +24,6 @@ public class Main {
 
     public static void main(String[] args) {
         initialize();
-        //loadWrappers();
 
         if (args.length == 1) {
             try {
@@ -109,7 +108,7 @@ public class Main {
     private static void semanticAnalysis() throws SemanticException{
         symbolTable.correctDeclaration();
         symbolTable.consolidate();
-        System.out.println(symbolTable);
+        //System.out.println(symbolTable);
         symbolTable.check();
 
         System.out.println("Compilación exitosa. \n[SinErrores]");

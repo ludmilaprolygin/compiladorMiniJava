@@ -22,7 +22,6 @@ public abstract class AbstractType extends Element {
     }
 
     public boolean compatible(AbstractType t) throws SemanticException {
-        System.out.println("Comparing " + this.getClass() + " with " + t.getClass());
         if (t.getClass() != getClass())
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(this.getName()));
         return true;
