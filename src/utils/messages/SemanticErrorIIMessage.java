@@ -101,4 +101,8 @@ public class SemanticErrorIIMessage {
     public static String unreachableCode(Token token) {
         return basicErrorInit(token) + ": Unreachable code detected \n" + basicErrorEnd(token);
     }
+
+    public static String deadCodeDetected(Token token) {
+        return basicErrorInit(token) + ": Dead code detected after this statement \n" + basicErrorEnd(token);
+    }
 }

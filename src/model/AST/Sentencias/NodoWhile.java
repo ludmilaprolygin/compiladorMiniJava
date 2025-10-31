@@ -41,7 +41,7 @@ public class NodoWhile extends NodoSentencia {
         sentencia.checkThisOnStaticContext();
     }
 
-    public NodoReturn hasReturnStatementSomewhere() {
+    public NodoReturn hasReturnStatementSomewhere() throws SemanticException {
         return sentencia.hasReturnStatementSomewhere();
     }
 }

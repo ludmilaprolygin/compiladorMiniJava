@@ -44,11 +44,11 @@ public class NodoIf extends NodoSentencia {
         sentenciaElse.checkThisOnStaticContext();
     }
 
-    public NodoReturn hasReturnStatementSomewhere() {
+    public NodoReturn hasReturnStatementSomewhere() throws SemanticException {
         NodoReturn rIf = sentenciaIf.hasReturnStatementSomewhere();
         NodoReturn rElse = sentenciaElse.hasReturnStatementSomewhere();
         if (rIf != null && rElse != null) {
-            return rIf;
+            return rElse;
         } else {
             return null;
         }

@@ -103,11 +103,14 @@ public class NodoBloque extends NodoSentencia {
         return toReturn;
     }
 
-    public NodoReturn hasReturnStatementSomewhere() {
+    public NodoReturn hasReturnStatementSomewhere() throws SemanticException {
         NodoReturn toReturn;
         for (NodoSentencia s : statements) {
             toReturn = s.hasReturnStatementSomewhere();
             if(toReturn != null){
+                if(statements.getLast() != s){
+                    throw new SemanticException(SemanticErrorIIMessage.deadCodeDetected(toReturn.getToken()));
+                }
                 return toReturn;
             }
         }

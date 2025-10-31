@@ -8,7 +8,7 @@ public abstract class NodoSentencia {
 
     protected abstract void checkThisOnStaticContext() throws SemanticException;
 
-    public NodoReturn hasReturnStatementSomewhere() {
+    public NodoReturn hasReturnStatementSomewhere() throws SemanticException {
         return null;
     }
 }
