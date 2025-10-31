@@ -2,6 +2,7 @@ package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
 import model.symbolTable.SymbolTable;
+import outputManager.OutputManager;
 import sourceManager.*;
 import model.Token;
 import model.TokenType;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 public class Main {
     private static SourceManager sourceManager;
+    private static OutputManager outputManager;
     private static LexicalAnalyzer lexicalAnalyzer;
     private static SyntacticAnalyzer syntacticAnalyzer;
     private static final SymbolTable symbolTable = SymbolTable.symbolTable();
@@ -23,7 +25,23 @@ public class Main {
     public static void main(String[] args) {
         initialize();
 
-        if (args.length == 2) {
+        if (args.length == 1) {
+            try {
+                String fileName = args[0];
+                String outputFileName = "[" + fileName + "].out";
+                openFile(fileName);
+                //lexicalAnalysis();
+                syntacticAnalysis();
+                closeFile();
+                loadPredefined();
+                semanticAnalysis();
+                codeGeneration(outputFileName);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+        else if (args.length == 2) {
             try {
                 String fileName = args[0];
                 String outputFileName = args[1];
@@ -33,14 +51,18 @@ public class Main {
                 closeFile();
                 loadPredefined();
                 semanticAnalysis();
-                //codeGeneration(outputFileName);
+                codeGeneration(outputFileName);
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
             }
         }
         else {
-            System.out.println(GenericErrorMessage.MISUSE_ERROR);
+            //System.out.println(GenericErrorMessage.MISUSE_ERROR);
+            try{
+                codeGeneration("testOutput.out");
+            }
+            catch(Exception e) { System.out.println(e.getMessage()); };
         }
     }
 
@@ -111,5 +133,13 @@ public class Main {
         symbolTable.check();
 
         System.out.println("Compilación exitosa. \n[SinErrores]");
+    }
+
+    private static void codeGeneration(String outputFileName) throws IOException {
+        outputManager = new OutputManager(outputFileName);
+
+        symbolTable.gen(outputManager);
+        
+        outputManager.close();
     }
 }

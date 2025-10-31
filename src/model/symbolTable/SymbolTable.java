@@ -7,6 +7,8 @@ import model.AST.Sentencias.NodoBloqueVacio;
 import model.AST.Sentencias.NodoReturn;
 import model.AST.Sentencias.NodoSentenciaConExpresion;
 import model.Token;
+import outputManager.OutputManager;
+import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
@@ -22,7 +24,7 @@ public class SymbolTable extends Element {
     private MainElement currentClass;
     private Service currentService;
     private HierarchyTree classHierarchy;
-    private Class objectClass;
+    private ObjectClass objectClass;
     private NodoBloque bloque;
     private boolean hasMain;
 
@@ -123,9 +125,9 @@ public class SymbolTable extends Element {
 
     private void createObject() {
         Token tk = new Token(null, "Object", -1);
-        Class c = new Class(null, tk, null, null);
-        objectClass = c;
-        classes.put(tk, c);
+        objectClass = new ObjectClass(null, tk, null, null);
+        //objectClass = c;
+        classes.put(tk, objectClass);
         classHierarchy = new HierarchyTree(tk.getLexeme());
 
         Token n, v, m;
@@ -142,7 +144,7 @@ public class SymbolTable extends Element {
             debugPrint.addParameter(new Parameter(pI, tInt));
         }
         catch(SemanticException e) {};
-        c.getMethods().put(n, debugPrint);
+        objectClass.getMethods().put(n, debugPrint);
         debugPrint.setBloque(new NodoBloqueVacio());
         debugPrint.pass();
     }
@@ -198,5 +200,9 @@ public class SymbolTable extends Element {
                     i.check();
                 }
             }
+    }
+
+    public void gen(OutputManager outputManager) throws GenerationException {
+        objectClass.gen(outputManager);
     }
 }
