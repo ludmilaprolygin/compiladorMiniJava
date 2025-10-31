@@ -34,8 +34,11 @@ public abstract class NodoOperando extends NodoExpresion {
             for(NodoOperando n : bloque.getVariables()){
                 if(n.getToken().getLexeme().equals(varName)){
 
-                    if (n instanceof NodoVar) {
-                        aType = ((NodoVar) n).getTipo();                     } else {
+                    if (n instanceof NodoVar v) {
+                        aType = v.getTipo();
+                        v.setVar(v);
+                    }
+                    else {
                         aType = new UniversalType();
                     }
 
@@ -52,6 +55,9 @@ public abstract class NodoOperando extends NodoExpresion {
                 if(n.getName().getLexeme().equals(varName)){
                     aType = ((model.symbolTable.Parameter) n).getType();
                     toReturn = true;
+                    if(this instanceof NodoVar v){
+                        v.setVar(((model.symbolTable.Parameter) n));
+                    }
                     break;
                 }
             }
@@ -62,6 +68,9 @@ public abstract class NodoOperando extends NodoExpresion {
                 if(n.getName().getLexeme().equals(varName)){
                     aType = n.getType();
                     toReturn = true;
+                    if(this instanceof NodoVar v){
+                        v.setVar(n);
+                    }
                     break;
                 }
             }

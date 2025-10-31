@@ -14,7 +14,7 @@ import utils.messages.LexicalConsoleMessage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class Main {
+public class MainSemantico {
     private static SourceManager sourceManager;
     private static LexicalAnalyzer lexicalAnalyzer;
     private static SyntacticAnalyzer syntacticAnalyzer;
@@ -23,17 +23,16 @@ public class Main {
     public static void main(String[] args) {
         initialize();
 
-        if (args.length == 2) {
+        if (args.length == 1) {
             try {
                 String fileName = args[0];
-                String outputFileName = args[1];
                 openFile(fileName);
                 //lexicalAnalysis();
                 syntacticAnalysis();
                 closeFile();
                 loadPredefined();
                 semanticAnalysis();
-                //codeGeneration(outputFileName);
+                //codeGeneration();
             }
             catch(Exception e){
                 System.out.println(e.getMessage());

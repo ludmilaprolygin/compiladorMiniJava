@@ -5,7 +5,7 @@ import model.TokenType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
-public class Parameter extends Element{
+public class Parameter extends Element implements Var {
     AbstractType type;
     public Parameter(Token n, AbstractType t) {
 

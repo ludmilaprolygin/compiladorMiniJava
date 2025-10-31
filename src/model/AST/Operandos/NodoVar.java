@@ -8,10 +8,11 @@ import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
-public class NodoVar extends NodoOperando {
+public class NodoVar extends NodoOperando implements Var {
     protected AbstractType tipo;
     protected Encadenado encadenado;
     protected boolean isDeclared;
+    protected Var var;
     public NodoVar(Token token) {
         super(token);
         tipo = new UniversalType();
@@ -114,4 +115,6 @@ public class NodoVar extends NodoOperando {
     public AbstractType getTipo() {
         return tipo;
     }
+
+    public void setVar(Var v){ var = v; }
 }
