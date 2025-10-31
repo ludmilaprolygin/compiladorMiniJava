@@ -40,4 +40,8 @@ public class NodoWhile extends NodoSentencia {
         }
         sentencia.checkThisOnStaticContext();
     }
+
+    public NodoReturn hasReturnStatementSomewhere() {
+        return sentencia.hasReturnStatementSomewhere();
+    }
 }

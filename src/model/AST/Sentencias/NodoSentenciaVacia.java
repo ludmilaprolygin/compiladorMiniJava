@@ -16,6 +16,4 @@ public class NodoSentenciaVacia extends NodoSentencia {
     protected void checkThisOnStaticContext() throws SemanticException {
 
     }
-
-
 }

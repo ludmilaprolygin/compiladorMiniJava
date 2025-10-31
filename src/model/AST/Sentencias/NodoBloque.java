@@ -104,14 +104,11 @@ public class NodoBloque extends NodoSentencia {
     }
 
     public NodoReturn hasReturnStatementSomewhere() {
+        NodoReturn toReturn;
         for (NodoSentencia s : statements) {
-            if (s instanceof NodoReturn) {
-                return (NodoReturn) s;
-            } else if (s instanceof NodoBloque b) {
-                NodoReturn r = b.hasReturnStatementSomewhere();
-                if (r != null) {
-                    return r;
-                }
+            toReturn = s.hasReturnStatementSomewhere();
+            if(toReturn != null){
+                return toReturn;
             }
         }
         return null;

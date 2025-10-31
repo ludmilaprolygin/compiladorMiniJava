@@ -72,4 +72,7 @@ public class NodoReturn extends NodoSentencia {
 
     public NodoExpresion getExpresion() { return expresion; }
 
+    public NodoReturn hasReturnStatementSomewhere() {
+        return this;
+    }
 }

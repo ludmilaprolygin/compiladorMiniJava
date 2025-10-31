@@ -43,4 +43,14 @@ public class NodoIf extends NodoSentencia {
         sentenciaIf.checkThisOnStaticContext();
         sentenciaElse.checkThisOnStaticContext();
     }
+
+    public NodoReturn hasReturnStatementSomewhere() {
+        NodoReturn rIf = sentenciaIf.hasReturnStatementSomewhere();
+        NodoReturn rElse = sentenciaElse.hasReturnStatementSomewhere();
+        if (rIf != null && rElse != null) {
+            return rIf;
+        } else {
+            return null;
+        }
+    }
 }
