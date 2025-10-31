@@ -1,12 +1,10 @@
 package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
-import model.symbolTable.Class;
 import model.symbolTable.SymbolTable;
 import sourceManager.*;
 import model.Token;
 import model.TokenType;
-import model.symbolTable.*;
 import syntacticAnalyzer.SyntacticAnalyzer;
 import utils.exceptions.LexicalException;
 import utils.exceptions.SemanticException;
@@ -32,7 +30,7 @@ public class Main {
                 //lexicalAnalysis();
                 syntacticAnalysis();
                 closeFile();
-                loadWrappers();
+                loadPredefined();
                 semanticAnalysis();
             }
             catch(Exception e){
@@ -82,7 +80,7 @@ public class Main {
                 lexicalConsoleMessage.appendErrorMessage(e.getMessage());
             }
         }
-        while (token == null || (token != null && token.getTokenType() != TokenType.END_OF_FILE));
+        while (token == null || token.getTokenType() != TokenType.END_OF_FILE));
 
         System.out.println(lexicalConsoleMessage.getSuccessMessage());
         System.out.println(lexicalConsoleMessage.getErrorMessage());
@@ -93,10 +91,10 @@ public class Main {
         syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
     }
 
-    private static void loadWrappers() {
+    private static void loadPredefined() {
         try{
-            String wrapperFilePath = "src/model/symbolTable/Wrappers.txt";
-            openFile(wrapperFilePath);
+            String predefinedFilePath = "src/model/symbolTable/Predefined.txt";
+            openFile(predefinedFilePath);
             syntacticAnalysis();
             closeFile();
         }
