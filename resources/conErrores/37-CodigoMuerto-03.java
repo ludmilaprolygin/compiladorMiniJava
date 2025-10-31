@@ -1,15 +1,12 @@
-///[Error:else|9]
+///[Error:return|9]
 //Author:Franco
 class Init{
 
     void m1() {
         if (10 > 4) {
-            var z = 3;
             return;
         } else {
-            {
-                return;
-            }
+            return;
         }
 
 
