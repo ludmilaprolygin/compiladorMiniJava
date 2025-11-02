@@ -42,10 +42,10 @@ public class NodoLLamadaEncadenada extends Encadenado {
         model.symbolTable.Class c = SymbolTable.symbolTable().getClasses().get(token);
 
         if(c != null) {
-            Table<Method> methods = c.getMethods();
+            model.symbolTable.List methods = c.getMethods();
 
-            for(Method method : methods.values()){
-
+            for(Element e : methods.values()){
+                Method method = (Method) e;
                 if(method.getName().getLexeme().equals(nombre.getLexeme())){
                     compareArgs(method);
 

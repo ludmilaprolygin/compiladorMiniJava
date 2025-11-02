@@ -36,7 +36,7 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
             throw new SemanticException(SemanticErrorIMessage.undeclaredType(idC));
 
         Token tokenM = belongingClass.getMethods().getTokenByName(idM.getLexeme());
-        Method m = belongingClass.getMethods().get(tokenM);
+        Method m = (Method) belongingClass.getMethods().get(tokenM);
 
         if (m == null)
             throw new SemanticException(SemanticErrorIIMessage.methodNotDeclared(idM));

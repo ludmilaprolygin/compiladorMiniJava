@@ -36,6 +36,7 @@ public class MainSemantico {
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
         else {

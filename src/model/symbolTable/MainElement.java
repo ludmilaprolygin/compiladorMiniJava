@@ -12,7 +12,7 @@ public abstract class MainElement extends Element {
     protected Token inheritance;
     protected AbstractType parametricType;
     protected Table<Attribute> attributes;
-    protected Table<Method> methods;
+    protected List methods;
     protected char inheritanceType;
 
     public MainElement(Token m, Token n, AbstractType t, Token i) {
@@ -21,7 +21,7 @@ public abstract class MainElement extends Element {
         inheritance = i;
         parametricType = t;
         attributes = new Table<>();
-        methods = new Table<>();
+        methods = new List();
     }
 
     public void addAttribute(Token t, Attribute a) throws SemanticException {
@@ -45,7 +45,7 @@ public abstract class MainElement extends Element {
         return attributes;
     }
 
-    public Table<Method> getMethods() {
+    public List getMethods() {
         return methods;
     }
 
@@ -83,11 +83,11 @@ public abstract class MainElement extends Element {
         Table<Class> classes = symbolTable().getClasses();
         Token cParent = classes.getTokenByName(inheritance.getLexeme());
         if(cParent != null){
-            for(Method m : classes.get(cParent).getMethods().values()) {
+            for(Element m : classes.get(cParent).getMethods()) {
                 if(methods.contains(m.getName().getLexeme())) {
                     Token thisToken = methods.getTokenByName(m.getName().getLexeme());
-                    Method thisMethod = methods.get(thisToken);
-                    if(thisMethod != null && thisMethod.equalSignature(m)) {
+                    Method thisMethod = (Method) methods.get(thisToken);
+                    if(thisMethod != null && thisMethod.equalSignature((Method) m)) {
                         throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(thisMethod));
                     }
                 }
@@ -100,10 +100,10 @@ public abstract class MainElement extends Element {
     protected boolean isStatic() { return modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic); }
 
     public void check() throws SemanticException {
-        for(Method m : methods.values())
+        for(Element m : methods)
         {
-            symbolTable().setCurrentService(m);
-            m.check();
+            symbolTable().setCurrentService((Service) m);
+            ((Service) m).check();
         }
     }
 }

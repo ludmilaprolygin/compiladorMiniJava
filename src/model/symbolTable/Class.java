@@ -37,10 +37,10 @@ public class Class extends MainElement {
     public void addMethod(Token t, Service s) throws SemanticException {
         Method m = (Method) s;
         MainElement parent = getParent();
-        for(Method mParent: parent.getMethods().values())
+        for(Element mParent: parent.getMethods().values())
             if(mParent.getName().getLexeme().equals(m.getName().getLexeme()) &&
-                    !mParent.equalSignature(m) &&
-                    mParent.getModifier() != null && !mParent.getModifier().getTokenType().equals(TokenType.reservedAbstract))
+                    !((Method) mParent).equalSignature(m) &&
+                    ((Method) mParent).getModifier() != null && !((Method) mParent).getModifier().getTokenType().equals(TokenType.reservedAbstract))
                 throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(m));
         super.addMethod(t, m);
     }
@@ -57,8 +57,8 @@ public class Class extends MainElement {
         for (Attribute a : attributes.values())
             if((parametricType == null) || (!a.getType().equals(parametricType)))
                 a.correctDeclaration();
-        for (Method m : methods.values()) {
-            correctMethod(m);
+        for (Element m : methods.values()) {
+            correctMethod((Method) m);
         }
         correctBuilder();
     }
@@ -82,7 +82,7 @@ public class Class extends MainElement {
         Table<Attribute> parentAttributes = parent.getAttributes();
         consolidateAttributes(parentAttributes);
 
-        Table<Method> parentMethods = parent.getMethods();
+        List parentMethods = parent.getMethods();
         consolidateMethods(parentMethods);
 
         if(parent instanceof Class cParent) { // extends
@@ -193,8 +193,9 @@ public class Class extends MainElement {
         }
         */
     }
-    private void consolidateMethods(Table<Method> parentMethods) throws SemanticException {
-        for(Method m : methods.values()) {
+    private void consolidateMethods(List parentMethods) throws SemanticException {
+        for(Element e : methods.values()) {
+            Method m = (Method) e;
             Method mParent = getParentMethod(m, parentMethods);
             if (parentMethods.contains(m.getName().getLexeme())) {
                 if (mParent != null) {
@@ -240,9 +241,9 @@ public class Class extends MainElement {
         }
     }
 
-    private Method getParentMethod(Method m, Table<Method> parentMethods) throws SemanticException {
+    private Method getParentMethod(Method m, List parentMethods) throws SemanticException {
         Token tkParent = parentMethods.getTokenByName(m.getName().getLexeme());
-        return parentMethods.get(tkParent);
+        return (Method) parentMethods.get(tkParent);
     }
 
     private void consolidateBuilder(Class cParent) throws SemanticException{
@@ -266,8 +267,9 @@ public class Class extends MainElement {
         }
          */
     }
-    private void consolidateMethodsFromExtension(Table<Method> parentMethods) throws SemanticException{
-        for(Method m : parentMethods.values()){
+    private void consolidateMethodsFromExtension(List parentMethods) throws SemanticException{
+        for(Element e : parentMethods.values()){
+            Method m = (Method) e;
             if(!methods.contains(m.getName().getLexeme()) && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()){
                 throw new SemanticException(SemanticErrorIMessage.cannotDeclareAbstractMethod(name));
             }
@@ -280,8 +282,8 @@ public class Class extends MainElement {
             }
         }
     }
-    private void consolidateMethodsFromImplementation(Table<Method> parentMethods) throws SemanticException {
-        for(Method m : parentMethods.values()){
+    private void consolidateMethodsFromImplementation(List parentMethods) throws SemanticException {
+        for(Method m : (Method[]) parentMethods.values()){
             if(!methods.contains(m.getName().getLexeme())){
                 throw new SemanticException(SemanticErrorIMessage.classesMustImplementAllInterfaceMethods(name));
             }

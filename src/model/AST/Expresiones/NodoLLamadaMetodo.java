@@ -23,7 +23,7 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     @Override
     public AbstractType check() throws SemanticException {
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
-        Method m = belongingClass.getMethods().get(tokenM);
+        Method m = (Method) belongingClass.getMethods().get(tokenM);
 
         if (m == null)
             throw new SemanticException(SemanticErrorIIMessage.methodNotDeclared(metodo));
@@ -66,7 +66,7 @@ public class NodoLLamadaMetodo extends NodoExpresion {
 
     private void compareArgs() throws SemanticException {
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
-        Method m = belongingClass.getMethods().get(tokenM);
+        Method m = (Method) belongingClass.getMethods().get(tokenM);
         if (m.getParameters().size() != argumentos.size())
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
         for (int i = 0; i < argumentos.size(); i++) {

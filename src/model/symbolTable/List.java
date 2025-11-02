@@ -49,7 +49,24 @@ public class List extends LinkedList<Element> {
         return toReturn;
     }
 
-    public void put(){
+    public void put(Token t, Element e){
+        this.addLast(e);
+    }
 
+    public Element get(Token t){
+        if(t != null)
+            for(Element e : this) {
+                if(e != null && e.getName() != null && e.getName().getLexeme().equals(t.getLexeme()))
+                    return e;
+            }
+        return null;
+    }
+
+    public Element[] values() {
+        Element[] elements = new Element[this.size()];
+        for(int i = 0; i < this.size(); i++) {
+            elements[i] = this.get(i);
+        }
+        return elements;
     }
 }
