@@ -48,4 +48,8 @@ public class List extends LinkedList<Element> {
         }
         return toReturn;
     }
+
+    public void put(){
+
+    }
 }

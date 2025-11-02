@@ -11,7 +11,11 @@ public class ObjectClass extends Class {
     }
 
     public void gen(OutputManager o) throws GenerationException {
-        o.gen(Instructions.LOAD + " 3");
+        o.gen(".DATA");
+        o.gen("VT@Object: " + Instructions.DW + " lbl_debugPrint@Object");
+        
+        o.gen(".CODE");
+        o.gen("lbl_debugPrint@Object: " + Instructions.LOAD + " 3");
         o.gen(Instructions.IPRINT.toString());
         o.gen(Instructions.PRNLN.toString());
     }

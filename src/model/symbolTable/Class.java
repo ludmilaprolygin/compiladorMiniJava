@@ -3,6 +3,8 @@ package model.symbolTable;
 import model.AST.Sentencias.NodoBloqueVacio;
 import model.Token;
 import model.TokenType;
+import outputManager.OutputManager;
+import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
@@ -293,5 +295,9 @@ public class Class extends MainElement {
             symbolTable().setCurrentService((Builder) c);
             ((Builder) c).check();
         }
+    }
+
+    public void gen(OutputManager o) throws GenerationException {
+
     }
 }
