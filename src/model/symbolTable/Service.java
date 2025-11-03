@@ -3,6 +3,9 @@ package model.symbolTable;
 import model.AST.Sentencias.NodoBloque;
 import model.AST.Sentencias.NodoBloqueVacio;
 import model.Token;
+import model.codeGeneration.Instructions;
+import outputManager.OutputManager;
+import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
@@ -47,5 +50,18 @@ public abstract class Service extends Element {
     public void check() throws SemanticException {
         symbolTable().setBloque(bloque);
         bloque.check();
+    }
+
+    public void gen(OutputManager o, String className) throws GenerationException {
+        String myName;
+        if (this instanceof Builder b){
+            myName = "builder@" + className;
+        } else {
+            myName = name.getLexeme() + "@" + className;
+        }
+
+        o.gen("lbl_" + myName + ": " + Instructions.NOP);
+
+        o.gen("");
     }
 }

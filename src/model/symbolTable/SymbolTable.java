@@ -203,6 +203,10 @@ public class SymbolTable extends Element {
     }
 
     public void gen(OutputManager outputManager) throws GenerationException {
-        objectClass.gen(outputManager);
+        //objectClass.gen(outputManager);
+
+        for(Class c : classes.values()){
+            c.gen(outputManager);
+        }
     }
 }

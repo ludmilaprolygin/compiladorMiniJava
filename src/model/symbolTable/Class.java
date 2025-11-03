@@ -3,6 +3,7 @@ package model.symbolTable;
 import model.AST.Sentencias.NodoBloqueVacio;
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
 import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
@@ -300,6 +301,33 @@ public class Class extends MainElement {
     }
 
     public void gen(OutputManager o) throws GenerationException {
+        o.gen(".DATA");
 
+        if(methods.isEmpty()){
+            o.gen("VT@" + name.getLexeme() + ": " + Instructions.NOP);
+        }
+        else{
+            String firstMethod = methods.getFirst().getName().getLexeme();
+            o.gen("VT@" + name.getLexeme() + ": " + Instructions.DW + " lbl_" + firstMethod + "@" + name.getLexeme());
+            for(int i = 1; i < methods.size(); i++){
+                String methodName = methods.get(i).getName().getLexeme();
+                o.gen(Instructions.DW + " lbl_" + methodName + "@" + name.getLexeme());
+            }
+        }
+
+        o.gen("");
+
+        o.gen(".CODE");
+        for(Element e : builderTable){
+            Builder c = (Builder) e;
+            c.gen(o, name.getLexeme());
+        }
+        for(Element e : methods.values()){
+            Method m = (Method) e;
+            m.gen(o, name.getLexeme());
+        }
+
+        o.gen("");
+        o.gen("");
     }
 }
