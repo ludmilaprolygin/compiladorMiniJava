@@ -23,8 +23,9 @@ public class NodoVarEncadenada extends Encadenado {
         Token token = SymbolTable.symbolTable().getClasses().getTokenByName(t.getName().getLexeme());
         model.symbolTable.Class c = SymbolTable.symbolTable().getClasses().get(token);
         if(c != null){
-            Table<Attribute> attributes = c.getAttributes();
-            for(Attribute attribute : attributes.values()){
+            List attributes = c.getAttributes();
+            for(Element e : attributes.values()){
+                Attribute attribute = (Attribute) e;
                 if(attribute.getName().getLexeme().equals(nombre.getLexeme())){
                 if(encadenado == null)
                     encadenado = new EncadenadoVacio();

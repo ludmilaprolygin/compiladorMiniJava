@@ -54,8 +54,8 @@ public class Class extends MainElement {
         if(inheritance != null) {
             correctInheritance(parentLexeme);
         }
-        for (Attribute a : attributes.values())
-            if((parametricType == null) || (!a.getType().equals(parametricType)))
+        for (Element a : attributes.values())
+            if((parametricType == null) || (!((Attribute) a).getType().equals(parametricType)))
                 a.correctDeclaration();
         for (Element m : methods.values()) {
             correctMethod((Method) m);
@@ -79,7 +79,7 @@ public class Class extends MainElement {
             throw new SemanticException(SemanticErrorIMessage.parametricInheritanceMismatch(name));
         }
 
-        Table<Attribute> parentAttributes = parent.getAttributes();
+        List parentAttributes = parent.getAttributes();
         consolidateAttributes(parentAttributes);
 
         List parentMethods = parent.getMethods();
@@ -178,10 +178,10 @@ public class Class extends MainElement {
         }
         addPredefinedBuilder();
     }
-    private void consolidateAttributes(Table<Attribute> parentAttributes) throws SemanticException {
-        for(Attribute parentAttribute : parentAttributes.values()){
+    private void consolidateAttributes(List parentAttributes) throws SemanticException {
+        for(Element parentAttribute : parentAttributes.values()){
             if(!attributes.contains(parentAttribute.getName().getLexeme())){
-                Attribute aCopy = new Attribute(parentAttribute.getName(), parentAttribute.getType());
+                Attribute aCopy = new Attribute(parentAttribute.getName(), ((Attribute) parentAttribute).getType());
                 attributes.put(aCopy.getName(), aCopy);
             }
         }

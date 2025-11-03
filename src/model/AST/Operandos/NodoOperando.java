@@ -6,6 +6,7 @@ import model.AST.Expresiones.NodoExpresion;
 import model.AST.Sentencias.NodoBloque;
 import model.Token;
 import model.symbolTable.*;
+import org.w3c.dom.Attr;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -64,7 +65,8 @@ public abstract class NodoOperando extends NodoExpresion {
         }
 
         if(!toReturn) {
-            for(Attribute n : st.getCurrentClass().getAttributes().values()){
+            for(Element e : st.getCurrentClass().getAttributes().values()){
+                Attribute n = (Attribute) e;
                 if(n.getName().getLexeme().equals(varName)){
                     aType = n.getType();
                     toReturn = true;

@@ -29,7 +29,7 @@ public class Interface extends MainElement {
                 throw new SemanticException(SemanticErrorIMessage.circularHierarchy(inheritance));
             }
         }
-        for (Attribute a : attributes.values())
+        for (Element a : attributes.values())
             a.correctDeclaration();
         for (Method m : (Method[]) methods.values())
             m.correctDeclaration();

@@ -79,7 +79,8 @@ public class NodoVar extends NodoOperando implements Var {
             t = n.getName();
         }
         toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
-        for(Attribute n : st.getCurrentClass().getAttributes().values()){
+        for(Element e : st.getCurrentClass().getAttributes().values()){
+            Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
                 toReturn = true;
             }

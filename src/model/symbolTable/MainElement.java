@@ -11,7 +11,7 @@ public abstract class MainElement extends Element {
     protected Token modifier;
     protected Token inheritance;
     protected AbstractType parametricType;
-    protected Table<Attribute> attributes;
+    protected List attributes;
     protected List methods;
     protected char inheritanceType;
 
@@ -20,7 +20,7 @@ public abstract class MainElement extends Element {
         modifier = m;
         inheritance = i;
         parametricType = t;
-        attributes = new Table<>();
+        attributes = new List();
         methods = new List();
     }
 
@@ -41,7 +41,7 @@ public abstract class MainElement extends Element {
         }
     }
 
-    public Table<Attribute> getAttributes() {
+    public List getAttributes() {
         return attributes;
     }
 
