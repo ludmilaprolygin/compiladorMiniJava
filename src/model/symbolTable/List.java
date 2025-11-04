@@ -3,11 +3,11 @@ package model.symbolTable;
 import model.Token;
 import java.util.LinkedList;
 
-public class List extends LinkedList<Element> {
+public class List extends LinkedList<OffsetElement> {
     public List() { super(); }
 
     public boolean contains(String name) {
-        for(Element e : this) {
+        for(OffsetElement e : this) {
             if(e.getName().getLexeme().equals(name))
                 return true;
         }
@@ -15,7 +15,7 @@ public class List extends LinkedList<Element> {
     }
 
     public Token getTokenByName(String name) {
-        for(Element e : this) {
+        for(OffsetElement e : this) {
             if(e.getName().getLexeme().equals(name))
                 return e.getName();
         }
@@ -24,7 +24,7 @@ public class List extends LinkedList<Element> {
 
     public String toString() {
         String s = "";
-        for(Element e : this) {
+        for(OffsetElement e : this) {
             s += e.toString() + " ";
         }
         return s;
@@ -33,8 +33,8 @@ public class List extends LinkedList<Element> {
     public boolean equals(List list) {
         boolean toReturn = list != null && this.size() == list.size();
         if(list != null && !isEmpty() && !list.isEmpty()) {
-            Element thisElement = getFirst();
-            Element listElement = list.getFirst();
+            OffsetElement thisElement = getFirst();
+            OffsetElement listElement = list.getFirst();
             for(int i = 0; i < this.size() && toReturn; i++) {
                 toReturn = thisElement.equals(listElement);
                 if(toReturn) {
@@ -49,21 +49,21 @@ public class List extends LinkedList<Element> {
         return toReturn;
     }
 
-    public void put(Token t, Element e){
+    public void put(Token t, OffsetElement e){
         this.addLast(e);
     }
 
-    public Element get(Token t){
+    public OffsetElement get(Token t){
         if(t != null)
-            for(Element e : this) {
+            for(OffsetElement e : this) {
                 if(e != null && e.getName() != null && e.getName().getLexeme().equals(t.getLexeme()))
                     return e;
             }
         return null;
     }
 
-    public Element[] values() {
-        Element[] elements = new Element[this.size()];
+    public OffsetElement[] values() {
+        OffsetElement[] elements = new OffsetElement[this.size()];
         for(int i = 0; i < this.size(); i++) {
             elements[i] = this.get(i);
         }

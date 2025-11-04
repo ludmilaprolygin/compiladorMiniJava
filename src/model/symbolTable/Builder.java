@@ -22,4 +22,9 @@ public class Builder extends Service {
                 throw new SemanticException(SemanticErrorIMessage.constructorDoesNotExist(name));
         }
     }
+
+    @Override
+    public int getOffset() {
+        return -1;
+    }
 }

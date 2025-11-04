@@ -11,7 +11,7 @@ import utils.messages.SemanticErrorIMessage;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 
-public abstract class Service extends Element {
+public abstract class Service extends OffsetElement {
     protected Token visibility;
     protected List parameters;
     protected NodoBloque bloque;

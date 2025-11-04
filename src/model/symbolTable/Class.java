@@ -181,7 +181,7 @@ public class Class extends MainElement {
     }
     private void consolidateAttributes(List parentAttributes) throws SemanticException {
         int max = -1;
-        for(Element parentAttribute : parentAttributes.values()){
+        for(OffsetElement parentAttribute : parentAttributes.values()){
             Attribute a = (Attribute) parentAttribute;
             if(a.getOffset() > max){
                 max = a.getOffset();
@@ -333,6 +333,9 @@ public class Class extends MainElement {
     }
 
     public void gen(OutputManager o) throws GenerationException {
+        sortByOffset(attributes);
+        sortByOffset(methods);
+
         o.gen(".DATA");
 
         if(methods.isEmpty()){

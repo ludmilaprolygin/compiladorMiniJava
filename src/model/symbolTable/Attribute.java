@@ -3,7 +3,7 @@ package model.symbolTable;
 import model.Token;
 import utils.exceptions.SemanticException;
 
-public class Attribute extends Element implements Var {
+public class Attribute extends OffsetElement implements Var {
     private AbstractType type;
     protected int offset;
     public Attribute(Token n, AbstractType t) {

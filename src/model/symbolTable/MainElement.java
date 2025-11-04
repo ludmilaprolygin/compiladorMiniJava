@@ -5,6 +5,8 @@ import model.TokenType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
+import java.util.Comparator;
+
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public abstract class MainElement extends Element {
@@ -106,4 +108,9 @@ public abstract class MainElement extends Element {
             ((Service) m).check();
         }
     }
+
+    public void sortByOffset(List l) {
+        l.sort(Comparator.comparingInt(OffsetElement::getOffset));
+    }
+
 }

@@ -1,48 +1,13 @@
 .DATA
-VT@Integer: DW lbl_intValue@Integer
-DW lbl_debugPrint@Integer
+VT@Character: DW lbl_debugPrint@Character
+DW lbl_charValue@Character
 
 .CODE
-lbl_builder@Integer: NOP
+lbl_builder@Character: NOP
 
-lbl_intValue@Integer: NOP
+lbl_debugPrint@Character: NOP
 
-lbl_debugPrint@Integer: NOP
-
-
-
-.DATA
-VT@Init: DW lbl_main@Init
-DW lbl_debugPrint@Init
-
-.CODE
-lbl_builder@Init: NOP
-
-lbl_main@Init: NOP
-
-lbl_debugPrint@Init: NOP
-
-
-
-.DATA
-VT@B: DW lbl_seta4@B
-DW lbl_m2@B
-DW lbl_setall@B
-DW lbl_m1@B
-DW lbl_debugPrint@B
-
-.CODE
-lbl_builder@B: NOP
-
-lbl_seta4@B: NOP
-
-lbl_m2@B: NOP
-
-lbl_setall@B: NOP
-
-lbl_m1@B: NOP
-
-lbl_debugPrint@B: NOP
+lbl_charValue@Character: NOP
 
 
 
@@ -54,22 +19,6 @@ lbl_debugPrint@Object: LOAD 3
 IPRINT
 PRNLN
 .DATA
-VT@A: DW lbl_setall@A
-DW lbl_m1@A
-DW lbl_debugPrint@A
-
-.CODE
-lbl_builder@A: NOP
-
-lbl_setall@A: NOP
-
-lbl_m1@A: NOP
-
-lbl_debugPrint@A: NOP
-
-
-
-.DATA
 VT@String: DW lbl_debugPrint@String
 
 .CODE
@@ -80,7 +29,63 @@ lbl_debugPrint@String: NOP
 
 
 .DATA
-VT@System: DW lbl_read@System
+VT@Integer: DW lbl_debugPrint@Integer
+DW lbl_intValue@Integer
+
+.CODE
+lbl_builder@Integer: NOP
+
+lbl_debugPrint@Integer: NOP
+
+lbl_intValue@Integer: NOP
+
+
+
+.DATA
+VT@Boolean: DW lbl_debugPrint@Boolean
+DW lbl_booleanValue@Boolean
+
+.CODE
+lbl_builder@Boolean: NOP
+
+lbl_debugPrint@Boolean: NOP
+
+lbl_booleanValue@Boolean: NOP
+
+
+
+.DATA
+VT@Init: DW lbl_debugPrint@Init
+DW lbl_main@Init
+
+.CODE
+lbl_builder@Init: NOP
+
+lbl_debugPrint@Init: NOP
+
+lbl_main@Init: NOP
+
+
+
+.DATA
+VT@A: DW lbl_debugPrint@A
+DW lbl_setall@A
+DW lbl_m1@A
+
+.CODE
+lbl_builder@A: NOP
+
+lbl_debugPrint@A: NOP
+
+lbl_setall@A: NOP
+
+lbl_m1@A: NOP
+
+
+
+.DATA
+VT@System: DW lbl_debugPrint@System
+DW lbl_read@System
 DW lbl_printB@System
 DW lbl_printC@System
 DW lbl_printI@System
@@ -90,10 +95,11 @@ DW lbl_printBln@System
 DW lbl_printCln@System
 DW lbl_printIln@System
 DW lbl_printSln@System
-DW lbl_debugPrint@System
 
 .CODE
 lbl_builder@System: NOP
+
+lbl_debugPrint@System: NOP
 
 lbl_read@System: NOP
 
@@ -115,33 +121,27 @@ lbl_printIln@System: NOP
 
 lbl_printSln@System: NOP
 
-lbl_debugPrint@System: NOP
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-DW lbl_debugPrint@Boolean
-
-.CODE
-lbl_builder@Boolean: NOP
-
-lbl_booleanValue@Boolean: NOP
-
-lbl_debugPrint@Boolean: NOP
-
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
-DW lbl_debugPrint@Character
+VT@B: DW lbl_debugPrint@B
+DW lbl_setall@B
+DW lbl_m1@B
+DW lbl_seta4@B
+DW lbl_m2@B
 
 .CODE
-lbl_builder@Character: NOP
+lbl_builder@B: NOP
 
-lbl_charValue@Character: NOP
+lbl_debugPrint@B: NOP
 
-lbl_debugPrint@Character: NOP
+lbl_setall@B: NOP
+
+lbl_m1@B: NOP
+
+lbl_seta4@B: NOP
+
+lbl_m2@B: NOP
 
 
 

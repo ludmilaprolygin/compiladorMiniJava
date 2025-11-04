@@ -60,6 +60,13 @@ public class Main {
         else {
             //System.out.println(GenericErrorMessage.MISUSE_ERROR);
             try{
+                String fileName = "resources/sinErrores/testInheritance.java";
+                openFile(fileName);
+                //lexicalAnalysis();
+                syntacticAnalysis();
+                closeFile();
+                loadPredefined();
+                semanticAnalysis();
                 codeGeneration("testOutput.out");
             }
             catch(Exception e) { System.out.println(e.getMessage()); };

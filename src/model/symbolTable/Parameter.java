@@ -5,7 +5,7 @@ import model.TokenType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
-public class Parameter extends Element implements Var {
+public class Parameter extends OffsetElement implements Var {
     AbstractType type;
     public Parameter(Token n, AbstractType t) {
 
@@ -37,5 +37,10 @@ public class Parameter extends Element implements Var {
 
     public AbstractType getType() {
         return type;
+    }
+
+    @Override
+    public int getOffset() {
+        return -1;
     }
 }

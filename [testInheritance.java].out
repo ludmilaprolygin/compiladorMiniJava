@@ -1,23 +1,19 @@
 .DATA
-VT@Integer: DW lbl_debugPrint@Integer
-DW lbl_intValue@Integer
+VT@TestB: DW lbl_debugPrint@TestB
+DW lbl_m1@TestB
+DW lbl_m3@TestB
+DW lbl_m2@TestB
 
 .CODE
-lbl_builder@Integer: NOP
+lbl_builder@TestB: NOP
 
-lbl_debugPrint@Integer: NOP
+lbl_debugPrint@TestB: NOP
 
-lbl_intValue@Integer: NOP
+lbl_m1@TestB: NOP
 
+lbl_m3@TestB: NOP
 
-
-.DATA
-VT@String: DW lbl_debugPrint@String
-
-.CODE
-lbl_builder@String: NOP
-
-lbl_debugPrint@String: NOP
+lbl_m2@TestB: NOP
 
 
 
@@ -38,6 +34,32 @@ lbl_m3@TestA: NOP
 
 
 .DATA
+VT@Execute: DW lbl_debugPrint@Execute
+DW lbl_main@Execute
+
+.CODE
+lbl_builder@Execute: NOP
+
+lbl_debugPrint@Execute: NOP
+
+lbl_main@Execute: NOP
+
+
+
+.DATA
+VT@Boolean: DW lbl_debugPrint@Boolean
+DW lbl_booleanValue@Boolean
+
+.CODE
+lbl_builder@Boolean: NOP
+
+lbl_debugPrint@Boolean: NOP
+
+lbl_booleanValue@Boolean: NOP
+
+
+
+.DATA
 VT@Character: DW lbl_debugPrint@Character
 DW lbl_charValue@Character
 
@@ -51,24 +73,35 @@ lbl_charValue@Character: NOP
 
 
 .DATA
-VT@TestB: DW lbl_debugPrint@TestB
-DW lbl_m1@TestB
-DW lbl_m3@TestB
-DW lbl_m2@TestB
+VT@String: DW lbl_debugPrint@String
 
 .CODE
-lbl_builder@TestB: NOP
+lbl_builder@String: NOP
 
-lbl_debugPrint@TestB: NOP
-
-lbl_m1@TestB: NOP
-
-lbl_m3@TestB: NOP
-
-lbl_m2@TestB: NOP
+lbl_debugPrint@String: NOP
 
 
 
+.DATA
+VT@Integer: DW lbl_debugPrint@Integer
+DW lbl_intValue@Integer
+
+.CODE
+lbl_builder@Integer: NOP
+
+lbl_debugPrint@Integer: NOP
+
+lbl_intValue@Integer: NOP
+
+
+
+.DATA
+VT@Object: DW lbl_debugPrint@Object
+
+.CODE
+lbl_debugPrint@Object: LOAD 3
+IPRINT
+PRNLN
 .DATA
 VT@System: DW lbl_debugPrint@System
 DW lbl_read@System
@@ -106,39 +139,6 @@ lbl_printCln@System: NOP
 lbl_printIln@System: NOP
 
 lbl_printSln@System: NOP
-
-
-
-.DATA
-VT@Object: DW lbl_debugPrint@Object
-
-.CODE
-lbl_debugPrint@Object: LOAD 3
-IPRINT
-PRNLN
-.DATA
-VT@Execute: DW lbl_debugPrint@Execute
-DW lbl_main@Execute
-
-.CODE
-lbl_builder@Execute: NOP
-
-lbl_debugPrint@Execute: NOP
-
-lbl_main@Execute: NOP
-
-
-
-.DATA
-VT@Boolean: DW lbl_debugPrint@Boolean
-DW lbl_booleanValue@Boolean
-
-.CODE
-lbl_builder@Boolean: NOP
-
-lbl_debugPrint@Boolean: NOP
-
-lbl_booleanValue@Boolean: NOP
 
 
 
