@@ -238,6 +238,7 @@ public class Class extends MainElement {
                     if (!mParent.getParameters().equals(m.getParameters())) {
                         throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(m));
                     }
+                    m.setOffset(mParent.getOffset());
                 }
             }
         }
@@ -285,19 +286,34 @@ public class Class extends MainElement {
          */
     }
     private void consolidateMethodsFromExtension(List parentMethods) throws SemanticException{
+        int max = -1;
         for(Element e : parentMethods.values()){
             Method m = (Method) e;
+            if(m.getOffset() > max){
+                max = m.getOffset();
+            }
             if(!methods.contains(m.getName().getLexeme()) && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedAbstract) && !isAbstract()){
                 throw new SemanticException(SemanticErrorIMessage.cannotDeclareAbstractMethod(name));
             }
             if(!methods.contains(m.getName().getLexeme())){
-                Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
-                for(Element p : m.getParameters())
-                    mCopy.addParameter((Parameter) p);
-                methods.put(mCopy.getName(), mCopy);
-                mCopy.setBloque(m.getBloque());
+                //Method mCopy = new Method(m.getName(), m.getVisibility(), m.getModifier(), m.getReturnType(), m.getEmptyBody());
+                //for(Element p : m.getParameters())
+                //    mCopy.addParameter((Parameter) p);
+                //methods.put(mCopy.getName(), mCopy);
+                //mCopy.setBloque(m.getBloque());
+                methods.put(m.getName(), m);
             }
         }
+        if(max == -1){
+            max = 0;
+        }
+        for(Element e : methods.values()){
+            Method m = (Method) e;
+            if(m.getOffset() == -1){
+                m.setOffset(++max);
+            }
+        }
+
     }
     private void consolidateMethodsFromImplementation(List parentMethods) throws SemanticException {
         for(Method m : (Method[]) parentMethods.values()){
