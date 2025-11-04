@@ -110,6 +110,7 @@ public class MainSemantico {
         //System.out.println(symbolTable);
         symbolTable.check();
 
+        System.out.println(symbolTable);
         System.out.println("Compilación exitosa. \n[SinErrores]");
     }
 }

@@ -180,11 +180,18 @@ public class Class extends MainElement {
         addPredefinedBuilder();
     }
     private void consolidateAttributes(List parentAttributes) throws SemanticException {
+        int max = -1;
         for(Element parentAttribute : parentAttributes.values()){
+            Attribute a = (Attribute) parentAttribute;
+            if(a.getOffset() > max){
+                max = a.getOffset();
+            }
             if(!attributes.contains(parentAttribute.getName().getLexeme())){
                 Attribute aCopy = new Attribute(parentAttribute.getName(), ((Attribute) parentAttribute).getType());
-                attributes.put(aCopy.getName(), aCopy);
+                //attributes.put(aCopy.getName(), aCopy);
+
             }
+            attributes.put(parentAttribute.getName(), parentAttribute);
         }
         /*
         for(Attribute a : attributes.values()){
@@ -193,6 +200,15 @@ public class Class extends MainElement {
             }
         }
         */
+        if(max == -1){
+            max = 0;
+        }
+        for(Element e : attributes){
+            Attribute a = (Attribute) e;
+            if(a.getOffset() == -1){
+                a.setOffset(++max);
+            }
+        }
     }
     private void consolidateMethods(List parentMethods) throws SemanticException {
         for(Element e : methods.values()) {

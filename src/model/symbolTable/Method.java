@@ -16,6 +16,7 @@ public class Method extends Service {
     private Token modifier;
     boolean emptyBody;
     boolean pass;
+    protected int offset;
 
     public Method (Token n, Token v, Token m, AbstractType t) {
         super(n, v);
@@ -23,6 +24,7 @@ public class Method extends Service {
         modifier = m;
         emptyBody = true;
         pass = false;
+        offset = -1;
     }
     public Method (Token n, Token v, Token m, AbstractType t, boolean b) {
         super(n, v);
@@ -30,6 +32,7 @@ public class Method extends Service {
         modifier = m;
         emptyBody = b;
         pass = false;
+        offset = -1;
     }
 
     public void pass(){ pass = true; }
@@ -52,8 +55,8 @@ public class Method extends Service {
 
     public String toString() {
         String mod = (modifier != null) ? modifier.getLexeme() + " " : "";
-        return mod + returnType.toString() + " " +
-                name.getLexeme() + "(" + parameters.toString() + ")" + bloque.toString(0);
+        return "Offset: " + offset + " " + mod + returnType.toString() + " " +
+                name.getLexeme() + "(" + parameters.toString() + ")\n"; //+ bloque.toString(0);
     }
 
     public AbstractType getReturnType() { return returnType; }
@@ -97,4 +100,7 @@ public class Method extends Service {
     public boolean isStatic() {
         return modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic);
     }
+
+    public void setOffset(int offset) { this.offset = offset;}
+    public int getOffset() { return this.offset; }
 }

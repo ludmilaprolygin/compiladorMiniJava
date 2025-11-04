@@ -1,3 +1,7 @@
-LOAD 3
+.DATA
+VT@Object: DW lbl_debugPrint@Object
+
+.CODE
+lbl_debugPrint@Object: LOAD 3
 IPRINT
 PRNLN

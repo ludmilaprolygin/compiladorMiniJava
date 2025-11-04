@@ -1,16 +1,13 @@
 .DATA
-VT@A: DW lbl_m1@A
-DW lbl_m2@A
-DW lbl_debugPrint@A
+VT@Character: DW lbl_charValue@Character
+DW lbl_debugPrint@Character
 
 .CODE
-lbl_builder@A: NOP
+lbl_builder@Character: NOP
 
-lbl_m1@A: NOP
+lbl_charValue@Character: NOP
 
-lbl_m2@A: NOP
-
-lbl_debugPrint@A: NOP
+lbl_debugPrint@Character: NOP
 
 
 
@@ -28,45 +25,18 @@ lbl_debugPrint@Init: NOP
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-DW lbl_debugPrint@Boolean
+VT@A: DW lbl_m1@A
+DW lbl_m2@A
+DW lbl_debugPrint@A
 
 .CODE
-lbl_builder@Boolean: NOP
+lbl_builder@A: NOP
 
-lbl_booleanValue@Boolean: NOP
+lbl_m1@A: NOP
 
-lbl_debugPrint@Boolean: NOP
+lbl_m2@A: NOP
 
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-DW lbl_debugPrint@Character
-
-.CODE
-lbl_builder@Character: NOP
-
-lbl_charValue@Character: NOP
-
-lbl_debugPrint@Character: NOP
-
-
-
-.DATA
-VT@Object: DW lbl_debugPrint@Object
-
-.CODE
-lbl_debugPrint@Object: LOAD 3
-IPRINT
-PRNLN
-.DATA
-VT@String: DW lbl_debugPrint@String
-
-.CODE
-lbl_builder@String: NOP
-
-lbl_debugPrint@String: NOP
+lbl_debugPrint@A: NOP
 
 
 
@@ -120,6 +90,36 @@ lbl_builder@Integer: NOP
 lbl_intValue@Integer: NOP
 
 lbl_debugPrint@Integer: NOP
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+DW lbl_debugPrint@Boolean
+
+.CODE
+lbl_builder@Boolean: NOP
+
+lbl_booleanValue@Boolean: NOP
+
+lbl_debugPrint@Boolean: NOP
+
+
+
+.DATA
+VT@Object: DW lbl_debugPrint@Object
+
+.CODE
+lbl_debugPrint@Object: LOAD 3
+IPRINT
+PRNLN
+.DATA
+VT@String: DW lbl_debugPrint@String
+
+.CODE
+lbl_builder@String: NOP
+
+lbl_debugPrint@String: NOP
 
 
 
