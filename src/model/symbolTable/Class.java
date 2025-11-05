@@ -9,6 +9,8 @@ import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
+import java.util.ArrayList;
+
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Class extends MainElement {
@@ -332,32 +334,42 @@ public class Class extends MainElement {
         }
     }
 
+    public List getNonStaticMethods() {
+        List toReturn = new List();
+        for(int i = 0; i < methods.size(); i++){
+            if(methods.get(i).getModifier() == null || !methods.get(i).getModifier().getTokenType().equals(TokenType.reservedStatic)){
+                toReturn.addLast(methods.get(i));
+            }
+        }
+        return toReturn;
+    }
+
     public void gen(OutputManager o) throws GenerationException {
         sortByOffset(attributes);
         sortByOffset(methods);
 
+        List dynamicMethods = getNonStaticMethods();
+
         o.gen(".DATA");
 
-        if(methods.isEmpty()){
+        if(dynamicMethods.isEmpty()){
             o.gen("VT@" + name.getLexeme() + ": " + Instructions.NOP);
         }
         else{
-            String firstMethod = methods.getFirst().getName().getLexeme();
+            String firstMethod = dynamicMethods.getFirst().getName().getLexeme();
             o.gen("VT@" + name.getLexeme() + ": " + Instructions.DW + " lbl_" + firstMethod + "@" + name.getLexeme());
-            for(int i = 1; i < methods.size(); i++){
-                String methodName = methods.get(i).getName().getLexeme();
+            for(int i = 1; i < dynamicMethods.size(); i++){
+                String methodName = dynamicMethods.get(i).getName().getLexeme();
                 o.gen(Instructions.DW + " lbl_" + methodName + "@" + name.getLexeme());
             }
         }
-
-        o.gen("");
 
         o.gen(".CODE");
         for(Element e : builderTable){
             Builder c = (Builder) e;
             c.gen(o, name.getLexeme());
         }
-        for(Element e : methods.values()){
+        for(Element e : dynamicMethods.values()){
             Method m = (Method) e;
             m.gen(o, name.getLexeme());
         }

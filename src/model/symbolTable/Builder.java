@@ -27,4 +27,9 @@ public class Builder extends Service {
     public int getOffset() {
         return -1;
     }
+
+    @Override
+    public Token getModifier() {
+        return null;
+    }
 }

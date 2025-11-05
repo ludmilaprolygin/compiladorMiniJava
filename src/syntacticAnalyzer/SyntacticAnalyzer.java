@@ -125,7 +125,7 @@ public class SyntacticAnalyzer {
             ((ClassType) methodType).setParametricType(parametricType);
             //methodType.setParametricType(parametricType);
 
-        Method newMethod = new Method(name, visibility, null, methodType, true);
+        Method newMethod = new Method(name, visibility, null, methodType, true, SymbolTable.symbolTable().getCurrentClass());
         symbolTable.setCurrentService(newMethod);
         symbolTable.getCurrentClass().addMethod(name, newMethod);
 
@@ -267,7 +267,7 @@ public class SyntacticAnalyzer {
             Token n = currentToken;
             match(idMetVar);
 
-            Method newMethod = new Method(n, v, null, t);
+            Method newMethod = new Method(n, v, null, t, SymbolTable.symbolTable().getCurrentClass());
             if(symbolTable().getCurrentClass().getMethods().contains(newMethod.getName().getLexeme()))
                 throw new SemanticException(SemanticErrorIMessage.methodAlreadyExists(newMethod.getName()));
 
@@ -291,7 +291,7 @@ public class SyntacticAnalyzer {
                 else
                     throw new SemanticException(SemanticErrorIMessage.parametricTypeNotAllowed(pt.getName()));
 
-            Method newMethod = new Method(n, v, m, mt);
+            Method newMethod = new Method(n, v, m, mt, SymbolTable.symbolTable().getCurrentClass());
             if(symbolTable().getCurrentClass().getMethods().contains(newMethod.getName().getLexeme()))
                 throw new SemanticException(SemanticErrorIMessage.methodAlreadyExists(newMethod.getName()));
 
@@ -393,7 +393,7 @@ public class SyntacticAnalyzer {
             match(semicolon);
         }
         else if (firsts.containsToken(ArgsFormales, currentTokenType)) {
-            Service s = new Method(n, null, null, t);
+            Service s = new Method(n, null, null, t, SymbolTable.symbolTable().getCurrentClass());
             symbolTable.setCurrentService(s);
 
             if(symbolTable.getCurrentClass() instanceof Class) {

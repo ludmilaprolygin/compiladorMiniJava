@@ -17,25 +17,29 @@ public class Method extends Service {
     boolean emptyBody;
     boolean pass;
     protected int offset;
+    protected MainElement creator;
 
-    public Method (Token n, Token v, Token m, AbstractType t) {
+    public Method (Token n, Token v, Token m, AbstractType t, MainElement c) {
         super(n, v);
         returnType = t;
         modifier = m;
         emptyBody = true;
         pass = false;
         offset = -1;
+        creator = c;
     }
-    public Method (Token n, Token v, Token m, AbstractType t, boolean b) {
+    public Method (Token n, Token v, Token m, AbstractType t, boolean b, MainElement c) {
         super(n, v);
         returnType = t;
         modifier = m;
         emptyBody = b;
         pass = false;
         offset = -1;
+        creator = c;
     }
 
     public void pass(){ pass = true; }
+    public MainElement getCreator(){ return creator; }
 
     @Override
     public void correctDeclaration() throws SemanticException {

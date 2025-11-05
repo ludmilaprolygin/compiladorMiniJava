@@ -10,4 +10,6 @@ public abstract class OffsetElement extends Element{
     }
 
     public abstract int getOffset();
+
+    public abstract Token getModifier();
 }

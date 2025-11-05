@@ -43,4 +43,9 @@ public class Parameter extends OffsetElement implements Var {
     public int getOffset() {
         return -1;
     }
+
+    @Override
+    public Token getModifier() {
+        return null;
+    }
 }

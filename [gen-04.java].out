@@ -1,81 +1,55 @@
 .DATA
-VT@Character: DW lbl_debugPrint@Character
-DW lbl_charValue@Character
-
+VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_builder@Character: NOP
-
-lbl_debugPrint@Character: NOP
 
 lbl_charValue@Character: NOP
 
 
 
 .DATA
-VT@Object: DW lbl_debugPrint@Object
-
+VT@Object: NOP
 .CODE
 lbl_debugPrint@Object: LOAD 3
 IPRINT
 PRNLN
 .DATA
-VT@String: DW lbl_debugPrint@String
-
+VT@String: NOP
 .CODE
 lbl_builder@String: NOP
-
-lbl_debugPrint@String: NOP
 
 
 
 .DATA
-VT@Integer: DW lbl_debugPrint@Integer
-DW lbl_intValue@Integer
-
+VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_builder@Integer: NOP
-
-lbl_debugPrint@Integer: NOP
 
 lbl_intValue@Integer: NOP
 
 
 
 .DATA
-VT@Boolean: DW lbl_debugPrint@Boolean
-DW lbl_booleanValue@Boolean
-
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_builder@Boolean: NOP
-
-lbl_debugPrint@Boolean: NOP
 
 lbl_booleanValue@Boolean: NOP
 
 
 
 .DATA
-VT@Init: DW lbl_debugPrint@Init
-DW lbl_main@Init
-
+VT@Init: NOP
 .CODE
 lbl_builder@Init: NOP
-
-lbl_debugPrint@Init: NOP
-
-lbl_main@Init: NOP
 
 
 
 .DATA
-VT@A: DW lbl_debugPrint@A
-DW lbl_setall@A
+VT@A: DW lbl_setall@A
 DW lbl_m1@A
-
 .CODE
 lbl_builder@A: NOP
-
-lbl_debugPrint@A: NOP
 
 lbl_setall@A: NOP
 
@@ -84,56 +58,19 @@ lbl_m1@A: NOP
 
 
 .DATA
-VT@System: DW lbl_debugPrint@System
-DW lbl_read@System
-DW lbl_printB@System
-DW lbl_printC@System
-DW lbl_printI@System
-DW lbl_printS@System
-DW lbl_println@System
-DW lbl_printBln@System
-DW lbl_printCln@System
-DW lbl_printIln@System
-DW lbl_printSln@System
-
+VT@System: NOP
 .CODE
 lbl_builder@System: NOP
-
-lbl_debugPrint@System: NOP
-
-lbl_read@System: NOP
-
-lbl_printB@System: NOP
-
-lbl_printC@System: NOP
-
-lbl_printI@System: NOP
-
-lbl_printS@System: NOP
-
-lbl_println@System: NOP
-
-lbl_printBln@System: NOP
-
-lbl_printCln@System: NOP
-
-lbl_printIln@System: NOP
-
-lbl_printSln@System: NOP
 
 
 
 .DATA
-VT@B: DW lbl_debugPrint@B
-DW lbl_setall@B
+VT@B: DW lbl_setall@B
 DW lbl_m1@B
 DW lbl_seta4@B
 DW lbl_m2@B
-
 .CODE
 lbl_builder@B: NOP
-
-lbl_debugPrint@B: NOP
 
 lbl_setall@B: NOP
 

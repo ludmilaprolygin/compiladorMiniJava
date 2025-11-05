@@ -138,7 +138,7 @@ public class SymbolTable extends Element {
         t = new VoidType(new Token(reservedVoid, "void", -1));
         AbstractType tInt = new IntType(new Token(reservedInt, "int", -1));
 
-        Method debugPrint = new Method(n, v, m, t);
+        Method debugPrint = new Method(n, v, m, t, objectClass);
         Token pI = new Token(idMetVar, "i", -1);
         try {
             debugPrint.addParameter(new Parameter(pI, tInt));
