@@ -1,6 +1,8 @@
 package main;
 
 import lexicalAnalyzer.LexicalAnalyzer;
+import model.codeGeneration.Instructions;
+import model.symbolTable.MainElement;
 import model.symbolTable.SymbolTable;
 import outputManager.OutputManager;
 import sourceManager.*;
@@ -142,11 +144,26 @@ public class Main {
         System.out.println("Compilación exitosa. \n[SinErrores]");
     }
 
-    private static void codeGeneration(String outputFileName) throws IOException {
+    private static void codeGeneration(String outputFileName) throws Exception {
         outputManager = new OutputManager(outputFileName);
+
+        genMain();
+        outputManager.genHeap();
 
         symbolTable.gen(outputManager);
         
         outputManager.close();
+    }
+
+    private static void genMain() {
+        model.symbolTable.Class mainClass = (model.symbolTable.Class) symbolTable.getMainClass();
+        String mainLabel = "lbl_main@" + mainClass.getName().getLexeme();
+
+        outputManager.gen(".CODE");
+        outputManager.gen(Instructions.PUSH + " " + mainLabel);
+        outputManager.gen(Instructions.CALL.toString());
+        outputManager.gen(Instructions.HALT.toString());
+        outputManager.gen("");
+        outputManager.gen("");
     }
 }

@@ -27,6 +27,7 @@ public class SymbolTable extends Element {
     private ObjectClass objectClass;
     private NodoBloque bloque;
     private boolean hasMain;
+    private MainElement mainClass;
 
     private SymbolTable() {
         reset();
@@ -63,7 +64,12 @@ public class SymbolTable extends Element {
     }
 
     public boolean hasMain() { return hasMain; }
-    public void setHasMain() { hasMain = true; }
+    public void setHasMain(MainElement e) {
+        hasMain = true;
+        mainClass = e;
+    }
+
+    public MainElement getMainClass() { return mainClass; }
 
     public MainElement getCurrentClass() {
         return currentClass;

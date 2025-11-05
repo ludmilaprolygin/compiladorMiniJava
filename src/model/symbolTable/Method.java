@@ -52,7 +52,7 @@ public class Method extends Service {
             throw new SemanticException(SemanticErrorIMessage.abstractMethodWithBody(name));
         if(modifier != null && modifier.getTokenType().equals(TokenType.reservedStatic) && returnType.getName().getTokenType().equals(TokenType.reservedVoid) &&
             name.getLexeme().equals("main"))
-            SymbolTable.symbolTable().setHasMain();
+            SymbolTable.symbolTable().setHasMain(creator);
         checkReturnType();
         checkThisOnStaticContext();
     }

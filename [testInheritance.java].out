@@ -1,3 +1,27 @@
+.CODE
+PUSH lbl_main@Execute
+CALL
+HALT
+
+
+simple_heap_init:
+RET 0
+simple_malloc:
+LOADFP
+LOADSP
+STOREFP
+LOADHL
+DUP
+PUSH 1
+ADD
+STORE 4
+LOAD 3
+ADD
+STOREHL
+STOREFP
+RET 1
+
+
 .DATA
 VT@TestB: DW lbl_m1@TestB
 DW lbl_m3@TestB

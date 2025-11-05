@@ -1,5 +1,7 @@
 package outputManager;
 
+import model.codeGeneration.Instructions;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -29,5 +31,28 @@ public class OutputManager {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    public void genHeap() {
+        gen("simple_heap_init:");
+        gen(Instructions.RET.toString() + " 0");
+
+        gen("simple_malloc:");
+        gen(Instructions.LOADFP.toString());
+        gen(Instructions.LOADSP.toString());
+        gen(Instructions.STOREFP.toString());
+        gen(Instructions.LOADHL.toString());
+        gen(Instructions.DUP.toString());
+        gen(Instructions.PUSH.toString() + " 1");
+        gen(Instructions.ADD.toString());
+        gen(Instructions.STORE.toString() + " 4");
+        gen(Instructions.LOAD.toString() + " 3");
+        gen(Instructions.ADD.toString());
+        gen(Instructions.STOREHL.toString());
+        gen(Instructions.STOREFP.toString());
+        gen(Instructions.RET.toString() + " 1");
+
+        gen("");
+        gen("");
     }
 }
