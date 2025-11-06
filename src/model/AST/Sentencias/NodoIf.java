@@ -4,6 +4,7 @@ import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoThis;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -52,5 +53,10 @@ public class NodoIf extends NodoSentencia {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

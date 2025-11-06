@@ -3,6 +3,7 @@ package model.AST.Sentencias;
 import model.AST.Expresiones.NodoExpresion;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class NodoForStandard extends NodoSentencia {
@@ -47,5 +48,10 @@ public class NodoForStandard extends NodoSentencia {
     protected void checkThisOnStaticContext() throws SemanticException {
         asignacion.checkThisOnStaticContext();
         incremento.checkThisOnStaticContext();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

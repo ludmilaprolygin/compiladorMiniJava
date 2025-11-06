@@ -2,7 +2,9 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.Token;
+import model.codeGeneration.Instructions;
 import model.symbolTable.*;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -85,6 +87,18 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         if (encadenado == null)
             return null;
         return encadenado.getLastEncadenado();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+        Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
+        Method m = (Method) belongingClass.getMethods().get(tokenM);
+
+        for(NodoExpresion n : argumentos){
+            n.gen(o);
+        }
+        o.gen(Instructions.PUSH + " lbl_" + metodo.getLexeme() + "@" + m.getCreator().getName().getLexeme());
+        o.gen(Instructions.CALL.toString());
     }
 
     public Encadenado getEncadenado() {

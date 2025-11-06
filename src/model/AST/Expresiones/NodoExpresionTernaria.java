@@ -7,6 +7,7 @@ import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
 import model.symbolTable.UniversalType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -66,5 +67,10 @@ public class NodoExpresionTernaria extends NodoExpresion{
     @Override
     public Encadenado getLastEncadenado() {
         return new EncadenadoVacio();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

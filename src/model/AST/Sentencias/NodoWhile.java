@@ -4,6 +4,7 @@ import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoThis;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -43,5 +44,10 @@ public class NodoWhile extends NodoSentencia {
 
     public NodoReturn hasReturnStatementSomewhere() throws SemanticException {
         return sentencia.hasReturnStatementSomewhere();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

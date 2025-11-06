@@ -7,6 +7,7 @@ import model.AST.Sentencias.NodoBloque;
 import model.Token;
 import model.symbolTable.*;
 import org.w3c.dom.Attr;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -89,4 +90,6 @@ public abstract class NodoOperando extends NodoExpresion {
     public Encadenado getLastEncadenado() {
         return new EncadenadoVacio();
     }
+
+    public void gen(OutputManager o) { }
 }

@@ -334,10 +334,20 @@ public class Class extends MainElement {
         }
     }
 
-    public List getNonStaticMethods() {
+    protected List getNonStaticMethods() {
         List toReturn = new List();
         for(int i = 0; i < methods.size(); i++){
             if(methods.get(i).getModifier() == null || !methods.get(i).getModifier().getTokenType().equals(TokenType.reservedStatic)){
+                toReturn.addLast(methods.get(i));
+            }
+        }
+        return toReturn;
+    }
+
+    protected List myMethods() {
+        List toReturn = new List();
+        for(int i = 0; i < methods.size(); i++){
+            if(((Method) methods.get(i)).getCreator() == this){
                 toReturn.addLast(methods.get(i));
             }
         }
@@ -349,6 +359,7 @@ public class Class extends MainElement {
         sortByOffset(methods);
 
         List dynamicMethods = getNonStaticMethods();
+        List myMethods = myMethods();
 
         o.gen(".DATA");
 
@@ -365,13 +376,13 @@ public class Class extends MainElement {
         }
 
         o.gen(".CODE");
+        for(Element e : myMethods.values()){
+            Method m = (Method) e;
+            m.gen(o, name.getLexeme());
+        }
         for(Element e : builderTable){
             Builder c = (Builder) e;
             c.gen(o, name.getLexeme());
-        }
-        for(Element e : dynamicMethods.values()){
-            Method m = (Method) e;
-            m.gen(o, name.getLexeme());
         }
 
         o.gen("");

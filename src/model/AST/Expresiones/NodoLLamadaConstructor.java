@@ -4,6 +4,7 @@ import model.AST.Encadenados.Encadenado;
 import model.Token;
 import model.symbolTable.*;
 import model.symbolTable.Class;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -60,6 +61,11 @@ public class NodoLLamadaConstructor extends NodoExpresion {
         if (encadenado == null)
             return null;
         return encadenado.getLastEncadenado();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 
     public Encadenado getEncadenado() {

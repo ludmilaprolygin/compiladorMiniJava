@@ -3,8 +3,10 @@ package model.AST.Expresiones;
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.Token;
+import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import model.symbolTable.Class;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
@@ -88,6 +90,15 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
         if (encadenado == null)
             return null;
         return encadenado.getLastEncadenado();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+        for(NodoExpresion n : argumentos){
+            n.gen(o);
+        }
+        o.gen(Instructions.PUSH + " lbl_" + idM.getLexeme() + "@" + idC.getLexeme());
+        o.gen(Instructions.CALL.toString());
     }
 
     public void setEncadenado(Encadenado chain) {

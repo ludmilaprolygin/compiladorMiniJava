@@ -60,7 +60,17 @@ public abstract class Service extends OffsetElement {
             myName = name.getLexeme() + "@" + className;
         }
 
-        o.gen("lbl_" + myName + ": " + Instructions.NOP);
+        o.gen("lbl_" + myName + ": ");
+        if(bloque instanceof NodoBloqueVacio) {
+            o.gen(Instructions.NOP.toString());
+        } else {
+            o.gen(Instructions.LOADFP.toString());
+            o.gen(Instructions.LOADSP.toString());
+            o.gen(Instructions.STOREFP.toString());
+            bloque.gen(o);
+            o.gen(Instructions.STOREFP.toString());
+            o.gen(Instructions.RET.toString() + " " + parameters.size());
+        }
 
         o.gen("");
     }

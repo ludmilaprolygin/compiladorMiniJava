@@ -5,6 +5,7 @@ import model.AST.Expresiones.NodoExpresionVacia;
 import model.AST.Expresiones.NodoThis;
 import model.Token;
 import model.symbolTable.*;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -74,5 +75,10 @@ public class NodoReturn extends NodoSentencia {
 
     public NodoReturn hasReturnStatementSomewhere() {
         return this;
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

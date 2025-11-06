@@ -1,5 +1,6 @@
 package model.AST.Sentencias;
 
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class NodoSentenciaVacia extends NodoSentencia {
@@ -16,4 +17,7 @@ public class NodoSentenciaVacia extends NodoSentencia {
     protected void checkThisOnStaticContext() throws SemanticException {
 
     }
+
+    @Override
+    public void gen(OutputManager o) { }
 }

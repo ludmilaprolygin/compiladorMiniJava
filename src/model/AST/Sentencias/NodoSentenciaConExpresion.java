@@ -2,6 +2,7 @@ package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoThis;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -26,5 +27,10 @@ public class NodoSentenciaConExpresion extends NodoSentencia {
         if(expresion instanceof NodoThis){
             throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(expresion.getToken()));
         }
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+        expresion.gen(o);
     }
 }

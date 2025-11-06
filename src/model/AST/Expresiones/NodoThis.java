@@ -4,6 +4,7 @@ import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
 import model.symbolTable.*;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -58,5 +59,10 @@ public class NodoThis extends NodoExpresion {
             throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(ultimo.getNombre()));
         }
         return this.check();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

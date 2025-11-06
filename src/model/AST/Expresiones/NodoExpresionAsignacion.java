@@ -6,6 +6,7 @@ import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.AST.Operandos.NodoOperando;
 import model.Token;
 import model.symbolTable.AbstractType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -61,5 +62,10 @@ public class NodoExpresionAsignacion extends NodoExpresion{
     @Override
     public Encadenado getLastEncadenado() {
         return new EncadenadoVacio();
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

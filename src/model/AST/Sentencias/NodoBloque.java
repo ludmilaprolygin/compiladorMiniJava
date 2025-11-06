@@ -7,8 +7,10 @@ import model.AST.Expresiones.NodoLLamadaMetodo;
 import model.AST.Expresiones.NodoThis;
 import model.AST.Operandos.NodoOperando;
 import model.AST.Operandos.NodoVar;
+import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.Method;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -115,6 +117,14 @@ public class NodoBloque extends NodoSentencia {
             }
         }
         return null;
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+        for(NodoSentencia s : statements) {
+            s.gen(o);
+        }
+        o.gen(Instructions.FMEM + " " + variables.size());
     }
 
     public void addLlamada(NodoExpresion toReturn) {

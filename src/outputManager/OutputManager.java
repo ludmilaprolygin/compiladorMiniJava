@@ -36,6 +36,7 @@ public class OutputManager {
     public void genHeap() {
         gen("simple_heap_init:");
         gen(Instructions.RET.toString() + " 0");
+        gen("");
 
         gen("simple_malloc:");
         gen(Instructions.LOADFP.toString());

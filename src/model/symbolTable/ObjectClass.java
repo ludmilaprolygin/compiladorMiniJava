@@ -15,8 +15,17 @@ public class ObjectClass extends Class {
         o.gen("VT@Object: " + Instructions.NOP);
 
         o.gen(".CODE");
-        o.gen("lbl_debugPrint@Object: " + Instructions.LOAD + " 3");
+        o.gen("lbl_debugPrint@Object: ");
+        o.gen(Instructions.LOADFP.toString());
+        o.gen(Instructions.LOADSP.toString());
+        o.gen(Instructions.STOREFP.toString());
+        o.gen(Instructions.LOAD + " 3");
         o.gen(Instructions.IPRINT.toString());
-        o.gen(Instructions.PRNLN.toString());
+        //o.gen(Instructions.PRNLN.toString());
+        o.gen(Instructions.STOREFP.toString());
+        o.gen(Instructions.RET + " 1");
+
+        o.gen("");
+        o.gen("");
     }
 }

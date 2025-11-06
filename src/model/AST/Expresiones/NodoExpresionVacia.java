@@ -5,6 +5,7 @@ import model.AST.Encadenados.EncadenadoVacio;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.UniversalType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class NodoExpresionVacia extends NodoExpresion {
@@ -28,4 +29,7 @@ public class NodoExpresionVacia extends NodoExpresion {
     public Encadenado getLastEncadenado() {
         return new EncadenadoVacio();
     }
+
+    @Override
+    public void gen(OutputManager o) { }
 }
