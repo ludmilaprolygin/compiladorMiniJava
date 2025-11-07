@@ -49,11 +49,27 @@ public class NodoVar extends NodoOperando implements Var {
 
         SymbolTable st = SymbolTable.symbolTable();
         Service s = st.getCurrentService();
+
+        //toReturn = st.getCurrentService().getParameters().contains(this.getToken().getLexeme());
+
+        for(Element n : st.getCurrentService().getParameters()){
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                //toReturn = true;
+                tipo = ((Parameter) n).getType();
+            }
+        }
+
         for(Element e : st.getCurrentClass().getAttributes().values()){
             Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
                 //toReturn = true;
                 throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
+            }
+
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null){
+                //toReturn = true;
+                //throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
+                tipo = n.getType();
             }
         }
 
