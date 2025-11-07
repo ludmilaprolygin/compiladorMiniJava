@@ -679,7 +679,19 @@ public class SyntacticAnalyzer {
         NodoExpresion expresion;
         NodoVar e = _inicioVarLocal();
         expresion = _restoVarLocal(e);
-        e.setTipo(expresion.check());
+        AbstractType abstractType = null;
+        try{
+            abstractType = expresion.check();
+        }
+        catch(Exception ex){}
+        if(abstractType instanceof UniversalType || abstractType == null)
+        {
+            e.setTipo(new UniversalType());
+        }
+        else
+        {
+            e.setTipo(expresion.check());
+        }
         symbolTable().getBloque().addVariable(e);
         return new NodoSentenciaConExpresion(expresion);
     }
