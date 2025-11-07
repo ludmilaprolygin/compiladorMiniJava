@@ -39,12 +39,12 @@ class C {
 }
 
 class Init {
-    A a;
-    B b;
-    C c;
-    int z;
-    static void main() {
 
+    static void main() {
+        A a;
+        B b;
+        C c;
+        int z;
 
         a = new A();
         b = a.m2();           // Método válido

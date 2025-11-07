@@ -35,8 +35,8 @@ public class NodoExpresionBinaria extends NodoExpresion {
                 operador.getTokenType() == TokenType.modOp)
         {
             try{
-                expTypeRight.compatible(new IntType(null));
-                expTypeLeft.compatible(new IntType(null));
+                expTypeRight.compatible(new IntType(operador));
+                expTypeLeft.compatible(new IntType(operador));
             }
             catch(Exception e){
                 throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
@@ -45,9 +45,9 @@ public class NodoExpresionBinaria extends NodoExpresion {
         else if (operador.getTokenType() == TokenType.orOp ||
                     operador.getTokenType() == TokenType.andOp){
             try {
-                expTypeRight.compatible(new BooleanType(null));
-                expTypeLeft.compatible(new BooleanType(null));
-                expTypeRight = new BooleanType(null);
+                expTypeRight.compatible(new BooleanType(operador));
+                expTypeLeft.compatible(new BooleanType(operador));
+                expTypeRight = new BooleanType(operador);
             }
             catch(Exception e){
                 throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
@@ -58,8 +58,8 @@ public class NodoExpresionBinaria extends NodoExpresion {
                 operador.getTokenType() == TokenType.greaterOp ||
                 operador.getTokenType() == TokenType.greaterEqualOp){
             try {
-                expTypeRight.compatible(new IntType(null));
-                expTypeLeft.compatible(new IntType(null));
+                expTypeRight.compatible(new IntType(operador));
+                expTypeLeft.compatible(new IntType(operador));
                 expTypeRight = new BooleanType(operador);
             }
             catch(Exception e){
@@ -70,10 +70,16 @@ public class NodoExpresionBinaria extends NodoExpresion {
                 operador.getTokenType() == TokenType.notEqualOp){
             try {
                 expTypeRight.compatible(ladoIzquierdo.check());
-                expTypeRight = new BooleanType(null);
+                expTypeRight = new BooleanType(operador);
             }
             catch(Exception e){
-                throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+                try {
+                    expTypeLeft.compatible(expTypeRight);
+                    expTypeRight = new BooleanType(operador);
+                }
+                catch(Exception e1){
+                    throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
+                }
             }
         }
         return expTypeRight;
