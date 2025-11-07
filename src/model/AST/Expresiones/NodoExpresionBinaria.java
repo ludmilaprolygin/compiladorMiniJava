@@ -60,7 +60,7 @@ public class NodoExpresionBinaria extends NodoExpresion {
             try {
                 expTypeRight.compatible(new IntType(null));
                 expTypeLeft.compatible(new IntType(null));
-                expTypeRight = new BooleanType(null);
+                expTypeRight = new BooleanType(operador);
             }
             catch(Exception e){
                 throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
