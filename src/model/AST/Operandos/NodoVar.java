@@ -15,7 +15,7 @@ public class NodoVar extends NodoOperando implements Var {
     protected AbstractType tipo;
     protected Encadenado encadenado;
     protected boolean isDeclared;
-    protected Var var;
+    protected Var varAsociada;
     public NodoVar(Token token) {
         super(token);
         tipo = new UniversalType();
@@ -58,6 +58,7 @@ public class NodoVar extends NodoOperando implements Var {
         for(Element n : st.getCurrentService().getParameters()){
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
                 //toReturn = true;
+                varAsociada = (Var) n;
                 tipo = ((Parameter) n).getType();
             }
         }
@@ -66,6 +67,8 @@ public class NodoVar extends NodoOperando implements Var {
             Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
                 //toReturn = true;
+                if(varAsociada == null)
+                    varAsociada = n;
                 throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
             }
 
@@ -75,6 +78,9 @@ public class NodoVar extends NodoOperando implements Var {
                 tipo = n.getType();
             }
         }
+
+        if(varAsociada == null)
+            varAsociada = this;
 
         return toReturn;
     }
@@ -105,6 +111,7 @@ public class NodoVar extends NodoOperando implements Var {
         Token t = null;
         for(Element n : st.getCurrentService().getParameters()){
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                varAsociada = (Var) n;
                 toReturn = true;
             }
             t = n.getName();
@@ -114,6 +121,7 @@ public class NodoVar extends NodoOperando implements Var {
             Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
                 //toReturn = true;
+                varAsociada = n;
                 throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
             }
             t = n.getName();
@@ -121,6 +129,7 @@ public class NodoVar extends NodoOperando implements Var {
         if (toReturn){
             throw new SemanticException(SemanticErrorIIMessage.variableAlreadyExists(token));
         }
+        varAsociada = this;
     }
 
     public Encadenado getLastEncadenado (){
@@ -149,7 +158,7 @@ public class NodoVar extends NodoOperando implements Var {
         return tipo;
     }
 
-    public void setVar(Var v){ var = v; }
+    public void setVar(Var v){ varAsociada = v; }
 
     @Override
     public void gen(OutputManager o) {
