@@ -27,9 +27,9 @@ class C{
 }
 
 class Init{
-    A a;
-    int x;
     static void main(){
+        A a;
+        int x;
         a = new A();
         x = a.m2().c1.atributoC;
     }

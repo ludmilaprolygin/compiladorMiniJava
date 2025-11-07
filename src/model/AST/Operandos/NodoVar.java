@@ -3,6 +3,7 @@ package model.AST.Operandos;
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
+import model.TokenType;
 import model.symbolTable.*;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
@@ -45,6 +46,17 @@ public class NodoVar extends NodoOperando implements Var {
                 //encadenado.check(tipo);
             else
                 throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(tipo));
+
+        SymbolTable st = SymbolTable.symbolTable();
+        Service s = st.getCurrentService();
+        for(Element e : st.getCurrentClass().getAttributes().values()){
+            Attribute n = (Attribute) e;
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
+                //toReturn = true;
+                throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
+            }
+        }
+
         return toReturn;
     }
 
@@ -70,6 +82,7 @@ public class NodoVar extends NodoOperando implements Var {
         boolean toReturn = false;
         SymbolTable st = SymbolTable.symbolTable();
         toReturn = st.getCurrentService().getParameters().contains(this.getToken().getLexeme());
+        Service s = st.getCurrentService();
         Token t = null;
         for(Element n : st.getCurrentService().getParameters()){
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
@@ -80,8 +93,9 @@ public class NodoVar extends NodoOperando implements Var {
         // toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
         for(Element e : st.getCurrentClass().getAttributes().values()){
             Attribute n = (Attribute) e;
-            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
                 //toReturn = true;
+                throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
             }
             t = n.getName();
         }

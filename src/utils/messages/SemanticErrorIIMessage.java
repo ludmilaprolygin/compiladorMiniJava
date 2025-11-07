@@ -105,4 +105,8 @@ public class SemanticErrorIIMessage {
     public static String deadCodeDetected(Token token) {
         return basicErrorInit(token) + ": Dead code detected after this statement \n" + basicErrorEnd(token);
     }
+
+    public static String accessToAttributeInStaticContext(Token name) {
+        return basicErrorInit(name) + ": Access to attribute in static context \n" + basicErrorEnd(name);
+    }
 }
