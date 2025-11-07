@@ -2,6 +2,7 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.Token;
+import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import model.symbolTable.Class;
 import outputManager.OutputManager;
@@ -65,7 +66,11 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
     @Override
     public void gen(OutputManager o) {
-
+        for(NodoExpresion n : parametros){
+            n.gen(o);
+        }
+        o.gen(Instructions.PUSH + " lbl_builder@" + classType.getName().getLexeme());
+        o.gen(Instructions.CALL.toString());
     }
 
     public Encadenado getEncadenado() {

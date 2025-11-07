@@ -2,9 +2,12 @@ package model.AST.Operandos;
 
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
+import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.Instructions;
 import model.symbolTable.*;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -147,4 +150,9 @@ public class NodoVar extends NodoOperando implements Var {
     }
 
     public void setVar(Var v){ var = v; }
+
+    @Override
+    public void gen(OutputManager o) {
+
+    }
 }
