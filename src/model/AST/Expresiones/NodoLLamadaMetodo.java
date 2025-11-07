@@ -1,6 +1,7 @@
 package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
@@ -82,6 +83,19 @@ public class NodoLLamadaMetodo extends NodoExpresion {
                 throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(metodo));
             }
         }
+    }
+
+    public AbstractType checkLeftValue() throws SemanticException {
+        Encadenado ultimo = this.getLastEncadenado();
+
+        if (ultimo == null) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(this.getToken()));
+        }
+
+        if (ultimo instanceof NodoLLamadaEncadenada) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(ultimo.getNombre()));
+        }
+        return this.check();
     }
 
     public Encadenado getLastEncadenado (){
