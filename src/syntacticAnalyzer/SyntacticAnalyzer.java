@@ -820,6 +820,13 @@ public class SyntacticAnalyzer {
             toReturn = new NodoExpresionBinaria(operador, ladoIzquierdo, ladoDerecho);
 
         }
+        else if (firsts.containsToken(OperadorAsignacion, currentTokenType)) {
+            Token operador = operadorAsignacion();
+            NodoExpresion ladoDerecho = expresionCompuesta();
+            ladoDerecho = _restoExpresionCompuesta(ladoDerecho);
+            toReturn = new NodoExpresionAsignacion(ladoIzquierdo, ladoDerecho, operador);
+
+        }
         else { /* epsilon */ }
         return toReturn;
     }
@@ -934,6 +941,14 @@ public class SyntacticAnalyzer {
         }
         if(var instanceof NodoLLamadaConstructor){
             NodoLLamadaConstructor c = (NodoLLamadaConstructor) var;
+            if(c.getEncadenado() == null || c.getEncadenado() instanceof EncadenadoVacio)
+                c.setEncadenado(e);
+            else
+                c.getLastEncadenado().setEncadenado(e);
+            return c;
+        }
+        if(var instanceof NodoLLamadaMetodoEstatico){
+            NodoLLamadaMetodoEstatico c = (NodoLLamadaMetodoEstatico) var;
             if(c.getEncadenado() == null || c.getEncadenado() instanceof EncadenadoVacio)
                 c.setEncadenado(e);
             else

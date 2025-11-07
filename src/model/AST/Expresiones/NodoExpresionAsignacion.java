@@ -39,6 +39,10 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         try{
             left.compatible(right);
         } catch (SemanticException e){
+            System.out.println(ladoIzquierdo.toString());
+            System.out.println(ladoIzquierdo.check().toString());
+            System.out.println(ladoDerecho.toString());
+            System.out.println(ladoDerecho.check().toString());
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(operador));
         }
         return right;

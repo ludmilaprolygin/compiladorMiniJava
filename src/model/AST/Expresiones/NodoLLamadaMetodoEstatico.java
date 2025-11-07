@@ -92,6 +92,8 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
         return encadenado.getLastEncadenado();
     }
 
+    public Encadenado getEncadenado(){ return encadenado; }
+
     @Override
     public void gen(OutputManager o) {
         for(NodoExpresion n : argumentos){
