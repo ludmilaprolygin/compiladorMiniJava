@@ -2,7 +2,6 @@ package model.AST.Operandos;
 
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
-import model.AST.Sentencias.NodoBloque;
 import model.Token;
 import model.symbolTable.*;
 import utils.exceptions.SemanticException;
@@ -78,11 +77,11 @@ public class NodoVar extends NodoOperando implements Var {
             }
             t = n.getName();
         }
-        toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
+        // toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
         for(Element e : st.getCurrentClass().getAttributes().values()){
             Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
-                toReturn = true;
+                //toReturn = true;
             }
             t = n.getName();
         }

@@ -24,28 +24,17 @@ RET 1
 
 
 .DATA
-VT@Init: NOP
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_main@Init: 
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
-PUSH 1234
-PUSH lbl_debugPrint@Object
-CALL
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Init: 
-NOP
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
+lbl_builder@Integer: 
 NOP
 
 
@@ -64,33 +53,98 @@ RET 1
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@System: NOP
 .CODE
-lbl_charValue@Character: 
+lbl_read@System: 
 LOADFP
 LOADSP
 STOREFP
-FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Character: 
+lbl_printB@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_printC@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_printI@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_printS@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_println@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
+
+lbl_printBln@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_printCln@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_printIln@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_printSln@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+lbl_builder@System: 
 NOP
 
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@Init: NOP
 .CODE
-lbl_intValue@Integer: 
+lbl_main@Init: 
 LOADFP
 LOADSP
 STOREFP
+PUSH 1234
+PUSH lbl_debugPrint@Object
+CALL
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Integer: 
+lbl_builder@Init: 
 NOP
 
 
@@ -112,9 +166,9 @@ NOP
 
 
 .DATA
-VT@System: NOP
+VT@Character: DW lbl_charValue@Character
 .CODE
-lbl_read@System: 
+lbl_charValue@Character: 
 LOADFP
 LOADSP
 STOREFP
@@ -122,79 +176,15 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_printB@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
+lbl_builder@Character: 
+NOP
 
-lbl_printC@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
 
-lbl_printI@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
 
-lbl_printS@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
-
-lbl_println@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_printBln@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
-
-lbl_printCln@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
-
-lbl_printIln@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
-
-lbl_printSln@System: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 1
-
-lbl_builder@System: 
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 NOP
 
 

@@ -31,7 +31,7 @@ public class Interface extends MainElement {
         }
         for (Element a : attributes.values())
             a.correctDeclaration();
-        for (Method m : (Method[]) methods.values())
+        for (OffsetElement m : (OffsetElement[]) methods.values())
             m.correctDeclaration();
     }
 }

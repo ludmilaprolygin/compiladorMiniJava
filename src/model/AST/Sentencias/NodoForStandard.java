@@ -45,7 +45,7 @@ public class NodoForStandard extends NodoSentencia {
     }
 
     @Override
-    protected void checkThisOnStaticContext() throws SemanticException {
+    public void checkThisOnStaticContext() throws SemanticException {
         asignacion.checkThisOnStaticContext();
         incremento.checkThisOnStaticContext();
     }

@@ -8,6 +8,8 @@ import model.AST.Encadenados.NodoVarEncadenada;
 import model.AST.Expresiones.*;
 import model.AST.Operandos.*;
 import model.AST.Sentencias.*;
+import model.AST.Sentencias.Bloques.NodoBloque;
+import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Firsts;
 import model.Following;
 import model.Token;

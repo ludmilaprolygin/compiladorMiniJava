@@ -48,7 +48,7 @@ public class NodoReturn extends NodoSentencia {
     }
 
     @Override
-    protected void checkThisOnStaticContext() throws SemanticException {
+    public void checkThisOnStaticContext() throws SemanticException {
         if(expresion instanceof NodoThis){
             throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(expresion.getToken()));
         }

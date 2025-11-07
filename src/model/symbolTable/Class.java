@@ -1,6 +1,6 @@
 package model.symbolTable;
 
-import model.AST.Sentencias.NodoBloqueVacio;
+import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
 import model.TokenType;
 import model.codeGeneration.Instructions;
@@ -8,8 +8,6 @@ import outputManager.OutputManager;
 import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
-
-import java.util.ArrayList;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 

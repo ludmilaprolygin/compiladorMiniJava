@@ -35,7 +35,7 @@ public class NodoWhile extends NodoSentencia {
     }
 
     @Override
-    protected void checkThisOnStaticContext() throws SemanticException {
+    public void checkThisOnStaticContext() throws SemanticException {
         if(condicion instanceof NodoThis){
             throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(condicion.getToken()));
         }

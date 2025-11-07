@@ -1,7 +1,7 @@
 package model.symbolTable;
 
-import model.AST.Sentencias.NodoBloque;
-import model.AST.Sentencias.NodoBloqueVacio;
+import model.AST.Sentencias.Bloques.NodoBloque;
+import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
 import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
@@ -69,7 +69,7 @@ public abstract class Service extends OffsetElement {
             o.gen(Instructions.STOREFP.toString());
             bloque.gen(o);
             o.gen(Instructions.STOREFP.toString());
-            o.gen(Instructions.RET.toString() + " " + parameters.size());
+            o.gen(Instructions.RET + " " + parameters.size());
         }
 
         o.gen("");

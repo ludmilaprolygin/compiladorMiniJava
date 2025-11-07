@@ -7,7 +7,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
 public class NodoSentenciaConExpresion extends NodoSentencia {
-    protected NodoExpresion expresion;
+    public NodoExpresion expresion;
     public NodoSentenciaConExpresion(NodoExpresion expresion) {
         this.expresion = expresion;
     }
@@ -23,7 +23,7 @@ public class NodoSentenciaConExpresion extends NodoSentencia {
     }
 
     @Override
-    protected void checkThisOnStaticContext() throws SemanticException {
+    public void checkThisOnStaticContext() throws SemanticException {
         if(expresion instanceof NodoThis){
             throw new SemanticException(SemanticErrorIIMessage.thisInStaticContext(expresion.getToken()));
         }

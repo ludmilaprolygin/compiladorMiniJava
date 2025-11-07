@@ -7,7 +7,7 @@ public abstract class NodoSentencia {
     public abstract void check() throws SemanticException;
     public abstract String toString(int depth);
 
-    protected abstract void checkThisOnStaticContext() throws SemanticException;
+    public abstract void checkThisOnStaticContext() throws SemanticException;
 
     public NodoReturn hasReturnStatementSomewhere() throws SemanticException {
         return null;

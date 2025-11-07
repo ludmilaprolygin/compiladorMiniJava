@@ -1,12 +1,14 @@
-package model.AST.Sentencias;
+package model.AST.Sentencias.Bloques;
 
 import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoExpresionBinaria;
 import model.AST.Expresiones.NodoLLamadaMetodo;
-import model.AST.Expresiones.NodoThis;
 import model.AST.Operandos.NodoOperando;
 import model.AST.Operandos.NodoVar;
+import model.AST.Sentencias.NodoReturn;
+import model.AST.Sentencias.NodoSentencia;
+import model.AST.Sentencias.NodoSentenciaConExpresion;
 import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.Method;

@@ -1,10 +1,6 @@
 package model.symbolTable;
 
-import model.AST.Expresiones.NodoExpresionVacia;
-import model.AST.Sentencias.NodoBloque;
-import model.AST.Sentencias.NodoBloqueVacio;
 import model.AST.Sentencias.NodoReturn;
-import model.AST.Sentencias.NodoSentencia;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
