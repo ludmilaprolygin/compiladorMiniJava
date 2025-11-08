@@ -8,6 +8,8 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
 public abstract class NodoExpresion {
+    protected boolean esLadoIzq;
+
     public abstract AbstractType check() throws SemanticException;
     public abstract String toString(int depth);
 
@@ -21,4 +23,10 @@ public abstract class NodoExpresion {
     }
 
     public abstract void gen(OutputManager o);
+
+    public void setEsLadoIzq() { esLadoIzq = !esLadoIzq; }
+
+    public boolean getEsLadoIzq() {
+        return esLadoIzq;
+    }
 }

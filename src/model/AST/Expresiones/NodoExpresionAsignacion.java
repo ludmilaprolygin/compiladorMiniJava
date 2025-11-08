@@ -19,6 +19,8 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         ladoIzquierdo = l;
         ladoDerecho = r;
         operador = o;
+
+        //ladoIzquierdo.setEsLadoIzq();
     }
     @Override
     public AbstractType check() throws SemanticException {
@@ -70,6 +72,10 @@ public class NodoExpresionAsignacion extends NodoExpresion{
 
     @Override
     public void gen(OutputManager o) {
+        ladoDerecho.gen(o);
 
+        ladoIzquierdo.setEsLadoIzq();
+        ladoIzquierdo.gen(o);
+        ladoIzquierdo.setEsLadoIzq();
     }
 }

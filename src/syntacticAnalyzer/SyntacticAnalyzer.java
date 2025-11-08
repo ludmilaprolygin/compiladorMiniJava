@@ -535,6 +535,7 @@ public class SyntacticAnalyzer {
 
         Parameter newParameter = new Parameter(name, t);
         symbolTable.getCurrentService().addParameter(newParameter);
+        newParameter.setOffset(symbolTable.getCurrentService().getParameters().size());
     }
 
     private NodoBloque bloqueOpcional() throws Exception {
@@ -1125,6 +1126,7 @@ public class SyntacticAnalyzer {
     private java.util.List<NodoExpresion> argsActuales() throws Exception {
         match(openParenthesis);
         java.util.List<NodoExpresion> toReturn = listaExpsOpcional();
+        System.out.println(toReturn);
         match(closeParenthesis);
         return toReturn;
     }

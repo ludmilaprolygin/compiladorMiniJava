@@ -1,4 +1,4 @@
-///[SinErrores]
+///exitosamente
 
 class TestA {
     int a1;

@@ -16,6 +16,7 @@ public class NodoVar extends NodoOperando implements Var {
     protected Encadenado encadenado;
     protected boolean isDeclared;
     protected Var varAsociada;
+
     public NodoVar(Token token) {
         super(token);
         tipo = new UniversalType();
@@ -162,6 +163,23 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
+        if(varAsociada instanceof Parameter p) {
+            if (esLadoIzq) {
+                o.gen(Instructions.STORE + " " + p.getOffset());
+            }
+            else {
+                o.gen(Instructions.LOAD + " " + p.getOffset());
+            }
+        }
+        else if(varAsociada instanceof Attribute a) {
+            if (esLadoIzq) {
+                o.gen(Instructions.LOAD + " 3");
+                o.gen(Instructions.SWAP.toString());
+                o.gen(Instructions.STOREREF + " " + a.getOffset());
+            }
+            else {
 
+            }
+        }
     }
 }

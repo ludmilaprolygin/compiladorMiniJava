@@ -1,7 +1,9 @@
 package model.AST.Operandos;
 
+import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.Parameter;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class NodoParametro extends NodoOperando{

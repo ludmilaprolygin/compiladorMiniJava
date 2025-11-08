@@ -24,22 +24,6 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Integer: 
-NOP
-
-
-
-.DATA
 VT@Object: NOP
 .CODE
 lbl_debugPrint@Object: 
@@ -175,9 +159,9 @@ NOP
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
@@ -185,7 +169,7 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Boolean: 
+lbl_builder@Integer: 
 NOP
 
 
@@ -202,6 +186,22 @@ STOREFP
 RET 0
 
 lbl_builder@Character: 
+NOP
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
 NOP
 
 

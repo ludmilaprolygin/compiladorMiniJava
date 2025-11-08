@@ -1,6 +1,7 @@
 package model.symbolTable;
 
 import model.Token;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class Attribute extends OffsetElement implements Var {
@@ -29,5 +30,10 @@ public class Attribute extends OffsetElement implements Var {
     @Override
     public Token getModifier() {
         return null;
+    }
+
+    @Override
+    public void gen(OutputManager o) {
+
     }
 }

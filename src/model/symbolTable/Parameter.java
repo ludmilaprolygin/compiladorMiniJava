@@ -2,11 +2,14 @@ package model.symbolTable;
 
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.Instructions;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
 public class Parameter extends OffsetElement implements Var {
     AbstractType type;
+    protected int offset;
     public Parameter(Token n, AbstractType t) {
 
         super(n);
@@ -41,11 +44,19 @@ public class Parameter extends OffsetElement implements Var {
 
     @Override
     public int getOffset() {
-        return -1;
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     @Override
     public Token getModifier() {
         return null;
+    }
+
+    public void gen(OutputManager o){
+        o.gen(Instructions.STOREREF + " " + offset);
     }
 }
