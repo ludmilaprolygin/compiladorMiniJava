@@ -3,6 +3,7 @@ package model.symbolTable;
 import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
 import utils.exceptions.GenerationException;
@@ -359,21 +360,23 @@ public class Class extends MainElement {
         List dynamicMethods = getNonStaticMethods();
         List myMethods = myMethods();
 
-        o.gen(".DATA");
+        o.gen(CodeGenConfig.DATA);
 
         if(dynamicMethods.isEmpty()){
             o.gen("VT@" + name.getLexeme() + ": " + Instructions.NOP);
         }
         else{
-            String firstMethod = dynamicMethods.getFirst().getName().getLexeme();
-            o.gen("VT@" + name.getLexeme() + ": " + Instructions.DW + " lbl_" + firstMethod + "@" + name.getLexeme());
+            Method method = (Method) dynamicMethods.getFirst();
+            String firstMethod = method.getName().getLexeme();
+            o.gen("VT@" + name.getLexeme() + ": " + Instructions.DW + " lbl_" + firstMethod + "@" + method.getCreator().getName().getLexeme());
             for(int i = 1; i < dynamicMethods.size(); i++){
-                String methodName = dynamicMethods.get(i).getName().getLexeme();
-                o.gen(Instructions.DW + " lbl_" + methodName + "@" + name.getLexeme());
+                method = (Method) dynamicMethods.get(i);
+                String methodName = method.getName().getLexeme();
+                o.gen(Instructions.DW + " lbl_" + methodName + "@" + method.getCreator().getName().getLexeme());
             }
         }
 
-        o.gen(".CODE");
+        o.gen(CodeGenConfig.CODE);
         for(Element e : myMethods.values()){
             Method m = (Method) e;
             m.gen(o, name.getLexeme());

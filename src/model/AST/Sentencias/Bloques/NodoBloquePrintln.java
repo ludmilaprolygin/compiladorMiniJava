@@ -1,5 +1,6 @@
 package model.AST.Sentencias.Bloques;
 
+import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
 
 public class NodoBloquePrintln extends NodoBloque {
@@ -7,6 +8,6 @@ public class NodoBloquePrintln extends NodoBloque {
         super(null);
     }
     public void gen(OutputManager o){
-
+        o.gen(Instructions.PRNLN.toString());
     }
 }

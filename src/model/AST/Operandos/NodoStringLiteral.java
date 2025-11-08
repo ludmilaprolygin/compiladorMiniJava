@@ -1,8 +1,10 @@
 package model.AST.Operandos;
 
 import model.Token;
+import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.ClassType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class NodoStringLiteral extends NodoOperando{
