@@ -24,22 +24,11 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
+VT@TestB: DW lbl_m1@TestB
+DW lbl_m3@TestA
+DW lbl_m2@TestB
 .CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
+lbl_m1@TestB: 
 LOADFP
 LOADSP
 STOREFP
@@ -47,15 +36,7 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Integer: 
-NOP
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
+lbl_m2@TestB: 
 LOADFP
 LOADSP
 STOREFP
@@ -63,7 +44,7 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Character: 
+lbl_builder@TestB: 
 NOP
 
 
@@ -213,11 +194,9 @@ NOP
 
 
 .DATA
-VT@TestB: DW lbl_m1@TestB
-DW lbl_m3@TestA
-DW lbl_m2@TestB
+VT@Character: DW lbl_charValue@Character
 .CODE
-lbl_m1@TestB: 
+lbl_charValue@Character: 
 LOADFP
 LOADSP
 STOREFP
@@ -225,7 +204,23 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_m2@TestB: 
+lbl_builder@Character: 
+NOP
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+NOP
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
@@ -233,7 +228,7 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@TestB: 
+lbl_builder@Integer: 
 NOP
 
 
@@ -255,10 +250,15 @@ NOP
 
 
 .DATA
-VT@String: NOP
+VT@Object: NOP
 .CODE
-lbl_builder@String: 
-NOP
-
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
 
 

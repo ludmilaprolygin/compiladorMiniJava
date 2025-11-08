@@ -151,6 +151,9 @@ LOADSP
 STOREFP
 PUSH lbl_builder@A
 CALL
+LOAD 3
+SWAP
+STOREREF 0
 PUSH lbl_debugPrint@Object
 CALL
 FMEM 1
@@ -194,7 +197,7 @@ lbl_m1@A:
 LOADFP
 LOADSP
 STOREFP
-LOAD 1
+LOAD 4
 PUSH lbl_debugPrint@Object
 CALL
 FMEM 0

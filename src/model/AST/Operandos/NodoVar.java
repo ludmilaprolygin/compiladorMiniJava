@@ -5,6 +5,7 @@ import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
@@ -16,6 +17,7 @@ public class NodoVar extends NodoOperando implements Var {
     protected Encadenado encadenado;
     protected boolean isDeclared;
     protected Var varAsociada;
+    protected int offset;
 
     public NodoVar(Token token) {
         super(token);
@@ -40,6 +42,9 @@ public class NodoVar extends NodoOperando implements Var {
     public void declare() throws SemanticException {
         isDeclared = true;
     }
+
+    public int getOffset() { return offset; }
+    public void setOffset(int offset) { this.offset = offset; }
 
     @Override
     public AbstractType check() throws SemanticException {
@@ -165,10 +170,10 @@ public class NodoVar extends NodoOperando implements Var {
     public void gen(OutputManager o) {
         if(varAsociada instanceof Parameter p) {
             if (esLadoIzq) {
-                o.gen(Instructions.STORE + " " + p.getOffset());
+                o.gen(Instructions.STORE + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET));
             }
             else {
-                o.gen(Instructions.LOAD + " " + p.getOffset());
+                o.gen(Instructions.LOAD + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET));
             }
         }
         else if(varAsociada instanceof Attribute a) {
@@ -178,7 +183,17 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.STOREREF + " " + a.getOffset());
             }
             else {
-
+                // Acceder al estado interno del objeto
+            }
+        }
+        else if(varAsociada instanceof NodoVar a) {
+            if (esLadoIzq) {
+                o.gen(Instructions.LOAD + " 3");
+                o.gen(Instructions.SWAP.toString());
+                o.gen(Instructions.STOREREF + " " + a.getOffset());
+            }
+            else {
+                // Acceder al estado interno del objeto
             }
         }
     }
