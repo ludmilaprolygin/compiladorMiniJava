@@ -57,6 +57,6 @@ public class Parameter extends OffsetElement implements Var {
     }
 
     public void gen(OutputManager o){
-        o.gen(Instructions.STOREREF + " " + offset);
+        o.gen(Instructions.STORE + " " + offset);
     }
 }

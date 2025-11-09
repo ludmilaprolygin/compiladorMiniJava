@@ -1,5 +1,5 @@
 .CODE
-PUSH lbl_main@Init
+PUSH lbl_main@Init7
 CALL
 HALT
 
@@ -21,6 +21,72 @@ ADD
 STOREHL
 STOREFP
 RET 1
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
+NOP
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
+
+
+.DATA
+VT@Init7: NOP
+.CODE
+lbl_main@Init7: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 1
+PUSH lbl_m1@Init7
+CALL
+FMEM 0
+STOREFP
+RET 0
+
+lbl_m1@Init7: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+STORE 4
+LOAD 4
+PUSH lbl_printBln@System
+CALL
+LOAD 4
+NOT
+STORE 4
+PUSH lbl_printBln@System
+CALL
+FMEM 0
+STOREFP
+RET 1
+
+lbl_builder@Init7: 
+NOP
+
 
 
 .DATA
@@ -127,22 +193,6 @@ NOP
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Boolean: 
-NOP
-
-
-
-.DATA
 VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
@@ -159,16 +209,11 @@ NOP
 
 
 .DATA
-VT@Object: NOP
+VT@String: NOP
 .CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
+lbl_builder@String: 
+NOP
+
 
 
 .DATA
@@ -183,69 +228,6 @@ STOREFP
 RET 0
 
 lbl_builder@Integer: 
-NOP
-
-
-
-.DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-PUSH lbl_m1@Init
-CALL
-FMEM 0
-STOREFP
-RET 0
-
-lbl_m1@Init: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 2
-PUSH 2
-ADD
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 2
-DIV
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-PUSH 5
-PUSH 2
-MOD
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 2
-MUL
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-FMEM 0
-STOREFP
-RET 1
-
-lbl_builder@Init: 
-NOP
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
 NOP
 
 

@@ -1126,7 +1126,6 @@ public class SyntacticAnalyzer {
     private java.util.List<NodoExpresion> argsActuales() throws Exception {
         match(openParenthesis);
         java.util.List<NodoExpresion> toReturn = listaExpsOpcional();
-        System.out.println(toReturn);
         match(closeParenthesis);
         return toReturn;
     }

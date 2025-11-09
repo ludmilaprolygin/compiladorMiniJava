@@ -75,7 +75,6 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         for (int i = 0; i < argumentos.size(); i++) {
             AbstractType argType = argumentos.get(i).check();
             AbstractType paramType = ((Parameter) m.getParameters().get(i)).getType();
-            System.out.println(argType + " " + paramType);
             try {
                 paramType.compatible(argType);
             }

@@ -1,5 +1,8 @@
 package model.AST.Sentencias.Bloques;
 
+import model.AST.Sentencias.NodoSentencia;
+import model.codeGeneration.Instructions;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class NodoBloqueVacio extends NodoBloque {
@@ -20,4 +23,7 @@ public class NodoBloqueVacio extends NodoBloque {
     }
 
     public void checkThisOnStaticContext() throws SemanticException {}
+
+    @Override
+    public void gen(OutputManager o) { }
 }

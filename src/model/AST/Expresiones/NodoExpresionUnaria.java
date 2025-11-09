@@ -4,6 +4,7 @@ import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
 import model.symbolTable.IntType;
@@ -70,6 +71,28 @@ public class NodoExpresionUnaria extends NodoExpresion{
 
     @Override
     public void gen(OutputManager o) {
+        ladoDerecho.gen(o);
 
+        if(operador.getTokenType() == TokenType.incrementOp){
+            o.gen(Instructions.PUSH + " 1");
+            o.gen(Instructions.ADD.toString());
+        }
+        else if(operador.getTokenType() == TokenType.decrementOp){
+            o.gen(Instructions.PUSH + " 1");
+            o.gen(Instructions.SUB.toString());
+        }
+        else if(operador.getTokenType() == TokenType.plusOp){
+            // ????
+        }
+        else if(operador.getTokenType() == TokenType.minusOp){
+            // ????
+        }
+        else if(operador.getTokenType() == TokenType.notOp){
+            o.gen(Instructions.NOT.toString());
+        }
+
+        ladoDerecho.setEsLadoIzq();
+        ladoDerecho.gen(o);
+        ladoDerecho.setEsLadoIzq();
     }
 }

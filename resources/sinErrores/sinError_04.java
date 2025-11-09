@@ -15,5 +15,7 @@ class Init{
         System.printIln(p);
         p = p * 2;
         System.printIln(p);
+
+
     }
 }

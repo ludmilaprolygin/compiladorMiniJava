@@ -186,11 +186,11 @@ public class NodoVar extends NodoOperando implements Var {
                 // Acceder al estado interno del objeto
             }
         }
-        else if(varAsociada instanceof NodoVar a) {
+        else if(varAsociada instanceof NodoVar v) {
             if (esLadoIzq) {
                 o.gen(Instructions.LOAD + " 3");
                 o.gen(Instructions.SWAP.toString());
-                o.gen(Instructions.STOREREF + " " + a.getOffset());
+                o.gen(Instructions.STOREREF + " " + v.getOffset());
             }
             else {
                 // Acceder al estado interno del objeto
