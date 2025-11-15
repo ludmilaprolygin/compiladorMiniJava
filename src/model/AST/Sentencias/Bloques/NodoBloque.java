@@ -12,6 +12,7 @@ import model.AST.Sentencias.NodoSentenciaConExpresion;
 import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.Method;
+import model.symbolTable.Var;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
@@ -123,6 +124,8 @@ public class NodoBloque extends NodoSentencia {
 
     @Override
     public void gen(OutputManager o) {
+        setOffsets();
+
         for(NodoSentencia s : statements) {
             s.gen(o);
         }
@@ -145,5 +148,15 @@ public class NodoBloque extends NodoSentencia {
 
     public NodoSentencia getLastStatement(){
         return statements.getLast();
+    }
+
+    private void setOffsets(){
+        int offset = 0;
+        for(NodoOperando o : variables){
+            if(o instanceof NodoVar v){
+                v.setOffset(offset);
+                offset--;
+            }
+        }
     }
 }

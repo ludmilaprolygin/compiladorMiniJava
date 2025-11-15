@@ -76,10 +76,18 @@ public class NodoExpresionUnaria extends NodoExpresion{
         if(operador.getTokenType() == TokenType.incrementOp){
             o.gen(Instructions.PUSH + " 1");
             o.gen(Instructions.ADD.toString());
+
+            ladoDerecho.setEsLadoIzq();
+            ladoDerecho.gen(o);
+            ladoDerecho.setEsLadoIzq();
         }
         else if(operador.getTokenType() == TokenType.decrementOp){
             o.gen(Instructions.PUSH + " 1");
             o.gen(Instructions.SUB.toString());
+
+            ladoDerecho.setEsLadoIzq();
+            ladoDerecho.gen(o);
+            ladoDerecho.setEsLadoIzq();
         }
         else if(operador.getTokenType() == TokenType.plusOp){
             // ????
@@ -90,9 +98,5 @@ public class NodoExpresionUnaria extends NodoExpresion{
         else if(operador.getTokenType() == TokenType.notOp){
             o.gen(Instructions.NOT.toString());
         }
-
-        ladoDerecho.setEsLadoIzq();
-        ladoDerecho.gen(o);
-        ladoDerecho.setEsLadoIzq();
     }
 }

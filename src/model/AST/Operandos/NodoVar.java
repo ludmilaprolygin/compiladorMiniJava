@@ -170,10 +170,10 @@ public class NodoVar extends NodoOperando implements Var {
     public void gen(OutputManager o) {
         if(varAsociada instanceof Parameter p) {
             if (esLadoIzq) {
-                o.gen(Instructions.STORE + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET));
+                o.gen(Instructions.STORE + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET_DYNAMIC));
             }
             else {
-                o.gen(Instructions.LOAD + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET));
+                o.gen(Instructions.LOAD + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET_DYNAMIC));
             }
         }
         else if(varAsociada instanceof Attribute a) {
@@ -187,13 +187,12 @@ public class NodoVar extends NodoOperando implements Var {
             }
         }
         else if(varAsociada instanceof NodoVar v) {
+
             if (esLadoIzq) {
-                o.gen(Instructions.LOAD + " 3");
-                o.gen(Instructions.SWAP.toString());
-                o.gen(Instructions.STOREREF + " " + v.getOffset());
+                o.gen(Instructions.STORE + " " + v.getOffset());
             }
             else {
-                // Acceder al estado interno del objeto
+                o.gen(Instructions.LOAD + " " + v.getOffset());
             }
         }
     }

@@ -9,6 +9,7 @@ class Init7{
     static void m1(boolean p1){
         p1 = false;
         System.printBln(p1);
-        System.printBln(!p1);
+        p1 = !p1;
+        System.printBln(p1);
     }
 }

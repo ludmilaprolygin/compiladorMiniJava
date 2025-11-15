@@ -1,4 +1,4 @@
-///4&2&1&2&exitosamente
+///4&2&1&2&20&exitosamente
 
 class Init{
     static void main()
@@ -16,6 +16,6 @@ class Init{
         p = p * 2;
         System.printIln(p);
 
-
+        System.printIln(10+10);
     }
 }

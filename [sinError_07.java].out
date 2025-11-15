@@ -78,6 +78,7 @@ CALL
 LOAD 4
 NOT
 STORE 4
+LOAD 4
 PUSH lbl_printBln@System
 CALL
 FMEM 0

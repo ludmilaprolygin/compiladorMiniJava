@@ -2,6 +2,7 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
+import model.AST.Operandos.NodoVar;
 import model.Token;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
