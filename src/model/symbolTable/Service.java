@@ -53,6 +53,8 @@ public abstract class Service extends OffsetElement {
     }
 
     public void gen(OutputManager o, String className) throws GenerationException {
+        symbolTable().setCurrentService(this);
+
         String myName;
         if (this instanceof Builder b){
             myName = "builder@" + className;

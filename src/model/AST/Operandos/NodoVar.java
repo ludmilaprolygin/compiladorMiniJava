@@ -195,5 +195,12 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.LOAD + " " + v.getOffset());
             }
         }
+
+        System.out.println("gen en NodoVar: " + token.getLexeme() + " " + getNodoVarContext().getName().getLexeme());
+    }
+
+    private Service getNodoVarContext(){
+        SymbolTable st = SymbolTable.symbolTable();
+        return st.getCurrentService();
     }
 }

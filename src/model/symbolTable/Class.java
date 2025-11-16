@@ -356,6 +356,8 @@ public class Class extends MainElement {
     }
 
     public void gen(OutputManager o) throws GenerationException {
+        symbolTable().setCurrentClass(this);
+
         sortByOffset(attributes);
         sortByOffset(methods);
 
