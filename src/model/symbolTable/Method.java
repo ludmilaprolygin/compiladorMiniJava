@@ -60,6 +60,7 @@ public class Method extends Service {
     }
 
     public AbstractType getReturnType() { return returnType; }
+    public AbstractType getType() { return returnType; }
     public boolean getEmptyBody() { return emptyBody; }
     public void setCompletedBody() { emptyBody = false; }
 

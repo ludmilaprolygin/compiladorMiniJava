@@ -52,6 +52,11 @@ public class Parameter extends OffsetElement implements Var {
     }
 
     @Override
+    public Token getTokenName() {
+        return this.getName();
+    }
+
+    @Override
     public Token getModifier() {
         return null;
     }

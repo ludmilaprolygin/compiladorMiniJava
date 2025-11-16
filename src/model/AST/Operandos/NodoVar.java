@@ -1,8 +1,8 @@
 package model.AST.Operandos;
 
 import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
-import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.TokenType;
 import model.codeGeneration.CodeGenConfig;
@@ -45,6 +45,11 @@ public class NodoVar extends NodoOperando implements Var {
 
     public int getOffset() { return offset; }
     public void setOffset(int offset) { this.offset = offset; }
+
+    @Override
+    public Token getTokenName() {
+        return this.getToken();
+    }
 
     @Override
     public AbstractType check() throws SemanticException {
@@ -160,7 +165,7 @@ public class NodoVar extends NodoOperando implements Var {
         return this.check();
     }
 
-    public AbstractType getTipo() {
+    public AbstractType getType() {
         return tipo;
     }
 
@@ -196,11 +201,33 @@ public class NodoVar extends NodoOperando implements Var {
             }
         }
 
-        System.out.println("gen en NodoVar: " + token.getLexeme() + " " + getNodoVarContext().getName().getLexeme());
+
+        AbstractType a;
+        if(tipo == null || tipo instanceof UniversalType){
+            a = searchType(this);
+            tipo = a;
+        }
+
+        if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
+            encadenado.gen(o, tipo);
+        }
     }
 
     private Service getNodoVarContext(){
         SymbolTable st = SymbolTable.symbolTable();
         return st.getCurrentService();
+    }
+
+    private AbstractType searchType(Var v){
+        AbstractType toReturn = new UniversalType();
+        Service s = this.getNodoVarContext();
+
+        toReturn = s.searchType(v);
+
+        if(toReturn == null || toReturn instanceof UniversalType){
+            toReturn = SymbolTable.symbolTable().getCurrentClass().searchType(v);
+        }
+
+        return toReturn;
     }
 }

@@ -25,6 +25,12 @@ public class Attribute extends OffsetElement implements Var {
     }
 
     public void setOffset(int offset) { this.offset = offset;}
+
+    @Override
+    public Token getTokenName() {
+        return this.getName();
+    }
+
     public int getOffset() { return this.offset; }
 
     @Override

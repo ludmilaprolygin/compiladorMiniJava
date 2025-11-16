@@ -32,4 +32,6 @@ public class Builder extends Service {
     public Token getModifier() {
         return null;
     }
+
+    public AbstractType getType() { return null; }
 }

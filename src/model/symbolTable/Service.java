@@ -1,5 +1,7 @@
 package model.symbolTable;
 
+import model.AST.Operandos.NodoOperando;
+import model.AST.Operandos.NodoVar;
 import model.AST.Sentencias.Bloques.NodoBloque;
 import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
@@ -75,5 +77,21 @@ public abstract class Service extends OffsetElement {
         }
 
         o.gen("");
+    }
+
+    public AbstractType searchType(Var v) {
+        for(NodoOperando o : bloque.getVariables()){
+            if(o.getToken().getLexeme().equals(v.getTokenName().getLexeme())){
+                if(o instanceof NodoVar var){
+                    return var.getType();
+                }
+            }
+        }
+        for(OffsetElement p : parameters){
+            if(p.getName().getLexeme().equals(v.getTokenName().getLexeme())) {
+                return p.getType();
+            }
+        }
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import model.AST.Operandos.NodoVar;
 import model.Token;
 import model.TokenType;
 import utils.exceptions.SemanticException;
@@ -119,5 +120,14 @@ public abstract class MainElement extends Element {
             o.setOffset(offset);
             offset++;
         }
+    }
+
+    public AbstractType searchType(Var v) {
+        for(OffsetElement a : attributes){
+            if(a.getName().getLexeme().equals(v.getTokenName().getLexeme())){
+                return a.getType();
+            }
+        }
+        return null;
     }
 }

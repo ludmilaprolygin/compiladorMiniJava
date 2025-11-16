@@ -67,6 +67,97 @@ NOP
 
 
 .DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+RMEM 1
+PUSH 6
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@B
+STOREREF 0
+DUP
+LOADSP
+SWAP
+STOREREF 3
+PUSH lbl_builder@B
+CALL
+FMEM 1
+STORE 0
+LOAD 0
+LOAD 0
+LOAD 0
+LOAD 0
+FMEM 1
+STOREFP
+RET 0
+
+lbl_builder@Init: 
+NOP
+
+
+
+.DATA
+VT@B: DW lbl_setall@A
+DW lbl_m1@A
+DW lbl_seta4@B
+DW lbl_m2@B
+.CODE
+lbl_seta4@B: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 4000
+LOAD 3
+SWAP
+STOREREF 4
+PUSH 55
+LOAD 3
+SWAP
+STOREREF 5
+FMEM 0
+STOREFP
+RET 0
+
+lbl_m2@B: 
+LOADFP
+LOADSP
+STOREFP
+PUSH lbl_debugPrint@Object
+CALL
+PUSH lbl_debugPrint@Object
+CALL
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@B: 
+NOP
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Integer: 
+NOP
+
+
+
+.DATA
 VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
@@ -78,6 +169,14 @@ STOREFP
 RET 0
 
 lbl_builder@Boolean: 
+NOP
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 NOP
 
 
@@ -186,55 +285,16 @@ NOP
 
 
 .DATA
-VT@Init: NOP
+VT@Object: NOP
 .CODE
-lbl_main@Init: 
+lbl_debugPrint@Object: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 1
-RMEM 1
-PUSH 6
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@B
-STOREREF 0
-DUP
-LOADSP
-SWAP
-STOREREF 3
-PUSH lbl_builder@B
-CALL
-FMEM 1
-STORE 0
-LOAD 0
-LOAD 0
-LOAD 0
-LOAD 0
-FMEM 1
+LOAD 3
+IPRINT
 STOREFP
-RET 0
-
-lbl_builder@Init: 
-NOP
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Integer: 
-NOP
-
+RET 1
 
 
 .DATA
@@ -251,65 +311,5 @@ RET 0
 lbl_builder@Character: 
 NOP
 
-
-
-.DATA
-VT@B: DW lbl_setall@A
-DW lbl_m1@A
-DW lbl_seta4@B
-DW lbl_m2@B
-.CODE
-lbl_seta4@B: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 4000
-LOAD 3
-SWAP
-STOREREF 4
-PUSH 55
-LOAD 3
-SWAP
-STOREREF 5
-FMEM 0
-STOREFP
-RET 0
-
-lbl_m2@B: 
-LOADFP
-LOADSP
-STOREFP
-PUSH lbl_debugPrint@Object
-CALL
-PUSH lbl_debugPrint@Object
-CALL
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@B: 
-NOP
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-NOP
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
 
 

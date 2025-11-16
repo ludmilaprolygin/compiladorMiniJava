@@ -36,7 +36,7 @@ public abstract class NodoOperando extends NodoExpresion {
                 if(n.getToken().getLexeme().equals(varName)){
 
                     if (n instanceof NodoVar v) {
-                        aType = v.getTipo();
+                        aType = v.getType();
                         v.setVar(v);
                     }
                     else {
