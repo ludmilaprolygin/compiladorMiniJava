@@ -24,6 +24,58 @@ RET 1
 
 
 .DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
 VT@Object: NOP
 .CODE
 lbl_debugPrint@Object: 
@@ -34,6 +86,48 @@ LOAD 3
 IPRINT
 STOREFP
 RET 1
+
+
+.DATA
+VT@Init7: NOP
+.CODE
+lbl_main@Init7: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 1
+PUSH lbl_m1@Init7
+CALL
+FMEM 0
+STOREFP
+RET 0
+
+lbl_m1@Init7: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+STORE 4
+LOAD 4
+PUSH lbl_printBln@System
+CALL
+LOAD 4
+NOT
+STORE 4
+LOAD 4
+PUSH lbl_printBln@System
+CALL
+FMEM 0
+STOREFP
+RET 1
+
+lbl_builder@Init7: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
+
 
 
 .DATA
@@ -155,100 +249,6 @@ STOREFP
 RET 0
 
 lbl_builder@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Init7: NOP
-.CODE
-lbl_main@Init7: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 1
-PUSH lbl_m1@Init7
-CALL
-FMEM 0
-STOREFP
-RET 0
-
-lbl_m1@Init7: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-STORE 4
-LOAD 4
-PUSH lbl_printBln@System
-CALL
-LOAD 4
-NOT
-STORE 4
-LOAD 4
-PUSH lbl_printBln@System
-CALL
-FMEM 0
-STOREFP
-RET 1
-
-lbl_builder@Init7: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Character: 
 LOADFP
 LOADSP
 STOREFP
