@@ -75,13 +75,13 @@ public class NodoLLamadaEncadenada extends Encadenado {
     public void gen(OutputManager o, AbstractType tipo) {
         System.out.println(nombre.getLexeme() + " " + associatedMethod.toString());
 
-        if(!associatedMethod.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
-            o.gen(Instructions.DUP.toString());
-        }
-
         for(NodoExpresion n : parametros){
             n.gen(o);
             o.gen(Instructions.SWAP.toString());
+        }
+
+        if(!associatedMethod.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
+            o.gen(Instructions.DUP.toString());
         }
 
         if(associatedMethod.getModifier() != null && associatedMethod.getModifier().getLexeme().equals(reservedStatic.getTypeExplanation())){
@@ -90,7 +90,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
         else{
             //o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
-            o.gen(Instructions.DUP.toString());
+            //o.gen(Instructions.DUP.toString());
             o.gen(Instructions.LOADREF + " 0");
             o.gen(Instructions.PUSH + " VT@" + tipo.getName().getLexeme());
             o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
@@ -99,7 +99,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
         o.gen(Instructions.CALL.toString());
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
-            encadenado.gen(o, tipo);
+            encadenado.gen(o, associatedMethod.getReturnType());
         }
     }
 
