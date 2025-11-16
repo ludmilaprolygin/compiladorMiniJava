@@ -41,7 +41,5 @@ public abstract class Encadenado {
         return toReturn;
     }
 
-    public void gen(OutputManager o, AbstractType tipo) {
-        
-    }
+    public abstract void gen(OutputManager o, AbstractType tipo);
 }

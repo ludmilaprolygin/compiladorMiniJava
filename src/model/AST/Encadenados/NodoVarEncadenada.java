@@ -2,6 +2,7 @@ package model.AST.Encadenados;
 
 import model.Token;
 import model.symbolTable.*;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
@@ -33,5 +34,10 @@ public class NodoVarEncadenada extends Encadenado {
             }
         }
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
+    }
+
+    @Override
+    public void gen(OutputManager o, AbstractType tipo) {
+
     }
 }

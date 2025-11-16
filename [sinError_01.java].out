@@ -24,25 +24,37 @@ RET 1
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Init: NOP
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_main@Init: 
 LOADFP
 LOADSP
 STOREFP
+PUSH 1234
+PUSH lbl_printI@System
+CALL
+PUSH 1
+PUSH lbl_printB@System
+CALL
+PUSH 'a'
+PUSH lbl_printC@System
+CALL
+PUSH lbl_println@System
+CALL
+PUSH 1234
+PUSH lbl_printIln@System
+CALL
+PUSH 0
+PUSH lbl_printBln@System
+CALL
+PUSH 'A'
+PUSH lbl_printCln@System
+CALL
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Boolean: 
-NOP
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
+lbl_builder@Init: 
 NOP
 
 
@@ -74,6 +86,22 @@ LOAD 3
 IPRINT
 STOREFP
 RET 1
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+NOP
+
 
 
 .DATA
@@ -180,45 +208,17 @@ NOP
 
 
 .DATA
-VT@Init: NOP
+VT@String: NOP
 .CODE
-lbl_main@Init: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 1234
-PUSH lbl_printI@System
-CALL
-PUSH 1
-PUSH lbl_printB@System
-CALL
-PUSH 'a'
-PUSH lbl_printC@System
-CALL
-PUSH lbl_println@System
-CALL
-PUSH 1234
-PUSH lbl_printIln@System
-CALL
-PUSH 0
-PUSH lbl_printBln@System
-CALL
-PUSH 'A'
-PUSH lbl_printCln@System
-CALL
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Init: 
+lbl_builder@String: 
 NOP
 
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
-lbl_charValue@Character: 
+lbl_booleanValue@Boolean: 
 LOADFP
 LOADSP
 STOREFP
@@ -226,7 +226,7 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Character: 
+lbl_builder@Boolean: 
 NOP
 
 

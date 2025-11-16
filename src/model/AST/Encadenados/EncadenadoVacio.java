@@ -2,6 +2,7 @@ package model.AST.Encadenados;
 
 import model.Token;
 import model.symbolTable.AbstractType;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 
 public class EncadenadoVacio extends Encadenado{
@@ -28,4 +29,7 @@ public class EncadenadoVacio extends Encadenado{
             toReturn += "- ";
         return toReturn + ". {encadenado vacio}\n";
     }
+
+    @Override
+    public void gen(OutputManager o, AbstractType tipo) { }
 }

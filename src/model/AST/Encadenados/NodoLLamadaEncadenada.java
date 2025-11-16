@@ -2,16 +2,23 @@ package model.AST.Encadenados;
 
 import model.AST.Expresiones.NodoExpresion;
 import model.Token;
+import model.codeGeneration.CodeGenConfig;
+import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import model.symbolTable.Class;
+import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import static model.TokenType.reservedStatic;
+import static model.TokenType.reservedVoid;
+
 public class NodoLLamadaEncadenada extends Encadenado {
     protected List<NodoExpresion> parametros;
+    protected Method associatedMethod;
     public NodoLLamadaEncadenada(Token t){
         super(t);
         parametros = new LinkedList<>();
@@ -62,7 +69,41 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
 
         throw new SemanticException(SemanticErrorIIMessage.undeclaredType(t.getName()));
-    }private void compareArgs(Method m) throws SemanticException {
+    }
+
+    @Override
+    public void gen(OutputManager o, AbstractType tipo) {
+        System.out.println(nombre.getLexeme() + " " + associatedMethod.toString());
+
+        if(!associatedMethod.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
+            o.gen(Instructions.DUP.toString());
+        }
+
+        for(NodoExpresion n : parametros){
+            n.gen(o);
+            o.gen(Instructions.SWAP.toString());
+        }
+
+        if(associatedMethod.getModifier() != null && associatedMethod.getModifier().getLexeme().equals(reservedStatic.getTypeExplanation())){
+            o.gen(Instructions.POP.toString());
+            o.gen(Instructions.PUSH + " lbl_" + associatedMethod.getName().getLexeme() + "@" + associatedMethod.getCreator().getName().getLexeme());
+        }
+        else{
+            //o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
+            o.gen(Instructions.DUP.toString());
+            o.gen(Instructions.LOADREF + " 0");
+            o.gen(Instructions.PUSH + " VT@" + tipo.getName().getLexeme());
+            o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
+        }
+
+        o.gen(Instructions.CALL.toString());
+
+        if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
+            encadenado.gen(o, tipo);
+        }
+    }
+
+    private void compareArgs(Method m) throws SemanticException {
         if (m.getParameters().size() != parametros.size())
             throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
 
@@ -79,5 +120,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
                 throw new SemanticException(SemanticErrorIIMessage.incompatibleTypes(nombre));
             }
         }
+
+        associatedMethod = m;
     }
 }

@@ -24,16 +24,52 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
+VT@SinError_10: NOP
 .CODE
-lbl_debugPrint@Object: 
+lbl_main@SinError_10: 
 LOADFP
 LOADSP
 STOREFP
-LOAD 3
-IPRINT
+PUSH lbl_m1@SinError_10
+CALL
+FMEM 0
 STOREFP
-RET 1
+RET 0
+
+lbl_m1@SinError_10: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+STORE 0
+LOAD 0
+PUSH lbl_printBln@System
+CALL
+LOAD 0
+NOT
+STORE 0
+LOAD 0
+PUSH lbl_printBln@System
+CALL
+PUSH 1
+STORE -1
+LOAD 0
+PUSH lbl_printIln@System
+CALL
+LOAD 0
+PUSH 1
+ADD
+STORE 0
+LOAD 0
+PUSH lbl_printIln@System
+CALL
+FMEM 2
+STOREFP
+RET 0
+
+lbl_builder@SinError_10: 
+NOP
+
 
 
 .DATA
@@ -45,9 +81,9 @@ NOP
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
-lbl_intValue@Integer: 
+lbl_booleanValue@Boolean: 
 LOADFP
 LOADSP
 STOREFP
@@ -55,7 +91,23 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Integer: 
+lbl_builder@Boolean: 
+NOP
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
 NOP
 
 
@@ -164,9 +216,9 @@ NOP
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_charValue@Character: 
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
@@ -174,73 +226,21 @@ FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Character: 
+lbl_builder@Integer: 
 NOP
 
 
 
 .DATA
-VT@SinError_10: NOP
+VT@Object: NOP
 .CODE
-lbl_main@SinError_10: 
+lbl_debugPrint@Object: 
 LOADFP
 LOADSP
 STOREFP
-PUSH lbl_m1@SinError_10
-CALL
-FMEM 0
+LOAD 3
+IPRINT
 STOREFP
-RET 0
-
-lbl_m1@SinError_10: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-STORE 0
-LOAD 0
-PUSH lbl_printBln@System
-CALL
-LOAD 0
-NOT
-STORE 0
-LOAD 0
-PUSH lbl_printBln@System
-CALL
-PUSH 1
-STORE -1
-LOAD 0
-PUSH lbl_printIln@System
-CALL
-LOAD 0
-PUSH 1
-ADD
-STORE 0
-LOAD 0
-PUSH lbl_printIln@System
-CALL
-FMEM 2
-STOREFP
-RET 0
-
-lbl_builder@SinError_10: 
-NOP
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Boolean: 
-NOP
-
+RET 1
 
 
