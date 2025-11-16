@@ -335,7 +335,7 @@ public class Class extends MainElement {
         }
     }
 
-    protected List getNonStaticMethods() {
+    public List getNonStaticMethods() {
         List toReturn = new List();
         for(int i = 0; i < methods.size(); i++){
             if(methods.get(i).getModifier() == null || !methods.get(i).getModifier().getTokenType().equals(TokenType.reservedStatic)){
@@ -397,13 +397,6 @@ public class Class extends MainElement {
         o.gen("");
     }
 
-    private void setOffsets(List methods){
-        int offset = 0;
-        for(OffsetElement o : methods){
-           o.setOffset(offset);
-           offset++;
-        }
-    }
 
     private void setStaticOffsets(List methods){
         int offset = -1;

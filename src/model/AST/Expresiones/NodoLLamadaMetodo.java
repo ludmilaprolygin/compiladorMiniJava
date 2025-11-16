@@ -110,13 +110,22 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     public void gen(OutputManager o) {
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
         Method m = (Method) belongingClass.getMethods().get(tokenM);
-//
-//        System.out.println(belongingClass.getName().getLexeme());
-//        for(OffsetElement method : belongingClass.getMethods())
-//        {
-//            System.out.println(method.getName().getLexeme() + " " + method.getOffset());
-//        }
-//
+
+        List dynamicMethods = belongingClass.getMethods();
+        if(belongingClass instanceof model.symbolTable.Class c){
+            dynamicMethods = c.getNonStaticMethods();
+        }
+
+        belongingClass.sortByOffset(dynamicMethods);
+        belongingClass.setOffsets(dynamicMethods);
+
+
+        System.out.println(belongingClass.getName().getLexeme());
+        for(OffsetElement method : dynamicMethods)
+        {
+            System.out.println(method.getName().getLexeme() + " " + method.getOffset());
+        }
+
 //        if(!m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
 //            o.gen(Instructions.RMEM + " 1");
 //        }

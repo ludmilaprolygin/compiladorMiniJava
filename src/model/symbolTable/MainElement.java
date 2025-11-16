@@ -113,4 +113,11 @@ public abstract class MainElement extends Element {
         l.sort(Comparator.comparingInt(OffsetElement::getOffset));
     }
 
+    public void setOffsets(List methods){
+        int offset = 0;
+        for(OffsetElement o : methods){
+            o.setOffset(offset);
+            offset++;
+        }
+    }
 }
