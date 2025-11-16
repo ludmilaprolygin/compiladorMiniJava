@@ -1,5 +1,7 @@
 package model.symbolTable;
 
+import model.AST.Operandos.NodoOperando;
+import model.AST.Operandos.NodoVar;
 import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
 import model.TokenType;
@@ -360,6 +362,11 @@ public class Class extends MainElement {
         List dynamicMethods = getNonStaticMethods();
         List myMethods = myMethods();
 
+        //setStaticOffsets(methods);
+        //setOffsets(dynamicMethods);
+
+        //sortByOffset(dynamicMethods);
+
         o.gen(CodeGenConfig.DATA);
 
         if(dynamicMethods.isEmpty()){
@@ -388,5 +395,20 @@ public class Class extends MainElement {
 
         o.gen("");
         o.gen("");
+    }
+
+    private void setOffsets(List methods){
+        int offset = 0;
+        for(OffsetElement o : methods){
+           o.setOffset(offset);
+           offset++;
+        }
+    }
+
+    private void setStaticOffsets(List methods){
+        int offset = -1;
+        for(OffsetElement o : methods){
+            o.setOffset(offset);
+        }
     }
 }

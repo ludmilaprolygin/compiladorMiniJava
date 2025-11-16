@@ -3,11 +3,14 @@ package model.AST.Expresiones;
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
+import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
+
+import static model.TokenType.reservedVoid;
 
 public class NodoLLamadaMetodo extends NodoExpresion {
     protected Token metodo;
@@ -107,6 +110,28 @@ public class NodoLLamadaMetodo extends NodoExpresion {
     public void gen(OutputManager o) {
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
         Method m = (Method) belongingClass.getMethods().get(tokenM);
+//
+//        System.out.println(belongingClass.getName().getLexeme());
+//        for(OffsetElement method : belongingClass.getMethods())
+//        {
+//            System.out.println(method.getName().getLexeme() + " " + method.getOffset());
+//        }
+//
+//        if(!m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
+//            o.gen(Instructions.RMEM + " 1");
+//        }
+//
+//        for(NodoExpresion n : argumentos){
+//            n.gen(o);
+//        }
+//
+//        o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
+//        o.gen(Instructions.DUP.toString());
+//        o.gen(Instructions.LOADREF + " 0");
+//        o.gen(Instructions.LOADREF + " " + (m.getOffset() - 1));
+//
+//        //o.gen(Instructions.PUSH + " lbl_" + metodo.getLexeme() + "@" + m.getCreator().getName().getLexeme());
+//        o.gen(Instructions.CALL.toString());
 
         for(NodoExpresion n : argumentos){
             n.gen(o);
