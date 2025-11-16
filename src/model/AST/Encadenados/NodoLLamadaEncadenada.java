@@ -72,45 +72,52 @@ public class NodoLLamadaEncadenada extends Encadenado {
 
     @Override
     public void gen(OutputManager o, AbstractType tipo) {
-        for (NodoExpresion n : parametros) {
-            n.gen(o);
-        }
-
         boolean retornaValor =
                 !associatedMethod.getReturnType().getName().getLexeme()
                         .equals(reservedVoid.getTypeExplanation());
+
+        if(retornaValor){
+            o.gen(Instructions.DUP.toString());
+        }
+
+        for (NodoExpresion n : parametros) {
+            n.gen(o);
+            o.gen(Instructions.SWAP.toString());
+        }
 
         if (associatedMethod.getModifier() != null &&
                 associatedMethod.getModifier().getLexeme()
                         .equals(reservedStatic.getTypeExplanation())) {
 
-             o.gen(Instructions.POP.toString());
+            o.gen(Instructions.POP.toString());
 
-             o.gen(Instructions.PUSH + " lbl_"
+            o.gen(Instructions.PUSH + " lbl_"
                     + associatedMethod.getName().getLexeme()
                     + "@" + associatedMethod.getCreator().getName().getLexeme());
         }
         else {
-//             o.gen(Instructions.LOADREF + " 0");
-//             o.printStackTop();
-             o.gen(Instructions.PUSH + " VT@" + tipo.getName().getLexeme());
-             //o.printStackTop();
-             o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
-             //o.printStackTop();
+            o.gen(Instructions.DUP.toString());
+            o.gen(Instructions.LOADREF + " 0");
+            o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
         }
 
         o.gen(Instructions.CALL.toString());
-        //o.printStackTop();
-//        if (retornaValor) {
-//            o.gen(Instructions.DUP.toString());
-//        }
 
         if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
             encadenado.gen(o, associatedMethod.getReturnType());
         }
-        //o.gen(Instructions.FMEM + " 1");
+
+        generateReturnType(o);
     }
 
+    public void generateReturnType(OutputManager o) {
+        AbstractType tipo = associatedMethod.getReturnType();
+        if (tipo == null) return;
+        if (!tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) return;
+        if (!(tipo instanceof ClassType)){
+            o.gen(Instructions.LOADREF + " 1");
+        }
+    }
 
     private void compareArgs(Method m) throws SemanticException {
         if (m.getParameters().size() != parametros.size())
