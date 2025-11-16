@@ -83,7 +83,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
 
         if(associatedMethod.getModifier() != null && associatedMethod.getModifier().getLexeme().equals(reservedStatic.getTypeExplanation())){
-            o.gen(Instructions.POP.toString());
+            //o.gen(Instructions.POP.toString());
             o.gen(Instructions.PUSH + " lbl_" + associatedMethod.getName().getLexeme() + "@" + associatedMethod.getCreator().getName().getLexeme());
         }
         else{

@@ -68,12 +68,7 @@ public abstract class Service extends OffsetElement {
         if(bloque instanceof NodoBloqueVacio) {
             o.gen(Instructions.NOP.toString());
         } else {
-            o.gen(Instructions.LOADFP.toString());
-            o.gen(Instructions.LOADSP.toString());
-            o.gen(Instructions.STOREFP.toString());
-            bloque.gen(o);
-            o.gen(Instructions.STOREFP.toString());
-            o.gen(Instructions.RET + " " + parameters.size());
+            gen(o);
         }
 
         o.gen("");
@@ -94,4 +89,6 @@ public abstract class Service extends OffsetElement {
         }
         return null;
     }
+
+    public abstract void gen(OutputManager o) throws GenerationException;
 }

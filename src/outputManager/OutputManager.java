@@ -56,4 +56,10 @@ public class OutputManager {
         gen("");
         gen("");
     }
+
+    public void prologue(){
+        gen(Instructions.LOADFP.toString());
+        gen(Instructions.LOADSP.toString());
+        gen(Instructions.STOREFP.toString());
+    }
 }

@@ -1,6 +1,8 @@
 package model.symbolTable;
 
 import model.Token;
+import outputManager.OutputManager;
+import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
@@ -21,6 +23,11 @@ public class Builder extends Service {
             if(c == null || !c.getBuilderTable().contains(name.getLexeme()))
                 throw new SemanticException(SemanticErrorIMessage.constructorDoesNotExist(name));
         }
+    }
+
+    @Override
+    public void gen(OutputManager o) throws GenerationException {
+
     }
 
     @Override

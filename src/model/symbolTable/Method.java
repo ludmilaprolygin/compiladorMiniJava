@@ -3,6 +3,9 @@ package model.symbolTable;
 import model.AST.Sentencias.NodoReturn;
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.Instructions;
+import outputManager.OutputManager;
+import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
@@ -51,6 +54,14 @@ public class Method extends Service {
             SymbolTable.symbolTable().setHasMain(creator);
         checkReturnType();
         checkThisOnStaticContext();
+    }
+
+    @Override
+    public void gen(OutputManager o) throws GenerationException {
+        o.prologue();
+        bloque.gen(o);
+        o.gen(Instructions.STOREFP.toString());
+        o.gen(Instructions.RET + " " + parameters.size());
     }
 
     public String toString() {
