@@ -10,6 +10,7 @@ import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
+import static model.TokenType.reservedStatic;
 import static model.TokenType.reservedVoid;
 
 public class NodoLLamadaMetodo extends NodoExpresion {
@@ -133,18 +134,17 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         for(NodoExpresion n : argumentos){
             n.gen(o);
         }
-//
-//        o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
-//        o.gen(Instructions.DUP.toString());
-//        o.gen(Instructions.LOADREF + " 0");
-//        o.gen(Instructions.LOADREF + " " + (m.getOffset() - 1));
-//
-//        //o.gen(Instructions.PUSH + " lbl_" + metodo.getLexeme() + "@" + m.getCreator().getName().getLexeme());
-//        o.gen(Instructions.CALL.toString());
 
+        if(m.getModifier().getLexeme().equals(reservedStatic.getTypeExplanation())){
+            o.gen(Instructions.PUSH + " lbl_" + metodo.getLexeme() + "@" + m.getCreator().getName().getLexeme());
+        }
+        else{
+            o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
+            o.gen(Instructions.DUP.toString());
+            o.gen(Instructions.LOADREF + " 0");
+            o.gen(Instructions.LOADREF + " " + m.getOffset());
+        }
 
-
-        o.gen(Instructions.PUSH + " lbl_" + metodo.getLexeme() + "@" + m.getCreator().getName().getLexeme());
         o.gen(Instructions.CALL.toString());
     }
 
