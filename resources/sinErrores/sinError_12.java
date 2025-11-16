@@ -1,4 +1,4 @@
-///1234&1111&8888&exitosamente
+///1234&10&88&exitosamente
 
 class A{
     int x;
@@ -9,11 +9,11 @@ class A{
     }
 
     void mc2(){
-        debugPrint(1111);
+        debugPrint(10);
     }
 
     void mc3(){
-        debugPrint(8888);
+        debugPrint(88);
     }
 }
 

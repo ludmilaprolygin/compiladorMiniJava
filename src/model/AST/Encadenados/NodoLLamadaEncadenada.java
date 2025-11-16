@@ -94,13 +94,13 @@ public class NodoLLamadaEncadenada extends Encadenado {
 //             o.gen(Instructions.LOADREF + " 0");
 //             o.printStackTop();
              o.gen(Instructions.PUSH + " VT@" + tipo.getName().getLexeme());
-             o.printStackTop();
+             //o.printStackTop();
              o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
-             o.printStackTop();
+             //o.printStackTop();
         }
 
         o.gen(Instructions.CALL.toString());
-        o.printStackTop();
+        //o.printStackTop();
 //        if (retornaValor) {
 //            o.gen(Instructions.DUP.toString());
 //        }
