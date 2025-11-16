@@ -5,7 +5,6 @@ import model.Token;
 import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
-import model.symbolTable.Class;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
@@ -75,7 +74,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
     public void gen(OutputManager o, AbstractType tipo) {
         for(NodoExpresion n : parametros){
             n.gen(o);
-            o.gen(Instructions.SWAP.toString());
+            //o.gen(Instructions.SWAP.toString());
         }
 
         if(!associatedMethod.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
@@ -83,17 +82,23 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
 
         if(associatedMethod.getModifier() != null && associatedMethod.getModifier().getLexeme().equals(reservedStatic.getTypeExplanation())){
-            //o.gen(Instructions.POP.toString());
+            o.gen(Instructions.POP.toString());
             o.gen(Instructions.PUSH + " lbl_" + associatedMethod.getName().getLexeme() + "@" + associatedMethod.getCreator().getName().getLexeme());
         }
         else{
             System.out.println("gen en NodoLLamadaEncadenada: ENTRO AL ELSE");
             //o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
             //o.gen(Instructions.DUP.toString());
+            o.printStackTop();
             o.gen(Instructions.LOADREF + " 0");
+            o.printStackTop();
             o.gen(Instructions.PUSH + " VT@" + tipo.getName().getLexeme());
+            o.printStackTop();
             o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
+            //o.printStackTop();
         }
+
+        o.printStackTop();
 
         o.gen(Instructions.CALL.toString());
 

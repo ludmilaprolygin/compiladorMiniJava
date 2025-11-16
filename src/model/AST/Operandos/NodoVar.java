@@ -182,7 +182,8 @@ public class NodoVar extends NodoOperando implements Var {
             }
         }
         else if(varAsociada instanceof Attribute a) {
-            o.gen("LOAD " + CodeGenConfig.OFFSET_THIS);
+            o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
+            //o.gen(Instructions.LOAD + getOffset());
             if (esLadoIzq) {
                 o.gen(Instructions.SWAP.toString());
                 o.gen(Instructions.STOREREF + " " + a.getOffset());

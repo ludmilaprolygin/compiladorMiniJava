@@ -67,4 +67,10 @@ public class OutputManager {
         gen(Instructions.STOREFP.toString());
         gen(Instructions.RET + " " + parametersSize);
     }
+
+    public void printStackTop() {
+        gen(Instructions.DUP.toString());
+        gen(Instructions.IPRINT.toString());
+        gen(Instructions.PRNLN.toString());
+    }
 }
