@@ -17,6 +17,9 @@ import static model.symbolTable.SymbolTable.symbolTable;
 public class Class extends MainElement {
     private List builderTable;
     private MainElement parentClass;
+    private List dynamicMethods = getNonStaticMethods();
+    private List myMethods = myMethods();
+
     public Class(Token m, Token n, AbstractType t, MainElement i) {
         super(m, n, t, (i != null ? i.getName() : null));
         parentClass = i;
@@ -355,14 +358,27 @@ public class Class extends MainElement {
         return toReturn;
     }
 
+    public void sort(){
+        dynamicMethods = getNonStaticMethods();
+        myMethods = myMethods();
+
+        for(int i = 0; i < dynamicMethods.size(); i++){
+            dynamicMethods.get(i).setOffset(i);
+        }
+    }
+
     public void gen(OutputManager o) throws GenerationException {
         symbolTable().setCurrentClass(this);
 
         sortByOffset(attributes);
         sortByOffset(methods);
 
-        List dynamicMethods = getNonStaticMethods();
-        List myMethods = myMethods();
+//        List dynamicMethods = getNonStaticMethods();
+//        List myMethods = myMethods();
+//
+//        for(int i = 0; i < dynamicMethods.size(); i++){
+//            dynamicMethods.get(i).setOffset(i);
+//        }
 
         //setStaticOffsets(methods);
         //setOffsets(dynamicMethods);

@@ -24,95 +24,6 @@ RET 1
 
 
 .DATA
-VT@SinError_10: NOP
-.CODE
-lbl_main@SinError_10: 
-LOADFP
-LOADSP
-STOREFP
-PUSH lbl_m1@SinError_10
-CALL
-FMEM 0
-STOREFP
-RET 0
-
-lbl_m1@SinError_10: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-STORE 0
-LOAD 0
-PUSH lbl_printBln@System
-CALL
-LOAD 0
-NOT
-STORE 0
-LOAD 0
-PUSH lbl_printBln@System
-CALL
-PUSH 1
-STORE -1
-LOAD 0
-PUSH lbl_printIln@System
-CALL
-LOAD 0
-PUSH 1
-ADD
-STORE 0
-LOAD 0
-PUSH lbl_printIln@System
-CALL
-FMEM 2
-STOREFP
-RET 0
-
-lbl_builder@SinError_10: 
-NOP
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-NOP
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Boolean: 
-NOP
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Character: 
-NOP
-
-
-
-.DATA
 VT@System: NOP
 .CODE
 lbl_read@System: 
@@ -216,6 +127,22 @@ NOP
 
 
 .DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+NOP
+
+
+
+.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -227,6 +154,79 @@ STOREFP
 RET 0
 
 lbl_builder@Integer: 
+NOP
+
+
+
+.DATA
+VT@SinError_10: NOP
+.CODE
+lbl_main@SinError_10: 
+LOADFP
+LOADSP
+STOREFP
+PUSH lbl_m1@SinError_10
+CALL
+FMEM 0
+STOREFP
+RET 0
+
+lbl_m1@SinError_10: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+STORE 0
+LOAD 0
+PUSH lbl_printBln@System
+CALL
+LOAD 0
+NOT
+STORE 0
+LOAD 0
+PUSH lbl_printBln@System
+CALL
+PUSH 1
+STORE -1
+LOAD 0
+PUSH lbl_printIln@System
+CALL
+LOAD 0
+PUSH 1
+ADD
+STORE 0
+LOAD 0
+PUSH lbl_printIln@System
+CALL
+FMEM 2
+STOREFP
+RET 0
+
+lbl_builder@SinError_10: 
+NOP
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
+NOP
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 NOP
 
 

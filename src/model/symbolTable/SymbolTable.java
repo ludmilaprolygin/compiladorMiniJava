@@ -340,6 +340,10 @@ public class SymbolTable extends Element {
         //objectClass.gen(outputManager);
 
         for(Class c : classes.values()){
+            c.sort();
+        }
+
+        for(Class c : classes.values()){
             c.gen(outputManager);
         }
     }

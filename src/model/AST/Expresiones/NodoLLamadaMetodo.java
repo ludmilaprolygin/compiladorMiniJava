@@ -120,13 +120,6 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         belongingClass.sortByOffset(dynamicMethods);
         belongingClass.setOffsets(dynamicMethods);
 
-
-        System.out.println(belongingClass.getName().getLexeme());
-        for(OffsetElement method : dynamicMethods)
-        {
-            System.out.println(method.getName().getLexeme() + " " + method.getOffset());
-        }
-
         if(!m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
             o.gen(Instructions.RMEM + " 1");
         }

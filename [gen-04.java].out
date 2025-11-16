@@ -24,6 +24,65 @@ RET 1
 
 
 .DATA
+VT@A: DW lbl_setall@A
+DW lbl_m1@A
+.CODE
+lbl_setall@A: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 1
+PUSH 2
+MUL
+LOAD 3
+SWAP
+STOREREF 2
+LOAD 3
+SWAP
+STOREREF 3
+FMEM 0
+STOREFP
+RET 1
+
+lbl_m1@A: 
+LOADFP
+LOADSP
+STOREFP
+PUSH lbl_debugPrint@Object
+CALL
+PUSH lbl_debugPrint@Object
+CALL
+PUSH lbl_printSln@System
+CALL
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@A: 
+NOP
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
+NOP
+
+
+
+.DATA
 VT@System: NOP
 .CODE
 lbl_read@System: 
@@ -127,62 +186,6 @@ NOP
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Character: 
-NOP
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Boolean: 
-NOP
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Integer: 
-NOP
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-NOP
-
-
-
-.DATA
 VT@Init: NOP
 .CODE
 lbl_main@Init: 
@@ -208,11 +211,16 @@ STORE 0
 LOAD 0
 LOADREF 0
 PUSH VT@B
-LOADREF 3
+LOADREF 0
 CALL
 LOAD 0
 PUSH 1234
 SWAP
+LOADREF 0
+PUSH VT@B
+LOADREF 0
+CALL
+LOAD 0
 LOADREF 0
 PUSH VT@B
 LOADREF 1
@@ -220,12 +228,7 @@ CALL
 LOAD 0
 LOADREF 0
 PUSH VT@B
-LOADREF 2
-CALL
-LOAD 0
-LOADREF 0
-PUSH VT@B
-LOADREF 4
+LOADREF 1
 CALL
 FMEM 1
 STOREFP
@@ -237,66 +240,42 @@ NOP
 
 
 .DATA
-VT@Object: NOP
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_debugPrint@Object: 
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
-
-
-.DATA
-VT@A: DW lbl_setall@A
-DW lbl_m1@A
-.CODE
-lbl_setall@A: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 1
-PUSH 2
-MUL
-LOAD 3
-SWAP
-STOREREF 2
-LOAD 3
-SWAP
-STOREREF 3
-FMEM 0
-STOREFP
-RET 1
-
-lbl_m1@A: 
-LOADFP
-LOADSP
-STOREFP
-PUSH lbl_debugPrint@Object
-CALL
-PUSH lbl_debugPrint@Object
-CALL
-PUSH lbl_printSln@System
-CALL
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@A: 
+lbl_builder@Integer: 
 NOP
 
 
 
 .DATA
-VT@B: DW lbl_setall@A
-DW lbl_m1@A
-DW lbl_seta4@B
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+NOP
+
+
+
+.DATA
+VT@B: DW lbl_seta4@B
 DW lbl_m2@B
+DW lbl_setall@A
+DW lbl_m1@A
 .CODE
 lbl_seta4@B: 
 LOADFP
@@ -329,5 +308,26 @@ RET 0
 lbl_builder@B: 
 NOP
 
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+NOP
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
 
 

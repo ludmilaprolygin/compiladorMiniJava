@@ -73,8 +73,6 @@ public class NodoLLamadaEncadenada extends Encadenado {
 
     @Override
     public void gen(OutputManager o, AbstractType tipo) {
-        System.out.println(nombre.getLexeme() + " " + associatedMethod.toString());
-
         for(NodoExpresion n : parametros){
             n.gen(o);
             o.gen(Instructions.SWAP.toString());
@@ -89,6 +87,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
             o.gen(Instructions.PUSH + " lbl_" + associatedMethod.getName().getLexeme() + "@" + associatedMethod.getCreator().getName().getLexeme());
         }
         else{
+            System.out.println("gen en NodoLLAmadaEncadenada: ENTRO AL ELSE");
             //o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
             //o.gen(Instructions.DUP.toString());
             o.gen(Instructions.LOADREF + " 0");

@@ -37,6 +37,106 @@ RET 1
 
 
 .DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+PUSH lbl_m1@Init
+CALL
+FMEM 0
+STOREFP
+RET 0
+
+lbl_m1@Init: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 2
+PUSH 2
+ADD
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH 2
+DIV
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+PUSH 5
+PUSH 2
+MOD
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH 2
+MUL
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+PUSH 10
+PUSH 10
+ADD
+PUSH lbl_printIln@System
+CALL
+FMEM 0
+STOREFP
+RET 1
+
+lbl_builder@Init: 
+NOP
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
+NOP
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+NOP
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+NOP
+
+
+
+.DATA
 VT@System: NOP
 .CODE
 lbl_read@System: 
@@ -140,30 +240,6 @@ NOP
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Boolean: 
-NOP
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-NOP
-
-
-
-.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -175,82 +251,6 @@ STOREFP
 RET 0
 
 lbl_builder@Integer: 
-NOP
-
-
-
-.DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-PUSH lbl_m1@Init
-CALL
-FMEM 0
-STOREFP
-RET 0
-
-lbl_m1@Init: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 2
-PUSH 2
-ADD
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 2
-DIV
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-PUSH 5
-PUSH 2
-MOD
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 2
-MUL
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-PUSH 10
-PUSH 10
-ADD
-PUSH lbl_printIln@System
-CALL
-FMEM 0
-STOREFP
-RET 1
-
-lbl_builder@Init: 
-NOP
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Character: 
 NOP
 
 
