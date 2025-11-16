@@ -2,6 +2,7 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.Token;
+import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import model.symbolTable.Class;
@@ -66,12 +67,41 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
     @Override
     public void gen(OutputManager o) {
+
+        int CIRsize = 1;
+        try {
+            CIRsize = checkClassExistance().getAttributes().size() + 1;
+        } catch (SemanticException e) {}
+
+        o.gen(Instructions.RMEM + " 1");
+
         for(NodoExpresion n : parametros){
             n.gen(o);
+            o.gen(Instructions.SWAP.toString());
         }
+
+        o.gen(Instructions.RMEM + " 1");
+
+        o.gen(Instructions.PUSH + " " + CIRsize);
+        o.gen(CodeGenConfig.PUSH_MALLOC);
+        o.gen(Instructions.CALL.toString());
+
+        o.gen(Instructions.DUP.toString());
+        o.gen(Instructions.PUSH + " VT@" + classType.getName().getLexeme());
+        o.gen(Instructions.STOREREF + " 0");
+
+        o.gen(Instructions.DUP.toString());
+
+        o.gen(Instructions.LOADSP.toString());
+        o.gen(Instructions.SWAP.toString());
+        o.gen(Instructions.STOREREF + " " + (parametros.size() + 3));
+
         o.gen(Instructions.PUSH + " lbl_builder@" + classType.getName().getLexeme());
         o.gen(Instructions.CALL.toString());
+
+        o.gen(Instructions.FMEM + " 1");
     }
+
 
     public Encadenado getEncadenado() {
         return encadenado;

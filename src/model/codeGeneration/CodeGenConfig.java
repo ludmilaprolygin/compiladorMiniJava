@@ -9,4 +9,5 @@ public class CodeGenConfig {
     public static final String TRUE_VALUE = "1";
     public static final int PARAM_OFFSET_DYNAMIC = Integer.parseInt(OFFSET_THIS);
     public static final int PARAM_OFFSET_STATIC = Integer.parseInt(OFFSET_THIS) - 1;
+    public static final String PUSH_MALLOC = Instructions.PUSH + " simple_malloc";
 }
