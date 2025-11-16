@@ -12,6 +12,8 @@ import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
+import static model.TokenType.reservedVoid;
+
 public class NodoVar extends NodoOperando implements Var {
     protected AbstractType tipo;
     protected Encadenado encadenado;
@@ -210,6 +212,22 @@ public class NodoVar extends NodoOperando implements Var {
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
             encadenado.gen(o, tipo);
+        }
+
+//        if (!esLadoIzq && tipo != null && !tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) {
+//            o.gen(Instructions.POP.toString());
+//        }
+
+        generateReturnType(o);
+
+    }
+
+
+    public void generateReturnType(OutputManager o) {
+        if (tipo == null) return;
+        if (!tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) return;
+        if (!(tipo instanceof ClassType)){
+            o.gen(Instructions.LOADREF + " 1");
         }
     }
 

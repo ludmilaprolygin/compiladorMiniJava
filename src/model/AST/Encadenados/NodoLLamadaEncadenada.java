@@ -72,58 +72,43 @@ public class NodoLLamadaEncadenada extends Encadenado {
 
     @Override
     public void gen(OutputManager o, AbstractType tipo) {
-
-        // 1. GENERAR PARAMETROS (sin swap)
         for (NodoExpresion n : parametros) {
-            n.gen(o);                  // deja p1, luego p2, … sobre la pila
+            n.gen(o);
         }
 
-        // 2. SI EL METODO NO ES VOID, DUPLICAR RESULTADO DEL CALL
         boolean retornaValor =
                 !associatedMethod.getReturnType().getName().getLexeme()
                         .equals(reservedVoid.getTypeExplanation());
 
-        // 3. RESOLVER ESTATICO VS DINAMICO
         if (associatedMethod.getModifier() != null &&
                 associatedMethod.getModifier().getLexeme()
                         .equals(reservedStatic.getTypeExplanation())) {
 
-            // método estático: sacar el this que está debajo de los parámetros
-            // quitar un único elemento this → POP
-            o.gen(Instructions.POP.toString());
+             o.gen(Instructions.POP.toString());
 
-            // cargar la etiqueta del método estático
-            o.gen(Instructions.PUSH + " lbl_"
+             o.gen(Instructions.PUSH + " lbl_"
                     + associatedMethod.getName().getLexeme()
                     + "@" + associatedMethod.getCreator().getName().getLexeme());
         }
         else {
-            // ---- MÉTODO DINÁMICO ----
-            // aquí en la pila tenemos: retAddr … this p1 … pn
-
-            // obtener la VT del objeto (this está en el tope de la pila RECIÉN
-            // después de pasar los parámetros)
-            o.gen(Instructions.LOADREF + " 0");
-
-            // apuntar a la VT correcta según tipo
-            o.gen(Instructions.PUSH + " VT@" + tipo.getName().getLexeme());
-
-            // obtener el método en la VT (offset ya resuelto del método)
-            o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
+//             o.gen(Instructions.LOADREF + " 0");
+//             o.printStackTop();
+             o.gen(Instructions.PUSH + " VT@" + tipo.getName().getLexeme());
+             o.printStackTop();
+             o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
+             o.printStackTop();
         }
 
-        // 4. HACER EL CALL
         o.gen(Instructions.CALL.toString());
+        o.printStackTop();
+//        if (retornaValor) {
+//            o.gen(Instructions.DUP.toString());
+//        }
 
-        // 5. SI NO ES VOID, DUPLICAR EL RESULTADO PARA CADENAR
-        if (retornaValor) {
-            o.gen(Instructions.DUP.toString());
-        }
-
-        // 6. SI HAY ENCADENADO, GENERARLO
         if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
             encadenado.gen(o, associatedMethod.getReturnType());
         }
+        //o.gen(Instructions.FMEM + " 1");
     }
 
 
