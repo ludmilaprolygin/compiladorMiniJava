@@ -182,13 +182,12 @@ public class NodoVar extends NodoOperando implements Var {
             }
         }
         else if(varAsociada instanceof Attribute a) {
+            o.gen("LOAD " + CodeGenConfig.OFFSET_THIS);
             if (esLadoIzq) {
-                o.gen(Instructions.LOAD + " 3");
                 o.gen(Instructions.SWAP.toString());
                 o.gen(Instructions.STOREREF + " " + a.getOffset());
-            }
-            else {
-                // Acceder al estado interno del objeto
+            } else {
+                 o.gen(Instructions.LOADREF + " " + a.getOffset());
             }
         }
         else if(varAsociada instanceof NodoVar v) {
@@ -210,9 +209,6 @@ public class NodoVar extends NodoOperando implements Var {
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
             encadenado.gen(o, tipo);
-            if(encadenado instanceof NodoLLamadaEncadenada llamada){
-                o.gen(Instructions.FMEM + " " + llamada.getParametros().size());
-            }
         }
     }
 
