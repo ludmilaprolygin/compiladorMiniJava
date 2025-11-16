@@ -65,6 +65,7 @@ public abstract class Service extends OffsetElement {
         }
 
         o.gen("lbl_" + myName + ": ");
+        o.printStackTop();
         gen(o);
 
         o.gen("");
