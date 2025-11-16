@@ -62,4 +62,9 @@ public class OutputManager {
         gen(Instructions.LOADSP.toString());
         gen(Instructions.STOREFP.toString());
     }
+
+    public void epilogue(int parametersSize){
+        gen(Instructions.STOREFP.toString());
+        gen(Instructions.RET + " " + parametersSize);
+    }
 }

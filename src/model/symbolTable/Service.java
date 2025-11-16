@@ -65,11 +65,7 @@ public abstract class Service extends OffsetElement {
         }
 
         o.gen("lbl_" + myName + ": ");
-        if(bloque instanceof NodoBloqueVacio) {
-            o.gen(Instructions.NOP.toString());
-        } else {
-            gen(o);
-        }
+        gen(o);
 
         o.gen("");
     }

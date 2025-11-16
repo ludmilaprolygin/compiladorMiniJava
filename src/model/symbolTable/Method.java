@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.AST.Sentencias.NodoReturn;
 import model.Token;
 import model.TokenType;
@@ -58,10 +59,14 @@ public class Method extends Service {
 
     @Override
     public void gen(OutputManager o) throws GenerationException {
-        o.prologue();
-        bloque.gen(o);
-        o.gen(Instructions.STOREFP.toString());
-        o.gen(Instructions.RET + " " + parameters.size());
+        if(bloque instanceof NodoBloqueVacio){
+            o.gen(Instructions.NOP.toString());
+        }
+        else{
+            o.prologue();
+            bloque.gen(o);
+            o.epilogue(parameters.size());
+        }
     }
 
     public String toString() {

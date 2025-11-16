@@ -1,6 +1,8 @@
 package model.symbolTable;
 
+import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
+import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
 import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
@@ -27,7 +29,14 @@ public class Builder extends Service {
 
     @Override
     public void gen(OutputManager o) throws GenerationException {
+        o.prologue();
 
+
+        if(!(bloque instanceof NodoBloqueVacio)){
+            bloque.gen(o);
+        }
+
+        o.epilogue(parameters.size());
     }
 
     @Override
