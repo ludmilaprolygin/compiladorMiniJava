@@ -87,7 +87,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
             o.gen(Instructions.PUSH + " lbl_" + associatedMethod.getName().getLexeme() + "@" + associatedMethod.getCreator().getName().getLexeme());
         }
         else{
-            System.out.println("gen en NodoLLAmadaEncadenada: ENTRO AL ELSE");
+            System.out.println("gen en NodoLLamadaEncadenada: ENTRO AL ELSE");
             //o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
             //o.gen(Instructions.DUP.toString());
             o.gen(Instructions.LOADREF + " 0");

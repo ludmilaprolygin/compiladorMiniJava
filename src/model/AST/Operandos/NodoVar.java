@@ -210,6 +210,9 @@ public class NodoVar extends NodoOperando implements Var {
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
             encadenado.gen(o, tipo);
+            if(encadenado instanceof NodoLLamadaEncadenada llamada){
+                o.gen(Instructions.FMEM + " " + llamada.getParametros().size());
+            }
         }
     }
 
