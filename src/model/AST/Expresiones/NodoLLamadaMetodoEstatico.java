@@ -101,6 +101,9 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
             n.gen(o);
         }
         o.gen(Instructions.PUSH + " lbl_" + idM.getLexeme() + "@" + idC.getLexeme());
+
+        //o.printStackTop();
+
         o.gen(Instructions.CALL.toString());
     }
 

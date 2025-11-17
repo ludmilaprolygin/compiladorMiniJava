@@ -97,6 +97,9 @@ public class NodoLLamadaConstructor extends NodoExpresion {
         o.gen(Instructions.STOREREF + " " + (parametros.size() + 3));
 
         o.gen(Instructions.PUSH + " lbl_builder@" + classType.getName().getLexeme());
+
+        //o.printStackTop();
+
         o.gen(Instructions.CALL.toString());
 
         o.gen(Instructions.FMEM + " 1");

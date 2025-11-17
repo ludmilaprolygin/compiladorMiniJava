@@ -96,6 +96,9 @@ public class NodoLLamadaEncadenada extends Encadenado {
         // 4) cargar VT y dirección del método y CALL
         o.gen(Instructions.LOADREF + " 0");
         o.gen(Instructions.LOADREF + " " + associatedMethod.getOffset());
+
+        //o.printStackTop();
+
         o.gen(Instructions.CALL.toString());
 
         // 5) si hay encadenado, seguir

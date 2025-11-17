@@ -175,6 +175,7 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
+        int offset = 0;
         if(varAsociada instanceof Parameter p) {
             if (esLadoIzq) {
                 o.gen(Instructions.STORE + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET_DYNAMIC));
@@ -185,7 +186,6 @@ public class NodoVar extends NodoOperando implements Var {
         }
         else if(varAsociada instanceof Attribute a) {
             o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
-            //o.gen(Instructions.LOAD + getOffset());
             if (esLadoIzq) {
                 o.gen(Instructions.SWAP.toString());
                 o.gen(Instructions.STOREREF + " " + a.getOffset());
@@ -236,9 +236,12 @@ public class NodoVar extends NodoOperando implements Var {
     public void generateReturnType(OutputManager o) {
         if (tipo == null) return;
         if (!tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) return;
-//        if (!(tipo instanceof ClassType)){
-//            o.gen(Instructions.LOADREF + " 1");
-//        }
+        if (tipo instanceof ClassType) {
+            // los objetos se pasan como puntero, nada que hacer
+        } else {
+            // tipos primitivos: NO hacer LOADREF
+        }
+
     }
 
     private Service getNodoVarContext(){

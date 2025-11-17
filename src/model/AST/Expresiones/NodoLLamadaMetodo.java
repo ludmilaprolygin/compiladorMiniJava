@@ -140,6 +140,8 @@ public class NodoLLamadaMetodo extends NodoExpresion {
             o.gen(Instructions.LOADREF + " " + m.getOffset());
         }
 
+        //o.printStackTop();
+
         o.gen(Instructions.CALL.toString());
     }
 
