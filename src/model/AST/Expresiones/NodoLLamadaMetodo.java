@@ -109,6 +109,8 @@ public class NodoLLamadaMetodo extends NodoExpresion {
 
     @Override
     public void gen(OutputManager o) {
+
+        System.out.println("gen en NodoLLamadaMetodo: " + metodo.getLexeme());
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
         Method m = (Method) belongingClass.getMethods().get(tokenM);
 

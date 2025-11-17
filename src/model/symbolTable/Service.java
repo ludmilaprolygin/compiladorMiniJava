@@ -66,9 +66,9 @@ public abstract class Service extends OffsetElement {
 
         o.gen("lbl_" + myName + ": ");
 
-        System.out.println("Generating code for service: lbl_" + myName);
-        o.printStackTop();
-        System.out.println("-------------------------");
+//        System.out.println("Generating code for service: lbl_" + myName);
+//        o.printStackTop();
+//        System.out.println("-------------------------");
 
         gen(o);
 

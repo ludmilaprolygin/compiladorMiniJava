@@ -236,9 +236,9 @@ public class NodoVar extends NodoOperando implements Var {
     public void generateReturnType(OutputManager o) {
         if (tipo == null) return;
         if (!tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) return;
-        if (!(tipo instanceof ClassType)){
-            o.gen(Instructions.LOADREF + " 1");
-        }
+//        if (!(tipo instanceof ClassType)){
+//            o.gen(Instructions.LOADREF + " 1");
+//        }
     }
 
     private Service getNodoVarContext(){
