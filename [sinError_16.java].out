@@ -1,5 +1,5 @@
 .CODE
-PUSH lbl_main@Execute
+PUSH lbl_main@TestReturn
 CALL
 HALT
 
@@ -21,140 +21,6 @@ ADD
 STOREHL
 STOREFP
 RET 1
-
-
-.DATA
-VT@TestB: DW lbl_m1@TestB
-DW lbl_m2@TestB
-DW lbl_m3@TestA
-.CODE
-lbl_m1@TestB: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-lbl_end_m1@TestB: NOP
-STOREFP
-RET 0
-
-lbl_m2@TestB: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-lbl_end_m2@TestB: NOP
-STOREFP
-RET 0
-
-lbl_builder@TestB: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
-FMEM 0
-lbl_end_charValue@Character: NOP
-STOREFP
-RET 0
-
-lbl_builder@Character: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_booleanValue@Boolean
-FMEM 0
-lbl_end_booleanValue@Boolean: NOP
-STOREFP
-RET 0
-
-lbl_builder@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Execute: NOP
-.CODE
-lbl_main@Execute: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-lbl_end_main@Execute: NOP
-STOREFP
-RET 0
-
-lbl_builder@Execute: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@TestA: DW lbl_m1@TestA
-DW lbl_m3@TestA
-.CODE
-lbl_m1@TestA: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-lbl_end_m1@TestA: NOP
-STOREFP
-RET 0
-
-lbl_m3@TestA: 
-LOADFP
-LOADSP
-STOREFP
-FMEM 0
-lbl_end_m3@TestA: NOP
-STOREFP
-RET 0
-
-lbl_builder@TestA: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
-
 
 
 .DATA
@@ -191,6 +57,102 @@ LOADSP
 STOREFP
 STOREFP
 RET 0
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
+FMEM 0
+lbl_end_charValue@Character: NOP
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@TestReturn: NOP
+.CODE
+lbl_f@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+JUMP lbl_end_f@TestReturn
+FMEM 0
+lbl_end_f@TestReturn: NOP
+STOREFP
+RET 0
+
+lbl_main@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+PUSH lbl_f@TestReturn
+CALL
+FMEM 0
+lbl_end_main@TestReturn: NOP
+STOREFP
+RET 0
+
+lbl_builder@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
+FMEM 0
+lbl_end_booleanValue@Boolean: NOP
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
 
 
 
@@ -309,18 +271,5 @@ STOREFP
 STOREFP
 RET 0
 
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
 
 

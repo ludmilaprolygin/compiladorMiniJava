@@ -31,6 +31,9 @@ public class NodoExpresionAsignacion extends NodoExpresion{
 
         AbstractType left = ladoIzquierdo.check();
         AbstractType right = ladoDerecho.check();
+
+        //System.out.println(left.toString() + " " + right.toString());
+
         if(ladoIzquierdo instanceof NodoExpresionBinaria)
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(((NodoExpresionBinaria) ladoIzquierdo).getOperador()));
         if(ladoIzquierdo instanceof NodoExpresionTernaria)
