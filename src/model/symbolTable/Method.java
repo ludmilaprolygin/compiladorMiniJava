@@ -69,8 +69,7 @@ public class Method extends Service {
             boolean isVoid = this.returnType.getName().getTokenType().equals(TokenType.reservedVoid);
             int returnSlot = isVoid ? 0 : 1;
 
-            if (localVarCount != 0)
-                o.gen(Instructions.RMEM + " " + (returnSlot+cantVars));
+            o.gen(Instructions.RMEM + " " + (returnSlot+cantVars));
 
             bloque.gen(o);
 
@@ -80,8 +79,7 @@ public class Method extends Service {
 
             o.gen(lblEnd + ": " + Instructions.NOP);
 
-            if (localVarCount != 0)
-                o.gen(Instructions.FMEM + " " + localVarCount);
+            o.gen(Instructions.FMEM + " " + (returnSlot+cantVars));
             o.epilogue(parameters.size());
         }
     }
