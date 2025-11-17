@@ -211,6 +211,16 @@ public class NodoVar extends NodoOperando implements Var {
         }
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
+//            if (varAsociada != null) {
+//                if (varAsociada instanceof Parameter p) {
+//                    o.gen(Instructions.LOAD + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET_DYNAMIC));
+//                } else if (varAsociada instanceof Attribute att) {
+//                    o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
+//                } else if (varAsociada instanceof NodoVar v) {
+//                    o.gen(Instructions.LOAD + " " + v.getOffset());
+//                }
+//            }
+
             encadenado.gen(o, tipo);
         }
 
