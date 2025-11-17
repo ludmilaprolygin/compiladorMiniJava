@@ -36,22 +36,67 @@ RET 0
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Init6: NOP
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_main@Init6: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+PUSH lbl_m1@Init6
+CALL
+FMEM 0
+lbl_end_main@Init6: NOP
+STOREFP
+RET 0
+
+lbl_m1@Init6: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH 1
+SUB
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+FMEM 0
+lbl_end_m1@Init6: NOP
+STOREFP
+RET 1
+
+lbl_builder@Init6: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
 LOAD 3
 LOADREF 1
 STORE 3
-JUMP lbl_end_booleanValue@Boolean
+JUMP lbl_end_intValue@Integer
 FMEM 0
-lbl_end_booleanValue@Boolean: NOP
+lbl_end_intValue@Integer: NOP
 STOREFP
 RET 0
 
-lbl_builder@Boolean: 
+lbl_builder@Integer: 
 LOADFP
 LOADSP
 STOREFP
@@ -83,6 +128,19 @@ STOREFP
 STOREFP
 RET 1
 
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
 
 
 .DATA
@@ -203,85 +261,27 @@ RET 0
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
-lbl_intValue@Integer: 
+lbl_booleanValue@Boolean: 
 LOADFP
 LOADSP
 STOREFP
 LOAD 3
 LOADREF 1
 STORE 3
-JUMP lbl_end_intValue@Integer
+JUMP lbl_end_booleanValue@Boolean
 FMEM 0
-lbl_end_intValue@Integer: NOP
+lbl_end_booleanValue@Boolean: NOP
 STOREFP
 RET 0
 
-lbl_builder@Integer: 
+lbl_builder@Boolean: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
 RET 1
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
-
-
-.DATA
-VT@Init6: NOP
-.CODE
-lbl_main@Init6: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-PUSH lbl_m1@Init6
-CALL
-FMEM 0
-lbl_end_main@Init6: NOP
-STOREFP
-RET 0
-
-lbl_m1@Init6: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 1
-SUB
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-FMEM 0
-lbl_end_m1@Init6: NOP
-STOREFP
-RET 1
-
-lbl_builder@Init6: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
 
 
 

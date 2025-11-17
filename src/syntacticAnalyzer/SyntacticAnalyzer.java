@@ -596,10 +596,12 @@ public class SyntacticAnalyzer {
         }
         else if (firsts.containsToken(_VarLocalClasica, currentTokenType)) {
             toReturn = _varLocalClasica();
+            symbolTable.getCurrentService().incLocalVarCount();
             match(semicolon);
         }
         else if (firsts.containsToken(VarLocal, currentTokenType)) {
             toReturn = varLocal();
+            symbolTable.getCurrentService().incLocalVarCount();
             match(semicolon);
         }
         else if (firsts.containsToken(Return, currentTokenType)) {

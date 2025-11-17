@@ -17,17 +17,21 @@ public abstract class Service extends OffsetElement {
     protected Token visibility;
     protected List parameters;
     protected NodoBloque bloque;
+    protected int localVarCount;
     public Service(Token n, Token v) {
         super(n);
         visibility = v;
         parameters = new List();
         bloque = new NodoBloqueVacio(null);
+        localVarCount = 0;
     }
 
     public void correctDeclaration() throws SemanticException {
         for(Element p : parameters)
             p.correctDeclaration();
     }
+
+    public void incLocalVarCount() { localVarCount++; }
 
     public void addParameter(Parameter p) throws SemanticException{
         if(parameters.contains(p.getName().getLexeme()))

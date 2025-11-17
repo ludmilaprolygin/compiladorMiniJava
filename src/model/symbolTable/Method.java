@@ -64,8 +64,13 @@ public class Method extends Service {
         }
         else{
             o.prologue();
+
+            int cantVars = localVarCount;
+            boolean isVoid = this.returnType.getName().getTokenType().equals(TokenType.reservedVoid);
+            int returnSlot = isVoid ? 0 : 1;
+
             if (!bloque.getVariables().isEmpty())
-                o.gen(Instructions.RMEM + " " + bloque.getVariables().size());
+                o.gen(Instructions.RMEM + " " + (returnSlot+cantVars));
 
             bloque.gen(o);
 
@@ -76,7 +81,7 @@ public class Method extends Service {
             o.gen(lblEnd + ": " + Instructions.NOP);
 
             if (!bloque.getVariables().isEmpty())
-                o.gen(Instructions.FMEM + " " + bloque.getVariables().size());
+                o.gen(Instructions.FMEM + " " + localVarCount);
             o.epilogue(parameters.size());
         }
     }
