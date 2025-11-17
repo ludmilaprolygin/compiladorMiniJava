@@ -63,6 +63,7 @@ PUSH 'A'
 PUSH lbl_printCln@System
 CALL
 FMEM 0
+lbl_end_main@Init: NOP
 STOREFP
 RET 0
 
@@ -95,7 +96,12 @@ lbl_intValue@Integer:
 LOADFP
 LOADSP
 STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
 FMEM 0
+lbl_end_intValue@Integer: NOP
 STOREFP
 RET 0
 
@@ -119,6 +125,7 @@ READ
 PUSH 48
 SUB
 STORE 3
+lbl_end_read@System: NOP
 STOREFP
 RET 0
 
@@ -128,6 +135,7 @@ LOADSP
 STOREFP
 LOAD 3
 BPRINT
+lbl_end_printB@System: NOP
 STOREFP
 RET 1
 
@@ -137,6 +145,7 @@ LOADSP
 STOREFP
 LOAD 3
 CPRINT
+lbl_end_printC@System: NOP
 STOREFP
 RET 1
 
@@ -146,6 +155,7 @@ LOADSP
 STOREFP
 LOAD 3
 IPRINT
+lbl_end_printI@System: NOP
 STOREFP
 RET 1
 
@@ -155,6 +165,7 @@ LOADSP
 STOREFP
 LOAD 3
 SPRINT
+lbl_end_printS@System: NOP
 STOREFP
 RET 1
 
@@ -163,6 +174,7 @@ LOADFP
 LOADSP
 STOREFP
 PRNLN
+lbl_end_println@System: NOP
 STOREFP
 RET 0
 
@@ -173,6 +185,7 @@ STOREFP
 LOAD 3
 BPRINT
 PRNLN
+lbl_end_printBln@System: NOP
 STOREFP
 RET 1
 
@@ -183,6 +196,7 @@ STOREFP
 LOAD 3
 CPRINT
 PRNLN
+lbl_end_printCln@System: NOP
 STOREFP
 RET 1
 
@@ -193,6 +207,7 @@ STOREFP
 LOAD 3
 IPRINT
 PRNLN
+lbl_end_printIln@System: NOP
 STOREFP
 RET 1
 
@@ -203,6 +218,7 @@ STOREFP
 LOAD 3
 SPRINT
 PRNLN
+lbl_end_printSln@System: NOP
 STOREFP
 RET 1
 
@@ -222,7 +238,12 @@ lbl_booleanValue@Boolean:
 LOADFP
 LOADSP
 STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
 FMEM 0
+lbl_end_booleanValue@Boolean: NOP
 STOREFP
 RET 0
 
@@ -242,7 +263,12 @@ lbl_charValue@Character:
 LOADFP
 LOADSP
 STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
 FMEM 0
+lbl_end_charValue@Character: NOP
 STOREFP
 RET 0
 

@@ -737,11 +737,12 @@ public class SyntacticAnalyzer {
     }
 
     private NodoSentencia returnStatement() throws Exception {
-        NodoSentencia toReturn;
+        NodoReturn toReturn;
         Token t = currentToken;
         match(reservedReturn);
         NodoExpresion expresion = expresionOpcional();
         toReturn = new NodoReturn(expresion, t);
+        toReturn.setMethod(symbolTable.getCurrentService());
         return toReturn;
     }
 

@@ -4,6 +4,7 @@ import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoExpresionVacia;
 import model.AST.Expresiones.NodoThis;
 import model.Token;
+import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
@@ -14,6 +15,7 @@ import static model.TokenType.reservedVoid;
 public class NodoReturn extends NodoSentencia {
     protected NodoExpresion expresion;
     protected Token t;
+    protected Service method;
 
     public NodoReturn(NodoExpresion e, Token token){
         expresion = e;
@@ -36,6 +38,7 @@ public class NodoReturn extends NodoSentencia {
     }
 
     public Token getToken() { return t; }
+    public void setMethod(Service m) { method = m; }
 
     @Override
     public String toString(int depth) {
@@ -79,6 +82,32 @@ public class NodoReturn extends NodoSentencia {
 
     @Override
     public void gen(OutputManager o) {
+        if(method instanceof Method m && !m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
+            expresion.gen(o);
+            int m_size = m.getParameters().size();
+            int retOffset = m_size + 3;
+            o.gen(Instructions.STORE + " " + retOffset);
+        }
 
+        generarSaltoAlFinalDelMetodo(o);
+
+
+
+    }
+
+    private void generarSaltoAlFinalDelMetodo(OutputManager o) {
+        String mName = method.getName().getLexeme();
+
+        String cName;
+        if (method instanceof Method m) {
+            cName = m.getCreator().getName().getLexeme();
+        }
+        else{
+            cName = method.getName().getLexeme();
+        }
+
+        String label = "lbl_end_" + mName + "@" + cName;
+
+        o.gen(Instructions.JUMP + " " + label);
     }
 }

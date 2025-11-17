@@ -42,7 +42,12 @@ lbl_booleanValue@Boolean:
 LOADFP
 LOADSP
 STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
 FMEM 0
+lbl_end_booleanValue@Boolean: NOP
 STOREFP
 RET 0
 
@@ -68,6 +73,7 @@ PUSH 1234
 PUSH lbl_debugPrint@Object
 CALL
 FMEM 0
+lbl_end_mc1@A: NOP
 STOREFP
 RET 0
 
@@ -79,6 +85,7 @@ PUSH 10
 PUSH lbl_debugPrint@Object
 CALL
 FMEM 0
+lbl_end_mc2@A: NOP
 STOREFP
 RET 0
 
@@ -90,6 +97,7 @@ PUSH 88
 PUSH lbl_debugPrint@Object
 CALL
 FMEM 0
+lbl_end_mc3@A: NOP
 STOREFP
 RET 0
 
@@ -109,7 +117,12 @@ lbl_charValue@Character:
 LOADFP
 LOADSP
 STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
 FMEM 0
+lbl_end_charValue@Character: NOP
 STOREFP
 RET 0
 
@@ -144,6 +157,7 @@ LOADSP
 STOREFP
 RMEM 1
 RMEM 1
+RMEM 1
 PUSH 2
 PUSH simple_malloc
 CALL
@@ -174,6 +188,8 @@ LOADREF 0
 LOADREF 2
 CALL
 FMEM 1
+lbl_end_main@Init: NOP
+FMEM 1
 STOREFP
 RET 0
 
@@ -197,6 +213,7 @@ READ
 PUSH 48
 SUB
 STORE 3
+lbl_end_read@System: NOP
 STOREFP
 RET 0
 
@@ -206,6 +223,7 @@ LOADSP
 STOREFP
 LOAD 3
 BPRINT
+lbl_end_printB@System: NOP
 STOREFP
 RET 1
 
@@ -215,6 +233,7 @@ LOADSP
 STOREFP
 LOAD 3
 CPRINT
+lbl_end_printC@System: NOP
 STOREFP
 RET 1
 
@@ -224,6 +243,7 @@ LOADSP
 STOREFP
 LOAD 3
 IPRINT
+lbl_end_printI@System: NOP
 STOREFP
 RET 1
 
@@ -233,6 +253,7 @@ LOADSP
 STOREFP
 LOAD 3
 SPRINT
+lbl_end_printS@System: NOP
 STOREFP
 RET 1
 
@@ -241,6 +262,7 @@ LOADFP
 LOADSP
 STOREFP
 PRNLN
+lbl_end_println@System: NOP
 STOREFP
 RET 0
 
@@ -251,6 +273,7 @@ STOREFP
 LOAD 3
 BPRINT
 PRNLN
+lbl_end_printBln@System: NOP
 STOREFP
 RET 1
 
@@ -261,6 +284,7 @@ STOREFP
 LOAD 3
 CPRINT
 PRNLN
+lbl_end_printCln@System: NOP
 STOREFP
 RET 1
 
@@ -271,6 +295,7 @@ STOREFP
 LOAD 3
 IPRINT
 PRNLN
+lbl_end_printIln@System: NOP
 STOREFP
 RET 1
 
@@ -281,6 +306,7 @@ STOREFP
 LOAD 3
 SPRINT
 PRNLN
+lbl_end_printSln@System: NOP
 STOREFP
 RET 1
 
@@ -300,7 +326,12 @@ lbl_intValue@Integer:
 LOADFP
 LOADSP
 STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
 FMEM 0
+lbl_end_intValue@Integer: NOP
 STOREFP
 RET 0
 

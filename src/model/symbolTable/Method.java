@@ -64,7 +64,19 @@ public class Method extends Service {
         }
         else{
             o.prologue();
+            if (!bloque.getVariables().isEmpty())
+                o.gen(Instructions.RMEM + " " + bloque.getVariables().size());
+
             bloque.gen(o);
+
+            String methodName = getName().getLexeme();
+            String className  = getCreator().getName().getLexeme();
+            String lblEnd = "lbl_end_" + methodName + "@" + className;
+
+            o.gen(lblEnd + ": " + Instructions.NOP);
+
+            if (!bloque.getVariables().isEmpty())
+                o.gen(Instructions.FMEM + " " + bloque.getVariables().size());
             o.epilogue(parameters.size());
         }
     }
