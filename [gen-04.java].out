@@ -4,11 +4,9 @@ CALL
 HALT
 
 
-simple_heap_init:
-RET 0
+simple_heap_init: RET 0
 
-simple_malloc:
-LOADFP
+simple_malloc: LOADFP
 LOADSP
 STOREFP
 LOADHL

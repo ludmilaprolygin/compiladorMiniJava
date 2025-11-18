@@ -34,12 +34,10 @@ public class OutputManager {
     }
 
     public void genHeap() {
-        gen("simple_heap_init:");
-        gen(Instructions.RET.toString() + " 0");
+        gen("simple_heap_init: " + Instructions.RET.toString() + " 0");
         gen("");
 
-        gen("simple_malloc:");
-        gen(Instructions.LOADFP.toString());
+        gen("simple_malloc: " + Instructions.LOADFP);
         gen(Instructions.LOADSP.toString());
         gen(Instructions.STOREFP.toString());
         gen(Instructions.LOADHL.toString());
