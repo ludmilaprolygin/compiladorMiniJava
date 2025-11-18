@@ -67,7 +67,7 @@ CALL
 LOAD 5
 PUSH lbl_printBln@System
 CALL
-LOAD 6
+LOAD 3
 PUSH lbl_printCln@System
 CALL
 FMEM 0
