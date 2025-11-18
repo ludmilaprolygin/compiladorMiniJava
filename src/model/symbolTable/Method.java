@@ -67,9 +67,6 @@ public class Method extends Service {
             int cantVars = localVarCount;
             boolean isVoid = this.returnType.getName().getTokenType()
                     .equals(TokenType.reservedVoid);
-            int returnSlot = isVoid ? 0 : 1;
-            
-            o.gen(Instructions.RMEM + " " + cantVars);
 
             bloque.gen(o);
 

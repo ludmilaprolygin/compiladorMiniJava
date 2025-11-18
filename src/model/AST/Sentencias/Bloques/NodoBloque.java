@@ -126,6 +126,8 @@ public class NodoBloque extends NodoSentencia {
     public void gen(OutputManager o) {
         setOffsets();
 
+        o.gen(Instructions.RMEM + " " + variables.size());
+
         for(NodoSentencia s : statements) {
             s.gen(o);
         }

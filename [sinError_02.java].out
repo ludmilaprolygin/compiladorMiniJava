@@ -109,7 +109,6 @@ lbl_read@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 READ
 PUSH 48
 SUB
@@ -124,7 +123,6 @@ lbl_printB@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 BPRINT
 lbl_end_printB@System: NOP
@@ -136,7 +134,6 @@ lbl_printC@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 CPRINT
 lbl_end_printC@System: NOP
@@ -148,7 +145,6 @@ lbl_printI@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 IPRINT
 lbl_end_printI@System: NOP
@@ -160,7 +156,6 @@ lbl_printS@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 SPRINT
 lbl_end_printS@System: NOP
@@ -172,7 +167,6 @@ lbl_println@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 PRNLN
 lbl_end_println@System: NOP
 FMEM 0
@@ -183,7 +177,6 @@ lbl_printBln@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 BPRINT
 PRNLN
@@ -196,7 +189,6 @@ lbl_printCln@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 CPRINT
 PRNLN
@@ -209,7 +201,6 @@ lbl_printIln@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 IPRINT
 PRNLN
@@ -222,7 +213,6 @@ lbl_printSln@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 SPRINT
 PRNLN
