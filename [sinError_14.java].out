@@ -24,9 +24,22 @@ RET 1
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Object: NOP
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
 LOADFP
 LOADSP
 STOREFP
@@ -34,56 +47,19 @@ RMEM 1
 LOAD 3
 LOADREF 1
 STORE 3
-JUMP lbl_end_booleanValue@Boolean
+JUMP lbl_end_charValue@Character
 FMEM 0
-lbl_end_booleanValue@Boolean: NOP
+lbl_end_charValue@Character: NOP
 FMEM 1
 STOREFP
 RET 0
 
-lbl_builder@Boolean: 
+lbl_builder@Character: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
 RET 1
-
-
-
-.DATA
-VT@TestReturn: DW lbl_f@TestReturn
-.CODE
-lbl_main@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-lbl_end_main@TestReturn: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_f@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-PUSH 5
-STORE 3
-JUMP lbl_end_f@TestReturn
-FMEM 0
-lbl_end_f@TestReturn: NOP
-FMEM 1
-STOREFP
-RET 0
-
-lbl_builder@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
 
 
 
@@ -112,31 +88,6 @@ STOREFP
 STOREFP
 RET 1
 
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
 
 
 .DATA
@@ -277,9 +228,46 @@ RET 0
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@TestReturn: DW lbl_f@TestReturn
 .CODE
-lbl_charValue@Character: 
+lbl_main@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+lbl_end_main@TestReturn: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_f@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+PUSH 5
+STORE 3
+JUMP lbl_end_f@TestReturn
+FMEM 0
+lbl_end_f@TestReturn: NOP
+FMEM 1
+STOREFP
+RET 0
+
+lbl_builder@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
 LOADFP
 LOADSP
 STOREFP
@@ -287,19 +275,31 @@ RMEM 1
 LOAD 3
 LOADREF 1
 STORE 3
-JUMP lbl_end_charValue@Character
+JUMP lbl_end_booleanValue@Boolean
 FMEM 0
-lbl_end_charValue@Character: NOP
+lbl_end_booleanValue@Boolean: NOP
 FMEM 1
 STOREFP
 RET 0
 
-lbl_builder@Character: 
+lbl_builder@Boolean: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
 RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
 
 
 
