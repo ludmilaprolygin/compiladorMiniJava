@@ -36,52 +36,30 @@ RET 0
 
 
 .DATA
-VT@Init: NOP
+VT@Character: DW lbl_charValue@Character
 .CODE
-lbl_main@Init: 
+lbl_charValue@Character: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-PUSH 1
-PUSH 1
-PUSH 'a'
-PUSH lbl_m1@Init
-CALL
-FMEM 0
-lbl_end_main@Init: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_m1@Init: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-PUSH 5
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 5
-PUSH lbl_printBln@System
-CALL
+RMEM 1
 LOAD 3
-PUSH lbl_printCln@System
-CALL
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
 FMEM 0
-lbl_end_m1@Init: NOP
-FMEM 0
+STORE 0
+lbl_end_charValue@Character: NOP
+FMEM 1
 STOREFP
-RET 3
+RET 0
 
-lbl_builder@Init: 
+lbl_builder@Character: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
-RET 0
+RET 1
 
 
 
@@ -110,6 +88,7 @@ READ
 PUSH 48
 SUB
 STORE 3
+STORE 0
 lbl_end_read@System: NOP
 FMEM 1
 STOREFP
@@ -248,6 +227,7 @@ LOADREF 1
 STORE 3
 JUMP lbl_end_booleanValue@Boolean
 FMEM 0
+STORE 0
 lbl_end_booleanValue@Boolean: NOP
 FMEM 1
 STOREFP
@@ -259,6 +239,56 @@ LOADSP
 STOREFP
 STOREFP
 RET 1
+
+
+
+.DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+PUSH 1
+PUSH 1
+PUSH 'a'
+PUSH lbl_m1@Init
+CALL
+FMEM 0
+lbl_end_main@Init: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_m1@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+PUSH 5
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 5
+PUSH lbl_printBln@System
+CALL
+LOAD 3
+PUSH lbl_printCln@System
+CALL
+FMEM 0
+lbl_end_m1@Init: NOP
+FMEM 0
+STOREFP
+RET 3
+
+lbl_builder@Init: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
 
 
 
@@ -275,39 +305,13 @@ LOADREF 1
 STORE 3
 JUMP lbl_end_intValue@Integer
 FMEM 0
+STORE 0
 lbl_end_intValue@Integer: NOP
 FMEM 1
 STOREFP
 RET 0
 
 lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
-FMEM 0
-lbl_end_charValue@Character: NOP
-FMEM 1
-STOREFP
-RET 0
-
-lbl_builder@Character: 
 LOADFP
 LOADSP
 STOREFP

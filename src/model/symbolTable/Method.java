@@ -61,17 +61,22 @@ public class Method extends Service {
     public void gen(OutputManager o) throws GenerationException {
         if(bloque instanceof NodoBloqueVacio){
             o.gen(Instructions.NOP.toString());
-        }
-        else{
+        } else {
             o.prologue();
 
             int cantVars = localVarCount;
-            boolean isVoid = this.returnType.getName().getTokenType().equals(TokenType.reservedVoid);
+            boolean isVoid = this.returnType.getName().getTokenType()
+                    .equals(TokenType.reservedVoid);
             int returnSlot = isVoid ? 0 : 1;
-
-            o.gen(Instructions.RMEM + " " + (returnSlot+cantVars));
+            
+            o.gen(Instructions.RMEM + " " + (returnSlot + cantVars));
 
             bloque.gen(o);
+
+            if(!isVoid){
+                int retOffset = cantVars;
+                o.gen(Instructions.STORE + " " + retOffset);
+            }
 
             String methodName = getName().getLexeme();
             String className  = getCreator().getName().getLexeme();
@@ -79,10 +84,12 @@ public class Method extends Service {
 
             o.gen(lblEnd + ": " + Instructions.NOP);
 
-            o.gen(Instructions.FMEM + " " + (returnSlot+cantVars));
+            o.gen(Instructions.FMEM + " " + (returnSlot + cantVars));
+
             o.epilogue(parameters.size());
         }
     }
+
 
     public String toString() {
         String mod = (modifier != null) ? modifier.getLexeme() + " " : "";
