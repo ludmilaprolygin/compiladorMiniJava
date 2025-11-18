@@ -109,7 +109,6 @@ public class NodoLLamadaMetodo extends NodoExpresion {
 
     @Override
     public void gen(OutputManager o) {
-
         System.out.println("gen en NodoLLamadaMetodo: " + metodo.getLexeme());
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
         Method m = (Method) belongingClass.getMethods().get(tokenM);
@@ -122,9 +121,9 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         belongingClass.sortByOffset(dynamicMethods);
         belongingClass.setOffsets(dynamicMethods);
 
-        if(!m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
-            o.gen(Instructions.RMEM + " 1");
-        }
+//        if(!m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
+//            o.gen(Instructions.RMEM + " 1");
+//        }
 
         for(NodoExpresion n : argumentos){
             n.gen(o);
@@ -134,10 +133,10 @@ public class NodoLLamadaMetodo extends NodoExpresion {
             o.gen(Instructions.PUSH + " lbl_" + metodo.getLexeme() + "@" + m.getCreator().getName().getLexeme());
         }
         else{
-            o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
-            o.gen(Instructions.DUP.toString());
-            o.gen(Instructions.LOADREF + " 0");
-            o.gen(Instructions.LOADREF + " " + m.getOffset());
+//            o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
+//            o.gen(Instructions.DUP.toString());
+//            o.gen(Instructions.LOADREF + " 0");
+//            o.gen(Instructions.LOADREF + " " + m.getOffset());
         }
 
         //o.printStackTop();
