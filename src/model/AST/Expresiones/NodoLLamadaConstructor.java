@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static model.TokenType.idClase;
+import static model.codeGeneration.CodeGenConfig.OFFSET_THIS;
 
 public class NodoLLamadaConstructor extends NodoExpresion {
     protected ClassType classType;
@@ -94,7 +95,7 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
         o.gen(Instructions.LOADSP.toString());
         o.gen(Instructions.SWAP.toString());
-        o.gen(Instructions.STOREREF + " " + (parametros.size() + 3));
+        o.gen(Instructions.STOREREF + " " + (parametros.size() + OFFSET_THIS));
 
         o.gen(Instructions.PUSH + " lbl_builder@" + classType.getName().getLexeme());
 

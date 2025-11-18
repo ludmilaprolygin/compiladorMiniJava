@@ -24,34 +24,6 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-FMEM 0
-STORE 0
-lbl_end_intValue@Integer: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
 VT@T5: NOP
 .CODE
 lbl_main@T5: 
@@ -90,6 +62,8 @@ lbl_builder@T5:
 LOADFP
 LOADSP
 STOREFP
+RMEM 0
+FMEM 0
 STOREFP
 RET 0
 
@@ -228,36 +202,10 @@ lbl_builder@System:
 LOADFP
 LOADSP
 STOREFP
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
 RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
-FMEM 0
-STORE 0
-lbl_end_charValue@Character: NOP
 FMEM 0
 STOREFP
 RET 0
-
-lbl_builder@Character: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
 
 
 
@@ -268,6 +216,8 @@ lbl_builder@String:
 LOADFP
 LOADSP
 STOREFP
+RMEM 0
+FMEM 0
 STOREFP
 RET 0
 
@@ -296,6 +246,8 @@ lbl_builder@Boolean:
 LOADFP
 LOADSP
 STOREFP
+RMEM 0
+FMEM 0
 STOREFP
 RET 1
 
@@ -312,5 +264,65 @@ LOAD 3
 IPRINT
 STOREFP
 RET 1
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
+FMEM 0
+STORE 0
+lbl_end_intValue@Integer: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
+FMEM 0
+STORE 0
+lbl_end_charValue@Character: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 1
+
 
 

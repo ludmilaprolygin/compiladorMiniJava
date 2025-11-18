@@ -175,17 +175,14 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
-        int offset = 0;
-        // Reemplaza el bloque de Parameter p por esto:
         if (varAsociada instanceof Parameter p) {
             int baseParamDyn = CodeGenConfig.PARAM_OFFSET_DYNAMIC;
-            // Heurística segura: si p.getOffset() es negativo o ya > baseParamDyn, lo consideramos final.
             int computedOffset;
             int pOff = p.getOffset();
             if (pOff <= 0 || pOff >= baseParamDyn) {
-                computedOffset = pOff; // ya es offset final
+                computedOffset = pOff;
             } else {
-                computedOffset = pOff + baseParamDyn; // era índice: convertir
+                computedOffset = pOff + baseParamDyn;
             }
 
             if (esLadoIzq) {
