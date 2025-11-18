@@ -12,7 +12,7 @@ public class DebugClass {
         CeIVMAPI ceivm = new CeIVMAPI();
 
         // 1) Parsear + ensamblar
-        ceivm.parseAndAssemble("/home/ludmila-prolygin/Documents/compiladorMiniJava/[sinError_20.java].out");
+        ceivm.parseAndAssemble("/home/ludmila-prolygin/Documents/compiladorMiniJava/[sinError_15.java].out");
 
         // 2) Cargar a memoria
         ceivm.loadProgram();

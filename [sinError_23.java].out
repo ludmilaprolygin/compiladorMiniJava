@@ -1,5 +1,5 @@
 .CODE
-PUSH lbl_main@Init
+PUSH lbl_main@TestWhile
 CALL
 HALT
 
@@ -24,45 +24,43 @@ RET 1
 
 
 .DATA
-VT@Init: NOP
+VT@Object: NOP
 .CODE
-lbl_main@Init: 
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
-PUSH 1234
-PUSH lbl_printI@System
-CALL
-PUSH 1
-PUSH lbl_printB@System
-CALL
-PUSH 'a'
-PUSH lbl_printC@System
-CALL
-PUSH lbl_println@System
-CALL
-PUSH 1234
-PUSH lbl_printIln@System
-CALL
-PUSH 0
-PUSH lbl_printBln@System
-CALL
-PUSH 'A'
-PUSH lbl_printCln@System
-CALL
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
 FMEM 0
-lbl_end_main@Init: NOP
+STORE 0
+lbl_end_charValue@Character: NOP
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Init: 
+lbl_builder@Character: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
-RET 0
+RET 1
 
 
 
@@ -95,16 +93,15 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
+VT@String: NOP
 .CODE
-lbl_debugPrint@Object: 
+lbl_builder@String: 
 LOADFP
 LOADSP
 STOREFP
-LOAD 3
-IPRINT
 STOREFP
-RET 1
+RET 0
+
 
 
 .DATA
@@ -246,6 +243,54 @@ RET 0
 
 
 .DATA
+VT@TestWhile: NOP
+.CODE
+lbl_main@TestWhile: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 2
+PUSH 0
+STORE 0
+PUSH 0
+STORE -1
+lbl_while_inicio@8: NOP
+LOAD 0
+PUSH 5
+BF lbl_while_fin@8
+LOAD 0
+LOAD 0
+ADD
+STORE 0
+LOAD 0
+PUSH 1
+ADD
+STORE 0
+LOAD 0
+PUSH lbl_debugPrint@Object
+CALL
+FMEM 0
+JUMP lbl_while_inicio@8
+lbl_while_fin@8: NOP
+LOAD 0
+PUSH lbl_debugPrint@Object
+CALL
+FMEM 2
+lbl_end_main@TestWhile: NOP
+FMEM 2
+STOREFP
+RET 0
+
+lbl_builder@TestWhile: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 0
+
+
+
+.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -270,46 +315,6 @@ LOADSP
 STOREFP
 STOREFP
 RET 1
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
-FMEM 0
-STORE 0
-lbl_end_charValue@Character: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Character: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 0
 
 
 

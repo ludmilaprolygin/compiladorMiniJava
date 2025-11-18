@@ -69,7 +69,7 @@ public class Method extends Service {
                     .equals(TokenType.reservedVoid);
             int returnSlot = isVoid ? 0 : 1;
             
-            o.gen(Instructions.RMEM + " " + (returnSlot + cantVars));
+            o.gen(Instructions.RMEM + " " + cantVars);
 
             bloque.gen(o);
 
@@ -84,7 +84,7 @@ public class Method extends Service {
 
             o.gen(lblEnd + ": " + Instructions.NOP);
 
-            o.gen(Instructions.FMEM + " " + (returnSlot + cantVars));
+            o.gen(Instructions.FMEM + " " + cantVars);
 
             o.epilogue(parameters.size());
         }
