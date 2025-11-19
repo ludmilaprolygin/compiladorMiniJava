@@ -124,15 +124,14 @@ public class NodoBloque extends NodoSentencia {
 
     @Override
     public void gen(OutputManager o) {
-        setOffsets();
 
-        o.gen(Instructions.RMEM + " " + variables.size());
 
-        for(NodoSentencia s : statements) {
+        for (NodoSentencia s : statements) {
             s.gen(o);
         }
-        o.gen(Instructions.FMEM + " " + variables.size());
+
     }
+
 
     public void addLlamada(NodoExpresion toReturn) {
         llamadas.add((NodoLLamadaMetodo) toReturn);

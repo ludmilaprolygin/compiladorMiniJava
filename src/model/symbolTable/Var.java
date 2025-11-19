@@ -7,4 +7,6 @@ public interface Var {
     public void gen(OutputManager o);
     public void setOffset(int i);
     public Token getTokenName();
+
+    int getOffset();
 }

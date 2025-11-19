@@ -68,6 +68,9 @@ public class Method extends Service {
             boolean isVoid = this.returnType.getName().getTokenType()
                     .equals(TokenType.reservedVoid);
 
+            if (cantVars > 0)
+                o.gen(Instructions.RMEM + " " + cantVars);
+
             bloque.gen(o);
 
             if(!isVoid){

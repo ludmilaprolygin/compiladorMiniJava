@@ -30,12 +30,10 @@ lbl_intValue@Integer:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 LOADREF 1
 STORE 3
 JUMP lbl_end_intValue@Integer
-FMEM 0
 STORE 0
 lbl_end_intValue@Integer: NOP
 FMEM 0
@@ -74,12 +72,10 @@ lbl_charValue@Character:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 LOADREF 1
 STORE 3
 JUMP lbl_end_charValue@Character
-FMEM 0
 STORE 0
 lbl_end_charValue@Character: NOP
 FMEM 0
@@ -129,7 +125,6 @@ lbl_mc@A:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 PUSH 1234
 PUSH lbl_debugPrint@Object
 CALL
@@ -141,7 +136,6 @@ LOAD 3
 LOADREF 1
 PUSH lbl_debugPrint@Object
 CALL
-FMEM 0
 lbl_end_mc@A: NOP
 FMEM 0
 STOREFP
@@ -165,12 +159,10 @@ lbl_booleanValue@Boolean:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
 LOAD 3
 LOADREF 1
 STORE 3
 JUMP lbl_end_booleanValue@Boolean
-FMEM 0
 STORE 0
 lbl_end_booleanValue@Boolean: NOP
 FMEM 0
@@ -348,7 +340,6 @@ LOADREF 0
 LOADREF 0
 CALL
 LOADREF 1
-FMEM 1
 lbl_end_main@Init: NOP
 FMEM 1
 STOREFP

@@ -2,6 +2,7 @@ package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoThis;
+import model.AST.Sentencias.Bloques.NodoBloque;
 import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
@@ -49,6 +50,10 @@ public class NodoWhile extends NodoSentencia {
 
     @Override
     public void gen(OutputManager o) {
+        if(sentencia instanceof NodoBloque b){
+            System.out.println("variables en nodo while: " + b.getVariables().size());
+        }
+
         String lblInicio = "lbl_while_inicio@" + condicion.getToken().getRow();
         String lblFin = "lbl_while_fin@" + condicion.getToken().getRow();
 
