@@ -147,19 +147,21 @@ public class Main {
     private static void codeGeneration(String outputFileName) throws Exception {
         outputManager = new OutputManager(outputFileName);
 
-        genMain();
+        genInit();
         outputManager.genHeap();
 
         symbolTable.gen(outputManager);
-        
+
         outputManager.close();
     }
 
-    private static void genMain() {
+    private static void genInit() {
         model.symbolTable.Class mainClass = (model.symbolTable.Class) symbolTable.getMainClass();
         String mainLabel = "lbl_main@" + mainClass.getName().getLexeme();
 
         outputManager.gen(".CODE");
+        outputManager.gen(Instructions.PUSH + " simple_heap_init");
+        outputManager.gen(Instructions.CALL.toString());
         outputManager.gen(Instructions.PUSH + " " + mainLabel);
         outputManager.gen(Instructions.CALL.toString());
         outputManager.gen(Instructions.HALT.toString());

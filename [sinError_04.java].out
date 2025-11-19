@@ -1,4 +1,6 @@
 .CODE
+PUSH simple_heap_init
+CALL
 PUSH lbl_main@Init
 CALL
 HALT
@@ -22,74 +24,46 @@ RET 1
 
 
 .DATA
-VT@Init: NOP
+VT@String: NOP
 .CODE
-lbl_main@Init: 
+lbl_builder@String: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
-PUSH 0
-PUSH lbl_m1@Init
-CALL
-FMEM 0
-lbl_end_main@Init: NOP
 FMEM 0
 STOREFP
 RET 0
 
-lbl_m1@Init: 
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
-PUSH 2
-PUSH 2
-ADD
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 2
-DIV
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-PUSH 5
-PUSH 2
-MOD
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 2
-MUL
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-PUSH 10
-PUSH 10
-ADD
-PUSH lbl_printIln@System
-CALL
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
 FMEM 0
-lbl_end_m1@Init: NOP
+STORE 0
+lbl_end_intValue@Integer: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
 FMEM 0
 STOREFP
 RET 1
-
-lbl_builder@Init: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
 
 
 
@@ -113,49 +87,6 @@ STOREFP
 RET 0
 
 lbl_builder@Character: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-STOREFP
-RET 1
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-FMEM 0
-STORE 0
-lbl_end_intValue@Integer: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Integer: 
 LOADFP
 LOADSP
 STOREFP
@@ -297,9 +228,92 @@ RET 0
 
 
 .DATA
-VT@String: NOP
+VT@Object: NOP
 .CODE
-lbl_builder@String: 
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_builder@Object: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+PUSH 0
+PUSH lbl_m1@Init
+CALL
+FMEM 0
+lbl_end_main@Init: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_m1@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+PUSH 2
+PUSH 2
+ADD
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH 2
+DIV
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+PUSH 5
+PUSH 2
+MOD
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH 2
+MUL
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+PUSH 10
+PUSH 10
+ADD
+PUSH lbl_printIln@System
+CALL
+FMEM 0
+lbl_end_m1@Init: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_builder@Init: 
 LOADFP
 LOADSP
 STOREFP

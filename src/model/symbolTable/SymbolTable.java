@@ -151,6 +151,7 @@ public class SymbolTable extends Element {
         debugPrint.setBloque(new NodoBloqueVacio());
         debugPrint.pass();
         debugPrint.setOffset(0);
+        debugPrint.setBloque(new NodoBloqueDebugPrint());
     }
 
     private void createString() {

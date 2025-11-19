@@ -1,4 +1,6 @@
 .CODE
+PUSH simple_heap_init
+CALL
 PUSH lbl_main@Init8
 CALL
 HALT
@@ -22,16 +24,33 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_debugPrint@Object: 
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
+RMEM 0
 LOAD 3
-IPRINT
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
+FMEM 0
+STORE 0
+lbl_end_intValue@Integer: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
 STOREFP
 RET 1
+
 
 
 .DATA
@@ -65,62 +84,62 @@ RET 1
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Init8: NOP
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_main@Init8: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_booleanValue@Boolean
+PUSH 0
+PUSH 0
+PUSH lbl_m1@Init8
+CALL
 FMEM 0
-STORE 0
-lbl_end_booleanValue@Boolean: NOP
+lbl_end_main@Init8: NOP
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Boolean: 
+lbl_m1@Init8: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH 1
+ADD
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH 1
+SUB
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+FMEM 0
+lbl_end_m1@Init8: NOP
 FMEM 0
 STOREFP
-RET 1
+RET 2
 
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
+lbl_builder@Init8: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-FMEM 0
-STORE 0
-lbl_end_intValue@Integer: NOP
 FMEM 0
 STOREFP
 RET 0
-
-lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 1
 
 
 
@@ -255,55 +274,20 @@ RET 0
 
 
 .DATA
-VT@Init8: NOP
+VT@Object: NOP
 .CODE
-lbl_main@Init8: 
+lbl_debugPrint@Object: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-PUSH 0
-PUSH 0
-PUSH lbl_m1@Init8
-CALL
-FMEM 0
-lbl_end_main@Init8: NOP
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
 FMEM 0
 STOREFP
-RET 0
+RET 1
 
-lbl_m1@Init8: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 1
-ADD
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH 1
-SUB
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-FMEM 0
-lbl_end_m1@Init8: NOP
-FMEM 0
-STOREFP
-RET 2
-
-lbl_builder@Init8: 
+lbl_builder@Object: 
 LOADFP
 LOADSP
 STOREFP
@@ -325,6 +309,36 @@ RMEM 0
 FMEM 0
 STOREFP
 RET 0
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
+FMEM 0
+STORE 0
+lbl_end_booleanValue@Boolean: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 1
 
 
 
