@@ -1,6 +1,7 @@
 package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
 import model.codeGeneration.CodeGenConfig;
@@ -109,39 +110,41 @@ public class NodoLLamadaMetodo extends NodoExpresion {
 
     @Override
     public void gen(OutputManager o) {
-        System.out.println("gen en NodoLLamadaMetodo: " + metodo.getLexeme());
         Token tokenM = belongingClass.getMethods().getTokenByName(metodo.getLexeme());
         Method m = (Method) belongingClass.getMethods().get(tokenM);
 
-        List dynamicMethods = belongingClass.getMethods();
-        if(belongingClass instanceof model.symbolTable.Class c){
-            dynamicMethods = c.getNonStaticMethods();
+        boolean isVoid = m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation());
+        boolean isStatic = m.getModifier() != null && m.getModifier().getTokenType().equals(reservedStatic);
+
+        if (!isVoid) {
+            o.gen(Instructions.RMEM + " 1");
         }
 
-        belongingClass.sortByOffset(dynamicMethods);
-        belongingClass.setOffsets(dynamicMethods);
-
-//        if(!m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
-//            o.gen(Instructions.RMEM + " 1");
-//        }
-
-        for(NodoExpresion n : argumentos){
-            n.gen(o);
+        if(!isStatic){
+            o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
         }
 
-        if(m.getModifier().getLexeme().equals(reservedStatic.getTypeExplanation())){
+        for(NodoExpresion a: argumentos){
+            a.gen(o);
+            if(!isStatic){
+                o.gen(Instructions.SWAP.toString());
+            }
+        }
+
+        if(isStatic){
             o.gen(Instructions.PUSH + " lbl_" + metodo.getLexeme() + "@" + m.getCreator().getName().getLexeme());
+            o.gen(Instructions.CALL.toString());
         }
         else{
-//            o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
-//            o.gen(Instructions.DUP.toString());
-//            o.gen(Instructions.LOADREF + " 0");
-//            o.gen(Instructions.LOADREF + " " + m.getOffset());
+            o.gen(Instructions.DUP.toString());
+            o.gen(Instructions.LOADREF + " 0");
+            o.gen(Instructions.LOADREF + " " + m.getOffset());
+            o.gen(Instructions.CALL.toString());
         }
 
-        //o.printStackTop();
-
-        o.gen(Instructions.CALL.toString());
+        if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
+            encadenado.gen(o, m.getReturnType());
+        }
     }
 
     public Encadenado getEncadenado() {
