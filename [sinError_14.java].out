@@ -35,62 +35,56 @@ RET 1
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@TestReturn: DW lbl_f@TestReturn
 .CODE
-lbl_charValue@Character: 
+lbl_main@TestReturn: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
 FMEM 0
-STORE 0
-lbl_end_charValue@Character: NOP
+lbl_end_main@TestReturn: NOP
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Character: 
+lbl_f@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+PUSH 5
+STORE 3
+JUMP lbl_end_f@TestReturn
+FMEM 0
+STORE 0
+lbl_end_f@TestReturn: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@TestReturn: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
 FMEM 0
 STOREFP
-RET 1
+RET 0
 
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@String: NOP
 .CODE
-lbl_intValue@Integer: 
+lbl_builder@String: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-FMEM 0
-STORE 0
-lbl_end_intValue@Integer: NOP
 FMEM 0
 STOREFP
 RET 0
-
-lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 1
 
 
 
@@ -225,46 +219,6 @@ RET 0
 
 
 .DATA
-VT@TestReturn: DW lbl_f@TestReturn
-.CODE
-lbl_main@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-lbl_end_main@TestReturn: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_f@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-PUSH 5
-STORE 3
-JUMP lbl_end_f@TestReturn
-FMEM 0
-STORE 0
-lbl_end_f@TestReturn: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
 VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
@@ -295,16 +249,62 @@ RET 1
 
 
 .DATA
-VT@String: NOP
+VT@Character: DW lbl_charValue@Character
 .CODE
-lbl_builder@String: 
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
+FMEM 0
+STORE 0
+lbl_end_charValue@Character: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
 FMEM 0
 STOREFP
+RET 1
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
+FMEM 0
+STORE 0
+lbl_end_intValue@Integer: NOP
+FMEM 0
+STOREFP
 RET 0
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 1
 
 
 

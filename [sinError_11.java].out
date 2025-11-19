@@ -22,16 +22,122 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
+VT@A: DW lbl_mc@A
 .CODE
-lbl_debugPrint@Object: 
+lbl_mc@A: 
 LOADFP
 LOADSP
 STOREFP
+RMEM 0
+PUSH 1234
+PUSH lbl_debugPrint@Object
+CALL
+FMEM 0
+lbl_end_mc@A: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@A: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
 LOAD 3
-IPRINT
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
+FMEM 0
+STORE 0
+lbl_end_intValue@Integer: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
 STOREFP
 RET 1
+
+
+
+.DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+RMEM 1
+RMEM 1
+PUSH 2
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@A
+STOREREF 0
+DUP
+LOADSP
+SWAP
+STOREREF 03
+PUSH lbl_builder@A
+CALL
+FMEM 1
+STORE 0
+LOAD 0
+DUP
+LOADREF 0
+LOADREF 0
+CALL
+LOADREF 1
+FMEM 1
+lbl_end_main@Init: NOP
+FMEM 1
+STOREFP
+RET 0
+
+lbl_builder@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
 
 
 .DATA
@@ -62,6 +168,19 @@ FMEM 0
 STOREFP
 RET 1
 
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+STOREFP
+RET 1
 
 
 .DATA
@@ -221,125 +340,6 @@ RMEM 0
 FMEM 0
 STOREFP
 RET 0
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-RMEM 1
-RMEM 1
-PUSH 2
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@A
-STOREREF 0
-DUP
-LOADSP
-SWAP
-STOREREF 03
-PUSH lbl_builder@A
-CALL
-FMEM 1
-STORE 0
-LOAD 0
-DUP
-LOADREF 0
-LOADREF 0
-CALL
-LOADREF 1
-FMEM 1
-lbl_end_main@Init: NOP
-FMEM 1
-STOREFP
-RET 0
-
-lbl_builder@Init: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@A: DW lbl_mc@A
-.CODE
-lbl_mc@A: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-PUSH 1234
-PUSH lbl_debugPrint@Object
-CALL
-FMEM 0
-lbl_end_mc@A: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@A: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-FMEM 0
-STORE 0
-lbl_end_intValue@Integer: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 1
 
 
 
