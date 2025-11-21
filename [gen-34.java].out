@@ -110,6 +110,7 @@ lbl_while_inicio@10: NOP
 LOAD 3
 LOADREF 1
 PUSH 3
+LT
 BF lbl_while_fin@10
 LOAD 3
 LOADREF 1
@@ -132,6 +133,7 @@ lbl_while_inicio@15: NOP
 LOAD 3
 LOADREF 1
 PUSH 8
+GT
 BF lbl_while_fin@15
 LOAD 3
 LOADREF 1

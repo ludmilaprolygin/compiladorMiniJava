@@ -132,6 +132,23 @@ public class NodoExpresionBinaria extends NodoExpresion {
         else if(operador.getTokenType() == TokenType.modOp){
             o.gen(Instructions.MOD.toString());
         }
-        // TODO: faltan
+        else if(operador.getTokenType() == TokenType.lesserOp){
+            o.gen(Instructions.LT.toString());
+        }
+        else if(operador.getTokenType() == TokenType.lesserEqualOp){
+            o.gen(Instructions.LE.toString());
+        }
+        else if(operador.getTokenType() == TokenType.greaterOp){
+            o.gen(Instructions.GT.toString());
+        }
+        else if(operador.getTokenType() == TokenType.greaterEqualOp){
+            o.gen(Instructions.GE.toString());
+        }
+        else if(operador.getTokenType() == TokenType.andOp){
+            o.gen(Instructions.AND.toString());
+        }
+        else if(operador.getTokenType() == TokenType.orOp){
+            o.gen(Instructions.OR.toString());
+        }
     }
 }

@@ -181,7 +181,8 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
-        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+
 
         if (varAsociada instanceof Parameter p) {
             int baseParamDyn = CodeGenConfig.PARAM_OFFSET_DYNAMIC;
