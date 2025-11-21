@@ -9,7 +9,12 @@ public enum Comments {
     RESTORE_FP       ("; restaurar FP"),
     RESERVE_VARS     ("; reservar espacio para variables locales"),
     FREE_VARS        ("; liberar espacio de variables locales"),
-    SAVE_RETURN_VALUE("; guardar valor de retorno"),;
+    SAVE_RETURN_VALUE("; guardar valor de retorno"),
+    PROLOGUE_INIT    ("; --- INICIO PROLOGO ---"),
+    EPILOGUE_INIT    ("; --- INICIO EPILOGO ---"),
+    PROLOGUE_END     ("; --- FIN PROLOGO ---"),
+    EPILOGUE_END     ("; --- FIN EPILOGO ---")
+    ;
 
     private final String comment;
 
