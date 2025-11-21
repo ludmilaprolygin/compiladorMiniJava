@@ -24,6 +24,30 @@ RET 1
 
 
 .DATA
+VT@B: DW lbl_m2@B
+DW lbl_m1@A
+.CODE
+lbl_m2@B: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 2
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_m2@B: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@B: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
@@ -166,91 +190,6 @@ RET 1
 
 
 .DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 3; reservar espacio para variables locales (3)
-RMEM 1
-PUSH 1
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@A
-STOREREF 0
-DUP
-PUSH lbl_builder@A
-CALL
-STORE 0
-LOAD 0
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo
-CALL
-RMEM 1
-PUSH 1
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@B
-STOREREF 0
-DUP
-PUSH lbl_builder@B
-CALL
-STORE -1
-LOAD -1
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo
-CALL
-LOAD -1
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
-CALL
-RMEM 1
-PUSH 1
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@C
-STOREREF 0
-DUP
-PUSH lbl_builder@C
-CALL
-STORE -2
-LOAD -2
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
-CALL
-LOAD -2
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
-CALL
-LOAD -2
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo
-CALL
-lbl_end_main@Init: NOP
-FMEM 3; liberar espacio de variables locales (3)
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
 VT@Object: NOP
 .CODE
 lbl_debugPrint@Object: 
@@ -264,42 +203,6 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@C: DW lbl_m1@C
-DW lbl_m3@C
-DW lbl_m2@B
-.CODE
-lbl_m1@C: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 11
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_m1@C: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_m3@C: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 3
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_m3@C: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@C: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -330,18 +233,6 @@ LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 STOREFP; restaurar FP
 RET 2
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
 
 
 
@@ -394,21 +285,130 @@ RET 1
 
 
 .DATA
-VT@B: DW lbl_m2@B
-DW lbl_m1@A
+VT@String: NOP
 .CODE
-lbl_m2@B: 
+lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-PUSH 2
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_m2@B: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@B: 
+
+
+.DATA
+VT@C: DW lbl_m1@C
+DW lbl_m3@C
+DW lbl_m2@B
+.CODE
+lbl_m1@C: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 11
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_m1@C: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_m3@C: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 3
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_m3@C: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@C: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 3; reservar espacio para variables locales (3)
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@A
+STOREREF 0
+DUP
+PUSH lbl_builder@A
+CALL
+STORE 0
+LOAD 0
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 0; cargar metodo
+CALL
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@B
+STOREREF 0
+DUP
+PUSH lbl_builder@B
+CALL
+STORE -1
+LOAD -1
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 0; cargar metodo
+CALL
+LOAD -1
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 2; cargar metodo
+CALL
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@C
+STOREREF 0
+DUP
+PUSH lbl_builder@C
+CALL
+STORE -2
+LOAD -2
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 0; cargar metodo
+CALL
+LOAD -2
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 2; cargar metodo
+CALL
+LOAD -2
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo
+CALL
+lbl_end_main@Init: NOP
+FMEM 3; liberar espacio de variables locales (3)
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@Init: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
