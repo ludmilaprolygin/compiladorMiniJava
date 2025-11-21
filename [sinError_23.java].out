@@ -256,16 +256,24 @@ lbl_main@TestWhile:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-RMEM 2; reservar espacio para variables locales(2)
+RMEM 2; reservar espacio para variables locales (2)
 PUSH 0
 STORE 0
+PUSH 1
+STORE -1
+LOAD 0
+PUSH lbl_debugPrint@Object
+CALL
+LOAD -1
+PUSH lbl_debugPrint@Object
+CALL
 PUSH 0
 STORE -1
-lbl_while_inicio@8: NOP
+lbl_while_inicio@11: NOP
 LOAD 0
 PUSH 5
 LT
-BF lbl_while_fin@8
+BF lbl_while_fin@11
 LOAD 0
 LOAD 0
 ADD
@@ -277,13 +285,13 @@ STORE 0
 LOAD 0
 PUSH lbl_debugPrint@Object
 CALL
-JUMP lbl_while_inicio@8
-lbl_while_fin@8: NOP
+JUMP lbl_while_inicio@11
+lbl_while_fin@11: NOP
 LOAD -1
 PUSH lbl_debugPrint@Object
 CALL
 lbl_end_main@TestWhile: NOP
-FMEM 2; liberar espacio de variables locales(2)
+FMEM 2; liberar espacio de variables locales (2)
 STOREFP; restaurar FP
 RET 0
 

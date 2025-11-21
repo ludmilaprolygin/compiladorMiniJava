@@ -184,7 +184,7 @@ lbl_main@TestReturn:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-RMEM 1; reservar espacio para variables locales(1)
+RMEM 1; reservar espacio para variables locales (1)
 RMEM 1; reservar lugar para el retorno
 PUSH lbl_f@TestReturn
 CALL
@@ -193,7 +193,7 @@ LOAD 0
 PUSH lbl_debugPrint@Object
 CALL
 lbl_end_main@TestReturn: NOP
-FMEM 1; liberar espacio de variables locales(1)
+FMEM 1; liberar espacio de variables locales (1)
 STOREFP; restaurar FP
 RET 0
 

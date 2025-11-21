@@ -159,7 +159,7 @@ lbl_main@Init:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-RMEM 2; reservar espacio para variables locales(2)
+RMEM 2; reservar espacio para variables locales (2)
 RMEM 1
 PUSH 1
 PUSH simple_malloc
@@ -190,7 +190,7 @@ LOADREF 0; cargar la VT
 LOADREF 1; cargar metodo
 CALL
 lbl_end_main@Init: NOP
-FMEM 2; liberar espacio de variables locales(2)
+FMEM 2; liberar espacio de variables locales (2)
 STOREFP; restaurar FP
 RET 0
 

@@ -31,6 +31,6 @@ public enum Comments {
         return comment;
     }
     public String getComment(int n){
-        return comment + "(" + n + ")";
+        return comment + " (" + n + ")";
     }
 }

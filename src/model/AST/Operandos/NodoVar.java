@@ -144,7 +144,16 @@ public class NodoVar extends NodoOperando implements Var {
         if (toReturn){
             throw new SemanticException(SemanticErrorIIMessage.variableAlreadyExists(token));
         }
-        varAsociada = this;
+        for(NodoOperando e : st.getCurrentService().getBloque().getVariables()){
+            NodoVar n = (NodoVar) e;
+            if(n.getTokenName() != null && this.getToken() != null && n.getTokenName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
+                //toReturn = true;
+                varAsociada = n;
+                throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
+            }
+            t = n.getTokenName();
+        }
+        //varAsociada = this;
     }
 
     public Encadenado getLastEncadenado (){

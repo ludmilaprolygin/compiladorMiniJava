@@ -77,7 +77,7 @@ lbl_main@PorFavorFunciona:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-RMEM 2; reservar espacio para variables locales(2)
+RMEM 2; reservar espacio para variables locales (2)
 PUSH 0
 STORE 0
 LOAD 0
@@ -93,7 +93,7 @@ LOAD 0
 PUSH lbl_debugPrint@Object
 CALL
 lbl_end_main@PorFavorFunciona: NOP
-FMEM 2; liberar espacio de variables locales(2)
+FMEM 2; liberar espacio de variables locales (2)
 STOREFP; restaurar FP
 RET 0
 
