@@ -4,12 +4,15 @@ import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoExpresionVacia;
 import model.AST.Expresiones.NodoThis;
 import model.Token;
+import model.codeGeneration.CodeGenConfig;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
+import static model.TokenType.reservedStatic;
 import static model.TokenType.reservedVoid;
 
 public class NodoReturn extends NodoSentencia {
@@ -82,17 +85,28 @@ public class NodoReturn extends NodoSentencia {
 
     @Override
     public void gen(OutputManager o) {
+        int cantParams = method.getParameters().size();
+        boolean isStatic = method.getModifier() != null && method.getModifier().getTokenType().equals(reservedStatic);
+
         if(method instanceof Method m && !m.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation())){
             expresion.gen(o);
-            int m_size = m.getParameters().size();
-            int retOffset = m_size + 3;
-            o.gen(Instructions.STORE + " " + retOffset);
+            int retOffset = cantParams + Integer.parseInt(CodeGenConfig.OFFSET_THIS);
+
+            retOffset = !isStatic ? retOffset + 1 : retOffset;
+            o.gen(Instructions.STORE + " " + retOffset + Comments.SAVE_RETURN_VALUE.getComment());
         }
 
-        generarSaltoAlFinalDelMetodo(o);
+        //generarSaltoAlFinalDelMetodo(o);
 
+        int cantVars = method.getBloque().getVariables().size();
 
+        if (cantVars > 0) {
+            o.gen(Instructions.FMEM + " " + cantVars + Comments.FREE_VARS.getComment());
+        }
 
+        int fMEM = isStatic ? cantParams : cantParams + 1;
+
+        o.epilogue(fMEM);
     }
 
     private void generarSaltoAlFinalDelMetodo(OutputManager o) {

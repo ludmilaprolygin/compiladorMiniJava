@@ -76,10 +76,6 @@ public class Method extends Service {
 
             bloque.gen(o);
 
-//            if(!isVoid){
-//                o.gen(Instructions.STORE + " " + cantVars);
-//            }
-
             String methodName = getName().getLexeme();
             String className  = getCreator().getName().getLexeme();
             String lblEnd = "lbl_end_" + methodName + "@" + className;

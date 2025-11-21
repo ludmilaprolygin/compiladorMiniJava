@@ -8,7 +8,8 @@ public enum Comments {
     STORE_STACK_TOP  ("; almacenar FP en el tope de la pila"),
     RESTORE_FP       ("; restaurar FP"),
     RESERVE_VARS     ("; reservar espacio para variables locales"),
-    FREE_VARS        ("; liberar espacio de variables locales"),;
+    FREE_VARS        ("; liberar espacio de variables locales"),
+    SAVE_RETURN_VALUE("; guardar valor de retorno"),;
 
     private final String comment;
 

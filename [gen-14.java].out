@@ -32,8 +32,9 @@ LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 3
 LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
 lbl_end_intValue@Integer: NOP
 STOREFP; restaurar FP
 RET 1
@@ -91,8 +92,9 @@ LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 3
 LOADREF 1
-STORE 3
-JUMP lbl_end_booleanValue@Boolean
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
 lbl_end_booleanValue@Boolean: NOP
 STOREFP; restaurar FP
 RET 1
@@ -115,8 +117,9 @@ LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 3
 LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
 lbl_end_charValue@Character: NOP
 STOREFP; restaurar FP
 RET 1
