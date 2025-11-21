@@ -29,15 +29,19 @@ public class Builder extends Service {
 
     @Override
     public void gen(OutputManager o) throws GenerationException {
+        //System.out.println("entra a gen de builder " + name.getLexeme());
+
         o.prologue();
 
         if(localVarCount > 0) {
             o.gen(Instructions.RMEM + " " + localVarCount);
         }
 
-        if(!(bloque instanceof NodoBloqueVacio)){
-            bloque.gen(o);
-        }
+//        if(!(bloque instanceof NodoBloqueVacio)){
+//            bloque.gen(o);
+//        }
+        bloque.gen(o);
+//        bloque.toString(5);
 
         if(localVarCount > 0) {
             o.gen(Instructions.FMEM + " " + localVarCount);

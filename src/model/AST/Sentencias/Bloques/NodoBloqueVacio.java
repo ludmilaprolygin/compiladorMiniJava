@@ -25,5 +25,7 @@ public class NodoBloqueVacio extends NodoBloque {
     public void checkThisOnStaticContext() throws SemanticException {}
 
     @Override
-    public void gen(OutputManager o) { }
+    public void gen(OutputManager o) {
+        // No genera nada porque es un bloque vacio
+    }
 }

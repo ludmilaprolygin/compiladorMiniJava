@@ -230,7 +230,7 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.LOAD + " " + v.getOffset());
             }
         }
-        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         AbstractType a;
         if(tipo == null || tipo instanceof UniversalType){
