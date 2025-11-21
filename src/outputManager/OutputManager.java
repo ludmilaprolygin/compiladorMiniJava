@@ -63,7 +63,7 @@ public class OutputManager {
     }
 
     public void epilogue(int parametersSize){
-        gen(Instructions.STOREFP.toString());
+        gen(Instructions.STOREFP.toString() + Comments.RESTORE_FP.getComment());
         gen(Instructions.RET + " " + parametersSize);
     }
 

@@ -4,6 +4,7 @@ import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.AST.Sentencias.NodoReturn;
 import model.Token;
 import model.TokenType;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
 import utils.exceptions.GenerationException;
@@ -71,13 +72,13 @@ public class Method extends Service {
                     .equals(TokenType.reservedVoid.getTypeExplanation());
 
             if (cantVars > 0)
-                o.gen(Instructions.RMEM + " " + cantVars);
+                o.gen(Instructions.RMEM + " " + cantVars + Comments.RESERVE_VARS.getComment(cantVars));
 
             bloque.gen(o);
 
-            if(!isVoid){
-                o.gen(Instructions.STORE + " " + cantVars);
-            }
+//            if(!isVoid){
+//                o.gen(Instructions.STORE + " " + cantVars);
+//            }
 
             String methodName = getName().getLexeme();
             String className  = getCreator().getName().getLexeme();
@@ -86,7 +87,7 @@ public class Method extends Service {
             o.gen(lblEnd + ": " + Instructions.NOP);
 
             if(cantVars > 0){
-                o.gen(Instructions.FMEM + " " + cantVars);
+                o.gen(Instructions.FMEM + " " + cantVars + Comments.FREE_VARS.getComment(cantVars));
             }
 
             boolean isStatic = getModifier() != null && getModifier().getTokenType().equals(reservedStatic);
