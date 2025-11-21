@@ -24,19 +24,9 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
+VT@String: NOP
 .CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
+lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -108,43 +98,6 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@Character: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 1
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_booleanValue@Boolean: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Boolean: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -292,6 +245,53 @@ LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 STOREFP; restaurar FP
 RET 2
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 1
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_booleanValue@Boolean: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
 
 
 

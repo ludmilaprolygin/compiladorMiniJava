@@ -24,42 +24,6 @@ RET 1
 
 
 .DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 1
-PUSH lbl_m1@Init
-CALL
-lbl_end_main@Init: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_m1@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 0
-STORE 4
-LOAD 4
-PUSH lbl_printIln@System
-CALL
-lbl_end_m1@Init: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
 VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
@@ -98,18 +62,6 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -227,6 +179,54 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@System: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 1
+PUSH lbl_m1@Init
+CALL
+lbl_end_main@Init: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_m1@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 0
+STORE 4
+LOAD 4
+PUSH lbl_printIln@System
+CALL
+lbl_end_m1@Init: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila

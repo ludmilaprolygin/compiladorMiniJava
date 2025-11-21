@@ -72,7 +72,6 @@ LOAD 4
 PUSH 1
 ADD
 STORE 4
-POP; liberar valor de retorno
 LOAD 4
 PUSH lbl_printIln@System
 CALL

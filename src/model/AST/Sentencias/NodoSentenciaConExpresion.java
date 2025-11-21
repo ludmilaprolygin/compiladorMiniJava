@@ -2,6 +2,7 @@ package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
 import model.AST.Expresiones.NodoExpresionAsignacion;
+import model.AST.Expresiones.NodoExpresionUnaria;
 import model.AST.Expresiones.NodoThis;
 import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
@@ -41,7 +42,7 @@ public class NodoSentenciaConExpresion extends NodoSentencia {
         expresion.gen(o);
 
        if(!(tipoExpresion.getName().getLexeme().equals(reservedVoid.getTypeExplanation()))){
-            if(!(expresion instanceof NodoExpresionAsignacion)){
+            if(!(expresion instanceof NodoExpresionAsignacion) && !(expresion instanceof NodoExpresionUnaria) ){
                 o.gen(Instructions.POP.toString() + Comments.FREE_RETURN_VALUE.getComment());
             }
         }
