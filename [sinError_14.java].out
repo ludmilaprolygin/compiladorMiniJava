@@ -24,78 +24,6 @@ RET 1
 
 
 .DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP
-RET 1
-
-lbl_builder@Object: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@TestReturn: DW lbl_f@TestReturn
-.CODE
-lbl_main@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-lbl_end_main@TestReturn: NOP
-STOREFP
-RET 0
-
-lbl_f@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 5
-STORE 3
-JUMP lbl_end_f@TestReturn
-STORE 0
-lbl_end_f@TestReturn: NOP
-STOREFP
-RET 1
-
-lbl_builder@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
 VT@System: NOP
 .CODE
 lbl_read@System: 
@@ -208,10 +136,20 @@ lbl_builder@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 0
+RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
 
 
 
@@ -235,35 +173,38 @@ lbl_builder@Integer:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 1
+RET 2
 
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@TestReturn: DW lbl_f@TestReturn
 .CODE
-lbl_charValue@Character: 
+lbl_main@TestReturn: 
 LOADFP
 LOADSP
 STOREFP
-LOAD 3
-LOADREF 1
+lbl_end_main@TestReturn: NOP
+STOREFP
+RET 0
+
+lbl_f@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 5
 STORE 3
-JUMP lbl_end_charValue@Character
+JUMP lbl_end_f@TestReturn
 STORE 0
-lbl_end_charValue@Character: NOP
+lbl_end_f@TestReturn: NOP
 STOREFP
 RET 1
 
-lbl_builder@Character: 
+lbl_builder@TestReturn: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
 RET 1
 
@@ -289,8 +230,53 @@ lbl_builder@Boolean:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
+STOREFP
+RET 2
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
+STORE 0
+lbl_end_charValue@Character: NOP
+STOREFP
+RET 1
+
+lbl_builder@Character: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 2
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP
+RET 1
+
+lbl_builder@Object: 
+LOADFP
+LOADSP
+STOREFP
 STOREFP
 RET 1
 

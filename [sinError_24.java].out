@@ -24,42 +24,49 @@ RET 1
 
 
 .DATA
-VT@SinError24: NOP
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_main@SinError24: 
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
-PUSH 0
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 1
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 2
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 3
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 4
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 5
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@SinError24: NOP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
+STORE 0
+lbl_end_intValue@Integer: NOP
 STOREFP
-RET 0
+RET 1
 
-lbl_builder@SinError24: 
+lbl_builder@Integer: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 0
+RET 2
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP
+RET 1
+
+lbl_builder@Object: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
 
 
 
@@ -83,10 +90,8 @@ lbl_builder@Character:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 1
+RET 2
 
 
 
@@ -110,51 +115,8 @@ lbl_builder@Boolean:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 1
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-STORE 0
-lbl_end_intValue@Integer: NOP
-STOREFP
-RET 1
-
-lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
+RET 2
 
 
 
@@ -271,34 +233,58 @@ lbl_builder@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 
 
 .DATA
-VT@Object: NOP
+VT@SinError24: NOP
 .CODE
-lbl_debugPrint@Object: 
+lbl_main@SinError24: 
 LOADFP
 LOADSP
 STOREFP
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
+PUSH 0
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 1
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 2
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 3
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 4
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 5
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_main@SinError24: NOP
+STOREFP
+RET 0
+
+lbl_builder@SinError24: 
+LOADFP
+LOADSP
+STOREFP
 STOREFP
 RET 1
 
-lbl_builder@Object: 
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 
 

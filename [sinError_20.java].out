@@ -24,67 +24,14 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP
-RET 1
-
-lbl_builder@Object: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-STORE 0
-lbl_end_intValue@Integer: NOP
-STOREFP
-RET 1
-
-lbl_builder@Integer: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 1
-
-
-
-.DATA
 VT@String: NOP
 .CODE
 lbl_builder@String: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 
 
@@ -108,50 +55,30 @@ lbl_builder@Boolean:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 1
+RET 2
 
 
 
 .DATA
-VT@T3: NOP
+VT@Object: NOP
 .CODE
-lbl_main@T3: 
+lbl_debugPrint@Object: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 1
-PUSH 0
-STORE 0
-PUSH 1
-PUSH 1
-EQ
-BF lbl_else@6
-PUSH 10
-STORE 0
-JUMP lbl_fin_if@6
-lbl_else@6: NOP
-PUSH 20
-STORE 0
-lbl_fin_if@6: NOP
-LOAD 0
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@T3: NOP
-FMEM 1
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
 STOREFP
-RET 0
+RET 1
 
-lbl_builder@T3: 
+lbl_builder@Object: 
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 
 
@@ -268,10 +195,8 @@ lbl_builder@System:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 
 
@@ -295,8 +220,69 @@ lbl_builder@Character:
 LOADFP
 LOADSP
 STOREFP
-RMEM 0
-FMEM 0
+STOREFP
+RET 2
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
+STORE 0
+lbl_end_intValue@Integer: NOP
+STOREFP
+RET 1
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 2
+
+
+
+.DATA
+VT@T3: NOP
+.CODE
+lbl_main@T3: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+PUSH 0
+STORE 0
+PUSH 1
+PUSH 1
+EQ
+BF lbl_else@6
+PUSH 10
+STORE 0
+JUMP lbl_fin_if@6
+lbl_else@6: NOP
+PUSH 20
+STORE 0
+lbl_fin_if@6: NOP
+LOAD 0
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_main@T3: NOP
+FMEM 1
+STOREFP
+RET 0
+
+lbl_builder@T3: 
+LOADFP
+LOADSP
+STOREFP
 STOREFP
 RET 1
 

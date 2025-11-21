@@ -1,6 +1,7 @@
 package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
+import model.AST.Encadenados.EncadenadoVacio;
 import model.Token;
 import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
@@ -76,13 +77,6 @@ public class NodoLLamadaConstructor extends NodoExpresion {
 
         o.gen(Instructions.RMEM + " 1");
 
-        for(NodoExpresion n : parametros){
-            n.gen(o);
-            o.gen(Instructions.SWAP.toString());
-        }
-
-        o.gen(Instructions.RMEM + " 1");
-
         o.gen(Instructions.PUSH + " " + CIRsize);
         o.gen(CodeGenConfig.PUSH_MALLOC);
         o.gen(Instructions.CALL.toString());
@@ -91,19 +85,18 @@ public class NodoLLamadaConstructor extends NodoExpresion {
         o.gen(Instructions.PUSH + " VT@" + classType.getName().getLexeme());
         o.gen(Instructions.STOREREF + " 0");
 
+        for(NodoExpresion n : parametros){
+            n.gen(o);
+            o.gen(Instructions.SWAP.toString());
+        }
+
         o.gen(Instructions.DUP.toString());
-
-        o.gen(Instructions.LOADSP.toString());
-        o.gen(Instructions.SWAP.toString());
-        o.gen(Instructions.STOREREF + " " + (parametros.size() + OFFSET_THIS));
-
         o.gen(Instructions.PUSH + " lbl_builder@" + classType.getName().getLexeme());
-
-        //o.printStackTop();
-
         o.gen(Instructions.CALL.toString());
 
-        o.gen(Instructions.FMEM + " 1");
+        if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
+            encadenado.gen(o, classType);
+        }
     }
 
 
