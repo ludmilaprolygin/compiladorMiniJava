@@ -17,8 +17,8 @@ public enum Comments {
     LOAD_VTABLE      ("; cargar la VT"),
     DUP_THIS         ("; duplicar this"),
     LOAD_METHOD      ("; cargar metodo"),
-    FREE_RETURN_VALUE("; liberar valor de retorno")
-    ;
+    FREE_RETURN_VALUE("; liberar valor de retorno"),
+    NULL             ("; valor null");
 
 
     private final String comment;

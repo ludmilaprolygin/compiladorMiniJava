@@ -191,7 +191,7 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
-        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
 
         if (varAsociada instanceof Parameter p) {
@@ -222,7 +222,7 @@ public class NodoVar extends NodoOperando implements Var {
         }
         else if(varAsociada instanceof NodoVar v) {
             setOffsetsForVarLocal();
-            System.out.println("offset local de " + v.getTokenName().getLexeme() + ": " + v.getOffset());
+            //System.out.println("offset local de " + v.getTokenName().getLexeme() + ": " + v.getOffset());
             if (esLadoIzq) {
                 o.gen(Instructions.STORE + " " + v.getOffset());
             }

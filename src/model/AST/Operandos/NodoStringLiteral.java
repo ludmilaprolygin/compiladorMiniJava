@@ -17,4 +17,7 @@ public class NodoStringLiteral extends NodoOperando{
     public AbstractType check() throws SemanticException {
         return new ClassType(token);
     }
+    public void gen(OutputManager o){
+        //o.gen(";-------------------- STRING ------------------------------");
+    }
 }
