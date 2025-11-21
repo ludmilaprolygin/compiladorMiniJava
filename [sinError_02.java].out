@@ -253,14 +253,14 @@ LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 PUSH 5
-STORE 4
-LOAD 4
+STORE 3
+LOAD 3
 PUSH lbl_printIln@System
 CALL
-LOAD 5
+LOAD 4
 PUSH lbl_printBln@System
 CALL
-LOAD 3
+LOAD 5
 PUSH lbl_printCln@System
 CALL
 lbl_end_m1@Init: NOP

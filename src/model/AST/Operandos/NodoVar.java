@@ -14,6 +14,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
 import static model.TokenType.reservedVoid;
+import static model.codeGeneration.CodeGenConfig.PARAM_OFFSET;
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class NodoVar extends NodoOperando implements Var {
@@ -195,14 +196,18 @@ public class NodoVar extends NodoOperando implements Var {
 
 
         if (varAsociada instanceof Parameter p) {
-            int baseParamDyn = CodeGenConfig.PARAM_OFFSET_DYNAMIC;
+            int baseParam = CodeGenConfig.PARAM_OFFSET;
+            if(symbolTable().getCurrentService() instanceof Method m && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedStatic)){
+                baseParam--;
+            }
+
             int computedOffset;
             int pOff = p.getOffset();
-            if (pOff <= 0 || pOff >= baseParamDyn) {
-                computedOffset = pOff;
-            } else {
-                computedOffset = pOff + baseParamDyn;
-            }
+            System.out.println("en instanceof de Param: " + p.getOffset());
+            computedOffset = pOff + baseParam;
+
+
+            System.out.println("computed offset de " + p.getTokenName().getLexeme() + ": " + computedOffset);
 
             if (esLadoIzq) {
                 o.gen(Instructions.STORE + " " + computedOffset);
@@ -230,7 +235,7 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.LOAD + " " + v.getOffset());
             }
         }
-        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         AbstractType a;
         if(tipo == null || tipo instanceof UniversalType){

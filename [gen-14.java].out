@@ -158,10 +158,10 @@ CALL
 LOAD 5
 PUSH lbl_debugPrint@Object
 CALL
-LOAD 4
+LOAD 7
 PUSH lbl_debugPrint@Object
 CALL
-LOAD 3
+LOAD 6
 DUP; duplicar this
 LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo

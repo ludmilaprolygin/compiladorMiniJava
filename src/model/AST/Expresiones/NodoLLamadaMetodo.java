@@ -127,6 +127,9 @@ public class NodoLLamadaMetodo extends NodoExpresion {
 
         for(NodoExpresion a: argumentos){
             a.gen(o);
+            System.out.println(a.getClass().getSimpleName() + " " + a.toString(5));
+            if(a instanceof Var v)
+                System.out.println("   Offset var: " + v.getOffset());
             if(!isStatic){
                 o.gen(Instructions.SWAP.toString());
             }

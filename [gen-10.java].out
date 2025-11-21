@@ -233,7 +233,7 @@ CALL
 LOAD 5
 PUSH lbl_debugPrint@Object
 CALL
-LOAD 3
+LOAD 6
 PUSH lbl_debugPrint@Object
 CALL
 lbl_end_mc@A: NOP
