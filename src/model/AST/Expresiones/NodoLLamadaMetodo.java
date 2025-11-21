@@ -125,6 +125,8 @@ public class NodoLLamadaMetodo extends NodoExpresion {
             o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
         }
 
+        correctOffsets();
+
         for(NodoExpresion a: argumentos){
             a.gen(o);
             System.out.println(a.getClass().getSimpleName() + " " + a.toString(5));
@@ -153,5 +155,15 @@ public class NodoLLamadaMetodo extends NodoExpresion {
 
     public Encadenado getEncadenado() {
         return encadenado;
+    }
+
+    protected void correctOffsets(){
+        int i = argumentos.size();
+        for(NodoExpresion arg : argumentos){
+            if(arg instanceof Var v){
+                v.setOffset(i);
+            }
+            i--;
+        }
     }
 }

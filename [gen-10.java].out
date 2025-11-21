@@ -227,13 +227,13 @@ lbl_mc@A:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 4
+LOAD 6
 PUSH lbl_debugPrint@Object
 CALL
 LOAD 5
 PUSH lbl_debugPrint@Object
 CALL
-LOAD 6
+LOAD 4
 PUSH lbl_debugPrint@Object
 CALL
 lbl_end_mc@A: NOP

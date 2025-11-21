@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import model.AST.Expresiones.NodoExpresion;
 import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.AST.Sentencias.NodoReturn;
 import model.Token;
@@ -62,6 +63,8 @@ public class Method extends Service {
 
     @Override
     public void gen(OutputManager o) throws GenerationException {
+        correctOffsets();
+
         if(bloque instanceof NodoBloqueVacio){
             o.gen(Instructions.NOP.toString());
         } else {
@@ -90,6 +93,16 @@ public class Method extends Service {
             int fMEM = isStatic ? parameters.size() : parameters.size() + 1;
 
             o.epilogue(fMEM);
+        }
+    }
+
+    protected void correctOffsets(){
+        int i = parameters.size();
+        for(OffsetElement arg : parameters){
+            if(arg instanceof Var v){
+                v.setOffset(i);
+            }
+            i--;
         }
     }
 
