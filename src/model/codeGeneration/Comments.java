@@ -16,8 +16,10 @@ public enum Comments {
     EPILOGUE_END     ("; --- FIN EPILOGO ---"),
     LOAD_VTABLE      ("; cargar la VT"),
     DUP_THIS         ("; duplicar this"),
-    LOAD_METHOD      ("; cargar metodo")
+    LOAD_METHOD      ("; cargar metodo"),
+    FREE_RETURN_VALUE("; liberar valor de retorno")
     ;
+
 
     private final String comment;
 

@@ -7,12 +7,12 @@ class Init8{
     }
 
     static void m1(int p1, boolean p2){
-        System.printIln(p1);
-        ++p1;
-        System.printIln(p1);
-
-        System.printIln(p1);
-        --p1;
-        System.printIln(p1);
+//        System.printIln(p1);
+//        ++p1;
+//        System.printIln(p1);
+//
+//        System.printIln(p1);
+//        --p1;
+//        System.printIln(p1);
     }
 }

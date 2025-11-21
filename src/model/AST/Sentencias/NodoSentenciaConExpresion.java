@@ -1,20 +1,27 @@
 package model.AST.Sentencias;
 
 import model.AST.Expresiones.NodoExpresion;
+import model.AST.Expresiones.NodoExpresionAsignacion;
 import model.AST.Expresiones.NodoThis;
+import model.codeGeneration.Comments;
+import model.codeGeneration.Instructions;
+import model.symbolTable.AbstractType;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
+import static model.TokenType.reservedVoid;
+
 public class NodoSentenciaConExpresion extends NodoSentencia {
     public NodoExpresion expresion;
+    private AbstractType tipoExpresion;
     public NodoSentenciaConExpresion(NodoExpresion expresion) {
         this.expresion = expresion;
     }
 
     @Override
     public void check() throws SemanticException {
-        expresion.check();
+        tipoExpresion = expresion.check();
     }
 
     @Override
@@ -32,5 +39,11 @@ public class NodoSentenciaConExpresion extends NodoSentencia {
     @Override
     public void gen(OutputManager o) {
         expresion.gen(o);
+
+       if(!(tipoExpresion.getName().getLexeme().equals(reservedVoid.getTypeExplanation()))){
+            if(!(expresion instanceof NodoExpresionAsignacion)){
+                o.gen(Instructions.POP.toString() + Comments.FREE_RETURN_VALUE.getComment());
+            }
+        }
     }
 }
