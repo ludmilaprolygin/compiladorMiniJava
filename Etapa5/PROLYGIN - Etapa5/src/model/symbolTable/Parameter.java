@@ -1,0 +1,67 @@
+package model.symbolTable;
+
+import model.Token;
+import model.TokenType;
+import model.codeGeneration.Instructions;
+import outputManager.OutputManager;
+import utils.exceptions.SemanticException;
+import utils.messages.SemanticErrorIMessage;
+
+public class Parameter extends OffsetElement implements Var {
+    AbstractType type;
+    protected int offset;
+    public Parameter(Token n, AbstractType t) {
+
+        super(n);
+        type = t;
+    }
+
+    @Override
+    public void correctDeclaration() throws SemanticException {
+        SymbolTable st = SymbolTable.symbolTable();
+        if(st.getCurrentClass().getParametricType() != null &&
+            st.getCurrentClass().getParametricType().getName().getLexeme().equals(type.getName().getLexeme())) {}
+        else if(type.getName().getTokenType().equals(TokenType.idClase) &&
+                (!st.getClasses().contains(type.getName().getLexeme()) && !SymbolTable.symbolTable().getInterfaces().contains(type.getName().getLexeme())))
+            throw new SemanticException(SemanticErrorIMessage.undeclaredType(type.getName()));
+        type.correctDeclaration();
+    }
+
+    public String toString() {
+        return type.toString() + " " + name.getLexeme();
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Parameter other = (Parameter) obj;
+        return type.equals(other.type);
+    }
+
+    public AbstractType getType() {
+        return type;
+    }
+
+    @Override
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    @Override
+    public Token getTokenName() {
+        return this.getName();
+    }
+
+    @Override
+    public Token getModifier() {
+        return null;
+    }
+
+    public void gen(OutputManager o){
+        //o.gen(Instructions.STORE + " " + offset);
+    }
+}

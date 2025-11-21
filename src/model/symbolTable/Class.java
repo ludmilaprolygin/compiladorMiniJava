@@ -275,6 +275,12 @@ public class Class extends MainElement {
         Builder myBuilder = null;
         if(!builderTable.isEmpty()) {
             myBuilder = (Builder) builderTable.getFirst();
+            if(myBuilder.getBloque() == null || myBuilder.getBloque() instanceof NodoBloqueVacio){
+                myBuilder.setBloque(new NodoBloqueVacio());
+            }
+        }
+        else{
+            myBuilder = new Builder(name, name);
             myBuilder.setBloque(new NodoBloqueVacio());
         }
         if(builderTable.getFirst() != null){
