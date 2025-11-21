@@ -24,23 +24,72 @@ RET 1
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@String: NOP
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_builder@String: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@TestReturn: NOP
+.CODE
+lbl_f@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+JUMP lbl_end_f@TestReturn
+lbl_end_f@TestReturn: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_main@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+PUSH lbl_f@TestReturn
+CALL
+lbl_end_main@TestReturn: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@TestReturn: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
 LOADFP
 LOADSP
 STOREFP
 LOAD 3
 LOADREF 1
 STORE 3
-JUMP lbl_end_booleanValue@Boolean
+JUMP lbl_end_charValue@Character
 STORE 0
-lbl_end_booleanValue@Boolean: NOP
+lbl_end_charValue@Character: NOP
 FMEM 0
 STOREFP
 RET 0
 
-lbl_builder@Boolean: 
+lbl_builder@Character: 
 LOADFP
 LOADSP
 STOREFP
@@ -210,16 +259,30 @@ RET 1
 
 
 .DATA
-VT@String: NOP
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
-lbl_builder@String: 
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
+STORE 0
+lbl_end_booleanValue@Boolean: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
 LOADFP
 LOADSP
 STOREFP
 RMEM 0
 FMEM 0
 STOREFP
-RET 0
+RET 1
 
 
 
@@ -238,69 +301,6 @@ STOREFP
 RET 1
 
 lbl_builder@Object: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 0
-
-
-
-.DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
-STORE 0
-lbl_end_charValue@Character: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@Character: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 0
-FMEM 0
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@TestReturn: NOP
-.CODE
-lbl_f@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-JUMP lbl_end_f@TestReturn
-lbl_end_f@TestReturn: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_main@TestReturn: 
-LOADFP
-LOADSP
-STOREFP
-PUSH lbl_f@TestReturn
-CALL
-lbl_end_main@TestReturn: NOP
-FMEM 0
-STOREFP
-RET 0
-
-lbl_builder@TestReturn: 
 LOADFP
 LOADSP
 STOREFP

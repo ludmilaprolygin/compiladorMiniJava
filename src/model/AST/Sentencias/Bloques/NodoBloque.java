@@ -124,7 +124,7 @@ public class NodoBloque extends NodoSentencia {
 
     @Override
     public void gen(OutputManager o) {
-
+        setOffsets();
 
         for (NodoSentencia s : statements) {
             s.gen(o);

@@ -1,0 +1,391 @@
+.CODE
+PUSH simple_heap_init
+CALL
+PUSH lbl_main@Init
+CALL
+HALT
+
+
+simple_heap_init: RET 0
+
+simple_malloc: LOADFP
+LOADSP
+STOREFP
+LOADHL
+DUP
+PUSH 1
+ADD
+STORE 4
+LOAD 3
+ADD
+STOREHL
+STOREFP
+RET 1
+
+
+.DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+RMEM 1
+RMEM 1
+PUSH 4
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@A
+STOREREF 0
+DUP
+LOADSP
+SWAP
+STOREREF 03
+PUSH lbl_builder@A
+CALL
+FMEM 1
+STORE 0
+LOAD 0
+DUP
+LOADREF 0
+LOADREF 0
+CALL
+LOADREF 1
+lbl_end_main@Init: NOP
+FMEM 1
+STOREFP
+RET 0
+
+lbl_builder@Init: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
+STORE 0
+lbl_end_charValue@Character: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Character: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@System: NOP
+.CODE
+lbl_read@System: 
+LOADFP
+LOADSP
+STOREFP
+READ
+PUSH 48
+SUB
+STORE 3
+STORE 0
+lbl_end_read@System: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_printB@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+BPRINT
+lbl_end_printB@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_printC@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+CPRINT
+lbl_end_printC@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_printI@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+lbl_end_printI@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_printS@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+SPRINT
+lbl_end_printS@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_println@System: 
+LOADFP
+LOADSP
+STOREFP
+PRNLN
+lbl_end_println@System: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_printBln@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+BPRINT
+PRNLN
+lbl_end_printBln@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_printCln@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+CPRINT
+PRNLN
+lbl_end_printCln@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_printIln@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+PRNLN
+lbl_end_printIln@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_printSln@System: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+SPRINT
+PRNLN
+lbl_end_printSln@System: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_builder@System: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
+STORE 0
+lbl_end_booleanValue@Boolean: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@A: DW lbl_md@A
+.CODE
+lbl_md@A: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+LOAD 3
+SWAP
+STOREREF 1
+lbl_while_inicio@10: NOP
+LOAD 3
+LOADREF 1
+PUSH 3
+BF lbl_while_fin@10
+LOAD 3
+LOADREF 1
+PUSH 1
+ADD
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 3
+LOADREF 1
+PUSH lbl_debugPrint@Object
+CALL
+JUMP lbl_while_inicio@10
+lbl_while_fin@10: NOP
+PUSH 10
+LOAD 3
+SWAP
+STOREREF 1
+lbl_while_inicio@15: NOP
+LOAD 3
+LOADREF 1
+PUSH 8
+BF lbl_while_fin@15
+LOAD 3
+LOADREF 1
+PUSH 1
+SUB
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 3
+LOADREF 1
+PUSH lbl_debugPrint@Object
+CALL
+JUMP lbl_while_inicio@15
+lbl_while_fin@15: NOP
+lbl_end_md@A: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@A: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+FMEM 0
+STOREFP
+RET 1
+
+lbl_builder@Object: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 0
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_intValue@Integer
+STORE 0
+lbl_end_intValue@Integer: NOP
+FMEM 0
+STOREFP
+RET 0
+
+lbl_builder@Integer: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 0
+FMEM 0
+STOREFP
+RET 1
+
+
+

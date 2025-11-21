@@ -3,6 +3,7 @@ package model.AST.Operandos;
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
+import model.AST.Sentencias.Bloques.NodoBloque;
 import model.Token;
 import model.TokenType;
 import model.codeGeneration.CodeGenConfig;
@@ -20,6 +21,7 @@ public class NodoVar extends NodoOperando implements Var {
     protected boolean isDeclared;
     protected Var varAsociada;
     protected int offset;
+    protected NodoBloque bloque;
 
     public NodoVar(Token token) {
         super(token);
@@ -151,6 +153,10 @@ public class NodoVar extends NodoOperando implements Var {
         return encadenado.getLastEncadenado();
     }
 
+    public void setBloque (NodoBloque b) {
+        bloque = b;
+    }
+
     public Encadenado getEncadenado() {
         return encadenado;
     }
@@ -175,7 +181,7 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
-        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         if (varAsociada instanceof Parameter p) {
             int baseParamDyn = CodeGenConfig.PARAM_OFFSET_DYNAMIC;
@@ -204,7 +210,7 @@ public class NodoVar extends NodoOperando implements Var {
             }
         }
         else if(varAsociada instanceof NodoVar v) {
-
+            setOffsetsForVarLocal();
             if (esLadoIzq) {
                 o.gen(Instructions.STORE + " " + v.getOffset());
             }
@@ -212,7 +218,7 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.LOAD + " " + v.getOffset());
             }
         }
-
+        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         AbstractType a;
         if(tipo == null || tipo instanceof UniversalType){
@@ -221,22 +227,8 @@ public class NodoVar extends NodoOperando implements Var {
         }
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
-//            if (varAsociada != null) {
-//                if (varAsociada instanceof Parameter p) {
-//                    o.gen(Instructions.LOAD + " " + (p.getOffset() + CodeGenConfig.PARAM_OFFSET_DYNAMIC));
-//                } else if (varAsociada instanceof Attribute att) {
-//                    o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
-//                } else if (varAsociada instanceof NodoVar v) {
-//                    o.gen(Instructions.LOAD + " " + v.getOffset());
-//                }
-//            }
-
             encadenado.gen(o, tipo);
         }
-
-//        if (!esLadoIzq && tipo != null && !tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) {
-//            o.gen(Instructions.POP.toString());
-//        }
 
         generateReturnType(o);
 
@@ -270,5 +262,15 @@ public class NodoVar extends NodoOperando implements Var {
         }
 
         return toReturn;
+    }
+
+    private void setOffsetsForVarLocal(){
+        for(NodoOperando o : bloque.getVariables()){
+            if(o instanceof NodoVar var){
+                if(var.getToken().getLexeme().equals(this.getToken().getLexeme())){
+                    this.setOffset(var.getOffset());
+                }
+            }
+        }
     }
 }

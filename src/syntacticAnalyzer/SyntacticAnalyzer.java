@@ -653,6 +653,7 @@ public class SyntacticAnalyzer {
             var.setTipo(new ClassType(token));
             var.declare();
             symbolTable().getBloque().addVariable(var);
+            var.setBloque(symbolTable().getBloque());
 
             _restoVarLocalClasica();
 
@@ -703,6 +704,7 @@ public class SyntacticAnalyzer {
         NodoVar toReturn;
         match(reservedVar);
         toReturn = new NodoVar(currentToken);
+        toReturn.setBloque(symbolTable().getBloque());
         toReturn.declare();
         toReturn.checkExistance();
         match(idMetVar);
@@ -1044,6 +1046,7 @@ public class SyntacticAnalyzer {
         }
         else if (currentTokenType.equals(idMetVar)) {
             toReturn = new NodoVar(currentToken);
+            ((NodoVar) toReturn).setBloque(symbolTable().getBloque());
             match(idMetVar);
             toReturn = _restoLlamadaMetodo(toReturn);
         }
@@ -1312,6 +1315,7 @@ public class SyntacticAnalyzer {
             AbstractType tipo = tipo();
             _tipoParametricoOpcional();
             var = new NodoVar(currentToken);
+            var.setBloque(symbolTable().getBloque());
             match(idMetVar);
             var.setTipo(tipo);
             _restoVarLocalClasica();
