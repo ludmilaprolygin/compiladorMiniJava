@@ -36,9 +36,8 @@ STORE 3
 JUMP lbl_end_intValue@Integer
 STORE 0
 lbl_end_intValue@Integer: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@Integer: 
 LOADFP
@@ -70,9 +69,8 @@ LOAD 3
 SWAP
 STOREREF 5
 lbl_end_seta4@B: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_m2@B: 
 LOADFP
@@ -87,9 +85,8 @@ LOADREF 5
 PUSH lbl_debugPrint@Object
 CALL
 lbl_end_m2@B: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@B: 
 LOADFP
@@ -139,9 +136,8 @@ LOAD 3
 SWAP
 STOREREF 3
 lbl_end_setall@A: NOP
-FMEM 0
 STOREFP
-RET 1
+RET 2
 
 lbl_m1@A: 
 LOADFP
@@ -160,9 +156,8 @@ LOADREF 3
 PUSH lbl_printSln@System
 CALL
 lbl_end_m1@A: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@A: 
 LOADFP
@@ -185,7 +180,6 @@ STOREFP
 LOAD 3
 IPRINT
 lbl_end_debugPrint@Object: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -280,9 +274,8 @@ STORE 3
 JUMP lbl_end_booleanValue@Boolean
 STORE 0
 lbl_end_booleanValue@Boolean: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@Boolean: 
 LOADFP
@@ -308,7 +301,6 @@ SUB
 STORE 3
 STORE 0
 lbl_end_read@System: NOP
-FMEM 0
 STOREFP
 RET 0
 
@@ -319,7 +311,6 @@ STOREFP
 LOAD 3
 BPRINT
 lbl_end_printB@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -330,7 +321,6 @@ STOREFP
 LOAD 3
 CPRINT
 lbl_end_printC@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -341,7 +331,6 @@ STOREFP
 LOAD 3
 IPRINT
 lbl_end_printI@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -352,7 +341,6 @@ STOREFP
 LOAD 3
 SPRINT
 lbl_end_printS@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -362,7 +350,6 @@ LOADSP
 STOREFP
 PRNLN
 lbl_end_println@System: NOP
-FMEM 0
 STOREFP
 RET 0
 
@@ -374,7 +361,6 @@ LOAD 3
 BPRINT
 PRNLN
 lbl_end_printBln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -386,7 +372,6 @@ LOAD 3
 CPRINT
 PRNLN
 lbl_end_printCln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -398,7 +383,6 @@ LOAD 3
 IPRINT
 PRNLN
 lbl_end_printIln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -410,7 +394,6 @@ LOAD 3
 SPRINT
 PRNLN
 lbl_end_printSln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -438,9 +421,8 @@ STORE 3
 JUMP lbl_end_charValue@Character
 STORE 0
 lbl_end_charValue@Character: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@Character: 
 LOADFP

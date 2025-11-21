@@ -49,9 +49,8 @@ STORE 3
 JUMP lbl_end_getInt@E
 STORE 0
 lbl_end_getInt@E: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@E: 
 LOADFP
@@ -90,9 +89,8 @@ STORE 3
 JUMP lbl_end_getE@D
 STORE 0
 lbl_end_getE@D: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@D: 
 LOADFP
@@ -115,7 +113,6 @@ STOREFP
 LOAD 3
 IPRINT
 lbl_end_debugPrint@Object: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -143,7 +140,6 @@ SUB
 STORE 3
 STORE 0
 lbl_end_read@System: NOP
-FMEM 0
 STOREFP
 RET 0
 
@@ -154,7 +150,6 @@ STOREFP
 LOAD 3
 BPRINT
 lbl_end_printB@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -165,7 +160,6 @@ STOREFP
 LOAD 3
 CPRINT
 lbl_end_printC@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -176,7 +170,6 @@ STOREFP
 LOAD 3
 IPRINT
 lbl_end_printI@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -187,7 +180,6 @@ STOREFP
 LOAD 3
 SPRINT
 lbl_end_printS@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -197,7 +189,6 @@ LOADSP
 STOREFP
 PRNLN
 lbl_end_println@System: NOP
-FMEM 0
 STOREFP
 RET 0
 
@@ -209,7 +200,6 @@ LOAD 3
 BPRINT
 PRNLN
 lbl_end_printBln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -221,7 +211,6 @@ LOAD 3
 CPRINT
 PRNLN
 lbl_end_printCln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -233,7 +222,6 @@ LOAD 3
 IPRINT
 PRNLN
 lbl_end_printIln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -245,7 +233,6 @@ LOAD 3
 SPRINT
 PRNLN
 lbl_end_printSln@System: NOP
-FMEM 0
 STOREFP
 RET 1
 
@@ -273,9 +260,8 @@ STORE 3
 JUMP lbl_end_intValue@Integer
 STORE 0
 lbl_end_intValue@Integer: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@Integer: 
 LOADFP
@@ -301,9 +287,8 @@ STORE 3
 JUMP lbl_end_booleanValue@Boolean
 STORE 0
 lbl_end_booleanValue@Boolean: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@Boolean: 
 LOADFP
@@ -329,9 +314,8 @@ STORE 3
 JUMP lbl_end_charValue@Character
 STORE 0
 lbl_end_charValue@Character: NOP
-FMEM 0
 STOREFP
-RET 0
+RET 1
 
 lbl_builder@Character: 
 LOADFP

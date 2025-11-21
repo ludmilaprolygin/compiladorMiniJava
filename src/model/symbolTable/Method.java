@@ -11,6 +11,8 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
 
+import static model.TokenType.reservedStatic;
+
 public class Method extends Service {
     private AbstractType returnType;
     private Token modifier;
@@ -65,8 +67,8 @@ public class Method extends Service {
             o.prologue();
 
             int cantVars = localVarCount;
-            boolean isVoid = this.returnType.getName().getTokenType()
-                    .equals(TokenType.reservedVoid);
+            boolean isVoid = this.returnType.getName().getLexeme()
+                    .equals(TokenType.reservedVoid.getTypeExplanation());
 
             if (cantVars > 0)
                 o.gen(Instructions.RMEM + " " + cantVars);
@@ -74,8 +76,7 @@ public class Method extends Service {
             bloque.gen(o);
 
             if(!isVoid){
-                int retOffset = cantVars;
-                o.gen(Instructions.STORE + " " + retOffset);
+                o.gen(Instructions.STORE + " " + cantVars);
             }
 
             String methodName = getName().getLexeme();
@@ -84,9 +85,14 @@ public class Method extends Service {
 
             o.gen(lblEnd + ": " + Instructions.NOP);
 
-            o.gen(Instructions.FMEM + " " + cantVars);
+            if(cantVars > 0){
+                o.gen(Instructions.FMEM + " " + cantVars);
+            }
 
-            o.epilogue(parameters.size());
+            boolean isStatic = getModifier() != null && getModifier().getTokenType().equals(reservedStatic);
+            int fMEM = isStatic ? parameters.size() : parameters.size() + 1;
+
+            o.epilogue(fMEM);
         }
     }
 
