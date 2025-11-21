@@ -1,6 +1,7 @@
 package model.AST.Encadenados;
 
 import model.Token;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
@@ -8,6 +9,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
 public class NodoVarEncadenada extends Encadenado {
+    private Attribute associatedAttribute;
     public NodoVarEncadenada(Token t){
         super(t);
     }
@@ -28,10 +30,12 @@ public class NodoVarEncadenada extends Encadenado {
             List attributes = c.getAttributes();
             for(Element e : attributes.values()){
                 Attribute attribute = (Attribute) e;
+                associatedAttribute = attribute;
                 if(attribute.getName().getLexeme().equals(nombre.getLexeme())){
-                if(encadenado == null)
-                    encadenado = new EncadenadoVacio();
-                return encadenado.check(attribute.getType());}
+                    if(encadenado == null)
+                        encadenado = new EncadenadoVacio();
+                    return encadenado.check(attribute.getType());
+                }
             }
         }
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
@@ -39,6 +43,10 @@ public class NodoVarEncadenada extends Encadenado {
 
     @Override
     public void gen(OutputManager o, AbstractType tipo) {
-        o.gen(Instructions.LOADREF + " " );
+        o.gen(Instructions.LOADREF + " " + associatedAttribute.getOffset() + Comments.ATTRIBUTE_ACCESS.getComment(associatedAttribute.getName().getLexeme()));
+
+        if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
+            encadenado.gen(o, associatedAttribute.getType());
+        }
     }
 }

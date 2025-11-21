@@ -18,7 +18,9 @@ public enum Comments {
     DUP_THIS         ("; duplicar this"),
     LOAD_METHOD      ("; cargar metodo"),
     FREE_RETURN_VALUE("; liberar valor de retorno"),
-    NULL             ("; valor null");
+    NULL             ("; valor null"),
+    ATTRIBUTE_ACCESS ("; acceso a atributo")
+    ;
 
 
     private final String comment;
@@ -33,4 +35,5 @@ public enum Comments {
     public String getComment(int n){
         return comment + " (" + n + ")";
     }
+    public String getComment(String s) { return comment + " (" + s + ")"; }
 }

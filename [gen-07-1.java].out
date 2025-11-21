@@ -326,7 +326,8 @@ PUSH lbl_builder@E
 CALL
 STORE 0
 LOAD 0
-LOADREF 
+LOADREF 1; acceso a atributo (w)
+LOADREF 1; acceso a atributo (u)
 STORE -1
 LOAD -1
 PUSH lbl_debugPrint@Object
