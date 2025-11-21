@@ -3,6 +3,7 @@ package model.AST.Encadenados;
 import model.AST.Expresiones.NodoExpresion;
 import model.Token;
 import model.codeGeneration.CodeGenConfig;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
@@ -74,21 +75,25 @@ public class NodoLLamadaEncadenada extends Encadenado {
     public void gen(OutputManager o, AbstractType tipo) {
         Method metodo = associatedMethod;
         int offset = metodo.getOffset();
+        boolean isStatic = metodo.getModifier() != null && metodo.getModifier().getTokenType().equals(reservedStatic);
 
-        o.gen(Instructions.DUP.toString());
-        o.gen(Instructions.LOADREF + " 0");
-        o.gen(Instructions.LOADREF + " " + offset);
 
         for (NodoExpresion p : parametros) {
-            o.gen(Instructions.SWAP.toString());
             p.gen(o);
             o.gen(Instructions.SWAP.toString());
         }
-        int a = parametros.size() + Integer.parseInt(CodeGenConfig.OFFSET_THIS);
-        //archivo.generar(Instrucciones.DUP+"");
-        //archivo.generar(Instrucciones.LOADSP+"");
-        //archivo.generar(Instrucciones.SWAP+"");
-        //archivo.generar(Instrucciones.STOREREF+" "+a);
+
+        if(!isStatic){
+            o.gen(Instructions.DUP.toString());
+            o.gen(Instructions.LOADREF + " 0");
+            o.gen(Instructions.LOADREF + " " + offset);
+        }
+        else{
+            int a = parametros.size() + Integer.parseInt(CodeGenConfig.OFFSET_THIS);
+            for(NodoExpresion p : parametros){
+                o.gen(Instructions.SWAP.toString() + " " + Comments.MOVE_THIS);
+            }
+        }
 
         o.gen(Instructions.CALL.toString());
 

@@ -24,6 +24,62 @@ RET 1
 
 
 .DATA
+VT@Main: NOP
+.CODE
+lbl_main@Main: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 2
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@A
+STOREREF 0
+DUP
+PUSH lbl_builder@A
+CALL
+STORE 0
+LOAD 0
+DUP
+LOADREF 0
+LOADREF 0
+CALL
+DUP
+LOADREF 0
+LOADREF 0
+CALL
+DUP
+LOADREF 0
+LOADREF 0
+CALL
+DUP
+LOADREF 0
+LOADREF 0
+PUSH 21
+SWAP
+CALL
+STORE -1
+LOAD -1
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_main@Main: NOP
+FMEM 2
+STOREFP
+RET 0
+
+lbl_builder@Main: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -74,6 +130,39 @@ RET 2
 
 
 .DATA
+VT@B: DW lbl_getC@B
+.CODE
+lbl_getC@B: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@C
+STOREREF 0
+DUP
+PUSH lbl_builder@C
+CALL
+STORE 3
+JUMP lbl_end_getC@B
+STORE 0
+lbl_end_getC@B: NOP
+STOREFP
+RET 1
+
+lbl_builder@B: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
 VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
@@ -99,39 +188,6 @@ RET 2
 
 
 .DATA
-VT@C: DW lbl_getD@C
-.CODE
-lbl_getD@C: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-PUSH 1
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@D
-STOREREF 0
-DUP
-PUSH lbl_builder@D
-CALL
-STORE 3
-JUMP lbl_end_getD@C
-STORE 0
-lbl_end_getD@C: NOP
-STOREFP
-RET 1
-
-lbl_builder@C: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
 VT@Object: NOP
 .CODE
 lbl_debugPrint@Object: 
@@ -145,167 +201,6 @@ STOREFP
 RET 1
 
 lbl_builder@Object: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@A: DW lbl_getB@A
-.CODE
-lbl_getB@A: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-PUSH 1
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@B
-STOREREF 0
-DUP
-PUSH lbl_builder@B
-CALL
-STORE 3
-JUMP lbl_end_getB@A
-STORE 0
-lbl_end_getB@A: NOP
-STOREFP
-RET 1
-
-lbl_builder@A: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Main: NOP
-.CODE
-lbl_main@Main: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 2
-RMEM 1
-PUSH 1
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@A
-STOREREF 0
-DUP
-PUSH lbl_builder@A
-CALL
-STORE 0
-LOAD 0
-DUP
-LOADREF 0
-LOADREF 0
-CALL
-DUP
-LOADREF 0
-LOADREF 0
-CALL
-DUP
-LOADREF 0
-LOADREF 0
-CALL
-DUP
-LOADREF 0
-LOADREF 0
-SWAP
-PUSH 21
-SWAP
-CALL
-STORE -1
-LOAD -1
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@Main: NOP
-FMEM 2
-STOREFP
-RET 0
-
-lbl_builder@Main: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@D: DW lbl_compute@D
-.CODE
-lbl_compute@D: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 4
-PUSH 2
-MUL
-STORE 4
-JUMP lbl_end_compute@D
-STORE 0
-lbl_end_compute@D: NOP
-STOREFP
-RET 2
-
-lbl_builder@D: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@B: DW lbl_getC@B
-.CODE
-lbl_getC@B: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-PUSH 1
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@C
-STOREREF 0
-DUP
-PUSH lbl_builder@C
-CALL
-STORE 3
-JUMP lbl_end_getC@B
-STORE 0
-lbl_end_getC@B: NOP
-STOREFP
-RET 1
-
-lbl_builder@B: 
 LOADFP
 LOADSP
 STOREFP
@@ -424,6 +319,110 @@ STOREFP
 RET 1
 
 lbl_builder@System: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@D: DW lbl_compute@D
+.CODE
+lbl_compute@D: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 4
+PUSH 2
+MUL
+STORE 4
+JUMP lbl_end_compute@D
+STORE 0
+lbl_end_compute@D: NOP
+STOREFP
+RET 2
+
+lbl_builder@D: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@C: DW lbl_getD@C
+.CODE
+lbl_getD@C: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@D
+STOREREF 0
+DUP
+PUSH lbl_builder@D
+CALL
+STORE 3
+JUMP lbl_end_getD@C
+STORE 0
+lbl_end_getD@C: NOP
+STOREFP
+RET 1
+
+lbl_builder@C: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@A: DW lbl_getB@A
+.CODE
+lbl_getB@A: 
+LOADFP
+LOADSP
+STOREFP
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@B
+STOREREF 0
+DUP
+PUSH lbl_builder@B
+CALL
+STORE 3
+JUMP lbl_end_getB@A
+STORE 0
+lbl_end_getB@A: NOP
+STOREFP
+RET 1
+
+lbl_builder@A: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 LOADFP
 LOADSP
 STOREFP
