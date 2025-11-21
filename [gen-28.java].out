@@ -296,7 +296,6 @@ LOAD 0
 POP
 PUSH lbl_m1@A
 CALL
-LOADREF 1
 lbl_end_main@Init: NOP
 FMEM 1
 STOREFP

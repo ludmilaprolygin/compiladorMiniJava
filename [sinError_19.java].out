@@ -24,34 +24,86 @@ RET 1
 
 
 .DATA
-VT@T2: NOP
+VT@String: NOP
 .CODE
-lbl_main@T2: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-PUSH 0
-STORE 0
-PUSH 2
-PUSH 1
-BF lbl_else@6
-PUSH 5
-STORE 0
-JUMP lbl_fin_if@6
-lbl_else@6: NOP
-lbl_fin_if@6: NOP
-lbl_end_main@T2: NOP
-FMEM 1
-STOREFP
-RET 0
-
-lbl_builder@T2: 
+lbl_builder@String: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
 RET 1
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_charValue@Character
+STORE 0
+lbl_end_charValue@Character: NOP
+STOREFP
+RET 1
+
+lbl_builder@Character: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 2
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP
+RET 1
+
+lbl_builder@Object: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
+STORE 0
+lbl_end_booleanValue@Boolean: NOP
+STOREFP
+RET 1
+
+lbl_builder@Boolean: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 2
 
 
 
@@ -174,81 +226,29 @@ RET 1
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@T2: NOP
 .CODE
-lbl_charValue@Character: 
+lbl_main@T2: 
 LOADFP
 LOADSP
 STOREFP
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_charValue@Character
+RMEM 1
+PUSH 0
 STORE 0
-lbl_end_charValue@Character: NOP
-STOREFP
-RET 1
-
-lbl_builder@Character: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 2
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP
-RET 1
-
-lbl_builder@Object: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-LOAD 3
-LOADREF 1
-STORE 3
-JUMP lbl_end_booleanValue@Boolean
+PUSH 2
+PUSH 1
+BF lbl_else@6
+PUSH 5
 STORE 0
-lbl_end_booleanValue@Boolean: NOP
+JUMP lbl_fin_if@6
+lbl_else@6: NOP
+lbl_fin_if@6: NOP
+lbl_end_main@T2: NOP
+FMEM 1
 STOREFP
-RET 1
+RET 0
 
-lbl_builder@Boolean: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 2
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
+lbl_builder@T2: 
 LOADFP
 LOADSP
 STOREFP

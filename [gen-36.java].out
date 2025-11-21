@@ -24,79 +24,103 @@ RET 1
 
 
 .DATA
-VT@String: NOP
+VT@A: DW lbl_mc@A
+DW lbl_md@A
 .CODE
-lbl_builder@String: 
+lbl_mc@A: 
 LOADFP
 LOADSP
 STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP
-LOADSP
-STOREFP
+PUSH 0
+LOAD 3
+SWAP
+STOREREF 1
+lbl_while_inicio@10: NOP
 LOAD 3
 LOADREF 1
-STORE 3
-JUMP lbl_end_intValue@Integer
-STORE 0
-lbl_end_intValue@Integer: NOP
+PUSH 3
+BF lbl_while_fin@10
+LOAD 3
+LOADREF 1
+PUSH 1
+ADD
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 3
+LOADREF 1
+PUSH lbl_debugPrint@Object
+CALL
+JUMP lbl_while_inicio@10
+lbl_while_fin@10: NOP
+PUSH 10
+LOAD 3
+SWAP
+STOREREF 1
+lbl_while_inicio@15: NOP
+LOAD 3
+LOADREF 1
+PUSH 8
+BF lbl_while_fin@15
+LOAD 3
+LOADREF 1
+PUSH 1
+SUB
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 3
+LOADREF 1
+PUSH lbl_debugPrint@Object
+CALL
+JUMP lbl_while_inicio@15
+lbl_while_fin@15: NOP
+lbl_end_mc@A: NOP
 STOREFP
 RET 1
 
-lbl_builder@Integer: 
+lbl_md@A: 
 LOADFP
 LOADSP
 STOREFP
-STOREFP
-RET 2
-
-
-
-.DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 1
-RMEM 1
-PUSH 4
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@A
-STOREREF 0
-DUP
-PUSH lbl_builder@A
-CALL
+RMEM 3
+PUSH 10
 STORE 0
 LOAD 0
-DUP
-LOADREF 0
-LOADREF 1
-CALL
-LOADREF 1
+PUSH 10
+EQ
+BF lbl_else@23
 LOAD 0
-DUP
-LOADREF 0
-LOADREF 0
+PUSH lbl_debugPrint@Object
 CALL
-LOADREF 1
-lbl_end_main@Init: NOP
-FMEM 1
+JUMP lbl_fin_if@23
+lbl_else@23: NOP
+lbl_fin_if@23: NOP
+PUSH 12
+STORE -1
+LOAD -1
+PUSH 12
+EQ
+BF lbl_else@27
+LOAD 0
+PUSH lbl_debugPrint@Object
+CALL
+JUMP lbl_fin_if@27
+lbl_else@27: NOP
+lbl_fin_if@27: NOP
+LOAD 0
+LOAD -1
+ADD
+STORE -2
+LOAD -2
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_md@A: NOP
+FMEM 3
 STOREFP
-RET 0
+RET 1
 
-lbl_builder@Init: 
+lbl_builder@A: 
 LOADFP
 LOADSP
 STOREFP
@@ -131,24 +155,39 @@ RET 2
 
 
 .DATA
-VT@Object: NOP
+VT@String: NOP
 .CODE
-lbl_debugPrint@Object: 
+lbl_builder@String: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
+
+
+
+.DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
 LOADFP
 LOADSP
 STOREFP
 LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
+LOADREF 1
+STORE 3
+JUMP lbl_end_booleanValue@Boolean
+STORE 0
+lbl_end_booleanValue@Boolean: NOP
 STOREFP
 RET 1
 
-lbl_builder@Object: 
+lbl_builder@Boolean: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
-RET 1
+RET 2
 
 
 
@@ -271,103 +310,40 @@ RET 1
 
 
 .DATA
-VT@A: DW lbl_mc@A
-DW lbl_md@A
+VT@Init: NOP
 .CODE
-lbl_mc@A: 
+lbl_main@Init: 
 LOADFP
 LOADSP
 STOREFP
-PUSH 0
-LOAD 3
-SWAP
-STOREREF 1
-lbl_while_inicio@10: NOP
-LOAD 3
-LOADREF 1
-PUSH 3
-BF lbl_while_fin@10
-LOAD 3
-LOADREF 1
-PUSH 1
-ADD
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 3
-LOADREF 1
-PUSH lbl_debugPrint@Object
+RMEM 1
+RMEM 1
+PUSH 4
+PUSH simple_malloc
 CALL
-JUMP lbl_while_inicio@10
-lbl_while_fin@10: NOP
-PUSH 10
-LOAD 3
-SWAP
-STOREREF 1
-lbl_while_inicio@15: NOP
-LOAD 3
-LOADREF 1
-PUSH 8
-BF lbl_while_fin@15
-LOAD 3
-LOADREF 1
-PUSH 1
-SUB
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 3
-LOADREF 1
-PUSH lbl_debugPrint@Object
+DUP
+PUSH VT@A
+STOREREF 0
+DUP
+PUSH lbl_builder@A
 CALL
-JUMP lbl_while_inicio@15
-lbl_while_fin@15: NOP
-lbl_end_mc@A: NOP
-STOREFP
-RET 1
-
-lbl_md@A: 
-LOADFP
-LOADSP
-STOREFP
-RMEM 3
-PUSH 10
 STORE 0
 LOAD 0
-PUSH 10
-EQ
-BF lbl_else@23
-LOAD 0
-PUSH lbl_debugPrint@Object
+DUP
+LOADREF 0
+LOADREF 1
 CALL
-JUMP lbl_fin_if@23
-lbl_else@23: NOP
-lbl_fin_if@23: NOP
-PUSH 12
-STORE -1
-LOAD -1
-PUSH 12
-EQ
-BF lbl_else@27
 LOAD 0
-PUSH lbl_debugPrint@Object
+DUP
+LOADREF 0
+LOADREF 0
 CALL
-JUMP lbl_fin_if@27
-lbl_else@27: NOP
-lbl_fin_if@27: NOP
-LOAD 0
-LOAD -1
-ADD
-STORE -2
-LOAD -2
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_md@A: NOP
-FMEM 3
+lbl_end_main@Init: NOP
+FMEM 1
 STOREFP
-RET 1
+RET 0
 
-lbl_builder@A: 
+lbl_builder@Init: 
 LOADFP
 LOADSP
 STOREFP
@@ -377,27 +353,49 @@ RET 1
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_intValue@Integer: 
 LOADFP
 LOADSP
 STOREFP
 LOAD 3
 LOADREF 1
 STORE 3
-JUMP lbl_end_booleanValue@Boolean
+JUMP lbl_end_intValue@Integer
 STORE 0
-lbl_end_booleanValue@Boolean: NOP
+lbl_end_intValue@Integer: NOP
 STOREFP
 RET 1
 
-lbl_builder@Boolean: 
+lbl_builder@Integer: 
 LOADFP
 LOADSP
 STOREFP
 STOREFP
 RET 2
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP
+LOADSP
+STOREFP
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP
+RET 1
+
+lbl_builder@Object: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
 
 
 

@@ -84,7 +84,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
 
         if(!isVoid){
-            o.gen(Instructions.RMEM + " 1" + Comments.RESERVE_RETURN);
+            o.gen(Instructions.RMEM + " 1" + Comments.RESERVE_RETURN.getComment());
             o.gen(Instructions.SWAP.toString());
         }
 
@@ -96,7 +96,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
         else{
             int a = parametros.size() + Integer.parseInt(CodeGenConfig.OFFSET_THIS);
             for(NodoExpresion p : parametros){
-                o.gen(Instructions.SWAP.toString() + " " + Comments.MOVE_THIS);
+                o.gen(Instructions.SWAP.toString() + " " + Comments.MOVE_THIS.getComment());
             }
             o.gen(Instructions.POP.toString());
             o.gen(Instructions.PUSH + " lbl_" + nombre.getLexeme() + "@" + metodo.getCreator().getName().getLexeme());
@@ -109,7 +109,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
         //generarRetorno(archivo);
 
-        generateReturnType(o);
+        //generateReturnType(o);
     }
 
 

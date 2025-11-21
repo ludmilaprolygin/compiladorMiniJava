@@ -61,44 +61,6 @@ RET 2
 
 
 .DATA
-VT@SinError24: NOP
-.CODE
-lbl_main@SinError24: 
-LOADFP
-LOADSP
-STOREFP
-PUSH 0
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 1
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 2
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 3
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 4
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 5
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@SinError24: NOP
-STOREFP
-RET 0
-
-lbl_builder@SinError24: 
-LOADFP
-LOADSP
-STOREFP
-STOREFP
-RET 1
-
-
-
-.DATA
 VT@Object: NOP
 .CODE
 lbl_debugPrint@Object: 
@@ -260,6 +222,44 @@ LOADSP
 STOREFP
 STOREFP
 RET 2
+
+
+
+.DATA
+VT@SinError24: NOP
+.CODE
+lbl_main@SinError24: 
+LOADFP
+LOADSP
+STOREFP
+PUSH 0
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 1
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 2
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 3
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 4
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 5
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_main@SinError24: NOP
+STOREFP
+RET 0
+
+lbl_builder@SinError24: 
+LOADFP
+LOADSP
+STOREFP
+STOREFP
+RET 1
 
 
 
