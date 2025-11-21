@@ -1,5 +1,6 @@
 package outputManager;
 
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 
 import java.io.FileWriter;
@@ -56,9 +57,9 @@ public class OutputManager {
     }
 
     public void prologue(){
-        gen(Instructions.LOADFP.toString());
-        gen(Instructions.LOADSP.toString());
-        gen(Instructions.STOREFP.toString());
+        gen(Instructions.LOADFP.toString() + Comments.FP_REGISTER.getComment());
+        gen(Instructions.LOADSP.toString() + Comments.SP_REGISTER.getComment());
+        gen(Instructions.STOREFP.toString() + Comments.STORE_STACK_TOP.getComment());
     }
 
     public void epilogue(int parametersSize){

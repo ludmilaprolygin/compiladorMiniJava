@@ -107,23 +107,6 @@ public class NodoLLamadaEncadenada extends Encadenado {
         if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
             encadenado.gen(o, associatedMethod.getReturnType());
         }
-        //generarRetorno(archivo);
-
-        //generateReturnType(o);
-    }
-
-
-
-
-
-    public void generateReturnType(OutputManager o) {
-        AbstractType tipo = associatedMethod.getReturnType();
-        if (tipo == null) return;
-        if (!tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) return;
-//        if (!(tipo instanceof ClassType)){
-//            o.gen(Instructions.LOADREF + " 1");
-//        }
-        o.gen(Instructions.LOADREF + " 1");
     }
 
     private void compareArgs(Method m) throws SemanticException {
