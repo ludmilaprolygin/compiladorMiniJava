@@ -45,7 +45,7 @@ STORE 0
 LOAD 0
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (m1)
 CALL
 RMEM 1
 PUSH 1
@@ -61,12 +61,12 @@ STORE -1
 LOAD -1
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (m1)
 CALL
 LOAD -1
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (m2)
 CALL
 RMEM 1
 PUSH 1
@@ -82,17 +82,17 @@ STORE -2
 LOAD -2
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (m1)
 CALL
 LOAD -2
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (m2)
 CALL
 LOAD -2
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo
+LOADREF 1; cargar metodo (m3)
 CALL
 lbl_end_main@Init: NOP
 FMEM 3; liberar espacio de variables locales (3)

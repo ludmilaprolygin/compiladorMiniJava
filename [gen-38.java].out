@@ -118,7 +118,7 @@ RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (getInt)
 CALL
 ADD
 PUSH 6

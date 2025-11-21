@@ -78,20 +78,20 @@ public class NodoLLamadaEncadenada extends Encadenado {
         boolean isStatic = metodo.getModifier() != null && metodo.getModifier().getTokenType().equals(reservedStatic);
         boolean isVoid = metodo.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation());
 
-        for (NodoExpresion p : parametros) {
-            p.gen(o);
+        if(!isVoid){
+            o.gen(Instructions.RMEM + " 1" + Comments.RESERVE_RETURN.getComment());
             o.gen(Instructions.SWAP.toString());
         }
 
-        if(!isVoid){
-            o.gen(Instructions.RMEM + " 1" + Comments.RESERVE_RETURN.getComment());
+        for (NodoExpresion p : parametros) {
+            p.gen(o);
             o.gen(Instructions.SWAP.toString());
         }
 
         if(!isStatic){
             o.gen(Instructions.DUP.toString() + Comments.DUP_THIS.getComment());
             o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment());
-            o.gen(Instructions.LOADREF + " " + offset + Comments.LOAD_METHOD.getComment());
+            o.gen(Instructions.LOADREF + " " + offset + Comments.LOAD_METHOD.getComment(metodo.getName().getLexeme()));
         }
         else{
             int a = parametros.size() + Integer.parseInt(CodeGenConfig.OFFSET_THIS);

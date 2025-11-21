@@ -143,8 +143,8 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         }
         else{
             o.gen(Instructions.DUP.toString());
-            o.gen(Instructions.LOADREF + " 0");
-            o.gen(Instructions.LOADREF + " " + m.getOffset());
+            o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment());
+            o.gen(Instructions.LOADREF + " " + m.getOffset() + Comments.LOAD_METHOD.getComment(m.getName().getLexeme()));
             o.gen(Instructions.CALL.toString());
         }
 

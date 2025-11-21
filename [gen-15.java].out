@@ -129,7 +129,7 @@ CALL
 LOAD 4
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (m3)
 CALL
 lbl_end_m1@A: NOP
 STOREFP; restaurar FP
@@ -205,7 +205,7 @@ LOAD -1
 SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (m1)
 CALL
 lbl_end_main@Init: NOP
 FMEM 3; liberar espacio de variables locales (3)

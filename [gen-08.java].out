@@ -132,7 +132,7 @@ STORE 0
 LOAD 0
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (mc)
 CALL
 lbl_end_main@Init: NOP
 FMEM 1; liberar espacio de variables locales (1)

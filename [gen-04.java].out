@@ -221,24 +221,24 @@ STORE 0
 LOAD 0
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo
+LOADREF 0; cargar metodo (seta4)
 CALL
 LOAD 0
 PUSH 1234
 SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 2; cargar metodo
+LOADREF 2; cargar metodo (setall)
 CALL
 LOAD 0
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 3; cargar metodo
+LOADREF 3; cargar metodo (m1)
 CALL
 LOAD 0
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo
+LOADREF 1; cargar metodo (m2)
 CALL
 lbl_end_main@Init: NOP
 FMEM 1; liberar espacio de variables locales (1)
