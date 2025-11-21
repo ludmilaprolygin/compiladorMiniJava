@@ -34,8 +34,8 @@ class D {
 
 class Main {
     static void main() {
-     //   var a = new A();
-     //   var b = a.getB();
+        var a = new A();
+        var b = a.getB();
         var i = b.compute(4);
         debugPrint(i);
 }
