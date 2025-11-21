@@ -89,9 +89,9 @@ public class NodoLLamadaEncadenada extends Encadenado {
         }
 
         if(!isStatic){
-            o.gen(Instructions.DUP.toString());
-            o.gen(Instructions.LOADREF + " 0");
-            o.gen(Instructions.LOADREF + " " + offset);
+            o.gen(Instructions.DUP.toString() + Comments.DUP_THIS.getComment());
+            o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment());
+            o.gen(Instructions.LOADREF + " " + offset + Comments.LOAD_METHOD.getComment());
         }
         else{
             int a = parametros.size() + Integer.parseInt(CodeGenConfig.OFFSET_THIS);

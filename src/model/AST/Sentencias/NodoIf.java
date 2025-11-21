@@ -61,15 +61,20 @@ public class NodoIf extends NodoSentencia {
         String lblElse = "lbl_else@"+condicion.getToken().getRow();
         String lblFin = "lbl_fin_if@"+condicion.getToken().getRow();
 
-        condicion.gen(o); //deja 0 o 1 en el tope
-        o.gen(Instructions.BF + " " + lblElse);
-        sentenciaIf.gen(o);
-        o.gen(Instructions.JUMP + " " + lblFin);
-        o.gen(lblElse + ": " + Instructions.NOP);
+        condicion.gen(o);
 
         if(!(sentenciaElse instanceof NodoSentenciaVacia)){
+            o.gen(Instructions.BF + " " + lblElse);
+            sentenciaIf.gen(o);
+            o.gen(Instructions.JUMP + " " + lblFin);
+            o.gen(lblElse + ": " + Instructions.NOP);
             sentenciaElse.gen(o);
         }
+        else{
+            o.gen(Instructions.BF + " " + lblFin);
+            sentenciaIf.gen(o);
+        }
+
         o.gen(lblFin + ": " + Instructions.NOP);
     }
 }

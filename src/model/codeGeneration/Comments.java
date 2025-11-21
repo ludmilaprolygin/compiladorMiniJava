@@ -13,7 +13,10 @@ public enum Comments {
     PROLOGUE_INIT    ("; --- INICIO PROLOGO ---"),
     EPILOGUE_INIT    ("; --- INICIO EPILOGO ---"),
     PROLOGUE_END     ("; --- FIN PROLOGO ---"),
-    EPILOGUE_END     ("; --- FIN EPILOGO ---")
+    EPILOGUE_END     ("; --- FIN EPILOGO ---"),
+    LOAD_VTABLE      ("; cargar la VT"),
+    DUP_THIS         ("; duplicar this"),
+    LOAD_METHOD      ("; cargar metodo")
     ;
 
     private final String comment;

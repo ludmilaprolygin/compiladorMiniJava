@@ -1,6 +1,7 @@
 package model.AST.Encadenados;
 
 import model.Token;
+import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
@@ -38,6 +39,6 @@ public class NodoVarEncadenada extends Encadenado {
 
     @Override
     public void gen(OutputManager o, AbstractType tipo) {
-
+        o.gen(Instructions.LOADREF + " " );
     }
 }

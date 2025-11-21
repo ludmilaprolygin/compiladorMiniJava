@@ -57,18 +57,18 @@ public class OutputManager {
     }
 
     public void prologue(){
-        gen(Comments.PROLOGUE_INIT.getComment());
+        //gen(Comments.PROLOGUE_INIT.getComment());
         gen(Instructions.LOADFP.toString() + Comments.FP_REGISTER.getComment());
         gen(Instructions.LOADSP.toString() + Comments.SP_REGISTER.getComment());
         gen(Instructions.STOREFP.toString() + Comments.STORE_STACK_TOP.getComment());
-        gen(Comments.PROLOGUE_END.getComment());
+        //gen(Comments.PROLOGUE_END.getComment());
     }
 
     public void epilogue(int parametersSize){
-        gen(Comments.EPILOGUE_INIT.getComment());
+        //gen(Comments.EPILOGUE_INIT.getComment());
         gen(Instructions.STOREFP.toString() + Comments.RESTORE_FP.getComment());
         gen(Instructions.RET + " " + parametersSize);
-        gen(Comments.EPILOGUE_END.getComment());
+        //gen(Comments.EPILOGUE_END.getComment());
     }
 
     public void printStackTop() {

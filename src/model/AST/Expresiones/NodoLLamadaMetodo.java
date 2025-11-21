@@ -5,6 +5,7 @@ import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
 import model.codeGeneration.CodeGenConfig;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
@@ -117,7 +118,7 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         boolean isStatic = m.getModifier() != null && m.getModifier().getTokenType().equals(reservedStatic);
 
         if (!isVoid) {
-            o.gen(Instructions.RMEM + " 1");
+            o.gen(Instructions.RMEM + " 1" + Comments.RESERVE_RETURN.getComment());
         }
 
         if(!isStatic){
