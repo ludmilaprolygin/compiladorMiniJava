@@ -14,6 +14,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 
 import static model.TokenType.reservedVoid;
+import static model.symbolTable.SymbolTable.symbolTable;
 
 public class NodoVar extends NodoOperando implements Var {
     protected AbstractType tipo;
@@ -221,6 +222,7 @@ public class NodoVar extends NodoOperando implements Var {
         }
         else if(varAsociada instanceof NodoVar v) {
             setOffsetsForVarLocal();
+            System.out.println("offset local de " + v.getTokenName().getLexeme() + ": " + v.getOffset());
             if (esLadoIzq) {
                 o.gen(Instructions.STORE + " " + v.getOffset());
             }
@@ -275,7 +277,7 @@ public class NodoVar extends NodoOperando implements Var {
     }
 
     private void setOffsetsForVarLocal(){
-        for(NodoOperando o : bloque.getVariables()){
+        for(NodoOperando o : symbolTable().getCurrentService().getBloque().getVariables()){
             if(o instanceof NodoVar var){
                 if(var.getToken().getLexeme().equals(this.getToken().getLexeme())){
                     this.setOffset(var.getOffset());

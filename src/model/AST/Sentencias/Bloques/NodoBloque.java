@@ -153,7 +153,7 @@ public class NodoBloque extends NodoSentencia {
 
     private void setOffsets(){
         int offset = 0;
-        for(NodoOperando o : variables){
+        for(NodoOperando o : symbolTable().getCurrentService().getBloque().getVariables()){
             if(o instanceof NodoVar v){
                 v.setOffset(offset);
                 offset--;
