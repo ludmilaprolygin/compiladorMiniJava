@@ -24,6 +24,18 @@ RET 1
 
 
 .DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
@@ -49,6 +61,37 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 2
+
+
+
+.DATA
+VT@T2: NOP
+.CODE
+lbl_main@T2: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 1; reservar espacio para variables locales (1)
+PUSH 0
+STORE 0
+PUSH 2
+PUSH 1
+LT
+BF lbl_fin_if@6
+PUSH 5
+STORE 0
+lbl_fin_if@6: NOP
+lbl_end_main@T2: NOP
+FMEM 1; liberar espacio de variables locales (1)
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@T2: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
 
 
 
@@ -111,9 +154,19 @@ RET 2
 
 
 .DATA
-VT@String: NOP
+VT@Object: NOP
 .CODE
-lbl_builder@String: 
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -231,59 +284,6 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@System: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@T2: NOP
-.CODE
-lbl_main@T2: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 1; reservar espacio para variables locales (1)
-PUSH 0
-STORE 0
-PUSH 2
-PUSH 1
-LT
-BF lbl_fin_if@6
-PUSH 5
-STORE 0
-lbl_fin_if@6: NOP
-lbl_end_main@T2: NOP
-FMEM 1; liberar espacio de variables locales (1)
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@T2: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila

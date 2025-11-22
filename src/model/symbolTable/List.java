@@ -69,4 +69,15 @@ public class List extends LinkedList<OffsetElement> {
         }
         return elements;
     }
+
+    public List append(List l) {
+        List newList = new List();
+        for(OffsetElement e : this) {
+            newList.addLast(e);
+        }
+        for(OffsetElement e : l) {
+            newList.addLast(e);
+        }
+        return newList;
+    }
 }

@@ -24,6 +24,64 @@ RET 1
 
 
 .DATA
+VT@Boolean: DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 1
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_booleanValue@Boolean: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 1
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_charValue@Character: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -75,31 +133,58 @@ RET 1
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@Init: NOP
 .CODE
-lbl_charValue@Character: 
+lbl_main@Init: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 1
-STORE 4; guardar valor de retorno
+PUSH 1
+PUSH 1
+PUSH 'a'
+PUSH lbl_m1@Init
+CALL
+lbl_end_main@Init: NOP
 STOREFP; restaurar FP
-RET 1
-lbl_end_charValue@Character: NOP
+RET 0
+
+lbl_m1@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 5
+STORE 5
+LOAD 5
+PUSH lbl_printIln@System
+CALL
+LOAD 4
+PUSH lbl_printBln@System
+CALL
+LOAD 3
+PUSH lbl_printCln@System
+CALL
+lbl_end_m1@Init: NOP
+STOREFP; restaurar FP
+RET 3
+
+lbl_builder@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@Character: 
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 1
 STOREFP; restaurar FP
-RET 2
+RET 1
 
 
 
@@ -212,91 +297,6 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@System: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 1
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_booleanValue@Boolean: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 1
-PUSH 1
-PUSH 'a'
-PUSH lbl_m1@Init
-CALL
-lbl_end_main@Init: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_m1@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 5
-STORE 5
-LOAD 5
-PUSH lbl_printIln@System
-CALL
-LOAD 4
-PUSH lbl_printBln@System
-CALL
-LOAD 3
-PUSH lbl_printCln@System
-CALL
-lbl_end_m1@Init: NOP
-STOREFP; restaurar FP
-RET 3
-
-lbl_builder@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila

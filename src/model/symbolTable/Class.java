@@ -12,6 +12,8 @@ import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
+import java.util.ArrayList;
+
 import static model.symbolTable.SymbolTable.symbolTable;
 
 public class Class extends MainElement {
@@ -299,6 +301,7 @@ public class Class extends MainElement {
     }
     private void consolidateMethodsFromExtension(List parentMethods) throws SemanticException{
         int max = -1;
+        List pMethods = new List();
         for(Element e : parentMethods.values()){
             Method m = (Method) e;
             if(m.getOffset() > max){
@@ -313,9 +316,15 @@ public class Class extends MainElement {
                 //    mCopy.addParameter((Parameter) p);
                 //methods.put(mCopy.getName(), mCopy);
                 //mCopy.setBloque(m.getBloque());
-                methods.put(m.getName(), m);
+
+
+                //methods.put(m.getName(), m);
+                pMethods.add(m);
             }
         }
+
+        methods = pMethods.append(methods);
+
         if(max == -1){
             max = 0;
         }
