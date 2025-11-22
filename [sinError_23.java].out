@@ -24,6 +24,53 @@ RET 1
 
 
 .DATA
+VT@TestWhile: NOP
+.CODE
+lbl_main@TestWhile: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 2; reservar espacio para variables locales (2)
+PUSH 0
+STORE 0
+PUSH 0
+STORE -1
+lbl_while_inicio@31: NOP
+LOAD 0
+PUSH 5
+LT
+BF lbl_while_fin@31
+LOAD -1
+LOAD 0
+ADD
+STORE -1
+LOAD 0
+PUSH 1
+ADD
+STORE 0
+LOAD 0
+PUSH lbl_debugPrint@Object
+CALL
+JUMP lbl_while_inicio@31
+lbl_while_fin@31: NOP
+LOAD -1
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_main@TestWhile: NOP
+FMEM 2; liberar espacio de variables locales (2)
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@TestWhile: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
@@ -78,6 +125,18 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 2
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
 
 
 
@@ -212,65 +271,6 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@TestWhile: NOP
-.CODE
-lbl_main@TestWhile: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 2; reservar espacio para variables locales (2)
-PUSH 0
-STORE 0
-PUSH 0
-STORE -1
-lbl_while_inicio@11: NOP
-LOAD 0
-PUSH 5
-LT
-BF lbl_while_fin@11
-LOAD -1
-LOAD 0
-ADD
-STORE -1
-LOAD 0
-PUSH 1
-ADD
-STORE 0
-LOAD 0
-PUSH lbl_debugPrint@Object
-CALL
-JUMP lbl_while_inicio@11
-lbl_while_fin@11: NOP
-LOAD -1
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@TestWhile: NOP
-FMEM 2; liberar espacio de variables locales (2)
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@TestWhile: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila

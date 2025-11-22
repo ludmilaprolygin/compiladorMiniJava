@@ -223,10 +223,10 @@ STORE 0
 PUSH 2
 PUSH 1
 LT
-BF lbl_fin_if@6
+BF lbl_fin_if@17
 PUSH 5
 STORE 0
-lbl_fin_if@6: NOP
+lbl_fin_if@17: NOP
 lbl_end_main@T2: NOP
 FMEM 1; liberar espacio de variables locales (1)
 STOREFP; restaurar FP

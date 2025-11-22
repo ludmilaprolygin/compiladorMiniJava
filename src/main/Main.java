@@ -33,7 +33,7 @@ public class Main {
                 String outputFileName = "[" + fileName + "].out";
                 openFile(fileName);
                 //lexicalAnalysis();
-                syntacticAnalysis();
+                syntacticAnalysis(fileName);
                 closeFile();
                 loadPredefined();
                 semanticAnalysis();
@@ -49,7 +49,7 @@ public class Main {
                 String outputFileName = args[1];
                 openFile(fileName);
                 //lexicalAnalysis();
-                syntacticAnalysis();
+                syntacticAnalysis(fileName);
                 closeFile();
                 loadPredefined();
                 semanticAnalysis();
@@ -65,7 +65,7 @@ public class Main {
                 String fileName = "resources/sinErrores/testInheritance.java";
                 openFile(fileName);
                 //lexicalAnalysis();
-                syntacticAnalysis();
+                syntacticAnalysis(fileName);
                 closeFile();
                 loadPredefined();
                 semanticAnalysis();
@@ -118,16 +118,21 @@ public class Main {
         System.out.println(lexicalConsoleMessage.getErrorMessage());
     }
 
-    private static void syntacticAnalysis() throws Exception {
+    private static void syntacticAnalysis(String fileName) throws Exception {
         lexicalAnalyzer.init(sourceManager);
-        syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+        syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer, true);
+        closeFile();
+
+        openFile(fileName);
+        lexicalAnalyzer.init(sourceManager);
+        syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer, false);
     }
 
     private static void loadPredefined() {
         try{
             String predefinedFilePath = "src/model/symbolTable/Predefined.txt";
             openFile(predefinedFilePath);
-            syntacticAnalysis();
+            syntacticAnalysis(predefinedFilePath);
             closeFile();
         }
         catch(Exception e){

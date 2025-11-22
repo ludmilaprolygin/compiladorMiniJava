@@ -8,6 +8,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static model.TokenType.*;
@@ -23,6 +24,7 @@ public class SymbolTable extends Element {
     private NodoBloque bloque;
     private boolean hasMain;
     private MainElement mainClass;
+    private List<MainElement> checkedElements;
 
     private SymbolTable() {
         reset();
@@ -51,6 +53,7 @@ public class SymbolTable extends Element {
         interfaces = new Table<>();
         bloque = new NodoBloqueVacio();
         hasMain = false;
+        checkedElements = new ArrayList<>();
         createObject();
         createString();
         createSystem();
@@ -347,5 +350,21 @@ public class SymbolTable extends Element {
         for(Class c : classes.values()){
             c.gen(outputManager);
         }
+    }
+
+    public void addCheckedClass(Token className, Class c) {
+        checkedElements.add(c);
+    }
+
+    public List<MainElement> getCheckedElements() {
+        return checkedElements;
+    }
+
+    public Class getCheckedClass(Token t){
+        for(MainElement e : checkedElements){
+            if(e.getName().getLexeme().equals(t.getLexeme()))
+                return (Class)e;
+        }
+        return null;
     }
 }

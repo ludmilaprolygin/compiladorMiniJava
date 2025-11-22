@@ -89,7 +89,7 @@ public class MainSemantico {
 
     private static void syntacticAnalysis() throws Exception {
         lexicalAnalyzer.init(sourceManager);
-        syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer);
+        syntacticAnalyzer = new SyntacticAnalyzer(lexicalAnalyzer, false);
     }
 
     private static void loadPredefined() {

@@ -35,10 +35,13 @@ public class SyntacticAnalyzer {
     private static final Following following = new Following(firsts);
     private final SymbolTable symbolTable = SymbolTable.symbolTable();
 
-    public SyntacticAnalyzer(LexicalAnalyzer lexicalAnalyzer) throws Exception {
+    public SyntacticAnalyzer(LexicalAnalyzer lexicalAnalyzer, boolean first) throws Exception {
         this.lexicalAnalyzer = lexicalAnalyzer;
         this.currentToken = lexicalAnalyzer.nextToken();
-        inicial();
+        if(first)
+            collectClasses();
+        else
+            inicial();
     }
 
     public void match (TokenType tokenType) throws Exception {
@@ -54,6 +57,7 @@ public class SyntacticAnalyzer {
     }
 
     private void inicial() throws Exception {
+        //collectClasses();
         listaClases();
         match(END_OF_FILE);
     }
@@ -1351,4 +1355,43 @@ public class SyntacticAnalyzer {
         else { /* epsilon */ }
         return toReturn;
     }
+
+    public void collectClasses() throws Exception {
+        while (getCurrentTokenType() == reservedClass || getCurrentTokenType() == reservedInterface) {
+
+            if (getCurrentTokenType() == reservedClass) {
+                match(reservedClass);
+                Token className = currentToken;
+                match(idClase);
+
+                Class c = new Class(null, className, null, symbolTable.getObjectClass(), 'e');
+                symbolTable.addCheckedClass(className, c);
+
+                skipBalancedBraces();
+            }
+            else {  // interface
+                match(reservedInterface);
+                Token ifaceName = currentToken;
+                match(idClase);
+
+                Interface inter = new Interface(null, ifaceName, null, null, 'i');
+                symbolTable.addInterface(ifaceName, inter);
+
+                skipBalancedBraces();
+            }
+        }
+    }
+
+    private void skipBalancedBraces() throws Exception {
+        match(openBracket);
+        int depth = 1;
+
+        while (depth > 0) {
+            TokenType t = getCurrentTokenType();
+            if (t == openBracket) depth++;
+            else if (t == closeBracket) depth--;
+            currentToken = lexicalAnalyzer.nextToken();
+        }
+    }
+
 }
