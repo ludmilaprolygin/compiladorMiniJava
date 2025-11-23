@@ -9,6 +9,7 @@ import model.AST.Operandos.NodoVar;
 import model.AST.Sentencias.NodoReturn;
 import model.AST.Sentencias.NodoSentencia;
 import model.AST.Sentencias.NodoSentenciaConExpresion;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.AbstractType;
 import model.symbolTable.Method;
@@ -126,9 +127,17 @@ public class NodoBloque extends NodoSentencia {
     public void gen(OutputManager o) {
         setOffsets();
 
+        int cantVars = variables.size();
+
+        if (cantVars > 0)
+            o.gen(Instructions.RMEM + " " + cantVars + Comments.RESERVE_VARS.getComment(cantVars));
+
         for (NodoSentencia s : statements) {
             s.gen(o);
         }
+
+        if (cantVars > 0)
+            o.gen(Instructions.FMEM + " " + cantVars + Comments.FREE_VARS.getComment(cantVars));
 
     }
 

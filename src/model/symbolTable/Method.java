@@ -73,9 +73,9 @@ public class Method extends Service {
             int cantVars = localVarCount;
             boolean isVoid = this.returnType.getName().getLexeme()
                     .equals(TokenType.reservedVoid.getTypeExplanation());
-
-            if (cantVars > 0)
-                o.gen(Instructions.RMEM + " " + cantVars + Comments.RESERVE_VARS.getComment(cantVars));
+//
+//            if (cantVars > 0)
+//                o.gen(Instructions.RMEM + " " + cantVars + Comments.RESERVE_VARS.getComment(cantVars));
 
             bloque.gen(o);
 
@@ -85,9 +85,9 @@ public class Method extends Service {
 
             o.gen(lblEnd + ": " + Instructions.NOP);
 
-            if(cantVars > 0){
-                o.gen(Instructions.FMEM + " " + cantVars + Comments.FREE_VARS.getComment(cantVars));
-            }
+//            if(cantVars > 0){
+//                o.gen(Instructions.FMEM + " " + cantVars + Comments.FREE_VARS.getComment(cantVars));
+//            }
 
             boolean isStatic = getModifier() != null && getModifier().getTokenType().equals(reservedStatic);
             int fMEM = isStatic ? parameters.size() : parameters.size() + 1;

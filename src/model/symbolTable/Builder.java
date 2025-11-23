@@ -34,16 +34,16 @@ public class Builder extends Service {
 
         o.prologue();
 
-        if(localVarCount > 0) {
-            o.gen(Instructions.RMEM + " " + localVarCount);
-        }
+//        if(localVarCount > 0) {
+//            o.gen(Instructions.RMEM + " " + localVarCount);
+//        }
 
         genToString(o);
         bloque.gen(o);
 
-        if(localVarCount > 0) {
-            o.gen(Instructions.FMEM + " " + localVarCount);
-        }
+//        if(localVarCount > 0) {
+//            o.gen(Instructions.FMEM + " " + localVarCount);
+//        }
 
         o.epilogue(parameters.size() + 1);
     }
