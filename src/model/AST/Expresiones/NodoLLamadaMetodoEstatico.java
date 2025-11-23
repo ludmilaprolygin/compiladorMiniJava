@@ -4,6 +4,7 @@ import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Operandos.NodoVar;
 import model.Token;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import model.symbolTable.Class;
@@ -13,12 +14,14 @@ import utils.messages.SemanticErrorIIMessage;
 import utils.messages.SemanticErrorIMessage;
 
 import static model.TokenType.reservedStatic;
+import static model.TokenType.reservedVoid;
 
 public class NodoLLamadaMetodoEstatico extends NodoExpresion {
     private Token idC;
     private Token idM;
     private java.util.List<NodoExpresion> argumentos;
     private Encadenado encadenado;
+    private Method asociatedMethod;
 
     public NodoLLamadaMetodoEstatico(Token c, Token m, java.util.List<NodoExpresion> args){
         idC = c;
@@ -51,6 +54,7 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
         compareArgs(m);
 
         AbstractType miTipoDeRetorno = m.getReturnType();
+        asociatedMethod = m;
 
         if (encadenado != null) {
             return encadenado.check(miTipoDeRetorno);
@@ -97,6 +101,12 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
 
     @Override
     public void gen(OutputManager o) {
+        boolean isVoid = asociatedMethod.getReturnType().getName().getLexeme().equals(reservedVoid.getTypeExplanation());
+
+        if (!isVoid) {
+            o.gen(Instructions.RMEM + " 1" + Comments.RESERVE_RETURN.getComment());
+        }
+
         for(NodoExpresion n : argumentos){
             n.gen(o);
         }

@@ -342,6 +342,7 @@ lbl_main@TestWhileReturn:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
+RMEM 1; reservar lugar para el retorno
 PUSH 5
 PUSH lbl_sumaHasta@TestWhileReturn
 CALL
