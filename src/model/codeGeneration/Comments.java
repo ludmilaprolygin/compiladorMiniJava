@@ -20,7 +20,12 @@ public enum Comments {
     FREE_RETURN_VALUE   ("; liberar valor de retorno"),
     NULL                ("; valor null"),
     ATTRIBUTE_ACCESS    ("; acceso a atributo"),
-    ATTRIBUTE_ASSIGNMENT("; asignacion a atributo");
+    ATTRIBUTE_ASSIGNMENT("; asignacion a atributo"),
+    STORE_PARAM         ("; almacenar parametro"),
+    LOAD_PARAM          ("; cargar parametro"),
+    STORE_LOCAL         ("; almacenar variable local"),
+    LOAD_LOCAL          ("; cargar variable local"),
+    ;
 
 
     private final String comment;

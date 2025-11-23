@@ -3,10 +3,12 @@ package model.AST.Operandos;
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
+import model.AST.Encadenados.NodoVarEncadenada;
 import model.AST.Sentencias.Bloques.NodoBloque;
 import model.Token;
 import model.TokenType;
 import model.codeGeneration.CodeGenConfig;
+import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
 import outputManager.OutputManager;
@@ -195,6 +197,8 @@ public class NodoVar extends NodoOperando implements Var {
         //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         //System.out.println("ASCII DE a: " + (int)'a');
+        boolean ladoIzqFinal = esLadoIzq && (encadenado == null || encadenado instanceof EncadenadoVacio);
+
         if(tipo instanceof CharType)
             token.setLexeme(String.valueOf((int)token.getLexeme().charAt(0)));
         if (varAsociada instanceof Parameter p) {
@@ -211,30 +215,30 @@ public class NodoVar extends NodoOperando implements Var {
 
             //System.out.println("computed offset de " + p.getTokenName().getLexeme() + ": " + computedOffset);
 
-            if (esLadoIzq) {
-                o.gen(Instructions.STORE + " " + computedOffset);
+            if (ladoIzqFinal) {
+                o.gen(Instructions.STORE + " " + computedOffset + Comments.STORE_PARAM.getComment() + " (" + p.getTokenName().getLexeme() + ")");
             } else {
-                o.gen(Instructions.LOAD + " " + computedOffset);
+                o.gen(Instructions.LOAD + " " + computedOffset + Comments.LOAD_PARAM.getComment() + " (" + p.getTokenName().getLexeme() + ")");
             }
         }
 
         else if(varAsociada instanceof Attribute a) {
             o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
-            if (esLadoIzq) {
+            if (ladoIzqFinal) {
                 o.gen(Instructions.SWAP.toString());
-                o.gen(Instructions.STOREREF + " " + a.getOffset());
+                o.gen(Instructions.STOREREF + " " + a.getOffset() + Comments.ATTRIBUTE_ASSIGNMENT.getComment() + " (" + a.getTokenName().getLexeme() + ")");
             } else {
-                 o.gen(Instructions.LOADREF + " " + a.getOffset());
+                 o.gen(Instructions.LOADREF + " " + a.getOffset() + Comments.ATTRIBUTE_ACCESS.getComment() + " (" + a.getTokenName().getLexeme() + ")");
             }
         }
         else if(varAsociada instanceof NodoVar v) {
             setOffsetsForVarLocal();
             //System.out.println("offset local de " + v.getTokenName().getLexeme() + ": " + v.getOffset());
-            if (esLadoIzq) {
-                o.gen(Instructions.STORE + " " + v.getOffset());
+            if (ladoIzqFinal) {
+                o.gen(Instructions.STORE + " " + v.getOffset() + Comments.STORE_LOCAL.getComment() + " (" + v.getTokenName().getLexeme() + ")");
             }
             else {
-                o.gen(Instructions.LOAD + " " + v.getOffset());
+                o.gen(Instructions.LOAD + " " + v.getOffset() + Comments.LOAD_LOCAL.getComment() + " (" + v.getTokenName().getLexeme() + ")");
             }
         }
         //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
@@ -246,6 +250,9 @@ public class NodoVar extends NodoOperando implements Var {
         }
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
+            if(encadenado instanceof NodoVarEncadenada v && esLadoIzq){
+                v.setLeftValue();
+            }
             encadenado.gen(o, tipo);
         }
 

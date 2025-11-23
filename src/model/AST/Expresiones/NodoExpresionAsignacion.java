@@ -79,6 +79,5 @@ public class NodoExpresionAsignacion extends NodoExpresion{
 
         ladoIzquierdo.setEsLadoIzq();
         ladoIzquierdo.gen(o);
-        ladoIzquierdo.setEsLadoIzq();
     }
 }
