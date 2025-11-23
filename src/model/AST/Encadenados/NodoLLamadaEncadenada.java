@@ -1,6 +1,7 @@
 package model.AST.Encadenados;
 
 import model.AST.Expresiones.NodoExpresion;
+import model.AST.Expresiones.NodoExpresionUnaria;
 import model.Token;
 import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Comments;
@@ -85,6 +86,9 @@ public class NodoLLamadaEncadenada extends Encadenado {
 
         if(!isStatic){
             for (NodoExpresion p : parametros) {
+                if(p instanceof NodoExpresionUnaria n){
+                    n.setIsStatementExpression();
+                }
                 p.gen(o);
                 o.gen(Instructions.SWAP.toString());
             }

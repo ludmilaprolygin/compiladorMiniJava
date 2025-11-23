@@ -1,4 +1,4 @@
-///6&5&1&4&5&6&&8&9&10&exitosamente
+///6&5&2&4&6&8&9&10&exitosamente
 class TestIf {
     static void main() {
         var x = 5;

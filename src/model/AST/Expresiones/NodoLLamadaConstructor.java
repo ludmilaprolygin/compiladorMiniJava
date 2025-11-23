@@ -89,6 +89,9 @@ public class NodoLLamadaConstructor extends NodoExpresion {
         o.gen(Instructions.DUP.toString());
 
         for(NodoExpresion n : parametros){
+            if(n instanceof NodoExpresionUnaria u){
+                u.setIsStatementExpression();
+            }
             n.gen(o);
             o.gen(Instructions.SWAP.toString());
         }

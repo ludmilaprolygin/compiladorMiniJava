@@ -26,6 +26,27 @@ RET 1
 .DATA
 VT@Init: DW lbl_test@Init
 .CODE
+lbl_test@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 1
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (x)
+LOAD 3
+LOADREF 2; acceso a atributo (x)
+LOAD 3
+SWAP
+STOREREF 3; asignacion a atributo (y)
+LOAD 3
+LOADREF 3; acceso a atributo (y)
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_test@Init: NOP
+STOREFP; restaurar FP
+RET 1
+
 lbl_main@Init: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
@@ -47,27 +68,6 @@ CALL
 lbl_end_main@Init: NOP
 STOREFP; restaurar FP
 RET 0
-
-lbl_test@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 1
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (x)
-LOAD 3
-LOADREF 2; acceso a atributo (x)
-LOAD 3
-SWAP
-STOREREF 3; asignacion a atributo (y)
-LOAD 3
-LOADREF 3; acceso a atributo (y)
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_test@Init: NOP
-STOREFP; restaurar FP
-RET 1
 
 lbl_builder@Init: 
 LOADFP; apilar valor de FP

@@ -122,6 +122,9 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
         }
 
         for(NodoExpresion n : argumentos){
+            if(n instanceof NodoExpresionUnaria a){
+                a.setIsStatementExpression();
+            }
             n.gen(o);
         }
         o.gen(Instructions.PUSH + " lbl_" + idM.getLexeme() + "@" + idC.getLexeme());

@@ -5,12 +5,6 @@
 ///--------------------
 //@Autor: Lau
 
-class TEMP {
-    static void main() {
-        System.printSln("Este es un archivo temporal.");
-    }
-}
-
 // 1. Clase 'Nodo'
 // Representa un eslabón de la cadena.
 //class Nodo {
@@ -74,11 +68,11 @@ class TEMP {
 //        }
 //    }
 //}
-//
-//// 3. Clase 'Main'
-//// Prueba la lista.
-//class Main {
-//    static void main() {
+
+// 3. Clase 'Main'
+// Prueba la lista.
+class Main {
+    static void main() {
 //        var miLista = new Lista();
 //
 //        miLista.agregar(10);
@@ -89,5 +83,5 @@ class TEMP {
 //        miLista.imprimir();
 //
 //        System.printSln("--------------------");
-//    }
-//}
+    }
+}

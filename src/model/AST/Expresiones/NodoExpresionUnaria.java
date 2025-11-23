@@ -16,6 +16,7 @@ public class NodoExpresionUnaria extends NodoExpresion{
 
     protected Token operador;
     protected NodoExpresion ladoDerecho;
+    protected boolean isStatementExpression = false;
 
     public NodoExpresionUnaria(Token t, NodoExpresion d){
         operador = t;
@@ -76,6 +77,8 @@ public class NodoExpresionUnaria extends NodoExpresion{
         if(operador.getTokenType() == TokenType.incrementOp){
             o.gen(Instructions.PUSH + " 1");
             o.gen(Instructions.ADD.toString());
+            if(isStatementExpression)
+                o.gen(Instructions.DUP.toString());
 
             ladoDerecho.setEsLadoIzq();
             ladoDerecho.gen(o);
@@ -84,6 +87,8 @@ public class NodoExpresionUnaria extends NodoExpresion{
         else if(operador.getTokenType() == TokenType.decrementOp){
             o.gen(Instructions.PUSH + " 1");
             o.gen(Instructions.SUB.toString());
+            if(isStatementExpression)
+                o.gen(Instructions.DUP.toString());
 
             ladoDerecho.setEsLadoIzq();
             ladoDerecho.gen(o);
@@ -98,5 +103,9 @@ public class NodoExpresionUnaria extends NodoExpresion{
         else if(operador.getTokenType() == TokenType.notOp){
             o.gen(Instructions.NOT.toString());
         }
+    }
+
+    public void setIsStatementExpression() {
+        isStatementExpression = true;
     }
 }

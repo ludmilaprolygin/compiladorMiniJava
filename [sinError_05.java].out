@@ -24,6 +24,75 @@ RET 1
 
 
 .DATA
+VT@Init5: NOP
+.CODE
+lbl_main@Init5: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 0
+PUSH lbl_m1@Init5
+CALL
+lbl_end_main@Init5: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_m1@Init5: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 0
+STORE 3; almacenar parametro (p1)
+LOAD 3; cargar parametro (p1)
+PUSH lbl_printIln@System
+CALL
+LOAD 3; cargar parametro (p1)
+PUSH 1
+ADD
+STORE 3; almacenar parametro (p1)
+LOAD 3; cargar parametro (p1)
+PUSH lbl_printIln@System
+CALL
+lbl_end_m1@Init5: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Init5: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Init5: DW "Init5",0
+.CODE
+PUSH className@Init5
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@System: NOP
 .CODE
 lbl_read@System: 
@@ -220,6 +289,35 @@ RET 2
 
 
 .DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
@@ -252,104 +350,6 @@ SWAP
 STOREREF 2; asignacion a atributo (value)
 STOREFP; restaurar FP
 RET 2
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Object: DW "Object",0
-.CODE
-PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Init5: NOP
-.CODE
-lbl_main@Init5: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 0
-PUSH lbl_m1@Init5
-CALL
-lbl_end_main@Init5: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_m1@Init5: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 0
-STORE 3; almacenar parametro (p1)
-LOAD 3; cargar parametro (p1)
-PUSH lbl_printIln@System
-CALL
-LOAD 3; cargar parametro (p1)
-PUSH 1
-ADD
-STORE 3; almacenar parametro (p1)
-LOAD 3; cargar parametro (p1)
-PUSH lbl_printIln@System
-CALL
-lbl_end_m1@Init5: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Init5: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Init5: DW "Init5",0
-.CODE
-PUSH className@Init5
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@String: DW "String",0
-.CODE
-PUSH className@String
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
 
 
 

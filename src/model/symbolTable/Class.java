@@ -388,12 +388,12 @@ public class Class extends MainElement {
         sortByOffset(attributes);
         sortByOffset(methods);
 
-//        List dynamicMethods = getNonStaticMethods();
-//        List myMethods = myMethods();
-//
-//        for(int i = 0; i < dynamicMethods.size(); i++){
-//            dynamicMethods.get(i).setOffset(i);
-//        }
+        List dynamicMethods = getNonStaticMethods();
+        List myMethods = myMethods();
+
+        for(int i = 0; i < dynamicMethods.size(); i++){
+            dynamicMethods.get(i).setOffset(i);
+        }
 
         //setStaticOffsets(methods);
         //setOffsets(dynamicMethods);

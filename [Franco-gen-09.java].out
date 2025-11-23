@@ -271,6 +271,16 @@ RET 2
 VT@Init: DW lbl_m1@Init
 DW lbl_m2@Init
 .CODE
+lbl_m1@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+lbl_end_m1@Init: NOP
+STOREFP; restaurar FP
+RET 1
+
 lbl_main@Init: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
@@ -320,16 +330,6 @@ POP; liberar valor de retorno
 lbl_end_main@Init: NOP
 STOREFP; restaurar FP
 RET 0
-
-lbl_m1@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-lbl_end_m1@Init: NOP
-STOREFP; restaurar FP
-RET 1
 
 lbl_m2@Init: 
 LOADFP; apilar valor de FP

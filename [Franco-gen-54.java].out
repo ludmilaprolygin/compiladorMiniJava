@@ -215,8 +215,8 @@ RET 1
 
 
 .DATA
-VT@Deportivo: DW lbl_prenderLuces@Vehiculo
-DW lbl_acelerar@Deportivo
+VT@Deportivo: DW lbl_acelerar@Deportivo
+DW lbl_prenderLuces@Vehiculo
 DW lbl_frenar@Deportivo
 .CODE
 lbl_acelerar@Deportivo: 
@@ -306,12 +306,12 @@ CALL
 LOAD 0; cargar variable local (v)
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (frenar)
+LOADREF 1; cargar metodo (frenar)
 CALL
 LOAD -2; cargar variable local (d)
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (acelerar)
+LOADREF 0; cargar metodo (acelerar)
 CALL
 lbl_end_andar@TestHerencia: NOP
 FMEM 3; liberar espacio de variables locales (3)

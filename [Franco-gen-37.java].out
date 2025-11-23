@@ -1,7 +1,7 @@
 .CODE
 PUSH simple_heap_init
 CALL
-PUSH lbl_main@TEMP
+PUSH lbl_main@Main
 CALL
 HALT
 
@@ -60,30 +60,24 @@ RET 2
 
 
 .DATA
-VT@TEMP: NOP
+VT@Main: NOP
 .CODE
-lbl_main@TEMP: 
+lbl_main@Main: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-.DATA
-lblString@146: DW "Este es un archivo temporal.",0
-.CODE
-PUSH lblString@146
-PUSH lbl_printSln@System
-CALL
-lbl_end_main@TEMP: NOP
+lbl_end_main@Main: NOP
 STOREFP; restaurar FP
 RET 0
 
-lbl_builder@TEMP: 
+lbl_builder@Main: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@TEMP: DW "TEMP",0
+className@Main: DW "Main",0
 .CODE
-PUSH className@TEMP
+PUSH className@Main
 LOAD 3
 SWAP
 STOREREF 1

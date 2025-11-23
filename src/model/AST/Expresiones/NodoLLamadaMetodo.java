@@ -128,6 +128,9 @@ public class NodoLLamadaMetodo extends NodoExpresion {
         correctOffsets();
 
         for(NodoExpresion a: argumentos){
+            if(a instanceof NodoExpresionUnaria n){
+                n.setIsStatementExpression();
+            }
             a.gen(o);
             System.out.println(a.getClass().getSimpleName() + " " + a.toString(5));
             if(a instanceof Var v)

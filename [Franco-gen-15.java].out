@@ -91,6 +91,17 @@ RET 2
 .DATA
 VT@Init: DW lbl_m1@Init
 .CODE
+lbl_m1@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 1
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_m1@Init: NOP
+STOREFP; restaurar FP
+RET 1
+
 lbl_main@Init: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
@@ -161,17 +172,6 @@ RET 0
 lbl_end_m2@Init: NOP
 STOREFP; restaurar FP
 RET 0
-
-lbl_m1@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 1
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_m1@Init: NOP
-STOREFP; restaurar FP
-RET 1
 
 lbl_builder@Init: 
 LOADFP; apilar valor de FP
