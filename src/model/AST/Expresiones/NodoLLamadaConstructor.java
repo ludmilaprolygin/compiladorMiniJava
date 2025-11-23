@@ -85,12 +85,14 @@ public class NodoLLamadaConstructor extends NodoExpresion {
         o.gen(Instructions.PUSH + " VT@" + classType.getName().getLexeme());
         o.gen(Instructions.STOREREF + " 0");
 
+        o.gen(Instructions.DUP.toString());
+
         for(NodoExpresion n : parametros){
             n.gen(o);
             o.gen(Instructions.SWAP.toString());
         }
 
-        o.gen(Instructions.DUP.toString());
+//        o.gen(Instructions.DUP.toString());
         o.gen(Instructions.PUSH + " lbl_builder@" + classType.getName().getLexeme());
         o.gen(Instructions.CALL.toString());
 

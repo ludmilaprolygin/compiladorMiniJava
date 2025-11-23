@@ -24,6 +24,382 @@ RET 1
 
 
 .DATA
+VT@Nodo: NOP
+.CODE
+lbl_builder@Nodo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Nodo: DW "Nodo",0
+.CODE
+PUSH className@Nodo
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 3
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 4
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Arbol: DW lbl_insertar@Arbol
+DW lbl_insertarRec@Arbol
+DW lbl_imprimir@Arbol
+DW lbl_imprimirRec@Arbol
+.CODE
+lbl_insertar@Arbol: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2
+PUSH 0; valor null
+EQ
+BF lbl_else@68
+RMEM 1
+PUSH 5
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Nodo
+STOREREF 0
+DUP
+LOAD 4
+SWAP
+PUSH lbl_builder@Nodo
+CALL
+LOAD 3
+SWAP
+STOREREF 2
+JUMP lbl_fin_if@68
+lbl_else@68: NOP
+LOAD 3
+LOAD 3
+LOADREF 2
+SWAP
+LOAD 4
+SWAP
+DUP
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 1; cargar metodo (insertarRec)
+CALL
+lbl_fin_if@68: NOP
+lbl_end_insertar@Arbol: NOP
+STOREFP; restaurar FP
+RET 2
+
+lbl_insertarRec@Arbol: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+LOAD 5
+LOADREF 2; acceso a atributo (valor)
+LT
+BF lbl_else@76
+LOAD 5
+LOADREF 3; acceso a atributo (izq)
+PUSH 0; valor null
+EQ
+BF lbl_else@77
+RMEM 1
+PUSH 5
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Nodo
+STOREREF 0
+DUP
+LOAD 4
+SWAP
+PUSH lbl_builder@Nodo
+CALL
+STORE 5
+LOADREF 3; acceso a atributo (izq)
+JUMP lbl_fin_if@77
+lbl_else@77: NOP
+LOAD 3
+LOAD 5
+LOADREF 3; acceso a atributo (izq)
+SWAP
+LOAD 4
+SWAP
+DUP
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 1; cargar metodo (insertarRec)
+CALL
+lbl_fin_if@77: NOP
+JUMP lbl_fin_if@76
+lbl_else@76: NOP
+LOAD 5
+LOADREF 4; acceso a atributo (der)
+PUSH 0; valor null
+EQ
+BF lbl_else@83
+RMEM 1
+PUSH 5
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Nodo
+STOREREF 0
+DUP
+LOAD 4
+SWAP
+PUSH lbl_builder@Nodo
+CALL
+STORE 5
+LOADREF 4; acceso a atributo (der)
+JUMP lbl_fin_if@83
+lbl_else@83: NOP
+LOAD 3
+LOAD 5
+LOADREF 4; acceso a atributo (der)
+SWAP
+LOAD 4
+SWAP
+DUP
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 1; cargar metodo (insertarRec)
+CALL
+lbl_fin_if@83: NOP
+lbl_fin_if@76: NOP
+lbl_end_insertarRec@Arbol: NOP
+STOREFP; restaurar FP
+RET 3
+
+lbl_imprimir@Arbol: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOAD 3
+LOADREF 2
+SWAP
+DUP
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 3; cargar metodo (imprimirRec)
+CALL
+lbl_end_imprimir@Arbol: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_imprimirRec@Arbol: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+PUSH 0; valor null
+NE
+BF lbl_fin_if@96
+LOAD 3
+LOAD 4
+LOADREF 3; acceso a atributo (izq)
+SWAP
+DUP
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 3; cargar metodo (imprimirRec)
+CALL
+LOAD 4
+LOADREF 2; acceso a atributo (valor)
+PUSH lbl_printIln@System
+CALL
+LOAD 3
+LOAD 4
+LOADREF 4; acceso a atributo (der)
+SWAP
+DUP
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 3; cargar metodo (imprimirRec)
+CALL
+lbl_fin_if@96: NOP
+lbl_end_imprimirRec@Arbol: NOP
+STOREFP; restaurar FP
+RET 2
+
+lbl_builder@Arbol: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Arbol: DW "Arbol",0
+.CODE
+PUSH className@Arbol
+LOAD 3
+SWAP
+STOREREF 1
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 2
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_intValue@Integer: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Integer: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Integer: DW "Integer",0
+.CODE
+PUSH className@Integer
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Main: NOP
+.CODE
+lbl_main@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 1; reservar espacio para variables locales (1)
+RMEM 1
+PUSH 3
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Arbol
+STOREREF 0
+DUP
+PUSH lbl_builder@Arbol
+CALL
+STORE 0
+LOAD 0
+PUSH 50
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 0; cargar metodo (insertar)
+CALL
+LOAD 0
+PUSH 30
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 0; cargar metodo (insertar)
+CALL
+LOAD 0
+PUSH 20
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 0; cargar metodo (insertar)
+CALL
+LOAD 0
+PUSH 40
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 0; cargar metodo (insertar)
+CALL
+LOAD 0
+PUSH 70
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 0; cargar metodo (insertar)
+CALL
+LOAD 0
+PUSH 60
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 0; cargar metodo (insertar)
+CALL
+LOAD 0
+PUSH 80
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 0; cargar metodo (insertar)
+CALL
+LOAD 0
+DUP; duplicar this
+LOADREF 0; cargar la VT (Arbol)
+LOADREF 2; cargar metodo (imprimir)
+CALL
+lbl_end_main@Main: NOP
+FMEM 1; liberar espacio de variables locales (1)
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Main: DW "Main",0
+.CODE
+PUSH className@Main
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@System: NOP
 .CODE
 lbl_read@System: 
@@ -148,363 +524,6 @@ RET 1
 
 
 .DATA
-VT@Nodo: NOP
-.CODE
-lbl_builder@Nodo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Nodo: DW "Nodo",0
-.CODE
-PUSH className@Nodo
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 2
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 3
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 4
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_intValue@Integer: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Integer: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Integer: DW "Integer",0
-.CODE
-PUSH className@Integer
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 2
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@Arbol: DW lbl_insertar@Arbol
-DW lbl_insertarRec@Arbol
-DW lbl_imprimir@Arbol
-DW lbl_imprimirRec@Arbol
-.CODE
-lbl_insertar@Arbol: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2
-PUSH 0; valor null
-EQ
-BF lbl_else@68
-RMEM 1
-PUSH 5
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Nodo
-STOREREF 0
-LOAD 4
-SWAP
-DUP
-PUSH lbl_builder@Nodo
-CALL
-LOAD 3
-SWAP
-STOREREF 2
-JUMP lbl_fin_if@68
-lbl_else@68: NOP
-LOAD 3
-LOAD 3
-LOADREF 2
-SWAP
-LOAD 4
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (insertarRec)
-CALL
-lbl_fin_if@68: NOP
-lbl_end_insertar@Arbol: NOP
-STOREFP; restaurar FP
-RET 2
-
-lbl_insertarRec@Arbol: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-LOAD 5
-LOADREF 2; acceso a atributo (valor)
-LT
-BF lbl_else@76
-LOAD 5
-LOADREF 3; acceso a atributo (izq)
-PUSH 0; valor null
-EQ
-BF lbl_else@77
-RMEM 1
-PUSH 5
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Nodo
-STOREREF 0
-LOAD 4
-SWAP
-DUP
-PUSH lbl_builder@Nodo
-CALL
-STORE 5
-LOADREF 3; acceso a atributo (izq)
-JUMP lbl_fin_if@77
-lbl_else@77: NOP
-LOAD 3
-LOAD 5
-LOADREF 3; acceso a atributo (izq)
-SWAP
-LOAD 4
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (insertarRec)
-CALL
-lbl_fin_if@77: NOP
-JUMP lbl_fin_if@76
-lbl_else@76: NOP
-LOAD 5
-LOADREF 4; acceso a atributo (der)
-PUSH 0; valor null
-EQ
-BF lbl_else@83
-RMEM 1
-PUSH 5
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Nodo
-STOREREF 0
-LOAD 4
-SWAP
-DUP
-PUSH lbl_builder@Nodo
-CALL
-STORE 5
-LOADREF 4; acceso a atributo (der)
-JUMP lbl_fin_if@83
-lbl_else@83: NOP
-LOAD 3
-LOAD 5
-LOADREF 4; acceso a atributo (der)
-SWAP
-LOAD 4
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (insertarRec)
-CALL
-lbl_fin_if@83: NOP
-lbl_fin_if@76: NOP
-lbl_end_insertarRec@Arbol: NOP
-STOREFP; restaurar FP
-RET 3
-
-lbl_imprimir@Arbol: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOAD 3
-LOADREF 2
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 3; cargar metodo (imprimirRec)
-CALL
-lbl_end_imprimir@Arbol: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_imprimirRec@Arbol: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-PUSH 0; valor null
-NE
-BF lbl_fin_if@96
-LOAD 3
-LOAD 4
-LOADREF 3; acceso a atributo (izq)
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 3; cargar metodo (imprimirRec)
-CALL
-LOAD 4
-LOADREF 2; acceso a atributo (valor)
-PUSH lbl_printIln@System
-CALL
-LOAD 3
-LOAD 4
-LOADREF 4; acceso a atributo (der)
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 3; cargar metodo (imprimirRec)
-CALL
-lbl_fin_if@96: NOP
-lbl_end_imprimirRec@Arbol: NOP
-STOREFP; restaurar FP
-RET 2
-
-lbl_builder@Arbol: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Arbol: DW "Arbol",0
-.CODE
-PUSH className@Arbol
-LOAD 3
-SWAP
-STOREREF 1
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 2
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Main: NOP
-.CODE
-lbl_main@Main: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 1; reservar espacio para variables locales (1)
-RMEM 1
-PUSH 3
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Arbol
-STOREREF 0
-DUP
-PUSH lbl_builder@Arbol
-CALL
-STORE 0
-LOAD 0
-PUSH 50
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0
-PUSH 30
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0
-PUSH 20
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0
-PUSH 40
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0
-PUSH 70
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0
-PUSH 60
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0
-PUSH 80
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 2; cargar metodo (imprimir)
-CALL
-lbl_end_main@Main: NOP
-FMEM 1; liberar espacio de variables locales (1)
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@Main: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Main: DW "Main",0
-.CODE
-PUSH className@Main
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
 VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
@@ -602,25 +621,6 @@ SWAP
 STOREREF 2
 STOREFP; restaurar FP
 RET 2
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@String: DW "String",0
-.CODE
-PUSH className@String
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
 
 
 

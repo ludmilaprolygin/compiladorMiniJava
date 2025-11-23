@@ -24,6 +24,48 @@ RET 1
 
 
 .DATA
+VT@PruebaVoid: NOP
+.CODE
+lbl_f@PruebaVoid: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 0
+lbl_end_f@PruebaVoid: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_main@PruebaVoid: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH lbl_f@PruebaVoid
+CALL
+PUSH 1
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_main@PruebaVoid: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@PruebaVoid: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@PruebaVoid: DW "PruebaVoid",0
+.CODE
+PUSH className@PruebaVoid
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@String: NOP
 .CODE
 lbl_builder@String: 
@@ -63,48 +105,6 @@ STOREFP; almacenar FP en el tope de la pila
 className@Object: DW "Object",0
 .CODE
 PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@PruebaVoid: NOP
-.CODE
-lbl_f@PruebaVoid: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 0
-lbl_end_f@PruebaVoid: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_main@PruebaVoid: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH lbl_f@PruebaVoid
-CALL
-PUSH 1
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@PruebaVoid: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@PruebaVoid: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@PruebaVoid: DW "PruebaVoid",0
-.CODE
-PUSH className@PruebaVoid
 LOAD 3
 SWAP
 STOREREF 1

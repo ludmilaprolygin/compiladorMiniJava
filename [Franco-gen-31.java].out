@@ -24,6 +24,287 @@ RET 1
 
 
 .DATA
+VT@NodoGrafo: DW lbl_conectar@NodoGrafo
+DW lbl_setVisitado@NodoGrafo
+DW lbl_fueVisitado@NodoGrafo
+DW lbl_getId@NodoGrafo
+.CODE
+lbl_conectar@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 5
+LOAD 3
+SWAP
+STOREREF 4
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 5
+lbl_end_conectar@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 3
+
+lbl_setVisitado@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 3
+lbl_end_setVisitado@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 2
+
+lbl_fueVisitado@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 3
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_fueVisitado@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_getId@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_getId@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@NodoGrafo: DW "NodoGrafo",0
+.CODE
+PUSH className@NodoGrafo
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
+PUSH 0
+LOAD 3
+SWAP
+STOREREF 3
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 4
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 5
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Main: NOP
+.CODE
+lbl_main@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 5; reservar espacio para variables locales (5)
+RMEM 1
+PUSH 6
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@NodoGrafo
+STOREREF 0
+DUP
+PUSH 1
+SWAP
+PUSH lbl_builder@NodoGrafo
+CALL
+STORE 0
+RMEM 1
+PUSH 6
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@NodoGrafo
+STOREREF 0
+DUP
+PUSH 2
+SWAP
+PUSH lbl_builder@NodoGrafo
+CALL
+STORE -1
+RMEM 1
+PUSH 6
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@NodoGrafo
+STOREREF 0
+DUP
+PUSH 3
+SWAP
+PUSH lbl_builder@NodoGrafo
+CALL
+STORE -2
+RMEM 1
+PUSH 6
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@NodoGrafo
+STOREREF 0
+DUP
+PUSH 4
+SWAP
+PUSH lbl_builder@NodoGrafo
+CALL
+STORE -3
+LOAD 0
+LOAD -1
+SWAP
+LOAD -2
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (NodoGrafo)
+LOADREF 0; cargar metodo (conectar)
+CALL
+LOAD -1
+LOAD -3
+SWAP
+PUSH 0; valor null
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (NodoGrafo)
+LOADREF 0; cargar metodo (conectar)
+CALL
+LOAD -2
+LOAD -3
+SWAP
+PUSH 0; valor null
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (NodoGrafo)
+LOADREF 0; cargar metodo (conectar)
+CALL
+LOAD -3
+LOAD 0
+SWAP
+PUSH 0; valor null
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (NodoGrafo)
+LOADREF 0; cargar metodo (conectar)
+CALL
+RMEM 1
+PUSH 2
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Grafo
+STOREREF 0
+DUP
+PUSH lbl_builder@Grafo
+CALL
+STORE -4
+LOAD -4
+LOAD 0
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (Grafo)
+LOADREF 0; cargar metodo (dfs)
+CALL
+.DATA
+lblString@132: DW "Fin del recorrido",0
+.CODE
+PUSH lblString@132
+PUSH lbl_printSln@System
+CALL
+lbl_end_main@Main: NOP
+FMEM 5; liberar espacio de variables locales (5)
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Main: DW "Main",0
+.CODE
+PUSH className@Main
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -60,226 +341,38 @@ RET 2
 
 
 .DATA
-VT@Main: NOP
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
-lbl_main@Main: 
+lbl_booleanValue@Boolean: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-RMEM 5; reservar espacio para variables locales (5)
-RMEM 1
-PUSH 6
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@NodoGrafo
-STOREREF 0
-PUSH 1
-SWAP
-DUP
-PUSH lbl_builder@NodoGrafo
-CALL
-STORE 0
-RMEM 1
-PUSH 6
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@NodoGrafo
-STOREREF 0
-PUSH 2
-SWAP
-DUP
-PUSH lbl_builder@NodoGrafo
-CALL
-STORE -1
-RMEM 1
-PUSH 6
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@NodoGrafo
-STOREREF 0
-PUSH 3
-SWAP
-DUP
-PUSH lbl_builder@NodoGrafo
-CALL
-STORE -2
-RMEM 1
-PUSH 6
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@NodoGrafo
-STOREREF 0
-PUSH 4
-SWAP
-DUP
-PUSH lbl_builder@NodoGrafo
-CALL
-STORE -3
-LOAD 0
-LOAD -1
-SWAP
-LOAD -2
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (conectar)
-CALL
-LOAD -1
-LOAD -3
-SWAP
-PUSH 0; valor null
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (conectar)
-CALL
-LOAD -2
-LOAD -3
-SWAP
-PUSH 0; valor null
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (conectar)
-CALL
-LOAD -3
-LOAD 0
-SWAP
-PUSH 0; valor null
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (conectar)
-CALL
-RMEM 1
-PUSH 2
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Grafo
-STOREREF 0
-DUP
-PUSH lbl_builder@Grafo
-CALL
-STORE -4
-LOAD -4
-LOAD 0
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (dfs)
-CALL
-.DATA
-lblString@132: DW "Fin del recorrido",0
-.CODE
-PUSH lblString@132
-PUSH lbl_printSln@System
-CALL
-lbl_end_main@Main: NOP
-FMEM 5; liberar espacio de variables locales (5)
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@Main: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Main: DW "Main",0
-.CODE
-PUSH className@Main
 LOAD 3
-SWAP
-STOREREF 1
+LOADREF 2
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_booleanValue@Boolean: NOP
 STOREFP; restaurar FP
 RET 1
 
-
-
-.DATA
-VT@Grafo: DW lbl_dfs@Grafo
-.CODE
-lbl_dfs@Grafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-PUSH 0; valor null
-EQ
-BF lbl_fin_if@86
-STOREFP; restaurar FP
-RET 2
-lbl_fin_if@86: NOP
-LOAD 4
-RMEM 1; reservar lugar para el retorno
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 2; cargar metodo (fueVisitado)
-CALL
-BF lbl_fin_if@91
-STOREFP; restaurar FP
-RET 2
-lbl_fin_if@91: NOP
-LOAD 4
-PUSH 1
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (setVisitado)
-CALL
-.DATA
-lblString@98: DW "Visito: ",0
-.CODE
-PUSH lblString@98
-PUSH lbl_printS@System
-CALL
-LOAD 4
-RMEM 1; reservar lugar para el retorno
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 3; cargar metodo (getId)
-CALL
-PUSH lbl_printIln@System
-CALL
-LOAD 3
-LOAD 4
-LOADREF 4; acceso a atributo (vecino1)
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (dfs)
-CALL
-LOAD 3
-LOAD 4
-LOADREF 5; acceso a atributo (vecino2)
-SWAP
-DUP
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (dfs)
-CALL
-lbl_end_dfs@Grafo: NOP
-STOREFP; restaurar FP
-RET 2
-
-lbl_builder@Grafo: 
+lbl_builder@Boolean: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Grafo: DW "Grafo",0
+className@Boolean: DW "Boolean",0
 .CODE
-PUSH className@Grafo
+PUSH className@Boolean
 LOAD 3
 SWAP
 STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
 STOREFP; restaurar FP
-RET 1
+RET 2
 
 
 
@@ -320,45 +413,80 @@ RET 2
 
 
 .DATA
-VT@Object: NOP
+VT@Grafo: DW lbl_dfs@Grafo
 .CODE
-lbl_debugPrint@Object: 
+lbl_dfs@Grafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
+LOAD 4
+PUSH 0; valor null
+EQ
+BF lbl_fin_if@86
 STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Object: DW "Object",0
-.CODE
-PUSH className@Object
-LOAD 3
+RET 2
+lbl_fin_if@86: NOP
+LOAD 4
+RMEM 1; reservar lugar para el retorno
 SWAP
-STOREREF 1
+DUP; duplicar this
+LOADREF 0; cargar la VT (NodoGrafo)
+LOADREF 2; cargar metodo (fueVisitado)
+CALL
+BF lbl_fin_if@91
 STOREFP; restaurar FP
-RET 1
-
-
-
+RET 2
+lbl_fin_if@91: NOP
+LOAD 4
+PUSH 1
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (NodoGrafo)
+LOADREF 1; cargar metodo (setVisitado)
+CALL
 .DATA
-VT@String: NOP
+lblString@98: DW "Visito: ",0
 .CODE
-lbl_builder@String: 
+PUSH lblString@98
+PUSH lbl_printS@System
+CALL
+LOAD 4
+RMEM 1; reservar lugar para el retorno
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT (NodoGrafo)
+LOADREF 3; cargar metodo (getId)
+CALL
+PUSH lbl_printIln@System
+CALL
+LOAD 3
+LOAD 4
+LOADREF 4; acceso a atributo (vecino1)
+SWAP
+DUP
+LOADREF 0; cargar la VT (Grafo)
+LOADREF 0; cargar metodo (dfs)
+CALL
+LOAD 3
+LOAD 4
+LOADREF 5; acceso a atributo (vecino2)
+SWAP
+DUP
+LOADREF 0; cargar la VT (Grafo)
+LOADREF 0; cargar metodo (dfs)
+CALL
+lbl_end_dfs@Grafo: NOP
+STOREFP; restaurar FP
+RET 2
+
+lbl_builder@Grafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@String: DW "String",0
+className@Grafo: DW "Grafo",0
 .CODE
-PUSH className@String
+PUSH className@Grafo
 LOAD 3
 SWAP
 STOREREF 1
@@ -488,134 +616,6 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_booleanValue@Boolean: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Boolean: DW "Boolean",0
-.CODE
-PUSH className@Boolean
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 2
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@NodoGrafo: DW lbl_conectar@NodoGrafo
-DW lbl_setVisitado@NodoGrafo
-DW lbl_fueVisitado@NodoGrafo
-DW lbl_getId@NodoGrafo
-.CODE
-lbl_conectar@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 5
-LOAD 3
-SWAP
-STOREREF 4
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 5
-lbl_end_conectar@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 3
-
-lbl_setVisitado@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 3
-lbl_end_setVisitado@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 2
-
-lbl_fueVisitado@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 3
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_fueVisitado@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_getId@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_getId@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@NodoGrafo: DW "NodoGrafo",0
-.CODE
-PUSH className@NodoGrafo
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 2
-PUSH 0
-LOAD 3
-SWAP
-STOREREF 3
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 4
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 5
-STOREFP; restaurar FP
-RET 2
 
 
 

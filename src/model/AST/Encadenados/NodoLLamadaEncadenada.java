@@ -90,7 +90,7 @@ public class NodoLLamadaEncadenada extends Encadenado {
 
         if(!isStatic){
             o.gen(Instructions.DUP.toString() + Comments.DUP_THIS.getComment());
-            o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment());
+            o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment() + " (" + tipo.getName().getLexeme() + ")");
             o.gen(Instructions.LOADREF + " " + offset + Comments.LOAD_METHOD.getComment(metodo.getName().getLexeme()));
         }
         else{

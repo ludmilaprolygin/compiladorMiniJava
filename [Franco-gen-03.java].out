@@ -317,15 +317,15 @@ CALL
 DUP
 PUSH VT@Integer
 STOREREF 0
+DUP
 PUSH 0
 SWAP
-DUP
 PUSH lbl_builder@Integer
 CALL
 RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT
+LOADREF 0; cargar la VT (Integer)
 LOADREF 0; cargar metodo (intValue)
 CALL
 PUSH lbl_printIln@System
@@ -337,15 +337,15 @@ CALL
 DUP
 PUSH VT@Character
 STOREREF 0
+DUP
 PUSH 99
 SWAP
-DUP
 PUSH lbl_builder@Character
 CALL
 RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT
+LOADREF 0; cargar la VT (Character)
 LOADREF 0; cargar metodo (charValue)
 CALL
 PUSH lbl_printCln@System
@@ -357,15 +357,15 @@ CALL
 DUP
 PUSH VT@Boolean
 STOREREF 0
+DUP
 PUSH 1
 SWAP
-DUP
 PUSH lbl_builder@Boolean
 CALL
 RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT
+LOADREF 0; cargar la VT (Boolean)
 LOADREF 0; cargar metodo (booleanValue)
 CALL
 PUSH lbl_printBln@System
