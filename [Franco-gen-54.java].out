@@ -24,188 +24,38 @@ RET 1
 
 
 .DATA
-VT@Vehiculo: DW lbl_acelerar@Vehiculo
-DW lbl_frenar@Vehiculo
-DW lbl_prenderLuces@Vehiculo
+VT@Character: DW lbl_charValue@Character
 .CODE
-lbl_acelerar@Vehiculo: 
+lbl_charValue@Character: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-PUSH 1
-PUSH lbl_printIln@System
-CALL
-lbl_end_acelerar@Vehiculo: NOP
+LOAD 3
+LOADREF 2
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_charValue@Character: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_frenar@Vehiculo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 10
-PUSH lbl_printIln@System
-CALL
-lbl_end_frenar@Vehiculo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_prenderLuces@Vehiculo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 100
-PUSH lbl_printIln@System
-CALL
-lbl_end_prenderLuces@Vehiculo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Vehiculo: 
+lbl_builder@Character: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Vehiculo: DW "Vehiculo",0
+className@Character: DW "Character",0
 .CODE
-PUSH className@Vehiculo
+PUSH className@Character
 LOAD 3
 SWAP
 STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@TestHerencia: DW lbl_andar@TestHerencia
-.CODE
-lbl_andar@TestHerencia: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 3; reservar espacio para variables locales (3)
-RMEM 1
-PUSH 2
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Vehiculo
-STOREREF 0
-DUP
-PUSH lbl_builder@Vehiculo
-CALL
-STORE 0
-RMEM 1
-PUSH 2
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Auto
-STOREREF 0
-DUP
-PUSH lbl_builder@Auto
-CALL
-STORE -1
-RMEM 1
-PUSH 2
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Deportivo
-STOREREF 0
-DUP
-PUSH lbl_builder@Deportivo
-CALL
-STORE -2
-LOAD -1
-DUP; duplicar this
-LOADREF 0; cargar la VT (Auto)
-LOADREF 2; cargar metodo (acelerar)
-CALL
-LOAD 0
-DUP; duplicar this
-LOADREF 0; cargar la VT (Vehiculo)
-LOADREF 0; cargar metodo (frenar)
-CALL
-LOAD -2
-DUP; duplicar this
-LOADREF 0; cargar la VT (Deportivo)
-LOADREF 1; cargar metodo (acelerar)
-CALL
-lbl_end_andar@TestHerencia: NOP
-FMEM 3; liberar espacio de variables locales (3)
-STOREFP; restaurar FP
-RET 1
-
-lbl_main@TestHerencia: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 1; reservar espacio para variables locales (1)
-RMEM 1
-PUSH 2
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@TestHerencia
-STOREREF 0
-DUP
-PUSH lbl_builder@TestHerencia
-CALL
-STORE 0
-LOAD 0
-DUP; duplicar this
-LOADREF 0; cargar la VT (TestHerencia)
-LOADREF 0; cargar metodo (andar)
-CALL
-lbl_end_main@TestHerencia: NOP
-FMEM 1; liberar espacio de variables locales (1)
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@TestHerencia: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@TestHerencia: DW "TestHerencia",0
-.CODE
-PUSH className@TestHerencia
+LOAD 4
 LOAD 3
 SWAP
-STOREREF 1
+STOREREF 2
 STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Object: DW "Object",0
-.CODE
-PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
+RET 2
 
 
 
@@ -334,42 +184,6 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_intValue@Integer: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Integer: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Integer: DW "Integer",0
-.CODE
-PUSH className@Integer
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 2
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
 VT@String: NOP
 .CODE
 lbl_builder@String: 
@@ -425,42 +239,6 @@ RET 2
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_charValue@Character: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Character: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Character: DW "Character",0
-.CODE
-PUSH className@Character
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 2
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
 VT@Auto: DW lbl_frenar@Vehiculo
 DW lbl_prenderLuces@Vehiculo
 DW lbl_acelerar@Auto
@@ -489,6 +267,42 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 1
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_intValue@Integer: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Integer: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Integer: DW "Integer",0
+.CODE
+PUSH className@Integer
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
+STOREFP; restaurar FP
+RET 2
 
 
 
@@ -527,6 +341,192 @@ STOREFP; almacenar FP en el tope de la pila
 className@Deportivo: DW "Deportivo",0
 .CODE
 PUSH className@Deportivo
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Vehiculo: DW lbl_acelerar@Vehiculo
+DW lbl_frenar@Vehiculo
+DW lbl_prenderLuces@Vehiculo
+.CODE
+lbl_acelerar@Vehiculo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 1
+PUSH lbl_printIln@System
+CALL
+lbl_end_acelerar@Vehiculo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_frenar@Vehiculo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 10
+PUSH lbl_printIln@System
+CALL
+lbl_end_frenar@Vehiculo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_prenderLuces@Vehiculo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 100
+PUSH lbl_printIln@System
+CALL
+lbl_end_prenderLuces@Vehiculo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Vehiculo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Vehiculo: DW "Vehiculo",0
+.CODE
+PUSH className@Vehiculo
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@TestHerencia: DW lbl_andar@TestHerencia
+.CODE
+lbl_andar@TestHerencia: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 3; reservar espacio para variables locales (3)
+RMEM 1
+PUSH 2
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Vehiculo
+STOREREF 0
+DUP
+PUSH lbl_builder@Vehiculo
+CALL
+STORE 0
+RMEM 1
+PUSH 2
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Auto
+STOREREF 0
+DUP
+PUSH lbl_builder@Auto
+CALL
+STORE -1
+RMEM 1
+PUSH 2
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Deportivo
+STOREREF 0
+DUP
+PUSH lbl_builder@Deportivo
+CALL
+STORE -2
+LOAD -1
+DUP; duplicar this
+LOADREF 0; cargar la VT (Auto)
+LOADREF 2; cargar metodo (acelerar)
+CALL
+LOAD 0
+DUP; duplicar this
+LOADREF 0; cargar la VT (Vehiculo)
+LOADREF 1; cargar metodo (frenar)
+CALL
+LOAD -2
+DUP; duplicar this
+LOADREF 0; cargar la VT (Deportivo)
+LOADREF 1; cargar metodo (acelerar)
+CALL
+lbl_end_andar@TestHerencia: NOP
+FMEM 3; liberar espacio de variables locales (3)
+STOREFP; restaurar FP
+RET 1
+
+lbl_main@TestHerencia: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 1; reservar espacio para variables locales (1)
+RMEM 1
+PUSH 2
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@TestHerencia
+STOREREF 0
+DUP
+PUSH lbl_builder@TestHerencia
+CALL
+STORE 0
+LOAD 0
+DUP; duplicar this
+LOADREF 0; cargar la VT (TestHerencia)
+LOADREF 0; cargar metodo (andar)
+CALL
+lbl_end_main@TestHerencia: NOP
+FMEM 1; liberar espacio de variables locales (1)
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@TestHerencia: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@TestHerencia: DW "TestHerencia",0
+.CODE
+PUSH className@TestHerencia
 LOAD 3
 SWAP
 STOREREF 1

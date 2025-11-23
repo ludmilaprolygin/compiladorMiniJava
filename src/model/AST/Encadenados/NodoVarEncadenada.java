@@ -10,8 +10,10 @@ import utils.messages.SemanticErrorIIMessage;
 
 public class NodoVarEncadenada extends Encadenado {
     private Attribute associatedAttribute;
+    protected boolean isLeftValue;
     public NodoVarEncadenada(Token t){
         super(t);
+        isLeftValue = false;
     }
     public NodoVarEncadenada(Token t, Encadenado e){
         super(t, e);
@@ -41,9 +43,18 @@ public class NodoVarEncadenada extends Encadenado {
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
     }
 
+    public void setLeftValue() { isLeftValue = !isLeftValue; }
+
     @Override
     public void gen(OutputManager o, AbstractType tipo) {
-        o.gen(Instructions.LOADREF + " " + associatedAttribute.getOffset() + Comments.ATTRIBUTE_ACCESS.getComment(associatedAttribute.getName().getLexeme()));
+        if(!isLeftValue){
+            o.gen(Instructions.LOADREF + " " + associatedAttribute.getOffset() + Comments.ATTRIBUTE_ACCESS.getComment(associatedAttribute.getName().getLexeme()));
+        }
+        else{
+            o.gen(Instructions.SWAP.toString());
+            o.gen(Instructions.STOREREF + " " + associatedAttribute.getOffset() + Comments.ATTRIBUTE_ASSIGNMENT.getComment(associatedAttribute.getName().getLexeme()));
+        }
+
 
         if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
             encadenado.gen(o, associatedAttribute.getType());
