@@ -40,9 +40,7 @@ public class SyntacticAnalyzer {
         this.currentToken = lexicalAnalyzer.nextToken();
         if(first){
             collectClasses();
-//            for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
-//                System.out.println(e.getName().getLexeme());
-//            }
+
         }
         else
             inicial();
@@ -651,6 +649,10 @@ public class SyntacticAnalyzer {
                 call.setEncadenado(chain);
             }
             toReturn = new NodoSentenciaConExpresion(call);
+            NodoExpresion resto = _restoExpresion(call);
+            if (resto != call){
+                toReturn = new NodoSentenciaConExpresion(resto);
+            }
             match(semicolon);
 
         }
@@ -1370,7 +1372,6 @@ public class SyntacticAnalyzer {
 
                 Class c = new Class(null, className, null, symbolTable.getObjectClass(), 'e');
                 symbolTable.addCheckedClass(className, c);
-                //System.out.println("Collected class: " + className.getLexeme());
 
                 skipBalancedBraces();
             }
@@ -1385,19 +1386,21 @@ public class SyntacticAnalyzer {
                 skipBalancedBraces();
             }
         }
-        //System.out.println("Finished collecting classes and interfaces.");
-        //System.out.println(symbolTable.getCheckedElements().toString());
     }
 
     private void skipBalancedBraces() throws Exception {
-        match(openBracket);
-        int depth = 1;
+        try {
+            match(openBracket);
+            int depth = 1;
 
-        while (depth > 0) {
-            TokenType t = getCurrentTokenType();
-            if (t == openBracket) depth++;
-            else if (t == closeBracket) depth--;
-            currentToken = lexicalAnalyzer.nextToken();
+            while (depth > 0) {
+                TokenType t = getCurrentTokenType();
+                if (t == openBracket) depth++;
+                else if (t == closeBracket) depth--;
+                currentToken = lexicalAnalyzer.nextToken();
+            }
+        } catch (Exception e) {
+
         }
     }
 

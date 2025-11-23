@@ -38,7 +38,7 @@ public class NodoExpresionAsignacion extends NodoExpresion{
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(((NodoExpresionBinaria) ladoIzquierdo).getOperador()));
         if(ladoIzquierdo instanceof NodoExpresionTernaria)
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
-        if(ladoIzquierdo instanceof NodoLLamadaConstructor)
+        if(ladoIzquierdo instanceof NodoLLamadaConstructor c && (c.getEncadenado() == null || c.getEncadenado() instanceof EncadenadoVacio))
             throw new SemanticException(SemanticErrorIIMessage.composabilityNotAllowed(operador));
 
         try{

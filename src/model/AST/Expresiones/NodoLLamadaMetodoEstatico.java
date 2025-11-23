@@ -2,6 +2,7 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
+import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.AST.Operandos.NodoVar;
 import model.Token;
 import model.codeGeneration.Comments;
@@ -80,6 +81,19 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
         }
     }
 
+    public AbstractType checkLeftValue() throws SemanticException {
+        Encadenado ultimo = this.getLastEncadenado();
+
+        if (ultimo == null) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(this.getToken()));
+        }
+
+        if (ultimo instanceof NodoLLamadaEncadenada) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(ultimo.getNombre()));
+        }
+        return this.check();
+    }
+
     @Override
     public String toString(int depth) {
         return "";
@@ -115,6 +129,13 @@ public class NodoLLamadaMetodoEstatico extends NodoExpresion {
         //o.printStackTop();
 
         o.gen(Instructions.CALL.toString());
+
+        if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
+            if(esLadoIzq){
+                encadenado.setLeftValue();
+            }
+            encadenado.gen(o, asociatedMethod.getReturnType());
+        }
     }
 
     public void setEncadenado(Encadenado chain) {

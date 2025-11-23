@@ -270,7 +270,7 @@ LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 4; cargar parametro (b1)
 DUP; duplicar this
-LOADREF 0; cargar la VT (B)
+LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo (mostrar)
 CALL
 PUSH 33
@@ -366,7 +366,7 @@ LOAD 0; cargar variable local (a)
 LOAD -1; cargar variable local (b1)
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT (A)
+LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo (mc)
 CALL
 lbl_end_main@Init: NOP

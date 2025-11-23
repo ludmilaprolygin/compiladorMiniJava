@@ -361,13 +361,13 @@ LOAD 0; cargar variable local (x)
 RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT (D)
+LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo (getE)
 CALL
 RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT (E)
+LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo (getInt)
 CALL
 STORE -1; almacenar variable local (y)

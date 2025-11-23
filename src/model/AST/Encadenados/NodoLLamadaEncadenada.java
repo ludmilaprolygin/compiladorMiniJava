@@ -88,8 +88,12 @@ public class NodoLLamadaEncadenada extends Encadenado {
                 p.gen(o);
                 o.gen(Instructions.SWAP.toString());
             }
+            String VTname = "";
+            if(tipo != null){
+                VTname = " (" + tipo.getName().getLexeme() + ")";
+            }
             o.gen(Instructions.DUP.toString() + Comments.DUP_THIS.getComment());
-            o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment() + " (" + tipo.getName().getLexeme() + ")");
+            o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment());
             o.gen(Instructions.LOADREF + " " + offset + Comments.LOAD_METHOD.getComment(metodo.getName().getLexeme()));
         }
         else{ // static method

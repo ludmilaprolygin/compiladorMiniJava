@@ -369,7 +369,7 @@ LOAD 0; cargar variable local (x)
 RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT (A)
+LOADREF 0; cargar la VT
 LOADREF 1; cargar metodo (m2)
 CALL
 POP; liberar valor de retorno
@@ -377,7 +377,7 @@ LOAD 0; cargar variable local (x)
 RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
-LOADREF 0; cargar la VT (A)
+LOADREF 0; cargar la VT
 LOADREF 1; cargar metodo (m2)
 CALL
 PUSH lbl_debugPrint@Object

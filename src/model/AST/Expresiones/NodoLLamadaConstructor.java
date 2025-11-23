@@ -2,6 +2,7 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
+import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.Token;
 import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
@@ -97,6 +98,9 @@ public class NodoLLamadaConstructor extends NodoExpresion {
         o.gen(Instructions.CALL.toString());
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
+            if(esLadoIzq){
+                encadenado.setLeftValue();
+            }
             encadenado.gen(o, classType);
         }
     }
@@ -107,12 +111,12 @@ public class NodoLLamadaConstructor extends NodoExpresion {
     }
 
     protected Class checkClassExistance() throws SemanticException {
-        System.out.println(getToken().getLexeme());
-        System.out.println("Checking existence of class: " + classType.getName().getLexeme());
-        for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
-            System.out.println(e.getName().getLexeme());
-        }
-        System.out.println("--------------------------------");
+//        System.out.println(getToken().getLexeme());
+//        System.out.println("Checking existence of class: " + classType.getName().getLexeme());
+//        for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
+//            System.out.println(e.getName().getLexeme());
+//        }
+//        System.out.println("--------------------------------");
         Class c = null;
         if (classType == null) {
             throw new SemanticException(SemanticErrorIIMessage.undeclaredType(new Token(idClase, "", -1)));
@@ -155,5 +159,18 @@ public class NodoLLamadaConstructor extends NodoExpresion {
                 }
             }
         }
+    }
+
+    public AbstractType checkLeftValue() throws SemanticException {
+        Encadenado ultimo = this.getLastEncadenado();
+
+        if (ultimo == null) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(this.getToken()));
+        }
+
+        if (ultimo instanceof NodoLLamadaEncadenada) {
+            throw new SemanticException(SemanticErrorIIMessage.invalidLeftValue(ultimo.getNombre()));
+        }
+        return this.check();
     }
 }
