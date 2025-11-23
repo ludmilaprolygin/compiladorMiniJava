@@ -207,7 +207,7 @@ LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 PUSH 1
 PUSH 1
-PUSH 'a'
+PUSH 97
 PUSH lbl_m1@Init
 CALL
 lbl_end_main@Init: NOP

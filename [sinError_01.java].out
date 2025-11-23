@@ -245,7 +245,7 @@ CALL
 PUSH 1
 PUSH lbl_printB@System
 CALL
-PUSH 'a'
+PUSH 97
 PUSH lbl_printC@System
 CALL
 PUSH lbl_println@System
@@ -256,7 +256,7 @@ CALL
 PUSH 0
 PUSH lbl_printBln@System
 CALL
-PUSH 'A'
+PUSH 65
 PUSH lbl_printCln@System
 CALL
 lbl_end_main@Init: NOP

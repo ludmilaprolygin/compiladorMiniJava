@@ -208,7 +208,7 @@ STOREFP; almacenar FP en el tope de la pila
 PUSH 1
 PUSH lbl_printBln@System
 CALL
-PUSH 'A'
+PUSH 65
 PUSH lbl_printCln@System
 CALL
 PUSH lbl_println@System

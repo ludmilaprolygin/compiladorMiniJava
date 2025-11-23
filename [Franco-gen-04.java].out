@@ -69,7 +69,7 @@ CALL
 DUP
 PUSH VT@Character
 STOREREF 0
-PUSH 'c'
+PUSH 99
 SWAP
 DUP
 PUSH lbl_builder@Character

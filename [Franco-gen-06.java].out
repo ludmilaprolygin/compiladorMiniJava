@@ -266,7 +266,7 @@ CALL
 ADD
 PUSH lbl_printIln@System
 CALL
-PUSH 'a'
+PUSH 97
 STORE -2
 RMEM 1
 PUSH 2
@@ -275,7 +275,7 @@ CALL
 DUP
 PUSH VT@Character
 STOREREF 0
-PUSH 'b'
+PUSH 98
 SWAP
 DUP
 PUSH lbl_builder@Character

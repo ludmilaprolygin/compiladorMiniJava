@@ -188,16 +188,16 @@ lbl_main@Init:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-PUSH 'h'
+PUSH 104
 PUSH lbl_printC@System
 CALL
-PUSH 'o'
+PUSH 111
 PUSH lbl_printC@System
 CALL
-PUSH 'l'
+PUSH 108
 PUSH lbl_printC@System
 CALL
-PUSH 'a'
+PUSH 97
 PUSH lbl_printC@System
 CALL
 lbl_end_main@Init: NOP
