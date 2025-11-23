@@ -75,14 +75,10 @@ public class NodoThis extends NodoExpresion {
     public void gen(OutputManager o) {
         o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
-            if(encadenado instanceof NodoVarEncadenada v){
+            if(encadenado instanceof NodoVarEncadenada v && esLadoIzq){
                 v.setLeftValue();
-                encadenado.gen(o, classType);
-                v.setLeftValue();
-            } else {
-                encadenado.gen(o, classType);
             }
-
+            encadenado.gen(o, classType);
         }
     }
 }

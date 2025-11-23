@@ -24,6 +24,66 @@ RET 1
 
 
 .DATA
+VT@TestIfReturn: NOP
+.CODE
+lbl_max@TestIfReturn: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+LOAD 3
+GT
+BF lbl_fin_if@48
+LOAD 4
+STORE 5; guardar valor de retorno
+STOREFP; restaurar FP
+RET 2
+lbl_fin_if@48: NOP
+LOAD 3
+STORE 5; guardar valor de retorno
+STOREFP; restaurar FP
+RET 2
+lbl_end_max@TestIfReturn: NOP
+STOREFP; restaurar FP
+RET 2
+
+lbl_main@TestIfReturn: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 10
+PUSH 3
+PUSH lbl_max@TestIfReturn
+CALL
+PUSH lbl_debugPrint@Object
+CALL
+PUSH 2
+PUSH 7
+PUSH lbl_max@TestIfReturn
+CALL
+PUSH lbl_debugPrint@Object
+CALL
+lbl_end_main@TestIfReturn: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@TestIfReturn: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@TestIfReturn: DW "TestIfReturn",0
+.CODE
+PUSH className@TestIfReturn
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
@@ -239,6 +299,35 @@ RET 1
 
 
 .DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -271,95 +360,6 @@ SWAP
 STOREREF 2
 STOREFP; restaurar FP
 RET 2
-
-
-
-.DATA
-VT@TestIfReturn: NOP
-.CODE
-lbl_max@TestIfReturn: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-LOAD 3
-GT
-BF lbl_fin_if@48
-LOAD 4
-STORE 5; guardar valor de retorno
-STOREFP; restaurar FP
-RET 2
-lbl_fin_if@48: NOP
-LOAD 3
-STORE 5; guardar valor de retorno
-STOREFP; restaurar FP
-RET 2
-lbl_end_max@TestIfReturn: NOP
-STOREFP; restaurar FP
-RET 2
-
-lbl_main@TestIfReturn: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 10
-PUSH 3
-PUSH lbl_max@TestIfReturn
-CALL
-PUSH lbl_debugPrint@Object
-CALL
-PUSH 2
-PUSH 7
-PUSH lbl_max@TestIfReturn
-CALL
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@TestIfReturn: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@TestIfReturn: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@TestIfReturn: DW "TestIfReturn",0
-.CODE
-PUSH className@TestIfReturn
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Object: DW "Object",0
-.CODE
-PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
 
 
 
