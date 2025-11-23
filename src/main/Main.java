@@ -31,8 +31,8 @@ public class Main {
             try {
                 String fileName = args[0];
                 String outputFileName = "[" + fileName + "].out";
-                openFile(fileName);
                 //lexicalAnalysis();
+                openFile(fileName);
                 loadPredefined();
                 syntacticAnalysis(fileName);
                 closeFile();
@@ -47,9 +47,9 @@ public class Main {
             try {
                 String fileName = args[0];
                 String outputFileName = args[1];
-                openFile(fileName);
                 //lexicalAnalysis();
                 loadPredefined();
+                openFile(fileName);
                 syntacticAnalysis(fileName);
                 closeFile();
                 semanticAnalysis();
@@ -84,6 +84,7 @@ public class Main {
         }
         catch (IOException e) {
             System.out.println(GenericErrorMessage.FILE_READ_ERROR);
+            System.out.println(sourceManager.getFileName());
         }
     }
 

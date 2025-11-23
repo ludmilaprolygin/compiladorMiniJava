@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface SourceManager {
+    String getFileName();
+
     void open(String filePath) throws FileNotFoundException;
 
     void close() throws IOException;

@@ -10,6 +10,7 @@ public class SourceManagerImpl implements SourceManager{
     protected int lineNumber;
     protected int lineIndexNumber;
     protected boolean mustReadNextLine;
+    protected String fileName;
 
     public SourceManagerImpl() {
         currentLine = "";
@@ -19,7 +20,14 @@ public class SourceManagerImpl implements SourceManager{
     }
 
     @Override
+    public String getFileName() {
+        return fileName;
+    }
+
+    @Override
     public void open(String filePath) throws FileNotFoundException {
+        fileName = filePath;
+
         FileInputStream fileInputStream = new FileInputStream(filePath);
         InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
 

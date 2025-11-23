@@ -313,11 +313,11 @@ STOREFP; almacenar FP en el tope de la pila
 PUSH 20
 PUSH 10
 GT
-BF lbl_fin_if@50
+BF lbl_fin_if@60
 PUSH 20
 PUSH lbl_debugPrint@Object
 CALL
-lbl_fin_if@50: NOP
+lbl_fin_if@60: NOP
 lbl_end_main@Init: NOP
 STOREFP; restaurar FP
 RET 0
