@@ -53,28 +53,6 @@ RET 2
 
 
 .DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
 VT@TestWhile: NOP
 .CODE
 lbl_main@TestWhile: 
@@ -84,11 +62,11 @@ STOREFP; almacenar FP en el tope de la pila
 RMEM 1; reservar espacio para variables locales (1)
 PUSH 5
 STORE 0
-lbl_while_inicio@18: NOP
+lbl_while_inicio@51: NOP
 LOAD 0
 PUSH 0
 GE
-BF lbl_while_fin@18
+BF lbl_while_fin@51
 LOAD 0
 PUSH lbl_printIln@System
 CALL
@@ -96,8 +74,8 @@ LOAD 0
 PUSH 1
 SUB
 STORE 0
-JUMP lbl_while_inicio@18
-lbl_while_fin@18: NOP
+JUMP lbl_while_inicio@51
+lbl_while_fin@51: NOP
 lbl_end_main@TestWhile: NOP
 FMEM 1; liberar espacio de variables locales (1)
 STOREFP; restaurar FP
@@ -230,6 +208,18 @@ RET 1
 
 
 .DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
@@ -288,9 +278,19 @@ RET 2
 
 
 .DATA
-VT@String: NOP
+VT@Object: NOP
 .CODE
-lbl_builder@String: 
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila

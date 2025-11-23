@@ -93,7 +93,7 @@ public class NodoExpresionUnaria extends NodoExpresion{
             // ????
         }
         else if(operador.getTokenType() == TokenType.minusOp){
-            // ????
+            o.gen(Instructions.NEG.toString());
         }
         else if(operador.getTokenType() == TokenType.notOp){
             o.gen(Instructions.NOT.toString());

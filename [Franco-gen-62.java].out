@@ -24,28 +24,6 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -133,18 +111,6 @@ RET 2
 
 
 .DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
 VT@A: NOP
 .CODE
 lbl_main@A: 
@@ -154,11 +120,11 @@ STOREFP; almacenar FP en el tope de la pila
 RMEM 2; reservar espacio para variables locales (2)
 PUSH 0
 STORE 0
-lbl_while_inicio@19: NOP
+lbl_while_inicio@50: NOP
 LOAD 0
 PUSH 1
 LT
-BF lbl_while_fin@19
+BF lbl_while_fin@50
 PUSH 5
 STORE 0
 LOAD 0
@@ -168,8 +134,8 @@ LOAD 0
 PUSH 1
 ADD
 STORE 0
-JUMP lbl_while_inicio@19
-lbl_while_fin@19: NOP
+JUMP lbl_while_inicio@50
+lbl_while_fin@50: NOP
 LOAD 0
 PUSH lbl_printIln@System
 CALL
@@ -179,6 +145,28 @@ STOREFP; restaurar FP
 RET 0
 
 lbl_builder@A: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -296,6 +284,18 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@System: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila

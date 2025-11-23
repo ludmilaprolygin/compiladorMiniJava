@@ -105,21 +105,27 @@ public class NodoLLamadaConstructor extends NodoExpresion {
     }
 
     protected Class checkClassExistance() throws SemanticException {
-        for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
-            System.out.println(e.getName().getLexeme());
-        }
+//        System.out.println(getToken().getLexeme());
+//        System.out.println("Checking existence of class: " + classType.getName().getLexeme());
+//        for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
+//            System.out.println(e.getName().getLexeme());
+//        }
+//        System.out.println("--------------------------------");
         Class c = null;
         if (classType == null) {
             throw new SemanticException(SemanticErrorIIMessage.undeclaredType(new Token(idClase, "", -1)));
         }
         else{
-            Token t = SymbolTable.symbolTable().getClasses().getTokenByName(classType.getName().getLexeme());
+            Token t = SymbolTable.symbolTable().getClasses().getTokenByName(getToken().getLexeme());
             c = SymbolTable.symbolTable().getClasses().get(t);
             if (t == null) {
                 for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
+                    //System.out.println(e.getName().getLexeme() + " - " + e.getClass().getSimpleName() + " " + classType.getName().getLexeme());
                     if(e instanceof Class){
                         Class classElement = (Class) e;
-                        if(classElement.getName().getLexeme().equals(classType.getName().getLexeme())){
+                        //System.out.println("Comparing between: " + classElement.getName().getLexeme() + " and " + classType.getName().getLexeme());
+                        //System.out.println(classElement.getName().getLexeme().equals(getToken().getLexeme()));
+                        if(classElement.getName().getLexeme().equals(getToken().getLexeme())){
                             c = classElement;
                             return c;
                         }

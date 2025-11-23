@@ -6,6 +6,6 @@ class Init {
         System.printBln(!false);   // 1 → negación lógica
         System.printBln(!true);   // 0 → negación lógica
         System.printIln(++5);  // 6 = 5 + 1
-        System.printIln(--5);  // 4 = 6 - 1
+        System.printIln(--5);  // 4 = 5 - 1
     }
 }

@@ -24,9 +24,65 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@String: NOP
 .CODE
-lbl_intValue@Integer: 
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@NodoGrafo: DW lbl_conectar@NodoGrafo
+DW lbl_setVisitado@NodoGrafo
+DW lbl_fueVisitado@NodoGrafo
+DW lbl_getId@NodoGrafo
+.CODE
+lbl_conectar@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 5
+LOAD 3
+SWAP
+STOREREF 3
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 4
+lbl_end_conectar@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 3
+
+lbl_setVisitado@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
+lbl_end_setVisitado@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 2
+
+lbl_fueVisitado@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_fueVisitado@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_getId@NodoGrafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -35,11 +91,11 @@ LOADREF 1
 STORE 4; guardar valor de retorno
 STOREFP; restaurar FP
 RET 1
-lbl_end_intValue@Integer: NOP
+lbl_end_getId@NodoGrafo: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@Integer: 
+lbl_builder@NodoGrafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -47,6 +103,18 @@ LOAD 4
 LOAD 3
 SWAP
 STOREREF 1
+PUSH 0
+LOAD 3
+SWAP
+STOREREF 2
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 3
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 4
 STOREFP; restaurar FP
 RET 2
 
@@ -69,6 +137,35 @@ STOREFP; restaurar FP
 RET 1
 
 lbl_builder@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Integer: DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 1
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_intValue@Integer: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Integer: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -221,91 +318,6 @@ RET 1
 
 
 .DATA
-VT@NodoGrafo: DW lbl_conectar@NodoGrafo
-DW lbl_setVisitado@NodoGrafo
-DW lbl_fueVisitado@NodoGrafo
-DW lbl_getId@NodoGrafo
-.CODE
-lbl_conectar@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 5
-LOAD 3
-SWAP
-STOREREF 3
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 4
-lbl_end_conectar@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 3
-
-lbl_setVisitado@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 2
-lbl_end_setVisitado@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 2
-
-lbl_fueVisitado@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_fueVisitado@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_getId@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 1
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_getId@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4
-LOAD 3
-SWAP
-STOREREF 1
-PUSH 0
-LOAD 3
-SWAP
-STOREREF 2
-PUSH0; valor null
-LOAD 3
-SWAP
-STOREREF 3
-PUSH0; valor null
-LOAD 3
-SWAP
-STOREREF 4
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
 VT@Main: NOP
 .CODE
 lbl_main@Main: 
@@ -377,7 +389,7 @@ CALL
 LOAD -1
 LOAD -3
 SWAP
-PUSH0; valor null
+PUSH 0; valor null
 SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
@@ -386,7 +398,7 @@ CALL
 LOAD -2
 LOAD -3
 SWAP
-PUSH0; valor null
+PUSH 0; valor null
 SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
@@ -395,7 +407,7 @@ CALL
 LOAD -3
 LOAD 0
 SWAP
-PUSH0; valor null
+PUSH 0; valor null
 SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
@@ -420,9 +432,9 @@ LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo (dfs)
 CALL
 .DATA
-lblString@177: DW "Fin del recorrido",0
+lblString@132: DW "Fin del recorrido",0
 .CODE
-PUSH lblString@177
+PUSH lblString@132
 PUSH lbl_printSln@System
 CALL
 lbl_end_main@Main: NOP
@@ -447,12 +459,12 @@ LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 4
-PUSH0; valor null
+PUSH 0; valor null
 EQ
-BF lbl_fin_if@131
+BF lbl_fin_if@86
 STOREFP; restaurar FP
 RET 2
-lbl_fin_if@131: NOP
+lbl_fin_if@86: NOP
 LOAD 4
 RMEM 1; reservar lugar para el retorno
 SWAP
@@ -460,10 +472,10 @@ DUP; duplicar this
 LOADREF 0; cargar la VT
 LOADREF 2; cargar metodo (fueVisitado)
 CALL
-BF lbl_fin_if@136
+BF lbl_fin_if@91
 STOREFP; restaurar FP
 RET 2
-lbl_fin_if@136: NOP
+lbl_fin_if@91: NOP
 LOAD 4
 PUSH 1
 SWAP
@@ -472,9 +484,9 @@ LOADREF 0; cargar la VT
 LOADREF 1; cargar metodo (setVisitado)
 CALL
 .DATA
-lblString@143: DW "Visito: ",0
+lblString@98: DW "Visito: ",0
 .CODE
-PUSH lblString@143
+PUSH lblString@98
 PUSH lbl_printS@System
 CALL
 LOAD 4
@@ -541,18 +553,6 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 2
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
 
 
 

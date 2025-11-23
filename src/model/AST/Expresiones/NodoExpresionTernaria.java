@@ -3,6 +3,8 @@ package model.AST.Expresiones;
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Operandos.NodoVar;
+import model.AST.Sentencias.NodoIf;
+import model.AST.Sentencias.NodoSentenciaConExpresion;
 import model.Token;
 import model.symbolTable.AbstractType;
 import model.symbolTable.BooleanType;
@@ -71,6 +73,9 @@ public class NodoExpresionTernaria extends NodoExpresion{
 
     @Override
     public void gen(OutputManager o) {
-
+        NodoSentenciaConExpresion st = new NodoSentenciaConExpresion(sTrue);
+        NodoSentenciaConExpresion sf = new NodoSentenciaConExpresion(sFalse);
+        NodoIf nodoIf = new NodoIf(condicion, st, sf);
+        nodoIf.gen(o);
     }
 }

@@ -194,7 +194,9 @@ public class NodoVar extends NodoOperando implements Var {
     public void gen(OutputManager o) {
         //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
-
+        //System.out.println("ASCII DE a: " + (int)'a');
+        if(tipo instanceof CharType)
+            token.setLexeme(String.valueOf((int)token.getLexeme().charAt(0)));
         if (varAsociada instanceof Parameter p) {
             int baseParam = CodeGenConfig.PARAM_OFFSET;
             if(symbolTable().getCurrentService() instanceof Method m && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedStatic)){
@@ -203,11 +205,11 @@ public class NodoVar extends NodoOperando implements Var {
 
             int computedOffset;
             int pOff = p.getOffset();
-            System.out.println("en instanceof de Param: " + p.getOffset());
+            //System.out.println("en instanceof de Param: " + p.getOffset());
             computedOffset = pOff + baseParam;
 
 
-            System.out.println("computed offset de " + p.getTokenName().getLexeme() + ": " + computedOffset);
+            //System.out.println("computed offset de " + p.getTokenName().getLexeme() + ": " + computedOffset);
 
             if (esLadoIzq) {
                 o.gen(Instructions.STORE + " " + computedOffset);
@@ -235,7 +237,7 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.LOAD + " " + v.getOffset());
             }
         }
-        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         AbstractType a;
         if(tipo == null || tipo instanceof UniversalType){

@@ -27,6 +27,6 @@ public class NodoNull extends NodoOperando{
     }
 
     public void gen(OutputManager o) {
-        o.gen(Instructions.PUSH + CodeGenConfig.NULL_VALUE + Comments.NULL.getComment());
+        o.gen(Instructions.PUSH + " " + CodeGenConfig.NULL_VALUE + Comments.NULL.getComment());
     }
 }

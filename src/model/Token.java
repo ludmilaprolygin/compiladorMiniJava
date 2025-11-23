@@ -2,7 +2,7 @@ package model;
 
 public class Token {
     private final TokenType tokenType;
-    private final String lexeme;
+    private String lexeme;
     private final int row;
 
     public Token (TokenType tokenType, String lexeme, int row) {
@@ -19,4 +19,5 @@ public class Token {
     public String format() {
         return "(" + tokenType.getTypeExplanation() + ","  + lexeme + "," + row + ")";
     }
+    public void setLexeme(String lexeme) { this.lexeme = lexeme; }
 }

@@ -1,7 +1,7 @@
 .CODE
 PUSH simple_heap_init
 CALL
-PUSH lbl_main@Init
+PUSH lbl_main@Main
 CALL
 HALT
 
@@ -21,28 +21,6 @@ ADD
 STOREHL
 STOREFP
 RET 1
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
 
 
 .DATA
@@ -87,29 +65,6 @@ RET 1
 
 
 .DATA
-VT@Init: NOP
-.CODE
-lbl_main@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 1234
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_main@Init: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -139,6 +94,32 @@ RET 2
 
 
 .DATA
+VT@Perro: DW lbl_hacerRuido@Perro
+.CODE
+lbl_hacerRuido@Perro: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+lblString@59: DW "Guau!",0
+.CODE
+PUSH lblString@59
+PUSH lbl_printSln@System
+CALL
+lbl_end_hacerRuido@Perro: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Perro: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
@@ -164,6 +145,129 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 2
+
+
+
+.DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Animal: DW lbl_hacerRuido@Animal
+.CODE
+lbl_hacerRuido@Animal: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+lblString@51: DW "Soy un Animal!",0
+.CODE
+PUSH lblString@51
+PUSH lbl_printSln@System
+CALL
+lbl_end_hacerRuido@Animal: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Animal: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Main: NOP
+.CODE
+lbl_imprimirRuido@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 0; cargar metodo (hacerRuido)
+CALL
+lbl_end_imprimirRuido@Main: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_main@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 2; reservar espacio para variables locales (2)
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Animal
+STOREREF 0
+DUP
+PUSH lbl_builder@Animal
+CALL
+STORE 0
+RMEM 1
+PUSH 1
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Perro
+STOREREF 0
+DUP
+PUSH lbl_builder@Perro
+CALL
+STORE -1
+.DATA
+lblString@77: DW "Animal dice: ",0
+.CODE
+PUSH lblString@77
+PUSH lbl_printS@System
+CALL
+LOAD 0
+PUSH lbl_imprimirRuido@Main
+CALL
+.DATA
+lblString@82: DW "Perro dice: ",0
+.CODE
+PUSH lblString@82
+PUSH lbl_printS@System
+CALL
+LOAD -1
+PUSH lbl_imprimirRuido@Main
+CALL
+lbl_end_main@Main: NOP
+FMEM 2; liberar espacio de variables locales (2)
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
 
 
 

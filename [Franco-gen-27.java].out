@@ -24,9 +24,19 @@ RET 1
 
 
 .DATA
-VT@String: NOP
+VT@Object: NOP
 .CODE
-lbl_builder@String: 
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -90,80 +100,6 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 2
-
-
-
-.DATA
-VT@SimpleLoopTest: NOP
-.CODE
-lbl_run@SimpleLoopTest: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 1; reservar espacio para variables locales (1)
-PUSH 5
-STORE 0
-lbl_while_inicio@23: NOP
-LOAD 0
-PUSH 0
-GT
-BF lbl_while_fin@23
-LOAD 0
-PUSH 3
-SUB
-STORE 0
-JUMP lbl_while_inicio@23
-lbl_while_fin@23: NOP
-LOAD 0
-STORE 3; guardar valor de retorno
-FMEM 1; liberar espacio de variables locales
-STOREFP; restaurar FP
-RET 0
-lbl_end_run@SimpleLoopTest: NOP
-FMEM 1; liberar espacio de variables locales (1)
-STOREFP; restaurar FP
-RET 0
-
-lbl_main@SimpleLoopTest: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH lbl_run@SimpleLoopTest
-CALL
-PUSH lbl_printIln@System
-CALL
-lbl_end_main@SimpleLoopTest: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@SimpleLoopTest: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-STOREFP; restaurar FP
-RET 1
 
 
 
@@ -310,6 +246,70 @@ SWAP
 STOREREF 1
 STOREFP; restaurar FP
 RET 2
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@SimpleLoopTest: NOP
+.CODE
+lbl_run@SimpleLoopTest: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 1; reservar espacio para variables locales (1)
+PUSH 5
+STORE 0
+lbl_while_inicio@51: NOP
+LOAD 0
+PUSH 0
+GT
+BF lbl_while_fin@51
+LOAD 0
+PUSH 3
+SUB
+STORE 0
+JUMP lbl_while_inicio@51
+lbl_while_fin@51: NOP
+LOAD 0
+STORE 3; guardar valor de retorno
+FMEM 1; liberar espacio de variables locales
+STOREFP; restaurar FP
+RET 0
+lbl_end_run@SimpleLoopTest: NOP
+FMEM 1; liberar espacio de variables locales (1)
+STOREFP; restaurar FP
+RET 0
+
+lbl_main@SimpleLoopTest: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH lbl_run@SimpleLoopTest
+CALL
+PUSH lbl_printIln@System
+CALL
+lbl_end_main@SimpleLoopTest: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@SimpleLoopTest: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+STOREFP; restaurar FP
+RET 1
 
 
 

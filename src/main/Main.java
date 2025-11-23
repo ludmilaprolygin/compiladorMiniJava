@@ -33,9 +33,10 @@ public class Main {
                 String outputFileName = "[" + fileName + "].out";
                 openFile(fileName);
                 //lexicalAnalysis();
+                loadPredefined();
                 syntacticAnalysis(fileName);
                 closeFile();
-                loadPredefined();
+//                loadPredefined();
                 semanticAnalysis();
                 codeGeneration(outputFileName);
             }
@@ -49,9 +50,10 @@ public class Main {
                 String outputFileName = args[1];
                 openFile(fileName);
                 //lexicalAnalysis();
+                loadPredefined();
                 syntacticAnalysis(fileName);
                 closeFile();
-                loadPredefined();
+//                loadPredefined();
                 semanticAnalysis();
                 codeGeneration(outputFileName);
             }
@@ -65,9 +67,10 @@ public class Main {
                 String fileName = "resources/sinErrores/testInheritance.java";
                 openFile(fileName);
                 //lexicalAnalysis();
+                loadPredefined();
                 syntacticAnalysis(fileName);
                 closeFile();
-                loadPredefined();
+                //loadPredefined();
                 semanticAnalysis();
                 codeGeneration("testOutput.out");
             }
