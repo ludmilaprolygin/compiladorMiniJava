@@ -107,12 +107,12 @@ public class NodoLLamadaConstructor extends NodoExpresion {
     }
 
     protected Class checkClassExistance() throws SemanticException {
-//        System.out.println(getToken().getLexeme());
-//        System.out.println("Checking existence of class: " + classType.getName().getLexeme());
-//        for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
-//            System.out.println(e.getName().getLexeme());
-//        }
-//        System.out.println("--------------------------------");
+        System.out.println(getToken().getLexeme());
+        System.out.println("Checking existence of class: " + classType.getName().getLexeme());
+        for(MainElement e : SymbolTable.symbolTable().getCheckedElements()){
+            System.out.println(e.getName().getLexeme());
+        }
+        System.out.println("--------------------------------");
         Class c = null;
         if (classType == null) {
             throw new SemanticException(SemanticErrorIIMessage.undeclaredType(new Token(idClase, "", -1)));

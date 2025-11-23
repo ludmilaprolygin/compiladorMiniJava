@@ -1,0 +1,40 @@
+.CODE
+PUSH simple_heap_init
+CALL
+PUSH lbl_main@Init
+CALL
+HALT
+
+
+simple_heap_init: RET 0
+
+simple_malloc: LOADFP
+LOADSP
+STOREFP
+LOADHL
+DUP
+PUSH 1
+ADD
+STORE 4
+LOAD 3
+ADD
+STOREHL
+STOREFP
+RET 1
+
+
+.DATA
+VT@Init: NOP
+.CODE
+lbl_main@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 4; reservar espacio para variables locales (4)
+PUSH 10
+STORE 0; almacenar variable local (x)
+PUSH 20
+STORE -1; almacenar variable local (y)
+PUSH 1
+BF lbl_else@51
+LOAD 0; cargar 

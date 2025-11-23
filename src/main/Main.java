@@ -36,7 +36,6 @@ public class Main {
                 loadPredefined();
                 syntacticAnalysis(fileName);
                 closeFile();
-//                loadPredefined();
                 semanticAnalysis();
                 codeGeneration(outputFileName);
             }
@@ -53,7 +52,6 @@ public class Main {
                 loadPredefined();
                 syntacticAnalysis(fileName);
                 closeFile();
-//                loadPredefined();
                 semanticAnalysis();
                 codeGeneration(outputFileName);
             }
@@ -62,19 +60,7 @@ public class Main {
             }
         }
         else {
-            //System.out.println(GenericErrorMessage.MISUSE_ERROR);
-            try{
-                String fileName = "resources/sinErrores/testInheritance.java";
-                openFile(fileName);
-                //lexicalAnalysis();
-                loadPredefined();
-                syntacticAnalysis(fileName);
-                closeFile();
-                //loadPredefined();
-                semanticAnalysis();
-                codeGeneration("testOutput.out");
-            }
-            catch(Exception e) { System.out.println(e.getMessage()); };
+            System.out.println(GenericErrorMessage.MISUSE_ERROR);
         }
     }
 
