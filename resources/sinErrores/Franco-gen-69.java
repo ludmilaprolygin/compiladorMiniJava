@@ -1,4 +1,4 @@
-///3&-3&1&0&6&4&exitosamente
+///3&-3&true&false&6&4&exitosamente
 class Init {
     static void main() {
         System.printIln(+3);   // 3 → el operador + no cambia nada

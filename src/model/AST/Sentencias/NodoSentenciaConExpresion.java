@@ -38,7 +38,7 @@ public class NodoSentenciaConExpresion extends NodoSentencia {
     public void gen(OutputManager o) {
         expresion.gen(o);
 
-        if(!(tipoExpresion.getName().getLexeme().equals(reservedVoid.getTypeExplanation()))){
+        if(tipoExpresion != null && !(tipoExpresion.getName().getLexeme().equals(reservedVoid.getTypeExplanation()))){
             if(!(expresion instanceof NodoExpresionAsignacion) && !(expresion instanceof NodoExpresionUnaria) && !(expresion instanceof NodoExpresionBinaria)){
                 o.gen(Instructions.POP.toString() + Comments.FREE_RETURN_VALUE.getComment());
             }

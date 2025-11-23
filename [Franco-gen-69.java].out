@@ -328,15 +328,11 @@ CALL
 PUSH 5
 PUSH 1
 ADD
-DUP
-PUSH 5
 PUSH lbl_printIln@System
 CALL
 PUSH 5
 PUSH 1
 SUB
-DUP
-PUSH 5
 PUSH lbl_printIln@System
 CALL
 lbl_end_main@Init: NOP

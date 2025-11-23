@@ -2,6 +2,8 @@ package model.AST.Expresiones;
 
 import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
+import model.AST.Operandos.NodoIntLiteral;
+import model.AST.Operandos.NodoOperando;
 import model.Token;
 import model.TokenType;
 import model.codeGeneration.Instructions;
@@ -75,24 +77,36 @@ public class NodoExpresionUnaria extends NodoExpresion{
         ladoDerecho.gen(o);
 
         if(operador.getTokenType() == TokenType.incrementOp){
-            o.gen(Instructions.PUSH + " 1");
-            o.gen(Instructions.ADD.toString());
-            if(isStatementExpression)
-                o.gen(Instructions.DUP.toString());
+            if(ladoDerecho instanceof NodoIntLiteral){
+                o.gen(Instructions.PUSH + " 1");
+                o.gen(Instructions.ADD.toString());
+            }
+            else {
+                o.gen(Instructions.PUSH + " 1");
+                o.gen(Instructions.ADD.toString());
+                if (isStatementExpression)
+                    o.gen(Instructions.DUP.toString());
 
-            ladoDerecho.setEsLadoIzq();
-            ladoDerecho.gen(o);
-            ladoDerecho.setEsLadoIzq();
+                ladoDerecho.setEsLadoIzq();
+                ladoDerecho.gen(o);
+                ladoDerecho.setEsLadoIzq();
+            }
         }
         else if(operador.getTokenType() == TokenType.decrementOp){
-            o.gen(Instructions.PUSH + " 1");
-            o.gen(Instructions.SUB.toString());
-            if(isStatementExpression)
-                o.gen(Instructions.DUP.toString());
+            if(ladoDerecho instanceof NodoIntLiteral){
+                o.gen(Instructions.PUSH + " 1");
+                o.gen(Instructions.SUB.toString());
+            }
+            else{
+                o.gen(Instructions.PUSH + " 1");
+                o.gen(Instructions.SUB.toString());
+                if(isStatementExpression)
+                    o.gen(Instructions.DUP.toString());
 
-            ladoDerecho.setEsLadoIzq();
-            ladoDerecho.gen(o);
-            ladoDerecho.setEsLadoIzq();
+                ladoDerecho.setEsLadoIzq();
+                ladoDerecho.gen(o);
+                ladoDerecho.setEsLadoIzq();
+            }
         }
         else if(operador.getTokenType() == TokenType.plusOp){
             // ????
