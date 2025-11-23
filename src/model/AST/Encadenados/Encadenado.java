@@ -8,6 +8,7 @@ import utils.exceptions.SemanticException;
 public abstract class Encadenado {
     protected Token nombre;
     protected Encadenado encadenado;
+    protected boolean isLeftValue;
     public Encadenado(Token t){
         nombre = t;
         encadenado = new EncadenadoVacio();
@@ -42,4 +43,6 @@ public abstract class Encadenado {
     }
 
     public abstract void gen(OutputManager o, AbstractType tipo);
+
+    public void setLeftValue() { isLeftValue = true; }
 }

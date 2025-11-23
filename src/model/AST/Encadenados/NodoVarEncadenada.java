@@ -10,7 +10,6 @@ import utils.messages.SemanticErrorIIMessage;
 
 public class NodoVarEncadenada extends Encadenado {
     private Attribute associatedAttribute;
-    protected boolean isLeftValue;
     public NodoVarEncadenada(Token t){
         super(t);
         isLeftValue = false;
@@ -43,11 +42,11 @@ public class NodoVarEncadenada extends Encadenado {
         throw new SemanticException(SemanticErrorIIMessage.variableDoesNotExist(nombre));
     }
 
-    public void setLeftValue() { isLeftValue = !isLeftValue; }
-
     @Override
     public void gen(OutputManager o, AbstractType tipo) {
-        if(!isLeftValue){
+        boolean ladoIzqFinal = isLeftValue && (encadenado == null || encadenado instanceof EncadenadoVacio);
+
+        if(!ladoIzqFinal){
             o.gen(Instructions.LOADREF + " " + associatedAttribute.getOffset() + Comments.ATTRIBUTE_ACCESS.getComment(associatedAttribute.getName().getLexeme()));
         }
         else{
@@ -57,6 +56,9 @@ public class NodoVarEncadenada extends Encadenado {
 
 
         if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
+            if(isLeftValue){
+                encadenado.setLeftValue();
+            }
             encadenado.gen(o, associatedAttribute.getType());
         }
     }

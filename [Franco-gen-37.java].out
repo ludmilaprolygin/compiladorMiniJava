@@ -24,6 +24,73 @@ RET 1
 
 
 .DATA
+VT@Nodo: DW lbl_getSiguiente@Nodo
+DW lbl_setSiguiente@Nodo
+DW lbl_getValor@Nodo
+.CODE
+lbl_getSiguiente@Nodo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 3; acceso a atributo (siguiente)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_getSiguiente@Nodo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_setSiguiente@Nodo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4; cargar parametro (s)
+LOAD 3
+SWAP
+STOREREF 3; asignacion a atributo (siguiente)
+lbl_end_setSiguiente@Nodo: NOP
+STOREFP; restaurar FP
+RET 2
+
+lbl_getValor@Nodo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (valor)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_getValor@Nodo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Nodo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Nodo: DW "Nodo",0
+.CODE
+PUSH className@Nodo
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (valor)
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 3; asignacion a atributo (siguiente)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
 VT@Lista: DW lbl_agregar@Lista
 DW lbl_imprimir@Lista
 .CODE
@@ -50,17 +117,4 @@ LOADREF 2; acceso a atributo (cabeza)
 PUSH 0; valor null
 EQ
 BF lbl_else@91
-LOAD 0; cargar variable local (nuevoNodo)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (cabeza)
-JUMP lbl_fin_if@91
-lbl_else@91: NOP
-LOAD 3
-LOADREF 2; acceso a atributo (cabeza)
-STORE 0; almacenar variable local (actual)
-lbl_while_inicio@98: NOP
-LOAD 0; cargar variable local (actual)
-RMEM 1; reservar lugar para el retorno
-SWAP
-DUP; dupli
+LOAD 0; cargar variable local (nuevoNod

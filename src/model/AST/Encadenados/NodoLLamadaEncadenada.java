@@ -83,17 +83,16 @@ public class NodoLLamadaEncadenada extends Encadenado {
             o.gen(Instructions.SWAP.toString());
         }
 
-        for (NodoExpresion p : parametros) {
-            p.gen(o);
-            o.gen(Instructions.SWAP.toString());
-        }
-
         if(!isStatic){
+            for (NodoExpresion p : parametros) {
+                p.gen(o);
+                o.gen(Instructions.SWAP.toString());
+            }
             o.gen(Instructions.DUP.toString() + Comments.DUP_THIS.getComment());
             o.gen(Instructions.LOADREF + " 0" + Comments.LOAD_VTABLE.getComment() + " (" + tipo.getName().getLexeme() + ")");
             o.gen(Instructions.LOADREF + " " + offset + Comments.LOAD_METHOD.getComment(metodo.getName().getLexeme()));
         }
-        else{
+        else{ // static method
             int a = parametros.size() + Integer.parseInt(CodeGenConfig.OFFSET_THIS);
             for(NodoExpresion p : parametros){
                 o.gen(Instructions.SWAP.toString() + " " + Comments.MOVE_THIS.getComment());
@@ -105,6 +104,9 @@ public class NodoLLamadaEncadenada extends Encadenado {
         o.gen(Instructions.CALL.toString());
 
         if (encadenado != null && !(encadenado instanceof EncadenadoVacio)) {
+            if(isLeftValue){
+                encadenado.setLeftValue();
+            }
             encadenado.gen(o, associatedMethod.getReturnType());
         }
     }

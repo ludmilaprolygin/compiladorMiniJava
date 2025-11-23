@@ -105,7 +105,7 @@ public class NodoVar extends NodoOperando implements Var {
     }
 
     public String toString(int depth){
-        String toReturn = "";
+        String toReturn = "\n";
         for (int i = 0; i < depth; i++)
             toReturn += "- ";
         String encString = encadenado != null ? encadenado.toString(depth + 1) : "";
@@ -201,6 +201,7 @@ public class NodoVar extends NodoOperando implements Var {
 
         if(tipo instanceof CharType)
             token.setLexeme(String.valueOf((int)token.getLexeme().charAt(0)));
+
         if (varAsociada instanceof Parameter p) {
             int baseParam = CodeGenConfig.PARAM_OFFSET;
             if(symbolTable().getCurrentService() instanceof Method m && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedStatic)){
@@ -250,26 +251,11 @@ public class NodoVar extends NodoOperando implements Var {
         }
 
         if(encadenado != null && !(encadenado instanceof EncadenadoVacio)){
-            if(encadenado instanceof NodoVarEncadenada v && esLadoIzq){
-                v.setLeftValue();
+            if(esLadoIzq){
+                encadenado.setLeftValue();
             }
             encadenado.gen(o, tipo);
         }
-
-        generateReturnType(o);
-
-    }
-
-
-    public void generateReturnType(OutputManager o) {
-        if (tipo == null) return;
-        if (!tipo.getName().getLexeme().equals(reservedVoid.getTypeExplanation())) return;
-        if (tipo instanceof ClassType) {
-            // los objetos se pasan como puntero, nada que hacer
-        } else {
-            // tipos primitivos: NO hacer LOADREF
-        }
-
     }
 
     private Service getNodoVarContext(){
