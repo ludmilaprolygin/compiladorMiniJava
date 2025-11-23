@@ -70,9 +70,9 @@ public class NodoLLamadaConstructor extends NodoExpresion {
     @Override
     public void gen(OutputManager o) {
 
-        int CIRsize = 1;
+        int CIRsize = 2; // 2 for VT and toString result
         try {
-            CIRsize = checkClassExistance().getAttributes().size() + 1;
+            CIRsize = checkClassExistance().getAttributes().size() + 2;
         } catch (SemanticException e) {}
 
         o.gen(Instructions.RMEM + " 1");

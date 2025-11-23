@@ -209,7 +209,7 @@ public class Class extends MainElement {
         }
         */
         if(max == -1){
-            max = 0;
+            max = 1;
         }
         for(Element e : attributes){
             Attribute a = (Attribute) e;

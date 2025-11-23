@@ -2,6 +2,7 @@ package model.symbolTable;
 
 import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
+import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
 import utils.exceptions.GenerationException;
@@ -37,17 +38,27 @@ public class Builder extends Service {
             o.gen(Instructions.RMEM + " " + localVarCount);
         }
 
-//        if(!(bloque instanceof NodoBloqueVacio)){
-//            bloque.gen(o);
-//        }
+        genToString(o);
         bloque.gen(o);
-//        bloque.toString(5);
 
         if(localVarCount > 0) {
             o.gen(Instructions.FMEM + " " + localVarCount);
         }
 
         o.epilogue(parameters.size() + 1);
+    }
+
+    private void genToString(OutputManager o) throws GenerationException {
+        String lbl = "className@" + name.getLexeme();
+
+        o.gen(CodeGenConfig.DATA);
+        o.gen(lbl + ": DW \"" + name.getLexeme() + "\",0");
+
+        o.gen(CodeGenConfig.CODE);
+        o.gen(Instructions.PUSH + " " + lbl);
+        o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
+        o.gen(Instructions.SWAP.toString());
+        o.gen(Instructions.STOREREF + " " + 1);
     }
 
     @Override

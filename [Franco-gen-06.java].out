@@ -30,6 +30,13 @@ lbl_builder@String:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
 STOREFP; restaurar FP
 RET 1
 
@@ -43,7 +50,7 @@ LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 3
-LOADREF 1
+LOADREF 2
 STORE 4; guardar valor de retorno
 STOREFP; restaurar FP
 RET 1
@@ -55,10 +62,17 @@ lbl_builder@Boolean:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 4
+.DATA
+className@Boolean: DW "Boolean",0
+.CODE
+PUSH className@Boolean
 LOAD 3
 SWAP
 STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
 STOREFP; restaurar FP
 RET 2
 
@@ -72,7 +86,7 @@ LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 3
-LOADREF 1
+LOADREF 2
 STORE 4; guardar valor de retorno
 STOREFP; restaurar FP
 RET 1
@@ -84,10 +98,17 @@ lbl_builder@Integer:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 4
+.DATA
+className@Integer: DW "Integer",0
+.CODE
+PUSH className@Integer
 LOAD 3
 SWAP
 STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
 STOREFP; restaurar FP
 RET 2
 
@@ -110,6 +131,13 @@ lbl_builder@Object:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
 STOREFP; restaurar FP
 RET 1
 
@@ -227,6 +255,13 @@ lbl_builder@System:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@System: DW "System",0
+.CODE
+PUSH className@System
+LOAD 3
+SWAP
+STOREREF 1
 STOREFP; restaurar FP
 RET 1
 
@@ -243,7 +278,7 @@ RMEM 6; reservar espacio para variables locales (6)
 PUSH 10
 STORE 0
 RMEM 1
-PUSH 2
+PUSH 3
 PUSH simple_malloc
 CALL
 DUP
@@ -269,7 +304,7 @@ CALL
 PUSH 97
 STORE -2
 RMEM 1
-PUSH 2
+PUSH 3
 PUSH simple_malloc
 CALL
 DUP
@@ -295,7 +330,7 @@ CALL
 PUSH 1
 STORE -4
 RMEM 1
-PUSH 2
+PUSH 3
 PUSH simple_malloc
 CALL
 DUP
@@ -327,6 +362,13 @@ lbl_builder@Init:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Init: DW "Init",0
+.CODE
+PUSH className@Init
+LOAD 3
+SWAP
+STOREREF 1
 STOREFP; restaurar FP
 RET 1
 
@@ -340,7 +382,7 @@ LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 3
-LOADREF 1
+LOADREF 2
 STORE 4; guardar valor de retorno
 STOREFP; restaurar FP
 RET 1
@@ -352,10 +394,17 @@ lbl_builder@Character:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 4
+.DATA
+className@Character: DW "Character",0
+.CODE
+PUSH className@Character
 LOAD 3
 SWAP
 STOREREF 1
+LOAD 4
+LOAD 3
+SWAP
+STOREREF 2
 STOREFP; restaurar FP
 RET 2
 
