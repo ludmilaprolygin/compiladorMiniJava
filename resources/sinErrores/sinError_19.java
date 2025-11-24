@@ -6,6 +6,6 @@ class T2 {
         if (2 < 1) {
             x = 5;
         }
-        //debugPrint(x);   // debería ser 0
+        debugPrint(x);   // debería ser 0
     }
 }

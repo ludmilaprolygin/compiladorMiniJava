@@ -1,4 +1,4 @@
-///1&c&true&exitosamente
+///0&c&true&exitosamente
 
 class Init{
     static void main() {

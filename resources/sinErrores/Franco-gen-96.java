@@ -4,6 +4,6 @@ class Init{
         var x = 10;
         var y = 20;
 
-        debugPrint(x > y ? (x * y) : (x + y));
+        debugPrint((x > y) ? (x * y) : (x + y));
     }
 }
