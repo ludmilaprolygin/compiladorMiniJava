@@ -1,5 +1,8 @@
 package model.symbolTable;
 
+import model.AST.Expresiones.NodoExpresion;
+import model.AST.Expresiones.NodoExpresionAsignacion;
+import model.AST.Expresiones.NodoExpresionVacia;
 import model.Token;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
@@ -8,10 +11,12 @@ public class Attribute extends OffsetElement implements Var {
     private AbstractType type;
     protected int offset;
     protected String mnemonic;
+    protected NodoExpresion initialValue;
     public Attribute(Token n, AbstractType t) {
         super(n);
         type = t;
         offset = -1;
+        initialValue = new NodoExpresionVacia();
     }
 
     @Override
@@ -22,6 +27,9 @@ public class Attribute extends OffsetElement implements Var {
     public String getMnemonic() { return mnemonic; }
     public void setMnemonic(String m) { this.mnemonic = m; }
     public AbstractType getType() { return type; }
+
+    public NodoExpresion getValue() { return initialValue; }
+    public void setValue(NodoExpresion v) { this.initialValue = v; }
 
     public String toString() {
         return "Offset: " + offset + " " + type.toString() + " " + super.toString();

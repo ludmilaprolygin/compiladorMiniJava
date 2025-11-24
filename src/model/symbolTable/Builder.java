@@ -1,8 +1,12 @@
 package model.symbolTable;
 
+import model.AST.Expresiones.NodoExpresionAsignacion;
+import model.AST.Expresiones.NodoExpresionVacia;
 import model.AST.Expresiones.NodoLLamadaConstructor;
+import model.AST.Operandos.NodoVar;
 import model.AST.Sentencias.Bloques.NodoBloqueVacio;
 import model.Token;
+import model.TokenType;
 import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Instructions;
 import outputManager.OutputManager;
@@ -42,6 +46,23 @@ public class Builder extends Service {
 //        }
 
         genToString(o);
+
+        Token tk = symbolTable().getClasses().getTokenByName(name.getLexeme());
+        Class c = symbolTable().getClasses().get(tk);
+        List attributes = c.getAttributes();
+
+        for(OffsetElement a : attributes) {
+            if(a instanceof Attribute attr) {
+                if(!(attr.getValue() instanceof NodoExpresionVacia)){
+                    Token t = new Token(TokenType.assignOp, "=", attr.getName().getRow());
+                    NodoVar v = new NodoVar(attr.getName(), attr.getType());
+                    v.setVar(attr);
+                    NodoExpresionAsignacion nodo = new NodoExpresionAsignacion(v, attr.getValue(), t);
+                    nodo.gen(o);
+                }
+            }
+        }
+
         bloque.gen(o);
 
 //        if(localVarCount > 0) {

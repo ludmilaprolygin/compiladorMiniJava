@@ -1,4 +1,4 @@
-///5&15&exitosamente
+///5&exitosamente
 
 class A {
     int x = 5;
@@ -9,10 +9,10 @@ class A {
 class Init {
     static void main () {
         var a = new A();
-        int i = 15;
+        //int i = 15;
 
 
         debugPrint(a.x);
-        debugPrint(i);
+        //debugPrint(i);
     }
 }

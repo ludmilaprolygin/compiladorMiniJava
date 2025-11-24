@@ -396,9 +396,14 @@ public class SyntacticAnalyzer {
             a.setMnemonic(symbolTable.getCurrentClass().getName().getLexeme());
         }
         else if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
-            _inicializacionAtributoOpcional();
+            NodoExpresion inicializacionAtributo = _inicializacionAtributoOpcional();
             Attribute a = new Attribute(n, t);
             symbolTable.getCurrentClass().addAttribute(n, a);
+
+            if(!(inicializacionAtributo instanceof NodoExpresionVacia)){
+                a.setValue(inicializacionAtributo);
+            }
+
             match(semicolon);
         }
         else if (firsts.containsToken(ArgsFormales, currentTokenType)) {
