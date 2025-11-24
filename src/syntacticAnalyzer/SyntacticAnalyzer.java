@@ -393,6 +393,7 @@ public class SyntacticAnalyzer {
             match(semicolon);
             Attribute a = new Attribute(n, t);
             symbolTable.getCurrentClass().addAttribute(n, a);
+            a.setMnemonic(symbolTable.getCurrentClass().getName().getLexeme());
         }
         else if (firsts.containsToken(_InicializacionAtributoOpcional, currentTokenType)) {
             _inicializacionAtributoOpcional();

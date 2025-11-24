@@ -11,9 +11,12 @@ import model.codeGeneration.CodeGenConfig;
 import model.codeGeneration.Comments;
 import model.codeGeneration.Instructions;
 import model.symbolTable.*;
+import model.symbolTable.Class;
 import outputManager.OutputManager;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIIMessage;
+
+import java.sql.SQLOutput;
 
 import static model.TokenType.reservedVoid;
 import static model.codeGeneration.CodeGenConfig.PARAM_OFFSET;
@@ -52,6 +55,12 @@ public class NodoVar extends NodoOperando implements Var {
     }
 
     public int getOffset() { return offset; }
+
+    @Override
+    public String getMnemonic() {
+        return "";
+    }
+
     public void setOffset(int offset) { this.offset = offset; }
 
     @Override
@@ -61,6 +70,10 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public AbstractType check() throws SemanticException {
+        SymbolTable st = SymbolTable.symbolTable();
+        MainElement currentClass = st.getCurrentClass();
+        currentClass.sortByOffset(currentClass.getAttributes());
+
         AbstractType toReturn = isDeclared();
         if(encadenado != null)
             if(tipo instanceof ClassType || tipo instanceof UniversalType)
@@ -69,11 +82,9 @@ public class NodoVar extends NodoOperando implements Var {
             else
                 throw new SemanticException(SemanticErrorIIMessage.primitiveTypesCantReceiveCalls(tipo));
 
-        SymbolTable st = SymbolTable.symbolTable();
         Service s = st.getCurrentService();
 
         //toReturn = st.getCurrentService().getParameters().contains(this.getToken().getLexeme());
-
         for(Element n : st.getCurrentService().getParameters()){
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
                 //toReturn = true;
@@ -81,8 +92,7 @@ public class NodoVar extends NodoOperando implements Var {
                 tipo = ((Parameter) n).getType();
             }
         }
-
-        for(Element e : st.getCurrentClass().getAttributes().values()){
+        for(Element e : st.getCurrentClass().getAttributes()){
             Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
                 //toReturn = true;
@@ -91,22 +101,24 @@ public class NodoVar extends NodoOperando implements Var {
                 throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
             }
 
-            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null){
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
                 //toReturn = true;
                 //throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
                 tipo = n.getType();
+                if(varAsociada == null) {
+                    varAsociada = n;
+                }
             }
         }
-
         for(NodoOperando e : st.getCurrentService().getLocalVariables()){
             NodoVar n = (NodoVar) e;
             if(n.getTokenName() != null && this.getToken() != null && n.getTokenName().getLexeme().equals(this.getToken().getLexeme())){
                 //toReturn = true;
+                System.out.println("cambia aca");
                 varAsociada = n;
 
             }
         }
-
         return toReturn;
     }
 
@@ -142,12 +154,23 @@ public class NodoVar extends NodoOperando implements Var {
             t = n.getName();
         }
         // toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
-        for(Element e : st.getCurrentClass().getAttributes().values()){
+        System.out.println("CURRENT CLASS CON CANT ATTS2 " + st.getCurrentClass().getName().getLexeme() + " " + st.getCurrentClass().getAttributes().size());
+        System.out.println("BUSCANDO: " + this.getToken().getLexeme());
+        System.out.println("ATTRS: " + st.getCurrentClass().getAttributes().toString());
+        for(Element e : st.getCurrentClass().getAttributes()){
             Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
                 //toReturn = true;
-                varAsociada = n;
+                if(varAsociada == null)
+                    varAsociada = n;
                 throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
+            }
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                //toReturn = true;
+                //throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
+                tipo = n.getType();
+                if(varAsociada == null)
+                    varAsociada = n;
             }
             t = n.getName();
         }
@@ -230,6 +253,12 @@ public class NodoVar extends NodoOperando implements Var {
         }
 
         else if(varAsociada instanceof Attribute a) {
+            int cantAtts = symbolTable().getCurrentClass().getAttributes().size();
+            if(varAsociada.getOffset() >= cantAtts){
+                searchAttribute(varAsociada);
+            }
+            System.out.println("Accessing attribute: " + a.getTokenName().getLexeme() + " at offset " + a.getOffset() + " of class " + symbolTable().getCurrentClass().getName().getLexeme() + " at method " + getNodoVarContext().getName().getLexeme());
+            System.out.println(varAsociada.toString());
             o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
             if (ladoIzqFinal) {
                 o.gen(Instructions.SWAP.toString());
@@ -261,6 +290,21 @@ public class NodoVar extends NodoOperando implements Var {
                 encadenado.setLeftValue();
             }
             encadenado.gen(o, tipo);
+        }
+    }
+
+    private void searchAttribute(Var varAsociada) {
+        SymbolTable st = SymbolTable.symbolTable();
+        MainElement c = st.getCurrentClass();
+        if(c instanceof Class cl){
+            int i = 2;
+            for(OffsetElement a : cl.getAttributes()){
+                if(a.getName().getLexeme().equals(varAsociada.getTokenName().getLexeme())){
+                    varAsociada.setOffset(i);
+                    return;
+                }
+                i++;
+            }
         }
     }
 

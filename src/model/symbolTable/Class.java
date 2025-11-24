@@ -12,6 +12,7 @@ import utils.exceptions.GenerationException;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -192,12 +193,14 @@ public class Class extends MainElement {
         int max = -1;
         for(OffsetElement parentAttribute : parentAttributes.values()){
             Attribute a = (Attribute) parentAttribute;
+            System.out.println(a.getName().getLexeme() + " offset: " + a.getOffset() + " AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             if(a.getOffset() > max){
                 max = a.getOffset();
             }
             if(!attributes.contains(parentAttribute.getName().getLexeme())){
                 Attribute aCopy = new Attribute(parentAttribute.getName(), ((Attribute) parentAttribute).getType());
                 //attributes.put(aCopy.getName(), aCopy);
+                //attributes.put(parentAttribute.getName(), parentAttribute);
 
             }
             attributes.put(parentAttribute.getName(), parentAttribute);
@@ -212,12 +215,17 @@ public class Class extends MainElement {
         if(max == -1){
             max = 1;
         }
+
+        System.out.println(attributes.toString() + " en " + name.getLexeme());
+
         for(Element e : attributes){
             Attribute a = (Attribute) e;
             if(a.getOffset() == -1){
                 a.setOffset(++max);
             }
         }
+
+        System.out.println(attributes.toString() + " en " + name.getLexeme());
     }
     private void consolidateMethods(List parentMethods) throws SemanticException {
         for(Element e : methods.values()) {
@@ -397,7 +405,11 @@ public class Class extends MainElement {
     public void gen(OutputManager o) throws GenerationException {
         symbolTable().setCurrentClass(this);
 
+        System.out.println("Sorting attributes by offset... class: " + name.getLexeme());
+        System.out.println(attributes.toString());
         sortByOffset(attributes);
+        System.out.println(attributes.toString());
+
         sortByOffset(methods);
 
 

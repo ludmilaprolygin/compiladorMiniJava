@@ -77,6 +77,8 @@ public class Method extends Service {
 //            if (cantVars > 0)
 //                o.gen(Instructions.RMEM + " " + cantVars + Comments.RESERVE_VARS.getComment(cantVars));
 
+            System.out.println("Generating method: " + getName().getLexeme() + " of class " + getCreator().getName().getLexeme()
+                    + " with " + cantVars + " local vars and return type " + returnType.getName().getLexeme());
             bloque.gen(o);
 
             String methodName = getName().getLexeme();

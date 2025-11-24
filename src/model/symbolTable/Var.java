@@ -9,4 +9,6 @@ public interface Var {
     public Token getTokenName();
 
     int getOffset();
+
+    String getMnemonic();
 }

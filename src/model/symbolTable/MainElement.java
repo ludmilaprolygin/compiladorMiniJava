@@ -6,6 +6,7 @@ import model.TokenType;
 import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
+import java.sql.SQLOutput;
 import java.util.Comparator;
 
 import static model.symbolTable.SymbolTable.symbolTable;

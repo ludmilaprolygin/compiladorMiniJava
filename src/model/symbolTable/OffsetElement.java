@@ -15,4 +15,7 @@ public abstract class OffsetElement extends Element{
 
     public void setOffset(int o){}
     public abstract AbstractType getType();
+
+    public String getMnemonic() { return ""; }
+    public void setMnemonic(String m) { }
 }

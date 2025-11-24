@@ -7,6 +7,7 @@ import utils.exceptions.SemanticException;
 public class Attribute extends OffsetElement implements Var {
     private AbstractType type;
     protected int offset;
+    protected String mnemonic;
     public Attribute(Token n, AbstractType t) {
         super(n);
         type = t;
@@ -18,6 +19,8 @@ public class Attribute extends OffsetElement implements Var {
         type.correctDeclaration();
     }
 
+    public String getMnemonic() { return mnemonic; }
+    public void setMnemonic(String m) { this.mnemonic = m; }
     public AbstractType getType() { return type; }
 
     public String toString() {

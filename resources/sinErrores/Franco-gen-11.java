@@ -1,4 +1,4 @@
-///10&20&10&10&exitosamente
+///10&20&10&20&exitosamente
 
 class A {
     int x;
@@ -8,7 +8,7 @@ class A {
     }
 
     public int getX() {
-        return x;
+         return x;
     }
 }
 
@@ -25,9 +25,13 @@ class Init{
         var a = new A();
         var b = new B();
 
+        //System.printSln("a.x");
         System.printIln(a.x);
+        //System.printSln("b.x");
         System.printIln(b.x);
+        //System.printSln("a.getX()");
         System.printIln(a.getX());
+        //System.printSln("b.getX()");
         System.printIln(b.getX());
 
     }
