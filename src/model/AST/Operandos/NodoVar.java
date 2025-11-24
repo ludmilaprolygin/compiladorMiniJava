@@ -221,11 +221,12 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
+        if(varAsociada == null){
+            buscarVarAsociada();
+        }
+
 
         boolean ladoIzqFinal = esLadoIzq && (encadenado == null || encadenado instanceof EncadenadoVacio);
-
-        if(tipo instanceof CharType)
-            token.setLexeme(String.valueOf((int)token.getLexeme().charAt(0)));
 
         if (varAsociada instanceof Parameter p) {
             int baseParam = CodeGenConfig.PARAM_OFFSET;
@@ -277,6 +278,42 @@ public class NodoVar extends NodoOperando implements Var {
                 encadenado.setLeftValue();
             }
             encadenado.gen(o, tipo);
+        }
+    }
+
+    private void buscarVarAsociada() {
+        SymbolTable st = SymbolTable.symbolTable();
+        Service s = st.getCurrentService();
+
+        for(Element e : st.getCurrentClass().getAttributes()){
+            Attribute n = (Attribute) e;
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                //toReturn = true;
+                if(varAsociada == null)
+                    varAsociada = n;
+            }
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                //toReturn = true;
+                //throw new SemanticException(SemanticErrorIIMessage.accessToAttributeInStaticContext(getToken()));
+                tipo = n.getType();
+                if(varAsociada == null)
+                    varAsociada = n;
+            }
+        }
+        for(NodoOperando e : st.getCurrentService().getBloque().getVariables()){
+            NodoVar n = (NodoVar) e;
+            if(n.getTokenName() != null && this.getToken() != null && n.getTokenName().getLexeme().equals(this.getToken().getLexeme())){
+                //toReturn = true;
+                varAsociada = n;
+                break;
+            }
+        }
+        for(Element n : st.getCurrentService().getParameters()){
+            if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme())){
+                //toReturn = true;
+                varAsociada = (Var) n;
+                break;
+            }
         }
     }
 

@@ -352,7 +352,7 @@ ADD
 PUSH lbl_printIln@System
 CALL
 PUSH 97
-STORE -2; almacenar variable local (122)
+STORE -2; almacenar variable local (z)
 RMEM 1
 PUSH 3
 PUSH simple_malloc
@@ -366,7 +366,7 @@ SWAP
 PUSH lbl_builder@Character
 CALL
 STORE -3; almacenar variable local (w)
-LOAD -2; cargar variable local (122)
+LOAD -2; cargar variable local (z)
 LOAD -3; cargar variable local (w)
 RMEM 1; reservar lugar para el retorno
 SWAP

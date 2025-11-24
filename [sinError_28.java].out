@@ -398,7 +398,7 @@ STOREREF 2; asignacion a atributo (i)
 PUSH 97
 LOAD 3
 SWAP
-STOREREF 3; asignacion a atributo (99)
+STOREREF 3; asignacion a atributo (c)
 PUSH 1
 LOAD 3
 SWAP
@@ -421,7 +421,7 @@ PUSH 66
 lbl_fin_if@77: NOP
 LOAD 3
 SWAP
-STOREREF 3; asignacion a atributo (99)
+STOREREF 6; asignacion a atributo (cTernario)
 STOREFP; restaurar FP
 RET 1
 

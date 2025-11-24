@@ -95,13 +95,16 @@ CALL
 PUSH 10
 STORE -1; almacenar variable local (i)
 PUSH 65
-STORE -2; almacenar variable local (99)
+STORE -2; almacenar variable local (c)
 PUSH 0
 STORE -3; almacenar variable local (b)
+LOAD -1; cargar variable local (i)
 PUSH lbl_printIln@System
 CALL
+LOAD -2; cargar variable local (c)
 PUSH lbl_printCln@System
 CALL
+LOAD -3; cargar variable local (b)
 PUSH lbl_printBln@System
 CALL
 FMEM 4; liberar espacio de variables locales (4)
