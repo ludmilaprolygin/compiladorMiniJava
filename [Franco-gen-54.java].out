@@ -24,43 +24,63 @@ RET 1
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Vehiculo: DW lbl_toString@Object
+DW lbl_acelerar@Vehiculo
+DW lbl_frenar@Vehiculo
+DW lbl_prenderLuces@Vehiculo
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_acelerar@Vehiculo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_booleanValue@Boolean: NOP
+PUSH 1
+PUSH lbl_printIln@System
+CALL
+lbl_end_acelerar@Vehiculo: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@Boolean: 
+lbl_frenar@Vehiculo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 10
+PUSH lbl_printIln@System
+CALL
+lbl_end_frenar@Vehiculo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_prenderLuces@Vehiculo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 100
+PUSH lbl_printIln@System
+CALL
+lbl_end_prenderLuces@Vehiculo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Vehiculo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Boolean: DW "Boolean",0
+className@Vehiculo: DW "Vehiculo",0
 .CODE
-PUSH className@Boolean
+PUSH className@Vehiculo
 LOAD 3
 SWAP
 STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (value)
 STOREFP; restaurar FP
-RET 2
+RET 1
 
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@Character: DW lbl_toString@Object
+DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
 LOADFP; apilar valor de FP
@@ -96,7 +116,198 @@ RET 2
 
 
 .DATA
-VT@System: NOP
+VT@Auto: DW lbl_toString@Object
+DW lbl_frenar@Vehiculo
+DW lbl_prenderLuces@Vehiculo
+DW lbl_acelerar@Auto
+.CODE
+lbl_acelerar@Auto: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 2
+PUSH lbl_printIln@System
+CALL
+lbl_end_acelerar@Auto: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Auto: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Auto: DW "Auto",0
+.CODE
+PUSH className@Auto
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Deportivo: DW lbl_toString@Object
+DW lbl_prenderLuces@Vehiculo
+DW lbl_acelerar@Deportivo
+DW lbl_frenar@Deportivo
+.CODE
+lbl_acelerar@Deportivo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 3
+PUSH lbl_printIln@System
+CALL
+lbl_end_acelerar@Deportivo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_frenar@Deportivo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH 20
+PUSH lbl_printIln@System
+CALL
+lbl_end_frenar@Deportivo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Deportivo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Deportivo: DW "Deportivo",0
+.CODE
+PUSH className@Deportivo
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Boolean: DW lbl_toString@Object
+DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_booleanValue@Boolean: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Boolean: DW "Boolean",0
+.CODE
+PUSH className@Boolean
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (value)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Integer: DW lbl_toString@Object
+DW lbl_intValue@Integer
+.CODE
+lbl_intValue@Integer: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_intValue@Integer: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Integer: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Integer: DW "Integer",0
+.CODE
+PUSH className@Integer
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (value)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Object: DW lbl_toString@Object
+.CODE
+lbl_toString@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 1; acceso a atributo (className)
+SPRINT
+lbl_end_toString@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@System: DW lbl_toString@Object
 .CODE
 lbl_read@System: 
 LOADFP; apilar valor de FP
@@ -220,7 +431,7 @@ RET 1
 
 
 .DATA
-VT@String: NOP
+VT@String: DW lbl_toString@Object
 .CODE
 lbl_builder@String: 
 LOADFP; apilar valor de FP
@@ -239,72 +450,8 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Object: DW "Object",0
-.CODE
-PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Integer: DW lbl_intValue@Integer
-.CODE
-lbl_intValue@Integer: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_intValue@Integer: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Integer: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Integer: DW "Integer",0
-.CODE
-PUSH className@Integer
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (value)
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@TestHerencia: DW lbl_andar@TestHerencia
+VT@TestHerencia: DW lbl_toString@Object
+DW lbl_andar@TestHerencia
 .CODE
 lbl_andar@TestHerencia: 
 LOADFP; apilar valor de FP
@@ -347,7 +494,7 @@ STORE -2; almacenar variable local (d)
 LOAD -1; cargar variable local (a)
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (acelerar)
+LOADREF 3; cargar metodo (acelerar)
 CALL
 LOAD 0; cargar variable local (v)
 DUP; duplicar this
@@ -357,7 +504,7 @@ CALL
 LOAD -2; cargar variable local (d)
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (acelerar)
+LOADREF 2; cargar metodo (acelerar)
 CALL
 FMEM 3; liberar espacio de variables locales (3)
 lbl_end_andar@TestHerencia: NOP
@@ -383,7 +530,7 @@ STORE 0; almacenar variable local (t)
 LOAD 0; cargar variable local (t)
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (andar)
+LOADREF 1; cargar metodo (andar)
 CALL
 FMEM 1; liberar espacio de variables locales (1)
 lbl_end_main@TestHerencia: NOP
@@ -398,135 +545,6 @@ STOREFP; almacenar FP en el tope de la pila
 className@TestHerencia: DW "TestHerencia",0
 .CODE
 PUSH className@TestHerencia
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Deportivo: DW lbl_acelerar@Deportivo
-DW lbl_frenar@Deportivo
-DW lbl_prenderLuces@Vehiculo
-.CODE
-lbl_acelerar@Deportivo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 3
-PUSH lbl_printIln@System
-CALL
-lbl_end_acelerar@Deportivo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_frenar@Deportivo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 20
-PUSH lbl_printIln@System
-CALL
-lbl_end_frenar@Deportivo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Deportivo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Deportivo: DW "Deportivo",0
-.CODE
-PUSH className@Deportivo
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Auto: DW lbl_acelerar@Auto
-DW lbl_frenar@Vehiculo
-DW lbl_prenderLuces@Vehiculo
-.CODE
-lbl_acelerar@Auto: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 2
-PUSH lbl_printIln@System
-CALL
-lbl_end_acelerar@Auto: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Auto: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Auto: DW "Auto",0
-.CODE
-PUSH className@Auto
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Vehiculo: DW lbl_acelerar@Vehiculo
-DW lbl_frenar@Vehiculo
-DW lbl_prenderLuces@Vehiculo
-.CODE
-lbl_acelerar@Vehiculo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 1
-PUSH lbl_printIln@System
-CALL
-lbl_end_acelerar@Vehiculo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_frenar@Vehiculo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 10
-PUSH lbl_printIln@System
-CALL
-lbl_end_frenar@Vehiculo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_prenderLuces@Vehiculo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 100
-PUSH lbl_printIln@System
-CALL
-lbl_end_prenderLuces@Vehiculo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Vehiculo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Vehiculo: DW "Vehiculo",0
-.CODE
-PUSH className@Vehiculo
 LOAD 3
 SWAP
 STOREREF 1

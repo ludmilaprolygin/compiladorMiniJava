@@ -24,7 +24,39 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@Nodo: DW lbl_toString@Object
+.CODE
+lbl_builder@Nodo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Nodo: DW "Nodo",0
+.CODE
+PUSH className@Nodo
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (valor)
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 3; asignacion a atributo (izq)
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 4; asignacion a atributo (der)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Integer: DW lbl_toString@Object
+DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
 LOADFP; apilar valor de FP
@@ -60,122 +92,8 @@ RET 2
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_charValue@Character: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Character: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Character: DW "Character",0
-.CODE
-PUSH className@Character
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (value)
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Object: DW "Object",0
-.CODE
-PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@String: DW "String",0
-.CODE
-PUSH className@String
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Nodo: NOP
-.CODE
-lbl_builder@Nodo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Nodo: DW "Nodo",0
-.CODE
-PUSH className@Nodo
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (valor)
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 3; asignacion a atributo (izq)
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 4; asignacion a atributo (der)
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@Arbol: DW lbl_insertar@Arbol
+VT@Arbol: DW lbl_toString@Object
+DW lbl_insertar@Arbol
 DW lbl_insertarRec@Arbol
 DW lbl_imprimir@Arbol
 DW lbl_imprimirRec@Arbol
@@ -214,7 +132,7 @@ LOAD 4; cargar parametro (v)
 SWAP
 DUP
 LOADREF 0; cargar la VT (Arbol)
-LOADREF 1; cargar metodo (insertarRec)
+LOADREF 2; cargar metodo (insertarRec)
 CALL
 lbl_fin_if@141: NOP
 lbl_end_insertar@Arbol: NOP
@@ -260,7 +178,7 @@ LOAD 4; cargar parametro (v)
 SWAP
 DUP
 LOADREF 0; cargar la VT (Arbol)
-LOADREF 1; cargar metodo (insertarRec)
+LOADREF 2; cargar metodo (insertarRec)
 CALL
 lbl_fin_if@150: NOP
 JUMP lbl_fin_if@149
@@ -295,7 +213,7 @@ LOAD 4; cargar parametro (v)
 SWAP
 DUP
 LOADREF 0; cargar la VT (Arbol)
-LOADREF 1; cargar metodo (insertarRec)
+LOADREF 2; cargar metodo (insertarRec)
 CALL
 lbl_fin_if@156: NOP
 lbl_fin_if@149: NOP
@@ -313,7 +231,7 @@ LOADREF 2; acceso a atributo (raiz)
 SWAP
 DUP
 LOADREF 0; cargar la VT (Arbol)
-LOADREF 3; cargar metodo (imprimirRec)
+LOADREF 4; cargar metodo (imprimirRec)
 CALL
 lbl_end_imprimir@Arbol: NOP
 STOREFP; restaurar FP
@@ -333,7 +251,7 @@ LOADREF 3; acceso a atributo (izq)
 SWAP
 DUP
 LOADREF 0; cargar la VT (Arbol)
-LOADREF 3; cargar metodo (imprimirRec)
+LOADREF 4; cargar metodo (imprimirRec)
 CALL
 LOAD 4; cargar parametro (actual)
 LOADREF 2; acceso a atributo (valor)
@@ -345,7 +263,7 @@ LOADREF 4; acceso a atributo (der)
 SWAP
 DUP
 LOADREF 0; cargar la VT (Arbol)
-LOADREF 3; cargar metodo (imprimirRec)
+LOADREF 4; cargar metodo (imprimirRec)
 CALL
 lbl_fin_if@169: NOP
 lbl_end_imprimirRec@Arbol: NOP
@@ -373,7 +291,234 @@ RET 1
 
 
 .DATA
-VT@System: NOP
+VT@Object: DW lbl_toString@Object
+.CODE
+lbl_toString@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 1; acceso a atributo (className)
+SPRINT
+lbl_end_toString@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@String: DW lbl_toString@Object
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Character: DW lbl_toString@Object
+DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_charValue@Character: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Character: DW "Character",0
+.CODE
+PUSH className@Character
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (value)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Boolean: DW lbl_toString@Object
+DW lbl_booleanValue@Boolean
+.CODE
+lbl_booleanValue@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_booleanValue@Boolean: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Boolean: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Boolean: DW "Boolean",0
+.CODE
+PUSH className@Boolean
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (value)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@Main: DW lbl_toString@Object
+.CODE
+lbl_main@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 1; reservar espacio para variables locales (1)
+RMEM 1
+PUSH 3
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@Arbol
+STOREREF 0
+DUP
+PUSH lbl_builder@Arbol
+CALL
+STORE 0; almacenar variable local (arbol)
+LOAD 0; cargar variable local (arbol)
+PUSH 50
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (insertar)
+CALL
+LOAD 0; cargar variable local (arbol)
+PUSH 30
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (insertar)
+CALL
+LOAD 0; cargar variable local (arbol)
+PUSH 20
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (insertar)
+CALL
+LOAD 0; cargar variable local (arbol)
+PUSH 40
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (insertar)
+CALL
+LOAD 0; cargar variable local (arbol)
+PUSH 70
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (insertar)
+CALL
+LOAD 0; cargar variable local (arbol)
+PUSH 60
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (insertar)
+CALL
+LOAD 0; cargar variable local (arbol)
+PUSH 80
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (insertar)
+CALL
+LOAD 0; cargar variable local (arbol)
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 3; cargar metodo (imprimir)
+CALL
+FMEM 1; liberar espacio de variables locales (1)
+lbl_end_main@Main: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@Main: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Main: DW "Main",0
+.CODE
+PUSH className@Main
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@System: DW lbl_toString@Object
 .CODE
 lbl_read@System: 
 LOADFP; apilar valor de FP
@@ -488,136 +633,6 @@ STOREFP; almacenar FP en el tope de la pila
 className@System: DW "System",0
 .CODE
 PUSH className@System
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_booleanValue@Boolean: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Boolean: DW "Boolean",0
-.CODE
-PUSH className@Boolean
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (value)
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@Main: NOP
-.CODE
-lbl_main@Main: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 1; reservar espacio para variables locales (1)
-RMEM 1
-PUSH 3
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@Arbol
-STOREREF 0
-DUP
-PUSH lbl_builder@Arbol
-CALL
-STORE 0; almacenar variable local (arbol)
-LOAD 0; cargar variable local (arbol)
-PUSH 50
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0; cargar variable local (arbol)
-PUSH 30
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0; cargar variable local (arbol)
-PUSH 20
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0; cargar variable local (arbol)
-PUSH 40
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0; cargar variable local (arbol)
-PUSH 70
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0; cargar variable local (arbol)
-PUSH 60
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0; cargar variable local (arbol)
-PUSH 80
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (insertar)
-CALL
-LOAD 0; cargar variable local (arbol)
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 2; cargar metodo (imprimir)
-CALL
-FMEM 1; liberar espacio de variables locales (1)
-lbl_end_main@Main: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@Main: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Main: DW "Main",0
-.CODE
-PUSH className@Main
 LOAD 3
 SWAP
 STOREREF 1

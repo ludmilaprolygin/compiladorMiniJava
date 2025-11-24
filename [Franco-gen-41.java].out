@@ -24,55 +24,8 @@ RET 1
 
 
 .DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@String: DW "String",0
-.CODE
-PUSH className@String
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Object: NOP
-.CODE
-lbl_debugPrint@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Object: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Object: DW "Object",0
-.CODE
-PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Boolean: DW lbl_toString@Object
+DW lbl_booleanValue@Boolean
 .CODE
 lbl_booleanValue@Boolean: 
 LOADFP; apilar valor de FP
@@ -108,7 +61,41 @@ RET 2
 
 
 .DATA
-VT@System: NOP
+VT@Perro: DW lbl_toString@Object
+DW lbl_hacerRuido@Perro
+.CODE
+lbl_hacerRuido@Perro: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+lblString@69: DW "Guau!",0
+.CODE
+PUSH lblString@69
+PUSH lbl_printSln@System
+CALL
+lbl_end_hacerRuido@Perro: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Perro: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Perro: DW "Perro",0
+.CODE
+PUSH className@Perro
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@System: DW lbl_toString@Object
 .CODE
 lbl_read@System: 
 LOADFP; apilar valor de FP
@@ -232,30 +219,31 @@ RET 1
 
 
 .DATA
-VT@Perro: DW lbl_hacerRuido@Perro
+VT@Animal: DW lbl_toString@Object
+DW lbl_hacerRuido@Animal
 .CODE
-lbl_hacerRuido@Perro: 
+lbl_hacerRuido@Animal: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-lblString@69: DW "Guau!",0
+lblString@61: DW "Soy un Animal!",0
 .CODE
-PUSH lblString@69
+PUSH lblString@61
 PUSH lbl_printSln@System
 CALL
-lbl_end_hacerRuido@Perro: NOP
+lbl_end_hacerRuido@Animal: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@Perro: 
+lbl_builder@Animal: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Perro: DW "Perro",0
+className@Animal: DW "Animal",0
 .CODE
-PUSH className@Perro
+PUSH className@Animal
 LOAD 3
 SWAP
 STOREREF 1
@@ -265,7 +253,8 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@Integer: DW lbl_toString@Object
+DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
 LOADFP; apilar valor de FP
@@ -301,7 +290,8 @@ RET 2
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@Character: DW lbl_toString@Object
+DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
 LOADFP; apilar valor de FP
@@ -337,7 +327,66 @@ RET 2
 
 
 .DATA
-VT@Main: NOP
+VT@String: DW lbl_toString@Object
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Object: DW lbl_toString@Object
+.CODE
+lbl_toString@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 1; acceso a atributo (className)
+SPRINT
+lbl_end_toString@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@Main: DW lbl_toString@Object
 .CODE
 lbl_imprimirRuido@Main: 
 LOADFP; apilar valor de FP
@@ -346,7 +395,7 @@ STOREFP; almacenar FP en el tope de la pila
 LOAD 3; cargar parametro (a)
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 0; cargar metodo (hacerRuido)
+LOADREF 1; cargar metodo (hacerRuido)
 CALL
 lbl_end_imprimirRuido@Main: NOP
 STOREFP; restaurar FP
@@ -410,39 +459,6 @@ STOREFP; almacenar FP en el tope de la pila
 className@Main: DW "Main",0
 .CODE
 PUSH className@Main
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Animal: DW lbl_hacerRuido@Animal
-.CODE
-lbl_hacerRuido@Animal: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-lblString@61: DW "Soy un Animal!",0
-.CODE
-PUSH lblString@61
-PUSH lbl_printSln@System
-CALL
-lbl_end_hacerRuido@Animal: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Animal: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Animal: DW "Animal",0
-.CODE
-PUSH className@Animal
 LOAD 3
 SWAP
 STOREREF 1

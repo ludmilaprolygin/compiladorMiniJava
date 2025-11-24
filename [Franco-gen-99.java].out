@@ -61,6 +61,25 @@ RET 2
 
 
 .DATA
+VT@B: DW lbl_toString@Object
+.CODE
+lbl_builder@B: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@B: DW "B",0
+.CODE
+PUSH className@B
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Character: DW lbl_toString@Object
 DW lbl_charValue@Character
 .CODE
@@ -99,24 +118,7 @@ RET 2
 
 .DATA
 VT@A: DW lbl_toString@Object
-DW lbl_mc@A
 .CODE
-lbl_mc@A: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4; cargar parametro (b1)
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (mostrar)
-CALL
-PUSH 33
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_mc@A: NOP
-STOREFP; restaurar FP
-RET 2
-
 lbl_builder@A: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
@@ -125,25 +127,6 @@ STOREFP; almacenar FP en el tope de la pila
 className@A: DW "A",0
 .CODE
 PUSH className@A
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@String: DW lbl_toString@Object
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@String: DW "String",0
-.CODE
-PUSH className@String
 LOAD 3
 SWAP
 STOREREF 1
@@ -199,18 +182,9 @@ lbl_main@Init:
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-RMEM 2; reservar espacio para variables locales (2)
-RMEM 1
-PUSH 2
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@A
-STOREREF 0
-DUP
-PUSH lbl_builder@A
-CALL
-STORE 0; almacenar variable local (a)
+RMEM 5; reservar espacio para variables locales (5)
+PUSH 1
+STORE 0; almacenar variable local (i)
 RMEM 1
 PUSH 2
 PUSH simple_malloc
@@ -221,15 +195,52 @@ STOREREF 0
 DUP
 PUSH lbl_builder@B
 CALL
-STORE -1; almacenar variable local (b1)
-LOAD 0; cargar variable local (a)
-LOAD -1; cargar variable local (b1)
+STORE -1; almacenar variable local (x)
+RMEM 1
+PUSH 2
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@C
+STOREREF 0
+DUP
+PUSH lbl_builder@C
+CALL
+STORE -2; almacenar variable local (y)
+LOAD 0; cargar variable local (i)
+BF lbl_else@72
+LOAD -1; cargar variable local (x)
+JUMP lbl_fin_if@72
+lbl_else@72: NOP
+LOAD -2; cargar variable local (y)
+lbl_fin_if@72: NOP
+STORE -3; almacenar variable local (a)
+LOAD 0; cargar variable local (i)
+NOT
+BF lbl_else@73
+LOAD -1; cargar variable local (x)
+JUMP lbl_fin_if@73
+lbl_else@73: NOP
+LOAD -2; cargar variable local (y)
+lbl_fin_if@73: NOP
+STORE -4; almacenar variable local (b)
+LOAD -3; cargar variable local (a)
+RMEM 1; reservar lugar para el retorno
 SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (mc)
+LOADREF 0; cargar metodo (toString)
 CALL
-FMEM 2; liberar espacio de variables locales (2)
+POP; liberar valor de retorno
+LOAD -4; cargar variable local (b)
+RMEM 1; reservar lugar para el retorno
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 0; cargar metodo (toString)
+CALL
+POP; liberar valor de retorno
+FMEM 5; liberar espacio de variables locales (5)
 lbl_end_main@Init: NOP
 STOREFP; restaurar FP
 RET 0
@@ -412,28 +423,35 @@ RET 2
 
 
 .DATA
-VT@B: DW lbl_toString@Object
-DW lbl_mostrar@B
+VT@String: DW lbl_toString@Object
 .CODE
-lbl_mostrar@B: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH 33
-PUSH lbl_debugPrint@Object
-CALL
-lbl_end_mostrar@B: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@B: 
+lbl_builder@String: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@B: DW "B",0
+className@String: DW "String",0
 .CODE
-PUSH className@B
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@C: DW lbl_toString@Object
+.CODE
+lbl_builder@C: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@C: DW "C",0
+.CODE
+PUSH className@C
 LOAD 3
 SWAP
 STOREREF 1

@@ -151,13 +151,22 @@ public class SymbolTable extends Element {
         Token pI = new Token(idMetVar, "i", -1);
         try {
             debugPrint.addParameter(new Parameter(pI, tInt));
+        } catch (SemanticException e) {
         }
-        catch(SemanticException e) {};
+        ;
         objectClass.getMethods().put(n, debugPrint);
         debugPrint.setBloque(new NodoBloqueVacio());
         debugPrint.pass();
         debugPrint.setOffset(0);
         debugPrint.setBloque(new NodoBloqueDebugPrint());
+
+        Token toStringTK = new Token(idMetVar, "toString", -1);
+        AbstractType tString = new ClassType(new Token(idClase, "String", -1));
+        Method toString = new Method(toStringTK, v, null, tString, objectClass);
+        objectClass.getMethods().put(toStringTK, toString);
+        toString.setBloque(new NodoBloqueToString());
+        toString.pass();
+        debugPrint.setOffset(1);
     }
 
     private void createString() {
