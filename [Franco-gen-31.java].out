@@ -24,92 +24,101 @@ RET 1
 
 
 .DATA
-VT@Grafo: DW lbl_dfs@Grafo
+VT@NodoGrafo: DW lbl_conectar@NodoGrafo
+DW lbl_setVisitado@NodoGrafo
+DW lbl_fueVisitado@NodoGrafo
+DW lbl_getId@NodoGrafo
 .CODE
-lbl_dfs@Grafo: 
+lbl_conectar@NodoGrafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-LOAD 4; cargar parametro (actual)
-PUSH 0; valor null
-EQ
-BF lbl_fin_if@175
-STOREFP; restaurar FP
-RET 2
-lbl_fin_if@175: NOP
-LOAD 4; cargar parametro (actual)
-RMEM 1; reservar lugar para el retorno
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 2; cargar metodo (fueVisitado)
-CALL
-BF lbl_fin_if@180
-STOREFP; restaurar FP
-RET 2
-lbl_fin_if@180: NOP
-LOAD 4; cargar parametro (actual)
-PUSH 1
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 1; cargar metodo (setVisitado)
-CALL
-.DATA
-lblString@187: DW "Visito: ",0
-.CODE
-PUSH lblString@187
-PUSH lbl_printS@System
-CALL
-LOAD 4; cargar parametro (actual)
-RMEM 1; reservar lugar para el retorno
-SWAP
-DUP; duplicar this
-LOADREF 0; cargar la VT
-LOADREF 3; cargar metodo (getId)
-CALL
-PUSH lbl_printIln@System
-CALL
+LOAD 5; cargar parametro (n1)
 LOAD 3
-LOAD 4; cargar parametro (actual)
-LOADREF 4; acceso a atributo (vecino1)
 SWAP
-DUP
-LOADREF 0; cargar la VT (Grafo)
-LOADREF 0; cargar metodo (dfs)
-CALL
+STOREREF 4; asignacion a atributo (vecino1)
+LOAD 4; cargar parametro (n2)
 LOAD 3
-LOAD 4; cargar parametro (actual)
-LOADREF 5; acceso a atributo (vecino2)
 SWAP
-DUP
-LOADREF 0; cargar la VT (Grafo)
-LOADREF 0; cargar metodo (dfs)
-CALL
-lbl_end_dfs@Grafo: NOP
+STOREREF 5; asignacion a atributo (vecino2)
+lbl_end_conectar@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 3
+
+lbl_setVisitado@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 4; cargar parametro (b)
+LOAD 3
+SWAP
+STOREREF 3; asignacion a atributo (visitado)
+lbl_end_setVisitado@NodoGrafo: NOP
 STOREFP; restaurar FP
 RET 2
 
-lbl_builder@Grafo: 
+lbl_fueVisitado@NodoGrafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Grafo: DW "Grafo",0
-.CODE
-PUSH className@Grafo
 LOAD 3
-SWAP
-STOREREF 1
+LOADREF 3; acceso a atributo (visitado)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_fueVisitado@NodoGrafo: NOP
 STOREFP; restaurar FP
 RET 1
 
+lbl_getId@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (id)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_getId@NodoGrafo: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@NodoGrafo: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@NodoGrafo: DW "NodoGrafo",0
+.CODE
+PUSH className@NodoGrafo
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (id)
+PUSH 0
+LOAD 3
+SWAP
+STOREREF 3; asignacion a atributo (visitado)
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 4; asignacion a atributo (vecino1)
+PUSH 0; valor null
+LOAD 3
+SWAP
+STOREREF 5; asignacion a atributo (vecino2)
+STOREFP; restaurar FP
+RET 2
+
 
 
 .DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
+VT@Integer: DW lbl_intValue@Integer
 .CODE
-lbl_booleanValue@Boolean: 
+lbl_intValue@Integer: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -118,18 +127,18 @@ LOADREF 2; acceso a atributo (value)
 STORE 4; guardar valor de retorno
 STOREFP; restaurar FP
 RET 1
-lbl_end_booleanValue@Boolean: NOP
+lbl_end_intValue@Integer: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@Boolean: 
+lbl_builder@Integer: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Boolean: DW "Boolean",0
+className@Integer: DW "Integer",0
 .CODE
-PUSH className@Boolean
+PUSH className@Integer
 LOAD 3
 SWAP
 STOREREF 1
@@ -139,6 +148,25 @@ SWAP
 STOREREF 2; asignacion a atributo (value)
 STOREFP; restaurar FP
 RET 2
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
 
 
 
@@ -267,9 +295,9 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_intValue@Integer
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
-lbl_intValue@Integer: 
+lbl_booleanValue@Boolean: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
@@ -278,18 +306,18 @@ LOADREF 2; acceso a atributo (value)
 STORE 4; guardar valor de retorno
 STOREFP; restaurar FP
 RET 1
-lbl_end_intValue@Integer: NOP
+lbl_end_booleanValue@Boolean: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@Integer: 
+lbl_builder@Boolean: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Integer: DW "Integer",0
+className@Boolean: DW "Boolean",0
 .CODE
-PUSH className@Integer
+PUSH className@Boolean
 LOAD 3
 SWAP
 STOREREF 1
@@ -303,38 +331,85 @@ RET 2
 
 
 .DATA
-VT@Character: DW lbl_charValue@Character
+VT@Grafo: DW lbl_dfs@Grafo
 .CODE
-lbl_charValue@Character: 
+lbl_dfs@Grafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
+LOAD 4; cargar parametro (actual)
+PUSH 0; valor null
+EQ
+BF lbl_fin_if@175
+STOREFP; restaurar FP
+RET 2
+lbl_fin_if@175: NOP
+LOAD 4; cargar parametro (actual)
+RMEM 1; reservar lugar para el retorno
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 2; cargar metodo (fueVisitado)
+CALL
+BF lbl_fin_if@180
+STOREFP; restaurar FP
+RET 2
+lbl_fin_if@180: NOP
+LOAD 4; cargar parametro (actual)
+PUSH 1
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 1; cargar metodo (setVisitado)
+CALL
+.DATA
+lblString@187: DW "Visito: ",0
+.CODE
+PUSH lblString@187
+PUSH lbl_printS@System
+CALL
+LOAD 4; cargar parametro (actual)
+RMEM 1; reservar lugar para el retorno
+SWAP
+DUP; duplicar this
+LOADREF 0; cargar la VT
+LOADREF 3; cargar metodo (getId)
+CALL
+PUSH lbl_printIln@System
+CALL
 LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
+LOAD 4; cargar parametro (actual)
+LOADREF 4; acceso a atributo (vecino1)
+SWAP
+DUP
+LOADREF 0; cargar la VT (Grafo)
+LOADREF 0; cargar metodo (dfs)
+CALL
+LOAD 3
+LOAD 4; cargar parametro (actual)
+LOADREF 5; acceso a atributo (vecino2)
+SWAP
+DUP
+LOADREF 0; cargar la VT (Grafo)
+LOADREF 0; cargar metodo (dfs)
+CALL
+lbl_end_dfs@Grafo: NOP
 STOREFP; restaurar FP
-RET 1
-lbl_end_charValue@Character: NOP
-STOREFP; restaurar FP
-RET 1
+RET 2
 
-lbl_builder@Character: 
+lbl_builder@Grafo: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Character: DW "Character",0
+className@Grafo: DW "Grafo",0
 .CODE
-PUSH className@Character
+PUSH className@Grafo
 LOAD 3
 SWAP
 STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (value)
 STOREFP; restaurar FP
-RET 2
+RET 1
 
 
 
@@ -480,6 +555,42 @@ RET 1
 
 
 .DATA
+VT@Character: DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_charValue@Character: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Character: DW "Character",0
+.CODE
+PUSH className@Character
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (value)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
 VT@Object: NOP
 .CODE
 lbl_debugPrint@Object: 
@@ -500,117 +611,6 @@ STOREFP; almacenar FP en el tope de la pila
 className@Object: DW "Object",0
 .CODE
 PUSH className@Object
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@NodoGrafo: DW lbl_conectar@NodoGrafo
-DW lbl_setVisitado@NodoGrafo
-DW lbl_fueVisitado@NodoGrafo
-DW lbl_getId@NodoGrafo
-.CODE
-lbl_conectar@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 5; cargar parametro (n1)
-LOAD 3
-SWAP
-STOREREF 4; asignacion a atributo (vecino1)
-LOAD 4; cargar parametro (n2)
-LOAD 3
-SWAP
-STOREREF 5; asignacion a atributo (vecino2)
-lbl_end_conectar@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 3
-
-lbl_setVisitado@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 4; cargar parametro (b)
-LOAD 3
-SWAP
-STOREREF 3; asignacion a atributo (visitado)
-lbl_end_setVisitado@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 2
-
-lbl_fueVisitado@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 3; acceso a atributo (visitado)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_fueVisitado@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_getId@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2; acceso a atributo (id)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_getId@NodoGrafo: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@NodoGrafo: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@NodoGrafo: DW "NodoGrafo",0
-.CODE
-PUSH className@NodoGrafo
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (id)
-PUSH 0
-LOAD 3
-SWAP
-STOREREF 3; asignacion a atributo (visitado)
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 4; asignacion a atributo (vecino1)
-PUSH 0; valor null
-LOAD 3
-SWAP
-STOREREF 5; asignacion a atributo (vecino2)
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@String: DW "String",0
-.CODE
-PUSH className@String
 LOAD 3
 SWAP
 STOREREF 1

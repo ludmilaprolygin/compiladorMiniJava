@@ -24,26 +24,114 @@ RET 1
 
 
 .DATA
-VT@Object: NOP
+VT@Boolean: DW lbl_booleanValue@Boolean
 .CODE
-lbl_debugPrint@Object: 
+lbl_booleanValue@Boolean: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 LOAD 3
-IPRINT
-lbl_end_debugPrint@Object: NOP
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_booleanValue@Boolean: NOP
 STOREFP; restaurar FP
 RET 1
 
-lbl_builder@Object: 
+lbl_builder@Boolean: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Object: DW "Object",0
+className@Boolean: DW "Boolean",0
 .CODE
-PUSH className@Object
+PUSH className@Boolean
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (value)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
+VT@String: NOP
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@SinError_10: NOP
+.CODE
+lbl_main@SinError_10: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+PUSH lbl_m1@SinError_10
+CALL
+lbl_end_main@SinError_10: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_m1@SinError_10: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 2; reservar espacio para variables locales (2)
+PUSH 0
+STORE 0; almacenar variable local (p1)
+LOAD 0; cargar variable local (p1)
+PUSH lbl_printBln@System
+CALL
+LOAD 0; cargar variable local (p1)
+NOT
+STORE 0; almacenar variable local (p1)
+LOAD 0; cargar variable local (p1)
+PUSH lbl_printBln@System
+CALL
+PUSH 1
+STORE -1; almacenar variable local (p2)
+LOAD -1; cargar variable local (p2)
+PUSH lbl_printIln@System
+CALL
+LOAD -1; cargar variable local (p2)
+PUSH 1
+ADD
+STORE -1; almacenar variable local (p2)
+LOAD -1; cargar variable local (p2)
+PUSH lbl_printIln@System
+CALL
+FMEM 2; liberar espacio de variables locales (2)
+lbl_end_m1@SinError_10: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@SinError_10: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@SinError_10: DW "SinError_10",0
+.CODE
+PUSH className@SinError_10
 LOAD 3
 SWAP
 STOREREF 1
@@ -177,61 +265,6 @@ RET 1
 
 
 .DATA
-VT@String: NOP
-.CODE
-lbl_builder@String: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@String: DW "String",0
-.CODE
-PUSH className@String
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Boolean: DW lbl_booleanValue@Boolean
-.CODE
-lbl_booleanValue@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_booleanValue@Boolean: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Boolean: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Boolean: DW "Boolean",0
-.CODE
-PUSH className@Boolean
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (value)
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
 VT@Character: DW lbl_charValue@Character
 .CODE
 lbl_charValue@Character: 
@@ -268,6 +301,35 @@ RET 2
 
 
 .DATA
+VT@Object: NOP
+.CODE
+lbl_debugPrint@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+IPRINT
+lbl_end_debugPrint@Object: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Object: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Object: DW "Object",0
+.CODE
+PUSH className@Object
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
 VT@Integer: DW lbl_intValue@Integer
 .CODE
 lbl_intValue@Integer: 
@@ -300,68 +362,6 @@ SWAP
 STOREREF 2; asignacion a atributo (value)
 STOREFP; restaurar FP
 RET 2
-
-
-
-.DATA
-VT@SinError_10: NOP
-.CODE
-lbl_main@SinError_10: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-PUSH lbl_m1@SinError_10
-CALL
-lbl_end_main@SinError_10: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_m1@SinError_10: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 2; reservar espacio para variables locales (2)
-PUSH 0
-STORE 0; almacenar variable local (p1)
-LOAD 0; cargar variable local (p1)
-PUSH lbl_printBln@System
-CALL
-LOAD 0; cargar variable local (p1)
-NOT
-STORE 0; almacenar variable local (p1)
-LOAD 0; cargar variable local (p1)
-PUSH lbl_printBln@System
-CALL
-PUSH 1
-STORE -1; almacenar variable local (p2)
-LOAD -1; cargar variable local (p2)
-PUSH lbl_printIln@System
-CALL
-LOAD -1; cargar variable local (p2)
-PUSH 1
-ADD
-STORE -1; almacenar variable local (p2)
-LOAD -1; cargar variable local (p2)
-PUSH lbl_printIln@System
-CALL
-FMEM 2; liberar espacio de variables locales (2)
-lbl_end_m1@SinError_10: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@SinError_10: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@SinError_10: DW "SinError_10",0
-.CODE
-PUSH className@SinError_10
-LOAD 3
-SWAP
-STOREREF 1
-STOREFP; restaurar FP
-RET 1
 
 
 

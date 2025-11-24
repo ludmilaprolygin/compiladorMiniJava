@@ -161,12 +161,13 @@ public class NodoBloque extends NodoSentencia {
     }
 
     private void setOffsets(){
-        int offset = 0;
-        for(NodoOperando o : symbolTable().getCurrentService().getBloque().getVariables()){
+        int offset = symbolTable().getCurrentService().getFirstFreeMemoryAddress();
+        for(NodoOperando o : variables){
             if(o instanceof NodoVar v){
                 v.setOffset(offset);
                 offset--;
             }
         }
+        symbolTable().getCurrentService().setFirstFreeMemoryAddress(offset);
     }
 }

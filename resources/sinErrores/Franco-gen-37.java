@@ -1,8 +1,5 @@
-///Imprimiendo lista:
-///10
-///20
-///30
-///--------------------
+///Imprimiendo lista:&10&20&30&--------------------&exitosamente
+
 //@Autor: Lau
 
 // 1. Clase 'Nodo'
@@ -73,15 +70,15 @@ class Lista {
 // Prueba la lista.
 class Main {
     static void main() {
-//        var miLista = new Lista();
-//
-//        miLista.agregar(10);
-//        miLista.agregar(20);
-//        miLista.agregar(30);
-//
-//        System.printSln("Imprimiendo lista:");
-//        miLista.imprimir();
-//
-//        System.printSln("--------------------");
+        var miLista = new Lista();
+
+        miLista.agregar(10);
+        miLista.agregar(20);
+        miLista.agregar(30);
+
+        System.printSln("Imprimiendo lista:");
+        miLista.imprimir();
+
+        System.printSln("--------------------");
     }
 }

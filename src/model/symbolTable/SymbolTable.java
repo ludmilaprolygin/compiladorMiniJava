@@ -26,6 +26,7 @@ public class SymbolTable extends Element {
     private MainElement mainClass;
     private List<MainElement> checkedElements;
 
+
     private SymbolTable() {
         reset();
     }
@@ -82,6 +83,8 @@ public class SymbolTable extends Element {
     public Service getCurrentService() {
         return currentService;
     }
+
+
 
     public void setBloque(NodoBloque b) { bloque = b; }
     public NodoBloque getBloque() { return bloque; }

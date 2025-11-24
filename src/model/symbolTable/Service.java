@@ -18,6 +18,9 @@ public abstract class Service extends OffsetElement {
     protected List parameters;
     protected NodoBloque bloque;
     protected int localVarCount;
+    private int firstFreeMemoryAddress = 0;
+
+
     public Service(Token n, Token v) {
         super(n);
         visibility = v;
@@ -50,6 +53,9 @@ public abstract class Service extends OffsetElement {
         }
     }
 
+    public void setFirstFreeMemoryAddress(int address) { firstFreeMemoryAddress = address; }
+    public int getFirstFreeMemoryAddress() { return firstFreeMemoryAddress; }
+
     public void setBloque(NodoBloque b) { bloque = b; }
     public NodoBloque getBloque() { return bloque; }
 
@@ -74,6 +80,7 @@ public abstract class Service extends OffsetElement {
 //        o.printStackTop();
 //        System.out.println("-------------------------");
 
+        firstFreeMemoryAddress = 0;
         gen(o);
 
         o.gen("");
