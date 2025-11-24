@@ -161,8 +161,8 @@ public class SymbolTable extends Element {
         debugPrint.setBloque(new NodoBloqueDebugPrint());
 
         Token toStringTK = new Token(idMetVar, "toString", -1);
-        AbstractType tString = new ClassType(new Token(idClase, "String", -1));
-        Method toString = new Method(toStringTK, v, null, tString, objectClass);
+        AbstractType tVoid = new VoidType(new Token(reservedVoid, "void", -1));
+        Method toString = new Method(toStringTK, v, null, tVoid, objectClass);
         objectClass.getMethods().put(toStringTK, toString);
         toString.setBloque(new NodoBloqueToString());
         toString.pass();

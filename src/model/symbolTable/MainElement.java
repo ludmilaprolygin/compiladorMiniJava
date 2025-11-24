@@ -91,8 +91,11 @@ public abstract class MainElement extends Element {
                 if(methods.contains(m.getName().getLexeme())) {
                     Token thisToken = methods.getTokenByName(m.getName().getLexeme());
                     Method thisMethod = (Method) methods.get(thisToken);
-                    if(thisMethod != null && thisMethod.equalSignature((Method) m)) {
+                    if(thisMethod != null && thisMethod.equalSignature((Method) m) && !m.getName().getLexeme().equals("toString")) {
                         throw new SemanticException(SemanticErrorIMessage.methodDoesNotOverrideCorrectly(thisMethod));
+                    }
+                    else if (thisMethod != null && thisMethod.getName() != null && thisMethod.getName().getLexeme().equals("toString")){
+                        thisMethod.setOffset(1);
                     }
                 }
             }

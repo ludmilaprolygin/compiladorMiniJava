@@ -225,21 +225,15 @@ LOAD -2; cargar variable local (y)
 lbl_fin_if@73: NOP
 STORE -4; almacenar variable local (b)
 LOAD -3; cargar variable local (a)
-RMEM 1; reservar lugar para el retorno
-SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo (toString)
 CALL
-POP; liberar valor de retorno
 LOAD -4; cargar variable local (b)
-RMEM 1; reservar lugar para el retorno
-SWAP
 DUP; duplicar this
 LOADREF 0; cargar la VT
 LOADREF 0; cargar metodo (toString)
 CALL
-POP; liberar valor de retorno
 FMEM 5; liberar espacio de variables locales (5)
 lbl_end_main@Init: NOP
 STOREFP; restaurar FP
