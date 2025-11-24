@@ -13,6 +13,7 @@ import utils.exceptions.SemanticException;
 import utils.messages.SemanticErrorIMessage;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static model.symbolTable.SymbolTable.symbolTable;
 
@@ -321,6 +322,10 @@ public class Class extends MainElement {
                 //methods.put(m.getName(), m);
                 pMethods.add(m);
             }
+            else{
+                Method myMethod = (Method) methods.get(m.getName());
+                myMethod.setOffset(m.getOffset());
+            }
         }
 
         methods = pMethods.append(methods);
@@ -335,6 +340,7 @@ public class Class extends MainElement {
             }
         }
 
+
     }
     private void consolidateMethodsFromImplementation(List parentMethods) throws SemanticException {
         for(Method m : (Method[]) parentMethods.values()){
@@ -345,12 +351,14 @@ public class Class extends MainElement {
     }
 
     public void check() throws SemanticException {
+
         super.check();
         for (Element c : builderTable)
         {
             symbolTable().setCurrentService((Builder) c);
             ((Builder) c).check();
         }
+
     }
 
     public List getNonStaticMethods() {
@@ -374,12 +382,16 @@ public class Class extends MainElement {
     }
 
     public void sort(){
+
+
         dynamicMethods = getNonStaticMethods();
         myMethods = myMethods();
 
+        dynamicMethods.sort(Comparator.comparingInt(OffsetElement::getOffset));
         for(int i = 0; i < dynamicMethods.size(); i++){
             dynamicMethods.get(i).setOffset(i);
         }
+
     }
 
     public void gen(OutputManager o) throws GenerationException {
@@ -387,6 +399,7 @@ public class Class extends MainElement {
 
         sortByOffset(attributes);
         sortByOffset(methods);
+
 
         List dynamicMethods = getNonStaticMethods();
         List myMethods = myMethods();

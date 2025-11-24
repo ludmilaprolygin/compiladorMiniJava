@@ -330,7 +330,10 @@ public class SymbolTable extends Element {
             {
                 setCurrentClass(c);
                 c.check();
+
             }
+
+
         }
         if(hasMain == false)
             throw new SemanticException(SemanticErrorIIMessage.missingMainMethod());
@@ -341,6 +344,8 @@ public class SymbolTable extends Element {
                     i.check();
                 }
             }
+
+
     }
 
     public void gen(OutputManager outputManager) throws GenerationException {
