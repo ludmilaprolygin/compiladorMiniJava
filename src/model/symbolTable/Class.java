@@ -193,7 +193,6 @@ public class Class extends MainElement {
         int max = -1;
         for(OffsetElement parentAttribute : parentAttributes.values()){
             Attribute a = (Attribute) parentAttribute;
-            System.out.println(a.getName().getLexeme() + " offset: " + a.getOffset() + " AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             if(a.getOffset() > max){
                 max = a.getOffset();
             }
@@ -216,16 +215,12 @@ public class Class extends MainElement {
             max = 1;
         }
 
-        System.out.println(attributes.toString() + " en " + name.getLexeme());
-
         for(Element e : attributes){
             Attribute a = (Attribute) e;
             if(a.getOffset() == -1){
                 a.setOffset(++max);
             }
         }
-
-        System.out.println(attributes.toString() + " en " + name.getLexeme());
     }
     private void consolidateMethods(List parentMethods) throws SemanticException {
         for(Element e : methods.values()) {
@@ -405,11 +400,7 @@ public class Class extends MainElement {
     public void gen(OutputManager o) throws GenerationException {
         symbolTable().setCurrentClass(this);
 
-        System.out.println("Sorting attributes by offset... class: " + name.getLexeme());
-        System.out.println(attributes.toString());
         sortByOffset(attributes);
-        System.out.println(attributes.toString());
-
         sortByOffset(methods);
 
 

@@ -114,7 +114,6 @@ public class NodoVar extends NodoOperando implements Var {
             NodoVar n = (NodoVar) e;
             if(n.getTokenName() != null && this.getToken() != null && n.getTokenName().getLexeme().equals(this.getToken().getLexeme())){
                 //toReturn = true;
-                System.out.println("cambia aca");
                 varAsociada = n;
 
             }
@@ -154,9 +153,6 @@ public class NodoVar extends NodoOperando implements Var {
             t = n.getName();
         }
         // toReturn = toReturn || st.getCurrentClass().getAttributes().contains(this.getToken().getLexeme());
-        System.out.println("CURRENT CLASS CON CANT ATTS2 " + st.getCurrentClass().getName().getLexeme() + " " + st.getCurrentClass().getAttributes().size());
-        System.out.println("BUSCANDO: " + this.getToken().getLexeme());
-        System.out.println("ATTRS: " + st.getCurrentClass().getAttributes().toString());
         for(Element e : st.getCurrentClass().getAttributes()){
             Attribute n = (Attribute) e;
             if(n.getName() != null && this.getToken() != null && n.getName().getLexeme().equals(this.getToken().getLexeme()) && s.getModifier() != null && s.getModifier().getLexeme().equals(TokenType.reservedStatic.getTypeExplanation())){
@@ -223,9 +219,7 @@ public class NodoVar extends NodoOperando implements Var {
 
     @Override
     public void gen(OutputManager o) {
-        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
-        //System.out.println("ASCII DE a: " + (int)'a');
         boolean ladoIzqFinal = esLadoIzq && (encadenado == null || encadenado instanceof EncadenadoVacio);
 
         if(tipo instanceof CharType)
@@ -233,17 +227,12 @@ public class NodoVar extends NodoOperando implements Var {
 
         if (varAsociada instanceof Parameter p) {
             int baseParam = CodeGenConfig.PARAM_OFFSET;
-            if(symbolTable().getCurrentService() instanceof Method m && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedStatic)){
+            if((symbolTable().getCurrentService() instanceof Method m && m.getModifier() != null && m.getModifier().getTokenType().equals(TokenType.reservedStatic))){
                 baseParam--;
             }
-
             int computedOffset;
             int pOff = p.getOffset();
-            //System.out.println("en instanceof de Param: " + p.getOffset());
             computedOffset = pOff + baseParam;
-
-
-            //System.out.println("computed offset de " + p.getTokenName().getLexeme() + ": " + computedOffset);
 
             if (ladoIzqFinal) {
                 o.gen(Instructions.STORE + " " + computedOffset + Comments.STORE_PARAM.getComment() + " (" + p.getTokenName().getLexeme() + ")");
@@ -257,8 +246,6 @@ public class NodoVar extends NodoOperando implements Var {
             if(varAsociada.getOffset() >= cantAtts){
                 searchAttribute(varAsociada);
             }
-            System.out.println("Accessing attribute: " + a.getTokenName().getLexeme() + " at offset " + a.getOffset() + " of class " + symbolTable().getCurrentClass().getName().getLexeme() + " at method " + getNodoVarContext().getName().getLexeme());
-            System.out.println(varAsociada.toString());
             o.gen(Instructions.LOAD + " " + CodeGenConfig.OFFSET_THIS);
             if (ladoIzqFinal) {
                 o.gen(Instructions.SWAP.toString());
@@ -269,7 +256,6 @@ public class NodoVar extends NodoOperando implements Var {
         }
         else if(varAsociada instanceof NodoVar v) {
             setOffsetsForVarLocal();
-            //System.out.println("offset local de " + v.getTokenName().getLexeme() + ": " + v.getOffset());
             if (ladoIzqFinal) {
                 o.gen(Instructions.STORE + " " + v.getOffset() + Comments.STORE_LOCAL.getComment() + " (" + v.getTokenName().getLexeme() + ")");
             }
@@ -277,7 +263,6 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.LOAD + " " + v.getOffset() + Comments.LOAD_LOCAL.getComment() + " (" + v.getTokenName().getLexeme() + ")");
             }
         }
-        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         AbstractType a;
         if(tipo == null || tipo instanceof UniversalType){

@@ -103,6 +103,12 @@ public abstract class Service extends OffsetElement {
                 offset--;
             }
         }
+
+        int cantP = parameters.size();
+        for(OffsetElement p : parameters){
+            p.setOffset(cantP);
+            cantP--;
+        }
     }
 
     public AbstractType searchType(Var v) {
