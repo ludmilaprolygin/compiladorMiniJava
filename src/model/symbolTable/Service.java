@@ -19,6 +19,7 @@ public abstract class Service extends OffsetElement {
     protected NodoBloque bloque;
     protected int localVarCount;
     private int firstFreeMemoryAddress = 0;
+    private java.util.List<NodoOperando> localVariables;
 
 
     public Service(Token n, Token v) {
@@ -27,12 +28,18 @@ public abstract class Service extends OffsetElement {
         parameters = new List();
         bloque = new NodoBloqueVacio(null);
         localVarCount = 0;
+        localVariables = new java.util.LinkedList<>();
     }
 
     public void correctDeclaration() throws SemanticException {
         for(Element p : parameters)
             p.correctDeclaration();
     }
+
+    public void addLocalVariable(NodoOperando v) {
+        localVariables.add(v);
+    }
+    public java.util.List<NodoOperando> getLocalVariables() { return localVariables; }
 
     public void incLocalVarCount() { localVarCount++; }
 
@@ -67,6 +74,8 @@ public abstract class Service extends OffsetElement {
     public void gen(OutputManager o, String className) throws GenerationException {
         symbolTable().setCurrentService(this);
 
+        setOffsets();
+
         String myName;
         if (this instanceof Builder b){
             myName = "builder@" + className;
@@ -84,6 +93,16 @@ public abstract class Service extends OffsetElement {
         gen(o);
 
         o.gen("");
+    }
+
+    private void setOffsets() {
+        int offset = 0;
+        for(NodoOperando v : localVariables){
+            if(v instanceof NodoVar var){
+                var.setOffset(offset);
+                offset--;
+            }
+        }
     }
 
     public AbstractType searchType(Var v) {

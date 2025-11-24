@@ -714,6 +714,7 @@ public class SyntacticAnalyzer {
         NodoVar toReturn;
         match(reservedVar);
         toReturn = new NodoVar(currentToken);
+        SymbolTable.symbolTable().getCurrentService().addLocalVariable(toReturn);
         toReturn.setBloque(symbolTable().getBloque());
         toReturn.declare();
         toReturn.checkExistance();

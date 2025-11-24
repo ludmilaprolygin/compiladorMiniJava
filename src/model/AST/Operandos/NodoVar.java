@@ -98,8 +98,14 @@ public class NodoVar extends NodoOperando implements Var {
             }
         }
 
-        if(varAsociada == null)
-            varAsociada = this;
+        for(NodoOperando e : st.getCurrentService().getLocalVariables()){
+            NodoVar n = (NodoVar) e;
+            if(n.getTokenName() != null && this.getToken() != null && n.getTokenName().getLexeme().equals(this.getToken().getLexeme())){
+                //toReturn = true;
+                varAsociada = n;
+
+            }
+        }
 
         return toReturn;
     }
@@ -242,7 +248,7 @@ public class NodoVar extends NodoOperando implements Var {
                 o.gen(Instructions.LOAD + " " + v.getOffset() + Comments.LOAD_LOCAL.getComment() + " (" + v.getTokenName().getLexeme() + ")");
             }
         }
-        System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
+        //System.out.println(varAsociada.getTokenName().getLexeme() + " " + varAsociada.getOffset());
 
         AbstractType a;
         if(tipo == null || tipo instanceof UniversalType){
