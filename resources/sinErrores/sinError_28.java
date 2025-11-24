@@ -1,7 +1,12 @@
-///5&exitosamente
+///5&a&true&5&A&exitosamente
 
 class A {
-    int x = 5;
+    int i = 5;
+    char c = 'a';
+    boolean b = true;
+
+    int iSuma = 2 + 3;
+    char cTernario = b == true ? 'A' : 'B';
 
     A() { }
 }
@@ -9,10 +14,11 @@ class A {
 class Init {
     static void main () {
         var a = new A();
-        //int i = 15;
 
-
-        debugPrint(a.x);
-        //debugPrint(i);
+        System.printIln(a.i);
+        System.printCln(a.c);
+        System.printBln(a.b);
+        System.printIln(a.iSuma);
+        System.printCln(a.cTernario);
     }
 }
