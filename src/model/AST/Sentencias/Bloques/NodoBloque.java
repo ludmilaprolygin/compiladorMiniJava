@@ -79,7 +79,7 @@ public class NodoBloque extends NodoSentencia {
                 r = ((NodoReturn) s);
                 retType = r.getType();
             }
-            if(s instanceof NodoSentenciaConExpresion e && (e.expresion instanceof NodoExpresionBinaria || (e.expresion instanceof NodoVar && (((NodoVar) e.expresion).getEncadenado() == null || ((NodoVar) e.expresion).getEncadenado() instanceof EncadenadoVacio)))){
+            if(s instanceof NodoSentenciaConExpresion e && (e.expresion instanceof NodoExpresionBinaria || (e.expresion instanceof NodoVar v && ((((NodoVar) e.expresion).getEncadenado() == null || ((NodoVar) e.expresion).getEncadenado() instanceof EncadenadoVacio) && !v.esDeclaracion())))){
                 throw new SemanticException(SemanticErrorIIMessage.expresionMislocated(e.expresion.getToken()));
             }
         }

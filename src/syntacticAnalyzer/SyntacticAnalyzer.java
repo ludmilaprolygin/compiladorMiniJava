@@ -609,7 +609,9 @@ public class SyntacticAnalyzer {
         else if (firsts.containsToken(_VarLocalClasica, currentTokenType)) {
             toReturn = _varLocalClasica();
             symbolTable.getCurrentService().incLocalVarCount();
-            match(semicolon);
+            if(toReturn instanceof NodoSentenciaConExpresion se && se.expresion instanceof NodoVar) {
+                match(semicolon);
+            }
         }
         else if (firsts.containsToken(VarLocal, currentTokenType)) {
             toReturn = varLocal();
@@ -712,6 +714,7 @@ public class SyntacticAnalyzer {
         {
             e.setTipo(expresion.check());
         }
+        e.declare();
         symbolTable().getBloque().addVariable(e);
         return new NodoSentenciaConExpresion(expresion);
     }
@@ -1335,8 +1338,16 @@ public class SyntacticAnalyzer {
             var.setBloque(symbolTable().getBloque());
             match(idMetVar);
             var.setTipo(tipo);
+            var.declare();
             _restoVarLocalClasica();
-            _asignacionOpcional(new NodoExpresionVacia());
+            NodoExpresion exp = _asignacionOpcional(var);
+            if (exp != var) {
+                toReturn = new NodoSentenciaConExpresion(exp);
+            }
+            else {
+                toReturn = new NodoSentenciaConExpresion(var);
+            }
+            var.setVar(var);
             symbolTable().getBloque().addVariable(var);
         }
         else {

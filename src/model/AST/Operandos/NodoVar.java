@@ -326,4 +326,8 @@ public class NodoVar extends NodoOperando implements Var {
     public void setExpresionInicial(NodoExpresion ladoDerecho) {
         expInicial = ladoDerecho;
     }
+
+    public boolean esDeclaracion() {
+        return isDeclared;
+    }
 }

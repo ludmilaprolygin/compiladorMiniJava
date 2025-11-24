@@ -24,6 +24,43 @@ RET 1
 
 
 .DATA
+VT@Character: DW lbl_toString@Object
+DW lbl_charValue@Character
+.CODE
+lbl_charValue@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+LOAD 3
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_charValue@Character: NOP
+STOREFP; restaurar FP
+RET 1
+
+lbl_builder@Character: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Character: DW "Character",0
+.CODE
+PUSH className@Character
+LOAD 3
+SWAP
+STOREREF 1
+LOAD 4; cargar parametro (v)
+LOAD 3
+SWAP
+STOREREF 2; asignacion a atributo (value)
+STOREFP; restaurar FP
+RET 2
+
+
+
+.DATA
 VT@Object: DW lbl_toString@Object
 .CODE
 lbl_toString@Object: 
@@ -64,131 +101,39 @@ RET 1
 
 
 .DATA
-VT@A: DW lbl_toString@Object
+VT@Integer: DW lbl_toString@Object
+DW lbl_intValue@Integer
 .CODE
-lbl_builder@A: 
+lbl_intValue@Integer: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@A: DW "A",0
-.CODE
-PUSH className@A
 LOAD 3
-SWAP
-STOREREF 1
-PUSH 5
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (i)
-PUSH 97
-LOAD 3
-SWAP
-STOREREF 3; asignacion a atributo (99)
-PUSH 1
-LOAD 3
-SWAP
-STOREREF 4; asignacion a atributo (b)
-PUSH 2
-PUSH 3
-ADD
-LOAD 3
-SWAP
-STOREREF 5; asignacion a atributo (iSuma)
-LOAD 3
-LOADREF 4; acceso a atributo (b)
-PUSH 1
-EQ
-BF lbl_else@77
-PUSH 65
-JUMP lbl_fin_if@77
-lbl_else@77: NOP
-PUSH 66
-lbl_fin_if@77: NOP
-LOAD 3
-SWAP
-STOREREF 3; asignacion a atributo (99)
+LOADREF 2; acceso a atributo (value)
+STORE 4; guardar valor de retorno
+STOREFP; restaurar FP
+RET 1
+lbl_end_intValue@Integer: NOP
 STOREFP; restaurar FP
 RET 1
 
-
-
-.DATA
-VT@String: DW lbl_toString@Object
-.CODE
-lbl_builder@String: 
+lbl_builder@Integer: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@String: DW "String",0
+className@Integer: DW "Integer",0
 .CODE
-PUSH className@String
+PUSH className@Integer
 LOAD 3
 SWAP
 STOREREF 1
-STOREFP; restaurar FP
-RET 1
-
-
-
-.DATA
-VT@Init: DW lbl_toString@Object
-.CODE
-lbl_main@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-RMEM 1; reservar espacio para variables locales (1)
-RMEM 1
-PUSH 7
-PUSH simple_malloc
-CALL
-DUP
-PUSH VT@A
-STOREREF 0
-DUP
-PUSH lbl_builder@A
-CALL
-STORE 0; almacenar variable local (a)
-LOAD 0; cargar variable local (a)
-LOADREF 2; acceso a atributo (i)
-PUSH lbl_printIln@System
-CALL
-LOAD 0; cargar variable local (a)
-LOADREF 3; acceso a atributo (99)
-PUSH lbl_printCln@System
-CALL
-LOAD 0; cargar variable local (a)
-LOADREF 4; acceso a atributo (b)
-PUSH lbl_printBln@System
-CALL
-LOAD 0; cargar variable local (a)
-LOADREF 5; acceso a atributo (iSuma)
-PUSH lbl_printIln@System
-CALL
-LOAD 0; cargar variable local (a)
-LOADREF 3; acceso a atributo (99)
-PUSH lbl_printCln@System
-CALL
-FMEM 1; liberar espacio de variables locales (1)
-lbl_end_main@Init: NOP
-STOREFP; restaurar FP
-RET 0
-
-lbl_builder@Init: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Init: DW "Init",0
-.CODE
-PUSH className@Init
+LOAD 4; cargar parametro (v)
 LOAD 3
 SWAP
-STOREREF 1
+STOREREF 2; asignacion a atributo (value)
 STOREFP; restaurar FP
-RET 1
+RET 2
 
 
 
@@ -226,6 +171,85 @@ SWAP
 STOREREF 2; asignacion a atributo (value)
 STOREFP; restaurar FP
 RET 2
+
+
+
+.DATA
+VT@Init: DW lbl_toString@Object
+.CODE
+lbl_main@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+RMEM 1; reservar espacio para variables locales (1)
+RMEM 1
+PUSH 7
+PUSH simple_malloc
+CALL
+DUP
+PUSH VT@A
+STOREREF 0
+DUP
+PUSH lbl_builder@A
+CALL
+STORE 0; almacenar variable local (a)
+LOAD 0; cargar variable local (a)
+LOADREF 2; acceso a atributo (i)
+PUSH lbl_printIln@System
+CALL
+LOAD 0; cargar variable local (a)
+LOADREF 3; acceso a atributo (c)
+PUSH lbl_printCln@System
+CALL
+LOAD 0; cargar variable local (a)
+LOADREF 4; acceso a atributo (b)
+PUSH lbl_printBln@System
+CALL
+LOAD 0; cargar variable local (a)
+LOADREF 5; acceso a atributo (iSuma)
+PUSH lbl_printIln@System
+CALL
+LOAD 0; cargar variable local (a)
+LOADREF 6; acceso a atributo (cTernario)
+PUSH lbl_printCln@System
+CALL
+FMEM 1; liberar espacio de variables locales (1)
+lbl_end_main@Init: NOP
+STOREFP; restaurar FP
+RET 0
+
+lbl_builder@Init: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@Init: DW "Init",0
+.CODE
+PUSH className@Init
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
+
+
+
+.DATA
+VT@String: DW lbl_toString@Object
+.CODE
+lbl_builder@String: 
+LOADFP; apilar valor de FP
+LOADSP; apilar valor de SP
+STOREFP; almacenar FP en el tope de la pila
+.DATA
+className@String: DW "String",0
+.CODE
+PUSH className@String
+LOAD 3
+SWAP
+STOREREF 1
+STOREFP; restaurar FP
+RET 1
 
 
 
@@ -354,76 +378,52 @@ RET 1
 
 
 .DATA
-VT@Integer: DW lbl_toString@Object
-DW lbl_intValue@Integer
+VT@A: DW lbl_toString@Object
 .CODE
-lbl_intValue@Integer: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
-STOREFP; restaurar FP
-RET 1
-lbl_end_intValue@Integer: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Integer: 
+lbl_builder@A: 
 LOADFP; apilar valor de FP
 LOADSP; apilar valor de SP
 STOREFP; almacenar FP en el tope de la pila
 .DATA
-className@Integer: DW "Integer",0
+className@A: DW "A",0
 .CODE
-PUSH className@Integer
+PUSH className@A
 LOAD 3
 SWAP
 STOREREF 1
-LOAD 4; cargar parametro (v)
+PUSH 5
 LOAD 3
 SWAP
-STOREREF 2; asignacion a atributo (value)
-STOREFP; restaurar FP
-RET 2
-
-
-
-.DATA
-VT@Character: DW lbl_toString@Object
-DW lbl_charValue@Character
-.CODE
-lbl_charValue@Character: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
+STOREREF 2; asignacion a atributo (i)
+PUSH 97
 LOAD 3
-LOADREF 2; acceso a atributo (value)
-STORE 4; guardar valor de retorno
+SWAP
+STOREREF 3; asignacion a atributo (99)
+PUSH 1
+LOAD 3
+SWAP
+STOREREF 4; asignacion a atributo (b)
+PUSH 2
+PUSH 3
+ADD
+LOAD 3
+SWAP
+STOREREF 5; asignacion a atributo (iSuma)
+LOAD 3
+LOADREF 4; acceso a atributo (b)
+PUSH 1
+EQ
+BF lbl_else@77
+PUSH 65
+JUMP lbl_fin_if@77
+lbl_else@77: NOP
+PUSH 66
+lbl_fin_if@77: NOP
+LOAD 3
+SWAP
+STOREREF 3; asignacion a atributo (99)
 STOREFP; restaurar FP
 RET 1
-lbl_end_charValue@Character: NOP
-STOREFP; restaurar FP
-RET 1
-
-lbl_builder@Character: 
-LOADFP; apilar valor de FP
-LOADSP; apilar valor de SP
-STOREFP; almacenar FP en el tope de la pila
-.DATA
-className@Character: DW "Character",0
-.CODE
-PUSH className@Character
-LOAD 3
-SWAP
-STOREREF 1
-LOAD 4; cargar parametro (v)
-LOAD 3
-SWAP
-STOREREF 2; asignacion a atributo (value)
-STOREFP; restaurar FP
-RET 2
 
 
 
