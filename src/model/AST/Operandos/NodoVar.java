@@ -4,6 +4,7 @@ import model.AST.Encadenados.Encadenado;
 import model.AST.Encadenados.EncadenadoVacio;
 import model.AST.Encadenados.NodoLLamadaEncadenada;
 import model.AST.Encadenados.NodoVarEncadenada;
+import model.AST.Expresiones.NodoExpresion;
 import model.AST.Sentencias.Bloques.NodoBloque;
 import model.Token;
 import model.TokenType;
@@ -29,6 +30,7 @@ public class NodoVar extends NodoOperando implements Var {
     protected Var varAsociada;
     protected int offset;
     protected NodoBloque bloque;
+    protected NodoExpresion expInicial;
 
     public NodoVar(Token token) {
         super(token);
@@ -319,5 +321,9 @@ public class NodoVar extends NodoOperando implements Var {
                 }
             }
         }
+    }
+
+    public void setExpresionInicial(NodoExpresion ladoDerecho) {
+        expInicial = ladoDerecho;
     }
 }

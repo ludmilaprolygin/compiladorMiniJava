@@ -80,4 +80,8 @@ public class NodoExpresionAsignacion extends NodoExpresion{
         ladoIzquierdo.setEsLadoIzq();
         ladoIzquierdo.gen(o);
     }
+
+    public NodoExpresion getLadoDerecho() {
+        return ladoDerecho;
+    }
 }
